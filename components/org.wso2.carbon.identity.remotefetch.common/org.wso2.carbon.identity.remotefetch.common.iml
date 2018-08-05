@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Osmorc" name="OSGi">
+      <configuration manifestGenerationMode="OsmorcControlled" manifestLocation="" jarfileLocation="org.wso2.carbon.identity.remotefetch.common-1.0.0-SNAPSHOT.jar" outputPathType="CompilerOutputPath" bndFileLocation="" bundlorFileLocation="" bundleActivator="" bundleSymbolicName="org.wso2.carbon.identity.remotefetch.common" bundleVersion="1.0.0.SNAPSHOT" ignoreFilePattern="" useProjectDefaultManifestFileLocation="true" alwaysRebuildBundleJAR="false" doNotSynchronizeWithMaven="false">
+        <additionalProperties>
+          <property key="Bundle-Description" value="This is a Carbon bundle that represent the Remote Repository Configuration Deployer Module." />
+          <property key="Bundle-Vendor" value="WSO2" />
+          <property key="Bundle-DocURL" value="http://www.wso2.org/" />
+          <property key="Bundle-Name" value="org.wso2.carbon.identity.remotefetch.common" />
+          <property key="Import-Package" value="javax.xml.namespace,org.json,org.osgi.framework; version=&quot;[1.7.0, 2.0.0)&quot;,org.osgi.service.component; version=&quot;[1.2.0, 2.0.0)&quot;,org.apache.commons.lang; version=&quot;[2.6.0,3.0.0)&quot;,org.apache.commons.logging; version=&quot;[1.2,2.0)&quot;,org.apache.commons.io; version=&quot;[2.4.0,3.0.0)&quot;,org.apache.commons.collections; version=&quot;[3.2.0,4.0.0)&quot;," />
+          <property key="Export-Package" value="org.wso2.carbon.identity.remotefetch.common.*; version=&quot;1.0.0-SNAPSHOT&quot;" />
+          <property key="SCM-Revision" value="${buildNumber}" />
+        </additionalProperties>
+        <additionalJARContents />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.wso2.eclipse.osgi:org.eclipse.osgi.services:3.5.100.v20160504-1419" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.felix:org.apache.felix.scr.ds-annotations:1.2.4" level="project" />
+  </component>
+</module>

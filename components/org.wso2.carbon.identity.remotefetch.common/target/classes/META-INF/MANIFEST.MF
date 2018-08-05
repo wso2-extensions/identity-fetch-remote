@@ -1,0 +1,40 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1533485952398
+Build-Jdk: 1.8.0_172
+Built-By: kaveenr
+Bundle-Description: This is a Carbon bundle that represent the Remote Re
+ pository Configuration Deployer Module.
+Bundle-DocURL: http://www.wso2.org/
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
+Bundle-ManifestVersion: 2
+Bundle-Name: org.wso2.carbon.identity.remotefetch.common
+Bundle-SymbolicName: org.wso2.carbon.identity.remotefetch.common
+Bundle-Vendor: WSO2
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: org.wso2.carbon.identity.remotefetch.common;version="1.0
+ .0.SNAPSHOT";uses:="org.wso2.carbon.identity.remotefetch.common.actionl
+ istener,org.wso2.carbon.identity.remotefetch.common.configdeployer,org.
+ wso2.carbon.identity.remotefetch.common.exceptions,org.wso2.carbon.iden
+ tity.remotefetch.common.repomanager",org.wso2.carbon.identity.remotefet
+ ch.common.actionlistener;version="1.0.0.SNAPSHOT";uses:="org.wso2.carbo
+ n.identity.remotefetch.common,org.wso2.carbon.identity.remotefetch.comm
+ on.configdeployer,org.wso2.carbon.identity.remotefetch.common.repomanag
+ er,org.wso2.carbon.identity.remotefetch.common.ui",org.wso2.carbon.iden
+ tity.remotefetch.common.configdeployer;version="1.0.0.SNAPSHOT";uses:="
+ org.wso2.carbon.identity.remotefetch.common,org.wso2.carbon.identity.re
+ motefetch.common.exceptions,org.wso2.carbon.identity.remotefetch.common
+ .ui",org.wso2.carbon.identity.remotefetch.common.exceptions;version="1.
+ 0.0.SNAPSHOT",org.wso2.carbon.identity.remotefetch.common.repomanager;v
+ ersion="1.0.0.SNAPSHOT";uses:="org.wso2.carbon.identity.remotefetch.com
+ mon,org.wso2.carbon.identity.remotefetch.common.exceptions,org.wso2.car
+ bon.identity.remotefetch.common.ui",org.wso2.carbon.identity.remotefetc
+ h.common.ui;version="1.0.0.SNAPSHOT";uses:="org.wso2.carbon.identity.re
+ motefetch.common"
+Import-Package: org.osgi.framework;version="[1.7.0,2.0.0)",org.apache.co
+ mmons.lang;version="[2.6.0,3.0.0)",org.apache.commons.io;version="[2.4.
+ 0,3.0.0)",javax.xml.namespace,org.osgi.service.component;version="[1.2.
+ 0,2.0.0)",org.apache.commons.logging;version="[1.2,2.0)",org.apache.com
+ mons.collections;version="[3.2.0,4.0.0)",org.json
+SCM-Revision: 42af08c28787c9fe459257329d11acab1a4378b6
+Tool: Bnd-2.1.0.20130426-122213
