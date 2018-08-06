@@ -64,7 +64,7 @@ public class PollingActionListener implements ActionListener {
     }
 
     /**
-     * seed local map with existing DeploymentRevisions from database
+     * Seed local map with existing DeploymentRevisions from database.
      */
     private void seedRevisions() {
 
@@ -83,7 +83,7 @@ public class PollingActionListener implements ActionListener {
     }
 
     /**
-     * resolve and create / update list of revisions
+     * Resolve and create / update list of revisions.
      *
      * @param configPaths
      */
@@ -109,7 +109,7 @@ public class PollingActionListener implements ActionListener {
     }
 
     /**
-     * Update DeploymentRevision if file was moved/renamed and store
+     * Update DeploymentRevision if file was moved/renamed and store.
      *
      * @param resolvedName
      * @param configPath
@@ -128,7 +128,7 @@ public class PollingActionListener implements ActionListener {
     }
 
     /**
-     * Create DeploymentRevision and store for resolved name and path
+     * Create DeploymentRevision and store for resolved name and path.
      *
      * @param resolvedName
      * @param configPath
@@ -165,7 +165,7 @@ public class PollingActionListener implements ActionListener {
     }
 
     /**
-     * Poll directory for new files
+     * Poll directory for new files.
      * @param deployer
      */
     private void pollDirectory(ConfigDeployer deployer) {

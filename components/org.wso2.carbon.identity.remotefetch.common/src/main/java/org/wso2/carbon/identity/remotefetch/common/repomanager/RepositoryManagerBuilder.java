@@ -22,7 +22,7 @@ import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchCoreConfiguration;
 
 /**
- * Builds a RepositoryManager from a RemoteFetchConfiguration file
+ * Builds a RepositoryManager from a RemoteFetchConfiguration file.
  */
 public abstract class RepositoryManagerBuilder {
 
@@ -34,7 +34,7 @@ public abstract class RepositoryManagerBuilder {
     }
 
     /**
-     * Set RemoteFetchConfiguration attribute
+     * Set RemoteFetchConfiguration attribute.
      *
      * @param fetchConfig
      * @return
@@ -46,7 +46,7 @@ public abstract class RepositoryManagerBuilder {
     }
 
     /**
-     * Set RemoteFetchCoreConfiguration attribute
+     * Set RemoteFetchCoreConfiguration attribute.
      *
      * @param fetchCoreConfiguration
      * @return
@@ -58,7 +58,7 @@ public abstract class RepositoryManagerBuilder {
     }
 
     /**
-     * Build and return a new RepositoryManager with the set configuration
+     * Build and return a new RepositoryManager with the set configuration.
      *
      * @return
      * @throws RepositoryManagerBuilderException

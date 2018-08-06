@@ -21,7 +21,7 @@ package org.wso2.carbon.identity.remotefetch.core.constants;
 import org.wso2.carbon.identity.remotefetch.common.DeploymentRevision;
 
 /**
- * Constant Queries for RemoteFetch Core
+ * Constant Queries for DAOs.
  */
 public class SQLConstants {
 

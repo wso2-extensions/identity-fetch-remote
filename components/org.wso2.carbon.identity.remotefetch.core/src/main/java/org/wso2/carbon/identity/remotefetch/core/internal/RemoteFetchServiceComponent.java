@@ -71,21 +71,24 @@ public class RemoteFetchServiceComponent {
         remoteFetchComponentRegistry.registerActionListener(new PollingActionListenerComponent());
 
         RemoteFetchServiceComponentHolder.getInstance().setRemoteFetchComponentRegistry(remoteFetchComponentRegistry);
-        RemoteFetchServiceComponentHolder.getInstance().setRemoteFetchConfigurationService(remoteFetchConfigurationService);
+        RemoteFetchServiceComponentHolder.getInstance()
+                .setRemoteFetchConfigurationService(remoteFetchConfigurationService);
+
         RemoteFetchServiceComponentHolder.getInstance().setDataSource(this.getDataSource());
         RemoteFetchServiceComponentHolder.getInstance().setFetchCoreConfiguration(fetchCoreConfiguration);
 
         BundleContext bundleContext = context.getBundleContext();
         bundleContext.registerService(RemoteFetchComponentRegistry.class.getName(),
+
                 RemoteFetchServiceComponentHolder.getInstance().getRemoteFetchComponentRegistry(), null);
         bundleContext.registerService(RemoteFetchConfigurationService.class.getName(),
+
                 RemoteFetchServiceComponentHolder.getInstance().getRemoteFetchConfigurationService(), null);
 
         if(fetchCoreConfiguration.isEnableCore()){
             RemoteFetchCore core = new RemoteFetchCore();
             try {
-                //TODO set time to five minutes
-                scheduler.scheduleAtFixedRate(core, 0, 60, TimeUnit.SECONDS);
+                scheduler.scheduleAtFixedRate(core, 0, (60 * 5), TimeUnit.SECONDS);
                 log.info("Identity RemoteFetchServiceComponent bundle is activated");
             } catch (Exception e) {
                 log.error("Error while activating RemoteFetchServiceComponent bundle", e);

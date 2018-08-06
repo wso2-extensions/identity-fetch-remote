@@ -22,7 +22,7 @@ import java.io.File;
 import java.io.InputStream;
 
 /**
- * holds raw config file content
+ * Holds raw config file content.
  */
 public class ConfigurationFileStream {
 

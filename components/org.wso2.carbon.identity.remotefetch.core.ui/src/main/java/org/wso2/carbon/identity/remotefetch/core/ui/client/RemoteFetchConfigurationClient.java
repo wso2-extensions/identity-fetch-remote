@@ -44,7 +44,8 @@ public class RemoteFetchConfigurationClient {
         )).collect(Collectors.toList());
     }
 
-    public static RemoteFetchConfigurationRowDTO fetchConfigurationToDTO(BasicRemoteFetchConfiguration fetchConfiguration) {
+    public static RemoteFetchConfigurationRowDTO fetchConfigurationToDTO(
+            BasicRemoteFetchConfiguration fetchConfiguration) {
 
         String repositoryManager = RemotefetchCoreUIComponentDataHolder.getInstance().getComponentRegistry().
                 getRepositoryManagerComponent(fetchConfiguration.getRepositoryManagerType()).getName();

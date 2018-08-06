@@ -25,7 +25,7 @@ import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployer
 public class ServiceProviderConfigDeployerBuilder extends ConfigDeployerBuilder {
 
     /**
-     * Build and return a new ConfigDeployer with the set configuration
+     * Build and return a new ConfigDeployer with the set configuration.
      *
      * @return
      * @throws ConfigDeployerBuilderException

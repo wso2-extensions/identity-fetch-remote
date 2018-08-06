@@ -27,7 +27,7 @@ import java.util.List;
 public class ServiceProviderConfigDeployerComponent implements ConfigDeployerComponent {
 
     /**
-     * Returns a new builder object for the component
+     * Returns a new builder object for the component.
      *
      * @return
      */
@@ -38,7 +38,7 @@ public class ServiceProviderConfigDeployerComponent implements ConfigDeployerCom
     }
 
     /**
-     * Returns a string of the unique identifier of the component
+     * Returns a string of the unique identifier of the component.
      *
      * @return
      */

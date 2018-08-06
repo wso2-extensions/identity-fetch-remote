@@ -23,7 +23,7 @@ import java.util.Formatter;
 import java.util.List;
 
 /**
- * Hold Validation Messages
+ * Hold Validation Messages.
  */
 public class ValidationReport {
 

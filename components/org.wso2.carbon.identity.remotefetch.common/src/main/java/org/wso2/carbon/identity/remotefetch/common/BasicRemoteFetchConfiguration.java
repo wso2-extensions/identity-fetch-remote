@@ -21,7 +21,7 @@ package org.wso2.carbon.identity.remotefetch.common;
 import java.util.Date;
 
 /**
- * Holds RemoteFetch Configuration Data and related deployment data
+ * Holds RemoteFetch Configuration Data and related deployment data.
  */
 public class BasicRemoteFetchConfiguration {
 

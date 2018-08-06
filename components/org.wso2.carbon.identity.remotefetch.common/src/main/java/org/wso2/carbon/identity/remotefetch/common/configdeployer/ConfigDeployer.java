@@ -22,13 +22,12 @@ import org.wso2.carbon.identity.remotefetch.common.ConfigurationFileStream;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 
 /**
- * Interface to define configuration deployer
- * which deploys configuration files
+ * Interface to define configuration deployer, which deploys configuration files.
  */
 public interface ConfigDeployer {
 
     /**
-     * Deploy the configuration
+     * Deploy the configuration.
      *
      * @param configurationFileStream
      * @throws RemoteFetchCoreException
@@ -36,7 +35,7 @@ public interface ConfigDeployer {
     void deploy(ConfigurationFileStream configurationFileStream) throws RemoteFetchCoreException;
 
     /**
-     * resolve the unique identifier for the configuration
+     * resolve the unique identifier for the configuration.
      *
      * @return
      * @throws RemoteFetchCoreException

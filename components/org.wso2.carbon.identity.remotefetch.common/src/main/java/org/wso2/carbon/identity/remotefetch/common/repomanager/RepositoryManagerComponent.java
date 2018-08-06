@@ -23,33 +23,33 @@ import org.wso2.carbon.identity.remotefetch.common.ui.UIField;
 import java.util.List;
 
 /**
- * Interface to implement a reference to the builder of the component
+ * Interface to implement a reference to the builder of the component.
  */
 public interface RepositoryManagerComponent {
 
     /**
-     * Returns a new builder object for the component
+     * Returns a new builder object for the component.
      *
      * @return
      */
     RepositoryManagerBuilder getRepositoryManagerBuilder();
 
     /**
-     * Returns a string of the unique identifier of the component
+     * Returns a string of the unique identifier of the component.
      *
      * @return
      */
     String getIdentifier();
 
     /**
-     * Returns screen name of the component
+     * Returns screen name of the component.
      *
      * @return
      */
     String getName();
 
     /**
-     * Returns list of UIFields to configure UI
+     * Returns list of UIFields to configure UI.
      *
      * @return
      */

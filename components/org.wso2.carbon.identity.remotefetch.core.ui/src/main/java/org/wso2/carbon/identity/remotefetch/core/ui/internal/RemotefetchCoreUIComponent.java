@@ -73,11 +73,16 @@ public class RemotefetchCoreUIComponent {
             policy = ReferencePolicy.DYNAMIC,
             unbind = "unsetRemoteFetchConfigurationServiceReference"
     )
-    protected void setRemoteFetchConfigurationServiceReference(RemoteFetchConfigurationService fetchConfigurationService){
-        RemotefetchCoreUIComponentDataHolder.getInstance().setRemoteFetchConfigurationService(fetchConfigurationService);
+    protected void setRemoteFetchConfigurationServiceReference(
+            RemoteFetchConfigurationService fetchConfigurationService){
+
+        RemotefetchCoreUIComponentDataHolder.getInstance()
+                .setRemoteFetchConfigurationService(fetchConfigurationService);
 
     }
-    protected void unsetRemoteFetchConfigurationServiceReference(RemoteFetchConfigurationService fetchConfigurationService){
+    protected void unsetRemoteFetchConfigurationServiceReference(
+            RemoteFetchConfigurationService fetchConfigurationService){
+
         RemotefetchCoreUIComponentDataHolder.getInstance().setRemoteFetchConfigurationService(null);
     }
 }

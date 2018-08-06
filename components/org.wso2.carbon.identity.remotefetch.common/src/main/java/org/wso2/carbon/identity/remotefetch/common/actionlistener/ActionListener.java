@@ -20,12 +20,12 @@ package org.wso2.carbon.identity.remotefetch.common.actionlistener;
 
 /**
  * Interface to define an ActionListener which triggers
- * the deployment of a configuration fetched from repository
+ * the deployment of a configuration fetched from repository.
  */
 public interface ActionListener {
 
     /**
-     * Contains logic to listen for updates
+     * Contains logic to listen for updates.
      */
     void iteration();
 }

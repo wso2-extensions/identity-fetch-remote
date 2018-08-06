@@ -22,7 +22,7 @@ import java.io.File;
 import java.util.Date;
 
 /**
- * Deployment Revision bean
+ * Holds details on Deployment Revisions.
  */
 public class DeploymentRevision {
 

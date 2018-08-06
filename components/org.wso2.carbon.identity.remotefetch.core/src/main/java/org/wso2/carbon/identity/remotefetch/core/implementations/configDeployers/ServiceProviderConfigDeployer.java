@@ -49,7 +49,7 @@ public class ServiceProviderConfigDeployer implements ConfigDeployer {
     }
 
     /**
-     * Deploy the configuration
+     * Deploy the configuration.
      *
      * @param configurationFileStream
      * @throws RemoteFetchCoreException
@@ -95,7 +95,7 @@ public class ServiceProviderConfigDeployer implements ConfigDeployer {
     }
 
     /**
-     * resolve the unique identifier for the configuration
+     * Resolve the unique identifier for the configuration.
      *
      * @param configurationFileStream
      * @return
@@ -107,7 +107,8 @@ public class ServiceProviderConfigDeployer implements ConfigDeployer {
         return this.getServiceProviderFromStream(configurationFileStream).getApplicationName();
     }
 
-    private ServiceProvider getServiceProviderFromStream(ConfigurationFileStream configurationFileStream) throws RemoteFetchCoreException {
+    private ServiceProvider getServiceProviderFromStream(ConfigurationFileStream configurationFileStream)
+            throws RemoteFetchCoreException {
 
         SpFileStream spFileStream = new SpFileStream(configurationFileStream.getContentStream(),
                 configurationFileStream.getPath().getName());

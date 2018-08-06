@@ -51,7 +51,8 @@ public class GitRepositoryManagerComponent implements RepositoryManagerComponent
         ArrayList<UIField> fieldList = new ArrayList();
 
         fieldList.add(new UIField(
-                "uri", UIField.FIELD_TYPES.TEXT_BOX, "Git Repository URI", "http url of the repo",
+                "uri", UIField.FIELD_TYPES.TEXT_BOX, "Git Repository URI",
+                "http url of the repo",
                 "((\\w+:\\/\\/)[-a-zA-Z0-9:@;?&=\\/%\\+\\.\\*!'\\(\\),\\$_\\{\\}\\^~\\[\\]`#|]+)",
                 "", true, false, false
 
@@ -63,7 +64,8 @@ public class GitRepositoryManagerComponent implements RepositoryManagerComponent
 
         ));
         fieldList.add(new UIField(
-                "directory", UIField.FIELD_TYPES.TEXT_BOX, "Directory", "Directory of target files",
+                "directory", UIField.FIELD_TYPES.TEXT_BOX, "Directory",
+                "Directory of target files",
                 "^(((\\/)|(\\.)\\/|(\\.\\.)\\/))*(((\\w+)|(\\.\\.)|(\\.))*\\/)*(\\w*)$",
                 "./", true, false, false
 

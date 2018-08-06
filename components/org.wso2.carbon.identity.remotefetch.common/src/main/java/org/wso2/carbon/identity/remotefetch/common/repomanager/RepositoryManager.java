@@ -26,22 +26,19 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Interface to define a repository manager
- * that communicates with a remote repository and handles it locally
+ * Interface to define a repository manager, that communicates with a remote repository and handles it locally.
  */
 public interface RepositoryManager {
 
     /**
-     * Change for updates on the remote repository
-     * and fetches to local
+     * Method to Check for updates on the remote repository and fetch to local.
      *
      * @throws Exception
      */
     void fetchRepository() throws RemoteFetchCoreException;
 
     /**
-     * Returns an InputStream for the specified path
-     * from local repository
+     * Returns an InputStream for the specified path from local repository.
      *
      * @param location
      * @return
@@ -50,7 +47,7 @@ public interface RepositoryManager {
     ConfigurationFileStream getFile(File location) throws RemoteFetchCoreException;
 
     /**
-     * Returns the last modified date of the local file
+     * Returns the last modified date of the local file.
      *
      * @param location
      * @return
@@ -59,7 +56,7 @@ public interface RepositoryManager {
     Date getLastModified(File location) throws RemoteFetchCoreException;
 
     /**
-     * Gets an unique identifier for file state
+     * Gets an unique identifier for file state.
      *
      * @param location
      * @return
@@ -68,7 +65,7 @@ public interface RepositoryManager {
     String getRevisionHash(File location) throws RemoteFetchCoreException;
 
     /**
-     * list files from local repository
+     * list files from local repository.
      * @return
      * @throws RemoteFetchCoreException
      */

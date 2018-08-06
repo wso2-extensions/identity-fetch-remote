@@ -25,7 +25,7 @@ import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager
 import java.util.List;
 
 /**
- * Interface for registry that allows to register different components
+ * Interface for registry that allows to register RemoteFetch components.
  */
 public interface RemoteFetchComponentRegistry {
 
@@ -78,17 +78,17 @@ public interface RemoteFetchComponentRegistry {
     ActionListenerComponent getActionListenerComponent(String identifier);
 
     /**
-     * @return list all RepositoryManagerComponents
+     * @return list all RepositoryManagerComponents.
      */
     List<RepositoryManagerComponent> getRepositoryManagerComponentList();
 
     /**
-     * @return list all ConfigDeployerComponents
+     * @return list all ConfigDeployerComponents.
      */
     List<ConfigDeployerComponent> getConfigDeployerComponentList();
 
     /**
-     * @return list all ActionListenerComponents
+     * @return list all ActionListenerComponents.
      */
     List<ActionListenerComponent> getActionListenerComponentList();
 }

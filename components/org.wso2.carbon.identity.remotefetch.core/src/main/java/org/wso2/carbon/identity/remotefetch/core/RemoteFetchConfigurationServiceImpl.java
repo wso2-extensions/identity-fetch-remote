@@ -31,7 +31,7 @@ import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationVa
 import java.util.List;
 
 /**
- * Service to manage RemoteFetchConfigurations
+ * Service to manage RemoteFetchConfigurations.
  */
 public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigurationService {
 
@@ -43,7 +43,8 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
      * @throws RemoteFetchCoreException
      */
     @Override
-    public ValidationReport addRemoteFetchConfiguration(RemoteFetchConfiguration fetchConfiguration) throws RemoteFetchCoreException {
+    public ValidationReport addRemoteFetchConfiguration(RemoteFetchConfiguration fetchConfiguration)
+            throws RemoteFetchCoreException {
 
         RemoteFetchConfigurationValidator validator =
                 new RemoteFetchConfigurationValidator(RemoteFetchServiceComponentHolder.getInstance()
@@ -81,7 +82,7 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
 
     /**
      * @param fetchConfigurationId
-     * @return Remote Fetch Configuration for id
+     * @return Remote Fetch Configuration for id.
      * @throws RemoteFetchCoreException
      */
     @Override
@@ -92,7 +93,7 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
 
     /**
      * @param tenant_id
-     * @return Remote Fetch Configuration list for tenant id
+     * @return Remote Fetch Configuration list for tenant id.
      * @throws RemoteFetchCoreException
      */
     @Override
@@ -113,7 +114,7 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
     }
 
     /**
-     * @return All Remote Fetch Configurations
+     * @return All Remote Fetch Configurations.
      * @throws RemoteFetchCoreException
      */
     @Override
@@ -123,7 +124,7 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
     }
 
     /**
-     * @return All Enabled Remote Fetch Configurations
+     * @return All Enabled Remote Fetch Configurations.
      * @throws RemoteFetchCoreException
      */
     @Override

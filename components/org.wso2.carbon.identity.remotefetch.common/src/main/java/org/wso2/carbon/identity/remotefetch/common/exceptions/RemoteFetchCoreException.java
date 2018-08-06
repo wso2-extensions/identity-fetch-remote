@@ -19,7 +19,7 @@
 package org.wso2.carbon.identity.remotefetch.common.exceptions;
 
 /**
- * Root Exception to be used for reporting anomalies in the RemoteFetchCore
+ * Root Exception to be used for reporting anomalies in the RemoteFetchCore.
  */
 public class RemoteFetchCoreException extends Exception {
 

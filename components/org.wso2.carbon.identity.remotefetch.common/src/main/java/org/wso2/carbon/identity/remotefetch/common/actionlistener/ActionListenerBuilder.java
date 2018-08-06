@@ -23,7 +23,7 @@ import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployer
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager;
 
 /**
- * Builds a ActionListener from a RemoteFetchConfiguration file
+ * Builds a ActionListener from a RemoteFetchConfiguration file.
  */
 public abstract class ActionListenerBuilder {
 
@@ -32,7 +32,7 @@ public abstract class ActionListenerBuilder {
     protected ConfigDeployer configDeployer;
 
     /**
-     * Set RemoteFetchConfiguration attribute
+     * Set RemoteFetchConfiguration attribute.
      *
      * @param fetchConfig
      * @return
@@ -64,7 +64,7 @@ public abstract class ActionListenerBuilder {
     }
 
     /**
-     * Build and return a new ActionListener with the set configuration
+     * Build and return a new ActionListener with the set configuration.
      *
      * @return
      * @throws ActionListenerBuilderException

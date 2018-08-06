@@ -43,14 +43,14 @@ public interface RemoteFetchConfigurationService {
 
     /**
      * @param fetchConfigurationId
-     * @return Remote Fetch Configuration for id
+     * @return Remote Fetch Configuration for id.
      * @throws RemoteFetchCoreException
      */
     RemoteFetchConfiguration getRemoteFetchConfiguration(int fetchConfigurationId) throws RemoteFetchCoreException;
 
     /**
      * @param tenant_id
-     * @return Remote Fetch Configuration list for tenant id
+     * @return Remote Fetch Configuration list for tenant id.
      * @throws RemoteFetchCoreException
      */
     List<RemoteFetchConfiguration> getRemoteFetchConfigurationList(int tenant_id) throws RemoteFetchCoreException;
@@ -64,13 +64,13 @@ public interface RemoteFetchConfigurationService {
             throws RemoteFetchCoreException;
 
     /**
-     * @return All Remote Fetch Configurations
+     * @return All Remote Fetch Configurations.
      * @throws RemoteFetchCoreException
      */
     List<RemoteFetchConfiguration> getRemoteFetchConfigurationList() throws RemoteFetchCoreException;
 
     /**
-     * @return All Enabled Remote Fetch Configurations
+     * @return All Enabled Remote Fetch Configurations.
      * @throws RemoteFetchCoreException
      */
     List<RemoteFetchConfiguration> getEnabledRemoteFetchConfigurationList() throws RemoteFetchCoreException;

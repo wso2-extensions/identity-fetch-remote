@@ -25,7 +25,7 @@ import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
 import java.util.List;
 
 /**
- * Interface used to access the data layer to store/update RemoteFetch configurations
+ * Interface used to access the data layer to store/update RemoteFetch configurations.
  */
 public interface RemoteFetchConfigurationDAO {
 
