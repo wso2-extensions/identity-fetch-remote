@@ -19,7 +19,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.wso2.carbon.identity.remotefetch</groupId>
+    <groupId>org.wso2.identity.remotefetch</groupId>
     <artifactId>remotefetch</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
@@ -47,6 +47,7 @@
         <module>components/org.wso2.carbon.identity.remotefetch.common</module>
         <module>components/org.wso2.carbon.identity.remotefetch.core</module>
         <module>components/org.wso2.carbon.identity.remotefetch.core.ui</module>
+        <module>features/org.wso2.carbon.identity.remotefetch.core.feature</module>
     </modules>
 
     <repositories>
@@ -279,6 +280,7 @@
     </build>
 
     <properties>
+        <carbon.p2.plugin.version>1.5.3</carbon.p2.plugin.version>
         <maven.compiler.plugin>3.7.0</maven.compiler.plugin>
         <maven.bundle.plugin.version>2.4.0</maven.bundle.plugin.version>
         <version.equinox.osgi>3.5.100.v20160504-1419</version.equinox.osgi>
