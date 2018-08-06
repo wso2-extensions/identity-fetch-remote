@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1533485956264
+Bnd-LastModified: 1533554366819
 Build-Jdk: 1.8.0_172
 Built-By: kaveenr
 Bundle-Description: This is a Carbon bundle that represent the Remote Re
@@ -63,12 +63,12 @@ Import-Package: org.json;version="[3.0,4)",org.eclipse.jgit.api;version=
  ployer;version="1.0.0.SNAPSHOT",org.wso2.carbon.identity.remotefetch.co
  mmon.exceptions;version="1.0.0.SNAPSHOT",org.wso2.carbon.identity.remot
  efetch.common.repomanager;version="1.0.0.SNAPSHOT",org.wso2.carbon.iden
- tity.remotefetch.common.ui;version="1.0.0.SNAPSHOT",javax.xml.namespace
- ,org.apache.commons.collections;version="[3.2.0,4.0.0)",org.wso2.carbon
- .identity.application.common.cache;version="[5.0.0,6.0.0)",org.apache.c
- ommons.lang;version="[2.6.0,3.0.0)",org.apache.commons.io;version="[2.4
- .0,3.0.0)"
-SCM-Revision: 42af08c28787c9fe459257329d11acab1a4378b6
+ tity.remotefetch.common.ui;version="1.0.0.SNAPSHOT",org.apache.commons.
+ lang;version="[2.6.0,3.0.0)",org.apache.commons.io;version="[2.4.0,3.0.
+ 0)",org.wso2.carbon.identity.application.common.cache;version="[5.0.0,6
+ .0.0)",org.apache.commons.collections;version="[3.2.0,4.0.0)",javax.xml
+ .namespace
+SCM-Revision: 6b3709336d2a2cfc10e997d1623cf4f56e6d8751
 Service-Component: OSGI-INF/org.wso2.carbon.identity.remotefetch.core.in
  ternal.RemoteFetchServiceComponent.xml
 Tool: Bnd-2.1.0.20130426-122213

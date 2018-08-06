@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1533485952398
+Bnd-LastModified: 1533554363014
 Build-Jdk: 1.8.0_172
 Built-By: kaveenr
 Bundle-Description: This is a Carbon bundle that represent the Remote Re
@@ -31,10 +31,10 @@ Export-Package: org.wso2.carbon.identity.remotefetch.common;version="1.0
  bon.identity.remotefetch.common.ui",org.wso2.carbon.identity.remotefetc
  h.common.ui;version="1.0.0.SNAPSHOT";uses:="org.wso2.carbon.identity.re
  motefetch.common"
-Import-Package: org.osgi.framework;version="[1.7.0,2.0.0)",org.apache.co
- mmons.lang;version="[2.6.0,3.0.0)",org.apache.commons.io;version="[2.4.
- 0,3.0.0)",javax.xml.namespace,org.osgi.service.component;version="[1.2.
- 0,2.0.0)",org.apache.commons.logging;version="[1.2,2.0)",org.apache.com
- mons.collections;version="[3.2.0,4.0.0)",org.json
-SCM-Revision: 42af08c28787c9fe459257329d11acab1a4378b6
+Import-Package: org.apache.commons.lang;version="[2.6.0,3.0.0)",org.apac
+ he.commons.collections;version="[3.2.0,4.0.0)",org.apache.commons.io;ve
+ rsion="[2.4.0,3.0.0)",org.osgi.service.component;version="[1.2.0,2.0.0)
+ ",javax.xml.namespace,org.apache.commons.logging;version="[1.2,2.0)",or
+ g.osgi.framework;version="[1.7.0,2.0.0)",org.json
+SCM-Revision: 6b3709336d2a2cfc10e997d1623cf4f56e6d8751
 Tool: Bnd-2.1.0.20130426-122213
