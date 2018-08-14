@@ -1,0 +1,7 @@
+org/wso2/carbon/identity/remotefetch/core/ui/client/RemoteFetchRegistryClient.class
+org/wso2/carbon/identity/remotefetch/core/ui/dto/RemoteFetchConfigurationRowDTO.class
+org/wso2/carbon/identity/remotefetch/core/ui/client/RemoteFetchConfigurationClient.class
+org/wso2/carbon/identity/remotefetch/core/ui/internal/RemotefetchCoreUIComponent.class
+org/wso2/carbon/identity/remotefetch/core/ui/dto/RemoteFetchComponentDTO$COMPONENT_TYPE.class
+org/wso2/carbon/identity/remotefetch/core/ui/dto/RemoteFetchComponentDTO.class
+org/wso2/carbon/identity/remotefetch/core/ui/internal/RemotefetchCoreUIComponentDataHolder.class
