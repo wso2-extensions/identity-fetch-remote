@@ -27,18 +27,21 @@
 <%@ page import="org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration" %>
 <%@ page import="org.wso2.carbon.identity.remotefetch.core.ui.client.RemoteFetchConfigurationClient" %>
 <%@ page import="org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException" %>
+<%@ page import="org.wso2.carbon.identity.remotefetch.core.ui.dto.RemoteFetchComponentDTO" %>
+<%@ page import="java.util.List" %>
+
 
 
 <%
     Gson gson = new Gson();
-    
-    pageContext.setAttribute("fetchConfiguration",null);
-    pageContext.setAttribute("fetchConfigurationJs",null);
-    
+
+    RemoteFetchConfiguration fetchConfiguration = null;
+    String componentUIFields = gson.toJson(RemoteFetchRegistryClient.getAllComponentUIFields());
+    String configurationObject = gson.toJson(fetchConfiguration);
+
     if( request.getParameter("id") != null ){
         int editId = -1;
-        RemoteFetchConfiguration fetchConfiguration;
-        
+
         try {
             editId = Integer.parseInt(request.getParameter("id"));
         }catch (NumberFormatException e){
@@ -48,19 +51,16 @@
         if (editId != -1){
             try{
                 fetchConfiguration = RemoteFetchConfigurationClient.getRemoteFetchConfiguration(editId);
-                pageContext.setAttribute("fetchConfiguration",fetchConfiguration);
-                pageContext.setAttribute("fetchConfigurationJs", gson.toJson(fetchConfiguration));
             }catch (RemoteFetchCoreException e){
                 CarbonUIMessage.sendCarbonUIMessage("Invalid Config for id",CarbonUIMessage.ERROR,request,e);
             }
         }
     }
-    
-    
-    pageContext.setAttribute("repoManagerList", RemoteFetchRegistryClient.getRepositoryManagers());
-    pageContext.setAttribute("actionListenerList", RemoteFetchRegistryClient.getActionListener());
-    pageContext.setAttribute("configDeployerList", RemoteFetchRegistryClient.getConfigDeployer());
-    pageContext.setAttribute("componentUIFields", gson.toJson(RemoteFetchRegistryClient.getAllComponentUIFields()));
+
+    List<RemoteFetchComponentDTO> repoManagerList  = RemoteFetchRegistryClient.getRepositoryManagers();
+    List<RemoteFetchComponentDTO> actionListenerList  = RemoteFetchRegistryClient.getActionListener();
+    List<RemoteFetchComponentDTO> configDeployerList = RemoteFetchRegistryClient.getConfigDeployer();
+
 %>
 
 <link rel="stylesheet" href="css/remotefetchcore.css">
@@ -80,20 +80,17 @@
         
         <div id="workArea">
             <form id="basicInformationForm">
-                <c:if test="${not empty fetchConfiguration}">
-                    <input type="hidden" name="remoteFetchConfigurationId" 
-                           value="${fetchConfiguration.remoteFetchConfigurationId}">
-                </c:if>
+                <% if(fetchConfiguration != null) {%>
+                    <input type="hidden" name="remoteFetchConfigurationId" value=<%=fetchConfiguration.getRemoteFetchConfigurationId()%>>
+               <% } %>
                 <div class="sectionSeperator togglebleTitle">Basic Information</div>
                 <table class="carbonFormTable">
                     <tbody>
                         <tr>
-                            <td class="leftCol-med labelField">Enabled:
-                            </td>
+                            <td class="leftCol-med labelField">Enabled: </td>
                             <td>
                                 <input id="isEnabled" name="isEnabled" type="checkbox" value="true"
-                                       ${not empty fetchConfiguration and not fetchConfiguration.enabled ? "" : "checked"}>
-                    
+                                        <%=(fetchConfiguration != null && fetchConfiguration.isEnabled()) ? "" : "checked"%>>
                                 <div class="sectionHelp">
                                     Activate the configuration
                                 </div>
@@ -105,20 +102,22 @@
                             <td>
                                 <select name="configurationDeployerType" id="configurationDeployerType"
                                         data-validation-required="true" data-validation-name="Configuration Deployer">
-                                    <c:if test="${not empty configDeployerList and empty fetchConfiguration}">
+                                    <%if(configDeployerList != null &&  fetchConfiguration == null) { %>
                                         <option value="" selected disabled hidden>Choose Configuration Deployer</option>
-                                    </c:if>
-                                    <c:if test="${empty configDeployerList}">
+                                    <% } %>
+                                        <% if (configDeployerList == null) { %>
                                         <option value="" selected disabled hidden>No Configuration Deployers registered</option>
-                                    </c:if>
-                                    <c:forEach items="${configDeployerList}" var="deployer">
-                                        <option
-                                                ${not empty fetchConfiguration and fetchConfiguration.configurationDeployerType == deployer.identifier ? "selected" : ""}
-                                                value="${deployer.identifier}">
-                                                ${deployer.name}
-                                        </option>
-                                    </c:forEach>
+                                    <% } %>
+                                    <%
+                                        for(RemoteFetchComponentDTO deployer :configDeployerList) { %>
+                                            <option
+                                                <%= (fetchConfiguration != null && fetchConfiguration.getConfigurationDeployerType() == deployer.getIdentifier()) ? "selected" : "" %>
+                                                value=<%=deployer.getIdentifier()%>>
+                                                <%=deployer.getName()%>
+                                            </option>
+                                   <% } %>
                                 </select>
+
                     
                                 <div class="sectionHelp">
                                     Configuration Deployer Type
@@ -130,21 +129,23 @@
                             </td>
                             <td>
                                 <select name="repositoryManagerType" id="repositoryManagerType"
-                                        value="${not empty fetchConfiguration ? fetchConfiguration.repositoryManagerType : ""}"
+                                        value=<%=(fetchConfiguration != null)? fetchConfiguration.getRepositoryManagerType() : ""%>
                                         data-validation-required="true" data-validation-name="Repository Manager">
-                                    <c:if test="${not empty repoManagerList and empty fetchConfiguration}">
+                                    <% if (repoManagerList!= null && fetchConfiguration == null) { %>
                                         <option value="" selected disabled hidden>Choose Repository Manager</option>
-                                    </c:if>
-                                    <c:if test="${empty repoManagerList}">
+                                    <% } %>
+                                    <% if(repoManagerList == null) { %>
                                         <option value="" selected disabled hidden>No Repository Managers registered</option>
-                                    </c:if>
-                                    <c:forEach items="${repoManagerList}" var="manager">
-                                        <option
-                                                ${not empty fetchConfiguration and fetchConfiguration.repositoryManagerType == manager.identifier ? "selected" : ""}
-                                                value="${manager.identifier}">
-                                                ${manager.name}
-                                        </option>
-                                    </c:forEach>
+                                    <%}%>
+                                    <%
+                                        for(RemoteFetchComponentDTO  manager:repoManagerList) { %>
+                                            <option
+                                                <%= (fetchConfiguration != null && fetchConfiguration.getRepositoryManagerType() == manager.getIdentifier()) ? "selected" : "" %>
+                                                value=<%=manager.getIdentifier()%>>
+                                                <%=manager.getName()%>
+                                            </option>
+                                        <% } %>
+
                                 </select>
                     
                                 <div class="sectionHelp">
@@ -157,21 +158,22 @@
                             </td>
                             <td>
                                 <select name="actionListenerType" id="actionListenerType"
-                                        value="${not empty fetchConfiguration ? fetchConfiguration.actionListenerType : ""}"
+                                        value=<%=(fetchConfiguration != null) ? fetchConfiguration.getActionListenerType() : "" %>
                                         data-validation-required="true" data-validation-name="Action Listener">
-                                    <c:if test="${not empty actionListenerList and empty fetchConfiguration}">
+                                    <% if(actionListenerList != null && fetchConfiguration == null) { %>
                                         <option value="" selected disabled hidden>Choose Action Listener</option>
-                                    </c:if>
-                                    <c:if test="${empty actionListenerList}">
+                                    <% }  %>
+                                    <% if (actionListenerList == null) { %>
                                         <option value="" selected disabled hidden>No Action Listeners registered</option>
-                                    </c:if>
-                                    <c:forEach items="${actionListenerList}" var="listener">
-                                        <option
-                                                ${not empty fetchConfiguration and fetchConfiguration.actionListenerType == listener.identifier ? "selected" : ""}
-                                                value="${listener.identifier}">
-                                                ${listener.name}
-                                        </option>
-                                    </c:forEach>
+                                    <% } %>
+                                    <%
+                                        for(RemoteFetchComponentDTO  listener:actionListenerList) { %>
+                                            <option
+                                                <%= (fetchConfiguration != null && fetchConfiguration.getActionListenerType() == listener.getIdentifier()) ? "selected" : "" %>
+                                                value=<%=listener.getIdentifier()%> >
+                                                <%=listener.getName()%>
+                                            </option>
+                                        <% } %>
                                 </select>
                     
                                 <div class="sectionHelp">
@@ -229,14 +231,14 @@
             <div id="error-dialog-validation-placeholder"></div>
         </div>
     </div>
-    
-    <%-- Set JS Variables --%>
+
     <script type="text/javascript">
         var remoteFetchState = {
-            "configurationObject" : ${empty fetchConfigurationJs ? "null" : fetchConfigurationJs},
-            "componentUIFields" : ${componentUIFields}
+            "configurationObject" : <%= configurationObject == null ? "null" : configurationObject%>,
+            "componentUIFields" : <%= componentUIFields%>
         }
     </script>
+
     <jsp:include page="partials/handlebars_templates.jsp"/>
     <script src="js/handlebars-v4.0.11.js"></script>
     <script src="js/main.js"></script>
