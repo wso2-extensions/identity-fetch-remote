@@ -2,6 +2,8 @@
 <%@ page import="org.wso2.carbon.identity.remotefetch.common.ValidationReport" %>
 <%@ page import="org.wso2.carbon.ui.CarbonUIMessage" %>
 <%@ page import="org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException" %>
+
+
 <%--
   ~ Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
   ~
@@ -29,7 +31,7 @@
         return;
     }
     
-    String payload = request.getParameter("payload");
+    String payload = request.getParameter("payload") ;
     String action = request.getParameter("action");
     
     if (payload != null && !payload.isEmpty() && action != null && !action.isEmpty()) {
@@ -59,12 +61,12 @@
         CarbonUIMessage.sendCarbonUIMessage("Empty Payload sent", CarbonUIMessage.ERROR, request);
         redirect = "add-remotefetch-config.jsp";
     }
-    
-    pageContext.setAttribute("redirect", redirect);
+
+    redirect = redirect;
 
 %>
 
 
 <script>
-    location.href = '${redirect}';
+    location.href = "<%=redirect%>";
 </script>
