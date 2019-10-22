@@ -23,23 +23,25 @@
 
 <%@ page import="org.wso2.carbon.identity.remotefetch.core.ui.client.RemoteFetchConfigurationClient" %>
 <%@ page import="org.owasp.encoder.Encode" %>
+<%@ page import="org.wso2.carbon.identity.remotefetch.core.ui.dto.RemoteFetchConfigurationRowDTO" %>
+<%@ page import="java.util.List" %>
 
 
 <%
-    pageContext.setAttribute("configurations",RemoteFetchConfigurationClient.getConfigurations());
-%>
+    List<RemoteFetchConfigurationRowDTO> configurations = RemoteFetchConfigurationClient.getConfigurations();
 
+%>
 <jsp:include page="../dialog/display_messages.jsp"/>
 
 <fmt:bundle basename="org.wso2.carbon.identity.remotefetch.core.ui.i18n.Resources">
-    
+
     <link rel="stylesheet" href="css/remotefetchcore.css">
-    
+
     <carbon:breadcrumb
             label="remotefetch.core" resourceBundle="org.wso2.carbon.identity.remotefetch.core.ui.i18n.Resources"
             topPage="true" request="<%=request%>"
     />
-    
+
     <div id="middle">
         <h2><fmt:message key="remotefetch.core"/></h2>
         </br>
@@ -59,57 +61,56 @@
                             <th class="leftCol-med"><fmt:message key="field.config.action"/></th>
                         </tr>
                         </thead>
-                        <c:if test="${not empty configurations}">
+
+                        <%if(configurations.size()>0) { %>
                             <tbody>
-                                <c:forEach items="${configurations}" var="configuration">
+                            <%
+                                for(RemoteFetchConfigurationRowDTO configuration :configurations) { %>
                                     <tr>
                                         <td class="text-center">
-                                            <input type="checkbox" disabled ${configuration.isEnabled ? "checked" : ""}>
+                                            <input type="checkbox" disabled <%=configuration.getIsEnabled() ? "checked" : "" %>>
                                         </td>
-                                        <td>${configuration.configurationDeployerType} Deployer</td>
-                                        <td>${configuration.repositoryType}</td>
-                                        <td>${configuration.actionListenerType}</td>
+                                        <td><%=configuration.getConfigurationDeployerType() %> Deployer</td>
+                                        <td><%=configuration.getRepositoryType()%></td>
+                                        <td><%=configuration.getActionListenerType()%></td>
                                         <td class="text-center">
-                                            <c:if test="${empty configuration.lastDeployed}">
+                                            <% if(configuration.getLastDeployed() == null) { %>
                                                 <p>No Prior Deployments</p>
-                                            </c:if>
-                                            <c:if test="${not empty configuration.lastDeployed}">
-                                                <c:if test="${configuration.successfulDeployments != 0}">
-                                                    <p class="remote-fetch-passed" title="<fmt:formatDate type = "both" dateStyle = "long" timeStyle = "short" value="${configuration.lastDeployed}"/>">
-                                                        Deployed : ${configuration.successfulDeployments}
-                                                    </p>
-                                                </c:if>
-                                                <c:if test="${configuration.failedDeployments != 0}">
-                                                    <p class="remote-fetch-failed" title="<fmt:formatDate type = "both" dateStyle = "long" timeStyle = "short" value="${configuration.lastDeployed}"/>">
-                                                        Deployments Failed : ${configuration.failedDeployments}
-                                                    </p>
-                                                </c:if>
-                                            </c:if>
+                                            <% } else { %>
+                                                <% if(configuration.getSuccessfulDeployments() != 0 ) { %>
+                                                    <p class="remote-fetch-passed" title="<fmt:formatDate type = "both" dateStyle = "long" timeStyle = "short" value = "<%=configuration.getLastDeployed()%>"/>">
+                                                    Deployed : <%=configuration.getSuccessfulDeployments()%> </p>
+                                                <% } %>
+                                                <% if(configuration.getFailedDeployments() != 0) { %>
+                                                    <p class="remote-fetch-failed" title="<fmt:formatDate type = "both" dateStyle = "long" timeStyle = "short" value="<%=configuration.getLastDeployed()%>"/>">
+                                                    Deployments Failed : <%=configuration.getFailedDeployments()%> </p>
+                                                <% } %>
+                                            <% } %>
                                         </td>
+
                                         <td style="width: 100px; white-space: nowrap;">
                                             <a title="Edit Configuration"
-                                                href="add-remotefetch-config.jsp?id=<e:forUri value="${configuration.id}"/>"
-                                                class="icon-link"
-                                                style="background-image: url(images/edit.gif)">Edit
+                                               href="add-remotefetch-config.jsp?id=<e:forUri value="<%=Integer.toString(configuration.getId())%>"/>"
+                                               class="icon-link"
+                                               style="background-image: url(images/edit.gif)"> Edit
                                             </a>
                                             <a title="Delete Configuration"
-                                                href="#"
-                                                data-id="${configuration.id}"
-                                                class="icon-link delete-config-link"
-                                                style="background-image: url(images/delete.gif)">Delete
+                                               href="#"
+                                               data-id="<%=configuration.getId()%>"
+                                               class="icon-link delete-config-link"
+                                               style="background-image: url(images/delete.gif)">Delete
                                             </a>
                                         </td>
-                                    </tr>
-                                </c:forEach>
+                                </tr>
+                            <% } %>
                             </tbody>
-                        </c:if>
-                        <c:if test="${empty configurations}">
+                        <% } else { %>
                             <tbody>
                             <tr>
-                                <td colspan="6"><i>No Service Providers registered</i></td>
+                                <td colspan="6"><i>No Service Providers Registered</i></td>
                             </tr>
                             </tbody>
-                        </c:if>
+                        <% } %>
                     </table>
                 </td>
             </tr>
