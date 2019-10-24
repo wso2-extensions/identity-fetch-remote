@@ -19,11 +19,17 @@
 package org.wso2.carbon.identity.remotefetch.core.ui.client;
 
 import com.google.gson.Gson;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.context.CarbonContext;
 import org.wso2.carbon.identity.remotefetch.common.BasicRemoteFetchConfiguration;
+import org.wso2.carbon.identity.remotefetch.common.RemoteFetchComponentRegistry;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
+import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListenerComponent;
+import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployerComponent;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 import org.wso2.carbon.identity.remotefetch.common.ValidationReport;
+import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManagerComponent;
 import org.wso2.carbon.identity.remotefetch.core.ui.dto.RemoteFetchConfigurationRowDTO;
 import org.wso2.carbon.identity.remotefetch.core.ui.internal.RemotefetchCoreUIComponentDataHolder;
 
@@ -31,6 +37,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RemoteFetchConfigurationClient {
+
+    private static final Log log = LogFactory.getLog(RemoteFetchConfigurationClient.class);
 
     public static List<RemoteFetchConfigurationRowDTO> getConfigurations() throws RemoteFetchCoreException {
 
@@ -47,28 +55,46 @@ public class RemoteFetchConfigurationClient {
     public static RemoteFetchConfigurationRowDTO fetchConfigurationToDTO(
             BasicRemoteFetchConfiguration fetchConfiguration) {
 
-        String repositoryManager = RemotefetchCoreUIComponentDataHolder.getInstance().getComponentRegistry().
-                getRepositoryManagerComponent(fetchConfiguration.getRepositoryManagerType()).getName();
+        RemoteFetchComponentRegistry componentRegistry = RemotefetchCoreUIComponentDataHolder.getInstance().
+                getComponentRegistry();
+        if (componentRegistry == null) {
+            log.error("RemoteFetchComponentRegistry is not initialized properly");
+            return null;
+        }
 
-        String actionListener = RemotefetchCoreUIComponentDataHolder.getInstance().getComponentRegistry().
-                getActionListenerComponent(fetchConfiguration.getActionListenerType()).getName();
+        RepositoryManagerComponent repositoryManagerComponent = componentRegistry.getRepositoryManagerComponent(
+                fetchConfiguration.getRepositoryManagerType());
+        if (repositoryManagerComponent == null) {
+            log.error("RepositoryManagerComponent is not initialized properly");
+        }
 
-        String configurationDeployer = RemotefetchCoreUIComponentDataHolder.getInstance().getComponentRegistry().
-                getConfigDeployerComponent(fetchConfiguration.getConfigurationDeployerType()).getName();
+        ActionListenerComponent actionListenerComponent = componentRegistry.getActionListenerComponent(
+                fetchConfiguration.getActionListenerType());
+
+        if (actionListenerComponent == null) {
+            log.error("ActionListenerComponent is not initialized properly");
+        }
+
+        ConfigDeployerComponent configDeployerComponent = componentRegistry.
+                getConfigDeployerComponent(fetchConfiguration.getConfigurationDeployerType());
+        if (configDeployerComponent == null) {
+            log.error("ConfigDeployerComponent is not initialized properly");
+        }
 
         return new RemoteFetchConfigurationRowDTO(
                 fetchConfiguration.getId(),
                 fetchConfiguration.isEnabled(),
-                repositoryManager,
-                actionListener,
-                configurationDeployer,
+                repositoryManagerComponent == null? "" :repositoryManagerComponent.getName(),
+                actionListenerComponent == null? "": actionListenerComponent.getName(),
+                configDeployerComponent == null? "" : configDeployerComponent.getName(),
                 fetchConfiguration.getSuccessfulDeployments(),
                 fetchConfiguration.getFailedDeployments(),
                 fetchConfiguration.getLastDeployed()
         );
     }
 
-    public static RemoteFetchConfiguration getRemoteFetchConfiguration(int id) throws RemoteFetchCoreException{
+    public static RemoteFetchConfiguration getRemoteFetchConfiguration(int id) throws RemoteFetchCoreException {
+
         return RemotefetchCoreUIComponentDataHolder.getInstance().getRemoteFetchConfigurationService()
                 .getRemoteFetchConfiguration(id);
     }
@@ -100,16 +126,17 @@ public class RemoteFetchConfigurationClient {
     }
 
     public static void deleteRemoteFetchComponent(int id) throws RemoteFetchCoreException {
+
         RemotefetchCoreUIComponentDataHolder.getInstance().getRemoteFetchConfigurationService()
                 .deleteRemoteFetchConfiguration(id);
     }
 
-    private static RemoteFetchConfiguration parseJsonToConfiguration(String jsonObject){
+    private static RemoteFetchConfiguration parseJsonToConfiguration(String jsonObject) {
+
         Gson gson = new Gson();
         RemoteFetchConfiguration fetchConfiguration = gson.fromJson(jsonObject, RemoteFetchConfiguration.class);
         fetchConfiguration.setTenantId(CarbonContext.getThreadLocalCarbonContext().getTenantId());
         return fetchConfiguration;
     }
-
 
 }
