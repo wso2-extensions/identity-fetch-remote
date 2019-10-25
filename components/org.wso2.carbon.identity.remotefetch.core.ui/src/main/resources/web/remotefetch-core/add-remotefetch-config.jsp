@@ -36,10 +36,6 @@
     Gson gson = new Gson();
     RemoteFetchConfiguration fetchConfiguration = null;
     String componentUIFields = gson.toJson(RemoteFetchRegistryClient.getAllComponentUIFields());
-<<<<<<< HEAD
-=======
-//    String configurationObject = null ;
->>>>>>> convert JSP into JSTL in list-remotefetch-configs.jsp
     pageContext.setAttribute("fetchConfigurationJs",null);
 
     if( request.getParameter("id") != null ){
@@ -54,10 +50,6 @@
             try{
                 fetchConfiguration = RemoteFetchConfigurationClient.getRemoteFetchConfiguration(editId);
                 pageContext.setAttribute("fetchConfigurationJs", gson.toJson(fetchConfiguration));
-<<<<<<< HEAD
-=======
-//               configurationObject = gson.toJson(fetchConfiguration);
->>>>>>> convert JSP into JSTL in list-remotefetch-configs.jsp
             }catch (RemoteFetchCoreException e){
                 CarbonUIMessage.sendCarbonUIMessage("Invalid Config for id",CarbonUIMessage.ERROR,request,e);
             }
@@ -235,10 +227,6 @@
     <script type="text/javascript">
         var remoteFetchState = {
             "configurationObject" : <%= pageContext.getAttribute("fetchConfigurationJs") == null? "null" : pageContext.getAttribute("fetchConfigurationJs") %>,
-<<<<<<< HEAD
-=======
-            <%--"configurationObject" : <%=configurationObject.isEmpty()%> ? "null" : <%=configurationObject%>,--%>
->>>>>>> convert JSP into JSTL in list-remotefetch-configs.jsp
             "componentUIFields" : <%= componentUIFields%>
 
         }
