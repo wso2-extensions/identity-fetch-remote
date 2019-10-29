@@ -100,8 +100,8 @@ public class GitRepositoryManager implements RepositoryManager {
         PullCommand pullRequest = this.git.pull();
         try {
             pullRequest.call();
-        }catch (JGitInternalException e) {
-            log.error("Failed to pull git repo", e);
+        } catch (JGitInternalException e) {
+            log.error("Unable to pull git repo", e);
         }
     }
 
@@ -135,14 +135,14 @@ public class GitRepositoryManager implements RepositoryManager {
     @Override
     public ConfigurationFileStream getFile(File location) throws RemoteFetchCoreException {
 
-        if(!this.isFileInSubDirectory(this.fileRoot,location)){
+        if (!this.isFileInSubDirectory(this.fileRoot, location)) {
             throw new RemoteFetchCoreException("Requested file doesn't share repository root");
         }
 
         try (ObjectReader reader = this.repo.newObjectReader()) {
             RevCommit commit = this.getLastCommit(location);
             TreeWalk treewalk = TreeWalk.forPath(this.repo, location.getPath(), commit.getTree());
-            return new ConfigurationFileStream(reader.open(treewalk.getObjectId(0)).openStream(),location);
+            return new ConfigurationFileStream(reader.open(treewalk.getObjectId(0)).openStream(), location);
         } catch (GitAPIException e) {
             throw new RemoteFetchCoreException("Unable to get last revision of file", e);
         } catch (NullPointerException e) {
@@ -207,13 +207,14 @@ public class GitRepositoryManager implements RepositoryManager {
         }
     }
 
-    private boolean isFileInSubDirectory(File baseDir, File path){
-        if(path == null){
+    private boolean isFileInSubDirectory(File baseDir, File path) {
+
+        if (path == null) {
             return false;
         }
-        if(path.equals(baseDir)){
+        if (path.equals(baseDir)) {
             return true;
         }
-        return isFileInSubDirectory(baseDir,path.getParentFile());
+        return isFileInSubDirectory(baseDir, path.getParentFile());
     }
 }
