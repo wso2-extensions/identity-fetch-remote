@@ -67,7 +67,7 @@ public class GitRepositoryManagerComponent implements RepositoryManagerComponent
                 "directory", UIField.FIELD_TYPES.TEXT_BOX, "Directory",
                 "Directory of target files",
                 "^(((\\/)|(\\.)\\/|(\\.\\.)\\/))*(((\\w+)|(\\.\\.)|(\\.))*\\/)*(\\w*)$",
-                "./", true, false, false
+                "", true, false, false
 
         ));
 

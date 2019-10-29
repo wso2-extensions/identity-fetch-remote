@@ -25,6 +25,7 @@ import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PullCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -97,7 +98,11 @@ public class GitRepositoryManager implements RepositoryManager {
     private void pullRepository() throws GitAPIException {
 
         PullCommand pullRequest = this.git.pull();
-        pullRequest.call();
+        try {
+            pullRequest.call();
+        }catch (JGitInternalException e) {
+            log.error("Failed to pull git repo", e);
+        }
     }
 
     private RevCommit getLastCommit(File path) throws GitAPIException {
