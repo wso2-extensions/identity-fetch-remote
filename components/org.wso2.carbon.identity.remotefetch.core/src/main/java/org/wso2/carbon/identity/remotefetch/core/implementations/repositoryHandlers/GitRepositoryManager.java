@@ -101,7 +101,7 @@ public class GitRepositoryManager implements RepositoryManager {
         try {
             pullRequest.call();
         } catch (JGitInternalException e) {
-            log.error("Unable to pull git repo", e);
+            log.error("Unable to pull git repo "+ pullRequest.getRepository(), e);
         }
     }
 
