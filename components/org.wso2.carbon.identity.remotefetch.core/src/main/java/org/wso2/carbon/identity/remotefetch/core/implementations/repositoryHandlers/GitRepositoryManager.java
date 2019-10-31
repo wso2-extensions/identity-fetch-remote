@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.jar.JarOutputStream;
 
 public class GitRepositoryManager implements RepositoryManager {
 
@@ -101,7 +102,7 @@ public class GitRepositoryManager implements RepositoryManager {
         try {
             pullRequest.call();
         } catch (JGitInternalException e) {
-            log.error("Unable to pull git repo "+ pullRequest.getRepository(), e);
+            log.error("Unable to pull git repo: " + this.uri, e);
         }
     }
 
