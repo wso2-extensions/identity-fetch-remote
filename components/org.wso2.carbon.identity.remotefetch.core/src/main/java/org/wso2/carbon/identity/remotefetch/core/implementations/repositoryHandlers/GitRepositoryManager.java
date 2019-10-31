@@ -25,6 +25,7 @@ import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PullCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -45,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.jar.JarOutputStream;
 
 public class GitRepositoryManager implements RepositoryManager {
 
@@ -97,7 +99,11 @@ public class GitRepositoryManager implements RepositoryManager {
     private void pullRepository() throws GitAPIException {
 
         PullCommand pullRequest = this.git.pull();
-        pullRequest.call();
+        try {
+            pullRequest.call();
+        } catch (JGitInternalException e) {
+            log.error("Unable to pull git repo: " + this.uri, e);
+        }
     }
 
     private RevCommit getLastCommit(File path) throws GitAPIException {
@@ -130,14 +136,14 @@ public class GitRepositoryManager implements RepositoryManager {
     @Override
     public ConfigurationFileStream getFile(File location) throws RemoteFetchCoreException {
 
-        if(!this.isFileInSubDirectory(this.fileRoot,location)){
+        if (!this.isFileInSubDirectory(this.fileRoot, location)) {
             throw new RemoteFetchCoreException("Requested file doesn't share repository root");
         }
 
         try (ObjectReader reader = this.repo.newObjectReader()) {
             RevCommit commit = this.getLastCommit(location);
             TreeWalk treewalk = TreeWalk.forPath(this.repo, location.getPath(), commit.getTree());
-            return new ConfigurationFileStream(reader.open(treewalk.getObjectId(0)).openStream(),location);
+            return new ConfigurationFileStream(reader.open(treewalk.getObjectId(0)).openStream(), location);
         } catch (GitAPIException e) {
             throw new RemoteFetchCoreException("Unable to get last revision of file", e);
         } catch (NullPointerException e) {
@@ -202,13 +208,14 @@ public class GitRepositoryManager implements RepositoryManager {
         }
     }
 
-    private boolean isFileInSubDirectory(File baseDir, File path){
-        if(path == null){
+    private boolean isFileInSubDirectory(File baseDir, File path) {
+
+        if (path == null) {
             return false;
         }
-        if(path.equals(baseDir)){
+        if (path.equals(baseDir)) {
             return true;
         }
-        return isFileInSubDirectory(baseDir,path.getParentFile());
+        return isFileInSubDirectory(baseDir, path.getParentFile());
     }
 }

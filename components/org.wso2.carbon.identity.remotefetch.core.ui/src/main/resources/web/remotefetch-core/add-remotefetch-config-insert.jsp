@@ -31,7 +31,7 @@
         return;
     }
     
-    String payload = request.getParameter("payload") ;
+    String payload = request.getParameter("payload");
     String action = request.getParameter("action");
     
     if (payload != null && !payload.isEmpty() && action != null && !action.isEmpty()) {
@@ -39,14 +39,13 @@
         try {
             String currentUser = (String) session.getAttribute("logged-user");
             
-            if(action.equalsIgnoreCase("insert")){
+            if (action.equalsIgnoreCase("insert")) {
                 validationReport = RemoteFetchConfigurationClient.addFetchConfiguration(payload, currentUser);
                 CarbonUIMessage.sendCarbonUIMessage("Configuration successfully added!", CarbonUIMessage.INFO, request);
-            }else if(action.equalsIgnoreCase("update")){
+            } else if (action.equalsIgnoreCase("update")) {
                 validationReport = RemoteFetchConfigurationClient.updateFetchConfiguration(payload, currentUser);
                 CarbonUIMessage.sendCarbonUIMessage("Configuration successfully updated!", CarbonUIMessage.INFO, request);
             }
-
         } catch (RemoteFetchCoreException e) {
             CarbonUIMessage.sendCarbonUIMessage(e.getMessage(), CarbonUIMessage.ERROR, request, e);
             redirect = "add-remotefetch-config.jsp";
@@ -61,9 +60,7 @@
         CarbonUIMessage.sendCarbonUIMessage("Empty Payload sent", CarbonUIMessage.ERROR, request);
         redirect = "add-remotefetch-config.jsp";
     }
-
     redirect = redirect;
-
 %>
 
 
