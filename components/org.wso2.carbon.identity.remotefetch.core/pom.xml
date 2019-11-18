@@ -109,6 +109,7 @@
                             org.eclipse.jgit.lib; version="${org.jgit.version.range}",
                             org.eclipse.jgit.revwalk; version="${org.jgit.version.range}",
                             org.eclipse.jgit.storage.file; version="${org.jgit.version.range}",
+                            org.eclipse.jgit.transport; version="${org.jgit.version.range}",
                             org.eclipse.jgit.treewalk; version="${org.jgit.version.range}",
                             org.eclipse.jgit.treewalk.filter; version="${org.jgit.version.range}",
 

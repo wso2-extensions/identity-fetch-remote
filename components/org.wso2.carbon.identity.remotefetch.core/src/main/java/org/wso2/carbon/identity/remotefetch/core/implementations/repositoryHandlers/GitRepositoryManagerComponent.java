@@ -58,16 +58,28 @@ public class GitRepositoryManagerComponent implements RepositoryManagerComponent
 
         ));
         fieldList.add(new UIField(
-                "branch", UIField.FIELD_TYPES.TEXT_BOX, "branch", "branch to be pulled",
+                "branch", UIField.FIELD_TYPES.TEXT_BOX, "Branch", "branch to be pulled",
                 "",
                 "master", true, false, false
 
         ));
         fieldList.add(new UIField(
                 "directory", UIField.FIELD_TYPES.TEXT_BOX, "Directory",
-                "Directory of target files",
+                "directory of target files",
                 "^(((\\/)|(\\.)\\/|(\\.\\.)\\/))*(((\\w+)|(\\.\\.)|(\\.))*\\/)*(\\w*)$",
                 "", true, false, false
+
+        ));
+        fieldList.add(new UIField(
+                "accessToken", UIField.FIELD_TYPES.TEXT_BOX, "Access Token", "git private repo access token",
+                "",
+                "", false, false, false
+
+        ));
+        fieldList.add(new UIField(
+                "userName", UIField.FIELD_TYPES.TEXT_BOX, "User Name", "user name of git repo",
+                "",
+                "", false, false, false
 
         ));
 

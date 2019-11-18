@@ -20,7 +20,6 @@ package org.wso2.carbon.identity.remotefetch.core.implementations.repositoryHand
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PullCommand;
@@ -33,6 +32,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
@@ -46,11 +46,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.jar.JarOutputStream;
 
 public class GitRepositoryManager implements RepositoryManager {
 
     private static final Log log = LogFactory.getLog(GitRepositoryManager.class);
+
 
     private String uri = "";
     private String branch = "";
@@ -59,14 +59,19 @@ public class GitRepositoryManager implements RepositoryManager {
     private File fileRoot;
     private Repository repo;
     private Git git;
+    private CredentialsProvider credentialsProvider ;
 
-    public GitRepositoryManager(String name, String uri, String branch, File directory, File workingDir) {
+
+
+    GitRepositoryManager(String name, String uri, String branch, File directory, File workingDir,
+                         CredentialsProvider credentialsProvider) {
 
         this.name = name;
         this.branch = branch;
         this.uri = uri;
         this.repoPath = new File(workingDir, this.name);
         this.fileRoot = directory;
+        this.credentialsProvider = credentialsProvider;
 
         // Check if repository path exists, if so load as local repository
         try {
@@ -79,13 +84,15 @@ public class GitRepositoryManager implements RepositoryManager {
         }
     }
 
+
     private Repository cloneRepository() throws GitAPIException {
 
         CloneCommand cloneRequest = Git.cloneRepository()
                 .setURI(this.uri)
                 .setDirectory(this.repoPath)
                 .setBranchesToClone(Arrays.asList(branch))
-                .setBranch(this.branch);
+                .setBranch(this.branch)
+                .setCredentialsProvider(this.credentialsProvider);
         return cloneRequest.call().getRepository();
     }
 
@@ -96,10 +103,12 @@ public class GitRepositoryManager implements RepositoryManager {
                 .build();
     }
 
+
     private void pullRepository() throws GitAPIException {
 
         PullCommand pullRequest = this.git.pull();
         try {
+            pullRequest.setCredentialsProvider(this.credentialsProvider);
             pullRequest.call();
         } catch (JGitInternalException e) {
             log.error("Unable to pull git repo: " + this.uri, e);
