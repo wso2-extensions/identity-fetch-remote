@@ -51,7 +51,6 @@ public class GitRepositoryManager implements RepositoryManager {
 
     private static final Log log = LogFactory.getLog(GitRepositoryManager.class);
 
-
     private String uri = "";
     private String branch = "";
     private String name = "";
@@ -60,8 +59,6 @@ public class GitRepositoryManager implements RepositoryManager {
     private Repository repo;
     private Git git;
     private CredentialsProvider credentialsProvider ;
-
-
 
     GitRepositoryManager(String name, String uri, String branch, File directory, File workingDir,
                          CredentialsProvider credentialsProvider) {
