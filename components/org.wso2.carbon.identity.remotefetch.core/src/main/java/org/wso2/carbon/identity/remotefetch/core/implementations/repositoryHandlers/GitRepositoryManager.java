@@ -60,8 +60,8 @@ public class GitRepositoryManager implements RepositoryManager {
     private Git git;
     private CredentialsProvider credentialsProvider;
 
-    GitRepositoryManager(String name, String uri, String branch, File directory, File workingDir,
-                         CredentialsProvider credentialsProvider) {
+    public GitRepositoryManager(String name, String uri, String branch, File directory, File workingDir,
+                                CredentialsProvider credentialsProvider) {
 
         this.name = name;
         this.branch = branch;

@@ -63,7 +63,6 @@ public class GitRepositoryManagerBuilder extends RepositoryManagerBuilder {
 
         if (repoAttributes.containsKey("accessToken")) {
             token = repoAttributes.get("accessToken");
-
         } else {
             throw new RepositoryManagerBuilderException("Access token is not specified in RemoteFetchConfiguration Repository");
         }
