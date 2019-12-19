@@ -27,7 +27,6 @@ import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager
 import java.io.File;
 import java.util.Map;
 
-
 public class GitRepositoryManagerBuilder extends RepositoryManagerBuilder {
 
     Map<String, String> repoAttributes;
@@ -66,20 +65,19 @@ public class GitRepositoryManagerBuilder extends RepositoryManagerBuilder {
             token = repoAttributes.get("accessToken");
 
         } else {
-            throw new RepositoryManagerBuilderException("Access token is not specified in RemoteFetchConfiguration " + "Repository");
+            throw new RepositoryManagerBuilderException("Access token is not specified in RemoteFetchConfiguration Repository");
         }
 
         if (repoAttributes.containsKey("userName")) {
             userName = repoAttributes.get("userName");
         } else {
-            throw new RepositoryManagerBuilderException("Access token is not specified in RemoteFetchConfiguration " + "Repository");
+            throw new RepositoryManagerBuilderException("User name is not specified in RemoteFetchConfiguration Repository");
         }
 
-        credentials = new UsernamePasswordCredentialsProvider(userName,token);
+        credentials = new UsernamePasswordCredentialsProvider(userName, token);
 
         return new GitRepositoryManager("repo-" + this.fetchConfig.getRemoteFetchConfigurationId()
-                , uri, branch, directory, this.fetchCoreConfiguration.getWorkingDirectory(),credentials);
+                , uri, branch, directory, this.fetchCoreConfiguration.getWorkingDirectory(), credentials);
     }
-
 
 }

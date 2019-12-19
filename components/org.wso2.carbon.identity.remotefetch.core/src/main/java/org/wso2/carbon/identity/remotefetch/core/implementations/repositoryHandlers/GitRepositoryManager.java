@@ -58,7 +58,7 @@ public class GitRepositoryManager implements RepositoryManager {
     private File fileRoot;
     private Repository repo;
     private Git git;
-    private CredentialsProvider credentialsProvider ;
+    private CredentialsProvider credentialsProvider;
 
     GitRepositoryManager(String name, String uri, String branch, File directory, File workingDir,
                          CredentialsProvider credentialsProvider) {
@@ -81,7 +81,6 @@ public class GitRepositoryManager implements RepositoryManager {
         }
     }
 
-
     private Repository cloneRepository() throws GitAPIException {
 
         CloneCommand cloneRequest = Git.cloneRepository()
@@ -99,7 +98,6 @@ public class GitRepositoryManager implements RepositoryManager {
         return localBuilder.findGitDir(this.repoPath)
                 .build();
     }
-
 
     private void pullRepository() throws GitAPIException {
 
@@ -127,13 +125,13 @@ public class GitRepositoryManager implements RepositoryManager {
             try {
                 this.pullRepository();
             } catch (GitAPIException e) {
-                throw new RemoteFetchCoreException("Unable to pull repository from remote", e);
+                log.error("Unable to pull repository " + this.uri + " from remote", e);
             }
         } else {
             try {
                 this.repo = this.cloneRepository();
             } catch (GitAPIException e) {
-                throw new RemoteFetchCoreException("Unable to clone repository from remote", e);
+                log.error("Unable to clone repository " + this.uri + " from remote", e);
             }
             this.git = new Git(this.repo);
         }
