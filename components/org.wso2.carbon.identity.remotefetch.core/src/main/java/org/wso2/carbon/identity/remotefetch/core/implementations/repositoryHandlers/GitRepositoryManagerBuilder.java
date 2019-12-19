@@ -18,6 +18,8 @@
 
 package org.wso2.carbon.identity.remotefetch.core.implementations.repositoryHandlers;
 
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager;
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManagerBuilder;
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManagerBuilderException;
@@ -37,6 +39,9 @@ public class GitRepositoryManagerBuilder extends RepositoryManagerBuilder {
         String branch;
         String uri;
         File directory;
+        String token;
+        String userName;
+        CredentialsProvider credentials;
 
         if (repoAttributes.containsKey("uri")) {
             uri = repoAttributes.get("uri");
@@ -56,7 +61,22 @@ public class GitRepositoryManagerBuilder extends RepositoryManagerBuilder {
             throw new RepositoryManagerBuilderException("Directory not available in configuration");
         }
 
+        if (repoAttributes.containsKey("accessToken")) {
+            token = repoAttributes.get("accessToken");
+        } else {
+            throw new RepositoryManagerBuilderException("Access token is not specified in RemoteFetchConfiguration Repository");
+        }
+
+        if (repoAttributes.containsKey("userName")) {
+            userName = repoAttributes.get("userName");
+        } else {
+            throw new RepositoryManagerBuilderException("User name is not specified in RemoteFetchConfiguration Repository");
+        }
+
+        credentials = new UsernamePasswordCredentialsProvider(userName, token);
+
         return new GitRepositoryManager("repo-" + this.fetchConfig.getRemoteFetchConfigurationId()
-                , uri, branch, directory, this.fetchCoreConfiguration.getWorkingDirectory());
+                , uri, branch, directory, this.fetchCoreConfiguration.getWorkingDirectory(), credentials);
     }
+
 }

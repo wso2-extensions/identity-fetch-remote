@@ -52,13 +52,13 @@ public class GitRepositoryManagerComponent implements RepositoryManagerComponent
 
         fieldList.add(new UIField(
                 "uri", UIField.FIELD_TYPES.TEXT_BOX, "Git Repository URI",
-                "http url of the repo",
+                "Https url of the repo",
                 "((\\w+:\\/\\/)[-a-zA-Z0-9:@;?&=\\/%\\+\\.\\*!'\\(\\),\\$_\\{\\}\\^~\\[\\]`#|]+)",
                 "", true, false, false
 
         ));
         fieldList.add(new UIField(
-                "branch", UIField.FIELD_TYPES.TEXT_BOX, "branch", "branch to be pulled",
+                "branch", UIField.FIELD_TYPES.TEXT_BOX, "Branch", "Branch to be pulled",
                 "",
                 "master", true, false, false
 
@@ -68,6 +68,18 @@ public class GitRepositoryManagerComponent implements RepositoryManagerComponent
                 "Directory of target files",
                 "^(((\\/)|(\\.)\\/|(\\.\\.)\\/))*(((\\w+)|(\\.\\.)|(\\.))*\\/)*(\\w*)$",
                 "", true, false, false
+
+        ));
+        fieldList.add(new UIField(
+                "accessToken", UIField.FIELD_TYPES.TEXT_BOX, "Personal Access Token", "Access token if repository is private",
+                "",
+                "", false, false, false
+
+        ));
+        fieldList.add(new UIField(
+                "userName", UIField.FIELD_TYPES.TEXT_BOX, "User Name", "User name if repository is private",
+                "",
+                "", false, false, false
 
         ));
 
