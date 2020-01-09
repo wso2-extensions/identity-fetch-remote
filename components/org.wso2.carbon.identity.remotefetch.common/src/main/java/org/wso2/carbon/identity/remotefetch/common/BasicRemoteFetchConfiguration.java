@@ -27,6 +27,7 @@ public class BasicRemoteFetchConfiguration {
 
     private int id;
     private boolean isEnabled;
+    private String remoteFetchName;
     private String repositoryManagerType;
     private String actionListenerType;
     private String configurationDeployerType;
@@ -34,11 +35,14 @@ public class BasicRemoteFetchConfiguration {
     private int failedDeployments;
     private Date lastDeployed = null;
 
-    public BasicRemoteFetchConfiguration(int id, boolean isEnabled, String repositoryManagerType,
+    public BasicRemoteFetchConfiguration(int id, boolean isEnabled,
+                                         String repositoryManagerType,
                                          String actionListenerType, String configurationDeployerType,
+                                         String remoteFetchName,
                                          int successfulDeployments, int failedDeployments) {
 
         this.id = id;
+        this.remoteFetchName = remoteFetchName;
         this.isEnabled = isEnabled;
         this.repositoryManagerType = repositoryManagerType;
         this.actionListenerType = actionListenerType;
@@ -50,6 +54,11 @@ public class BasicRemoteFetchConfiguration {
     public int getId() {
 
         return id;
+    }
+
+    public String getRemoteFetchName() {
+
+        return remoteFetchName;
     }
 
     public boolean isEnabled() {
@@ -91,4 +100,5 @@ public class BasicRemoteFetchConfiguration {
 
         this.lastDeployed = lastDeployed;
     }
+
 }

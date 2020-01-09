@@ -84,9 +84,10 @@ public class RemoteFetchConfigurationClient {
         return new RemoteFetchConfigurationRowDTO(
                 fetchConfiguration.getId(),
                 fetchConfiguration.isEnabled(),
-                repositoryManagerComponent == null? "" :repositoryManagerComponent.getName(),
-                actionListenerComponent == null? "": actionListenerComponent.getName(),
-                configDeployerComponent == null? "" : configDeployerComponent.getName(),
+                repositoryManagerComponent == null ? "" : repositoryManagerComponent.getName(),
+                actionListenerComponent == null ? "" : actionListenerComponent.getName(),
+                configDeployerComponent == null ? "" : configDeployerComponent.getName(),
+                fetchConfiguration.getRemoteFetchName(),
                 fetchConfiguration.getSuccessfulDeployments(),
                 fetchConfiguration.getFailedDeployments(),
                 fetchConfiguration.getLastDeployed()
