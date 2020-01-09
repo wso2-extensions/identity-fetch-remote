@@ -104,6 +104,16 @@
                 </exclusions>
             </dependency>
             <dependency>
+                <groupId>com.cedarsoftware</groupId>
+                <artifactId>java-util</artifactId>
+                <version>1.8.0</version>
+            </dependency>
+            <dependency>
+                <groupId>debug.log.androiddebuglog</groupId>
+                <artifactId>debug-log</artifactId>
+                <version>1.1.2</version>
+            </dependency>
+            <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.ui</artifactId>
                 <version>${carbon.core.version}</version>
@@ -142,6 +152,11 @@
                 <groupId>org.eclipse.jgit</groupId>
                 <artifactId>org.eclipse.jgit</artifactId>
                 <version>${org.jgit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity</artifactId>
+                <version>1.7</version>
             </dependency>
             <dependency>
                 <groupId>org.json.wso2</groupId>
