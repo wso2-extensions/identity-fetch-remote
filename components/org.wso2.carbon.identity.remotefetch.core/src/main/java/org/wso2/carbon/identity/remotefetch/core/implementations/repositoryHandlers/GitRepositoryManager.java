@@ -106,7 +106,7 @@ public class GitRepositoryManager implements RepositoryManager {
             pullRequest.setCredentialsProvider(this.credentialsProvider);
             pullRequest.call();
         } catch (JGitInternalException e) {
-            log.error("Unable to pull git repo: " + this.uri, e);
+            log.error("Unable to pull git repository: " + this.uri, e);
         }
     }
 

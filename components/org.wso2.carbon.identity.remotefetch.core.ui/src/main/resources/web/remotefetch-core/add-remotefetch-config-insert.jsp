@@ -3,7 +3,6 @@
 <%@ page import="org.wso2.carbon.ui.CarbonUIMessage" %>
 <%@ page import="org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException" %>
 
-
 <%--
   ~ Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
   ~
@@ -44,7 +43,8 @@
                 CarbonUIMessage.sendCarbonUIMessage("Configuration successfully added!", CarbonUIMessage.INFO, request);
             } else if (action.equalsIgnoreCase("update")) {
                 validationReport = RemoteFetchConfigurationClient.updateFetchConfiguration(payload, currentUser);
-                CarbonUIMessage.sendCarbonUIMessage("Configuration successfully updated!", CarbonUIMessage.INFO, request);
+                CarbonUIMessage.sendCarbonUIMessage("Configuration successfully updated!", CarbonUIMessage.INFO,
+                        request);
             }
         } catch (RemoteFetchCoreException e) {
             CarbonUIMessage.sendCarbonUIMessage(e.getMessage(), CarbonUIMessage.ERROR, request, e);
@@ -56,6 +56,7 @@
             CarbonUIMessage.sendCarbonUIMessage("Validation Error", CarbonUIMessage.ERROR, request);
             redirect = "add-remotefetch-config.jsp";
         }
+        
     } else {
         CarbonUIMessage.sendCarbonUIMessage("Empty Payload sent", CarbonUIMessage.ERROR, request);
         redirect = "add-remotefetch-config.jsp";

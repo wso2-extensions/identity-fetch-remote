@@ -1,5 +1,4 @@
 <%@ page import="org.wso2.carbon.identity.remotefetch.core.ui.client.RemoteFetchConfigurationClient" %>
-<%@ page import="org.wso2.carbon.identity.remotefetch.common.ValidationReport" %>
 <%@ page import="org.wso2.carbon.ui.CarbonUIMessage" %>
 <%@ page import="org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException" %>
 <%--
@@ -21,8 +20,6 @@
   --%>
 
 <%
-    String httpMethod = request.getMethod();
-    String redirect = "list-remotefetch-configs.jsp";
     
     if (request.getParameter("id") != null) {
         int id = -1;
@@ -44,7 +41,6 @@
     }
 
 %>
-
 
 <script>
     location.href = 'list-remotefetch-configs.jsp';

@@ -22,25 +22,34 @@
 <%@ taglib prefix="e" uri="https://www.owasp.org/index.php/OWASP_Java_Encoder_Project" %>
 
 <%@ page import="org.wso2.carbon.identity.remotefetch.core.ui.client.RemoteFetchConfigurationClient" %>
-<%@ page import="org.owasp.encoder.Encode" %>
 <%@ page import="org.wso2.carbon.identity.remotefetch.core.ui.dto.RemoteFetchConfigurationRowDTO" %>
 <%@ page import="java.util.List" %>
 
+<%@ page import="java.util.Map" %>
+<%@ page import="org.wso2.carbon.identity.remotefetch.core.implementations.repositoryHandlers.GitRepositoryManager" %>
+<%@ page import="org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration" %>
+<%@ page import="org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager" %>
+<%@ page import="java.io.File" %>
+<%@ page import="org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider" %>
+<%@ page import="org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException" %>
+<%@ page import="org.wso2.carbon.ui.CarbonUIMessage" %>
 
 <%
     List<RemoteFetchConfigurationRowDTO> configurations = RemoteFetchConfigurationClient.getConfigurations();
-
+    RemoteFetchConfiguration fetchConfiguration = null;
+    Map<String, String> repoAttributes;
+    RepositoryManager repo;
 %>
+<carbon:breadcrumb
+        label="remotefetch.core" resourceBundle="org.wso2.carbon.identity.remotefetch.core.ui.i18n.Resources"
+        topPage="true" request="<%=request%>"
+/>
+
 <jsp:include page="../dialog/display_messages.jsp"/>
 
 <fmt:bundle basename="org.wso2.carbon.identity.remotefetch.core.ui.i18n.Resources">
     
     <link rel="stylesheet" href="css/remotefetchcore.css">
-    
-    <carbon:breadcrumb
-            label="remotefetch.core" resourceBundle="org.wso2.carbon.identity.remotefetch.core.ui.i18n.Resources"
-            topPage="true" request="<%=request%>"
-    />
     
     <div id="middle">
         <h2><fmt:message key="remotefetch.core"/></h2>
@@ -54,9 +63,8 @@
                             <thead>
                             <tr>
                                 <th class="leftCol-med enabled-cell"><fmt:message key="field.config.enabled"/></th>
+                                <th class="leftCol-med"><fmt:message key="field.config.remoteFetchName"/></th>
                                 <th class="leftCol-med"><fmt:message key="field.config.name"/></th>
-                                <th class="leftCol-med"><fmt:message key="field.config.repositoryType"/></th>
-                                <th class="leftCol-med"><fmt:message key="field.config.actionListenerType"/></th>
                                 <th class="leftCol-med"><fmt:message key="field.config.status"/></th>
                                 <th class="leftCol-med"><fmt:message key="field.config.action"/></th>
                             </tr>
@@ -66,35 +74,66 @@
                             <tbody>
                             <%
                                 for (RemoteFetchConfigurationRowDTO configuration : configurations) { %>
+                            <%
+                                try {
+                                    fetchConfiguration =
+                                            RemoteFetchConfigurationClient.getRemoteFetchConfiguration(configuration.getId());
+                                } catch (RemoteFetchCoreException e) {
+                                    CarbonUIMessage.sendCarbonUIMessage("Invalid config for id", CarbonUIMessage.ERROR, request, e);
+                                }
+                                
+                                repoAttributes = fetchConfiguration.getRepositoryManagerAttributes();
+                                
+                                repo = new
+                                        GitRepositoryManager("repo-" + fetchConfiguration.getRemoteFetchConfigurationId(),
+                                        repoAttributes.get("uri"),
+                                        repoAttributes.get("branch"),
+                                        new File(repoAttributes.get("directory")),
+                                        new File("/tmp"),
+                                        new UsernamePasswordCredentialsProvider(repoAttributes.get("userName"), repoAttributes.get("accessToken")));
+                            %>
+                            
                             <tr>
                                 <td class="text-center">
                                     <input type="checkbox" disabled <%=configuration.getIsEnabled() ? "checked" : "" %>>
                                 </td>
+                                <td><%=configuration.getRemoteFetchName()%>
+                                </td>
                                 <td><%=configuration.getConfigurationDeployerType() %> Deployer</td>
-                                <td><%=configuration.getRepositoryType()%>
-                                </td>
-                                <td><%=configuration.getActionListenerType()%>
-                                </td>
                                 <td class="text-center">
+                                    
                                     <% if (configuration.getLastDeployed() == null) { %>
                                     <p>No Prior Deployments</p>
+                                    
                                     <% } else { %>
+                                    
                                     <% if (configuration.getSuccessfulDeployments() != 0) { %>
-                                    <p class="remote-fetch-passed"
-                                       title="<fmt:formatDate type = "both" dateStyle = "long" timeStyle = "short" value = "<%=configuration.getLastDeployed()%>"/>">
+                                    <p class="remote-fetch-passed">
                                         Deployed : <%=configuration.getSuccessfulDeployments()%>
                                     </p>
+                                    <p class="text-center"><b>Last Deployment: </b><fmt:formatDate type="both"
+                                                                                                   dateStyle="long"
+                                                                                                   timeStyle="short"
+                                                                                                   value="<%=configuration.getLastDeployed()%>"/>
+                                    </p>
+                                    <p class="text-center"><b>Commit
+                                        Hash: </b> <%= repo.getRevisionHash(new File(repoAttributes.get("directory")))%>
+                                    </p>
                                     <% } %>
+                                    
                                     <% if (configuration.getFailedDeployments() != 0) { %>
-                                    <p class="remote-fetch-failed"
-                                       title="<fmt:formatDate type = "both" dateStyle = "long" timeStyle = "short" value="<%=configuration.getLastDeployed()%>"/>">
+                                    <p class="remote-fetch-failed">
                                         Deployments Failed : <%=configuration.getFailedDeployments()%>
+                                    </p>
+                                    <p class="text-center"><b>Last Deployment: </b><fmt:formatDate type="both"
+                                                                                                   dateStyle="long"
+                                                                                                   timeStyle="short"
+                                                                                                   value="<%=configuration.getLastDeployed()%>"/>
                                     </p>
                                     <% } %>
                                     <% } %>
                                 </td>
-                                
-                                <td style="width: 100px; white-space: nowrap;">
+                                <td style="width: 100px; white-space: normal;">
                                     <a title="Edit Configuration"
                                        href="add-remotefetch-config.jsp?id=<e:forUri value="<%=Integer.toString(configuration.getId())%>"/>"
                                        class="icon-link"
@@ -106,6 +145,10 @@
                                        class="icon-link delete-config-link"
                                        style="background-image: url(images/delete.gif)">Delete
                                     </a>
+                                    <button title="Trigger Configuration"
+                                            id="trigger-now"
+                                            data-id="<%=configuration.getId()%>">Trigger Now
+                                    </button>
                                 </td>
                             </tr>
                             <% } %>
@@ -130,8 +173,15 @@
                 var id = this.getAttribute("data-id");
                 CARBON.showConfirmationDialog("Delete Selected config?", function () {
                     window.location.href = "delete-remotefetch-config.jsp?id=" + id;
-                });
-            })
+                })
+            });
+            $("#trigger-now").click(function () {
+                var id = this.getAttribute("data-id");
+                window.location.href =
+                    "trigger-now.jsp?id=" + id;
+            });
         });
     </script>
+    <script src="js/main.js"></script>
 </fmt:bundle>
+

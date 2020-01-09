@@ -28,6 +28,7 @@ import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreExc
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager;
 import org.wso2.carbon.identity.remotefetch.core.dao.DeploymentRevisionDAO;
 import org.wso2.carbon.identity.remotefetch.core.dao.impl.DeploymentRevisionDAOImpl;
+import org.wso2.carbon.identity.remotefetch.core.implementations.configDeployers.VelocityTemplatedSPDeployer;
 import org.wso2.carbon.identity.remotefetch.core.implementations.repositoryHandlers.GitRepositoryManager;
 
 import java.io.File;
@@ -51,15 +52,19 @@ public class PollingActionListener implements ActionListener {
     private DeploymentRevisionDAO deploymentRevisionDAO;
     private Map<String, DeploymentRevision> deploymentRevisionMap = new HashMap<>();
     private int remoteFetchConfigurationId;
+    private int tenantId;
+    private String userName;
 
     public PollingActionListener(RepositoryManager repo, ConfigDeployer configDeployer,
-                                 int frequency, int remoteFetchConfigurationId) {
+                                 int frequency, int remoteFetchConfigurationId, int tenantId, String userName) {
 
         this.repo = repo;
         this.configDeployer = configDeployer;
         this.frequency = frequency;
         this.remoteFetchConfigurationId = remoteFetchConfigurationId;
         this.deploymentRevisionDAO = new DeploymentRevisionDAOImpl();
+        this.tenantId = tenantId;
+        this.userName = userName;
         this.seedRevisions();
     }
 
@@ -90,6 +95,7 @@ public class PollingActionListener implements ActionListener {
     private void manageRevisions(List<File> configPaths) {
 
         configPaths.forEach((File configPath) -> {
+
             String resolvedName = "";
 
             try {
@@ -135,10 +141,11 @@ public class PollingActionListener implements ActionListener {
      */
     private void createRevision(String resolvedName, File configPath) {
 
-        DeploymentRevision deploymentRevision = new DeploymentRevision(this.remoteFetchConfigurationId, configPath);
-        deploymentRevision.setFileHash("");
-        deploymentRevision.setItemName(resolvedName);
         try {
+            DeploymentRevision deploymentRevision = new DeploymentRevision(this.remoteFetchConfigurationId, configPath);
+            deploymentRevision.setFileHash("");
+            deploymentRevision.setItemName(resolvedName);
+
             int id = this.deploymentRevisionDAO.createDeploymentRevision(deploymentRevision);
             deploymentRevision.setDeploymentRevisionId(id);
             this.deploymentRevisionMap.put(deploymentRevision.getItemName(), deploymentRevision);
@@ -158,7 +165,6 @@ public class PollingActionListener implements ActionListener {
             } catch (RemoteFetchCoreException e) {
                 log.error("Error pulling repository", e);
             }
-
             this.pollDirectory(this.configDeployer);
             this.lastIteration = new Date();
         }
@@ -166,6 +172,7 @@ public class PollingActionListener implements ActionListener {
 
     /**
      * Poll directory for new files.
+     *
      * @param deployer
      */
     private void pollDirectory(ConfigDeployer deployer) {
@@ -182,6 +189,7 @@ public class PollingActionListener implements ActionListener {
         this.manageRevisions(configFiles);
 
         for (DeploymentRevision deploymentRevision : this.deploymentRevisionMap.values()) {
+
             String newHash = "";
             try {
                 newHash = this.repo.getRevisionHash(deploymentRevision.getFile());
@@ -192,11 +200,18 @@ public class PollingActionListener implements ActionListener {
             // Deploy if new file or updated file
             if (this.deploymentRevisionChanged(deploymentRevision, newHash)) {
 
-                deploymentRevision.setFileHash(newHash);
                 try {
+                    deploymentRevision.setFileHash(newHash);
+
                     ConfigurationFileStream configurationFileStream = repo.getFile(deploymentRevision.getFile());
-                    deployer.deploy(configurationFileStream);
+
+                    VelocityTemplatedSPDeployer velocityTemplatedSPDeployer =
+                            new VelocityTemplatedSPDeployer(this.tenantId, this.userName,
+                                    this.remoteFetchConfigurationId);
+                    velocityTemplatedSPDeployer.deploy(configurationFileStream);
+
                     deploymentRevision.setDeploymentStatus(DeploymentRevision.DEPLOYMENT_STATUS.DEPLOYED);
+
                 } catch (RemoteFetchCoreException e) {
                     log.error("Error Deploying " + deploymentRevision.getFile().getName(), e);
                     deploymentRevision.setDeploymentStatus(DeploymentRevision.DEPLOYMENT_STATUS.ERROR_DEPLOYING);
