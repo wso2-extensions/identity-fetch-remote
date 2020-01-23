@@ -65,8 +65,7 @@ public class VelocityTemplatedSPDeployer extends ServiceProviderConfigDeployer {
         }
 
         String fileNumber = String.valueOf(this.id);
-        String workingDirectoryProperty = IdentityUtil.getProperty("RemoteFetch.WorkingDirectory");
-        String workingDirectory = (new File(workingDirectoryProperty)).toString();
+        String workingDirectory = IdentityUtil.getProperty("RemoteFetch.WorkingDirectory");
 
         HashMap<String, String> map = new HashMap<String, String>();
         ArrayList<String> arrayList = new ArrayList<String>();

@@ -72,7 +72,7 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
         DeploymentRevision deploymentRevision;
         try {
             deploymentRevision = jdbcTemplate.withTransaction(template -> {
-                return jdbcTemplate.fetchSingleRecord(SQLConstants.GET_REVISIONS_BY_CONFIG,
+                return jdbcTemplate.fetchSingleRecord(SQLConstants.GET_REVISION_BY_UNIQUE,
                         (resultSet, rowNumber) -> {
 
                             DeploymentRevision revisionObj = new DeploymentRevision(
