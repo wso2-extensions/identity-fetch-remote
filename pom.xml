@@ -106,7 +106,7 @@
             <dependency>
                 <groupId>com.cedarsoftware</groupId>
                 <artifactId>java-util</artifactId>
-                <version>1.8.0</version>
+                <version>${cedarsoftware.version}</version>
             </dependency>
             <dependency>
                 <groupId>debug.log.androiddebuglog</groupId>
@@ -156,7 +156,7 @@
             <dependency>
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity</artifactId>
-                <version>1.7</version>
+                <version>${velocity.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.json.wso2</groupId>
@@ -182,6 +182,47 @@
                 <groupId>com.googlecode.javaewah</groupId>
                 <artifactId>JavaEWAH</artifactId>
                 <version>${javaewah.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>${testng.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jmockit</groupId>
+                <artifactId>jmockit</artifactId>
+                <scope>test</scope>
+                <version>${jmockit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jacoco</groupId>
+                <artifactId>org.jacoco.agent</artifactId>
+                <classifier>runtime</classifier>
+                <version>${jacoco.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-module-testng</artifactId>
+                <version>${org.powermock.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-api-mockito</artifactId>
+                <version>${org.powermock.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2database.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
             </dependency>
             <!--<dependency>-->
                 <!--<groupId>com.jcraft</groupId>-->
@@ -342,8 +383,23 @@
         <org.jgit.version>5.4.3.201909031940-r</org.jgit.version>
         <org.jgit.version.range>[5.0.0,6.0.0)</org.jgit.version.range>
 
+        <!--cedarsoftware version-->
+        <cedarsoftware.version>1.8.0</cedarsoftware.version>
+
+        <!--velocity version-->
+        <velocity.version>1.7</velocity.version>
+
         <javaewah.version>1.1.6</javaewah.version>
         <!--<jcraft.jsch.version>0.1.54.wso2v1</jcraft.jsch.version>-->
+
+        <!-- Unit test versions -->
+        <testng.version>6.9.10</testng.version>
+        <jacoco.version>0.8.2</jacoco.version>
+        <jmockit.version>1.44</jmockit.version>
+        <maven.surefire.plugin.version>2.22.0</maven.surefire.plugin.version>
+        <org.powermock.version>1.7.4</org.powermock.version>
+        <h2database.version>1.0.60</h2database.version>
+        <junit.version>4.12</junit.version>
 
         <!-- Carbon Utils -->
         <carbon.database.utils.version>2.0.8</carbon.database.utils.version>

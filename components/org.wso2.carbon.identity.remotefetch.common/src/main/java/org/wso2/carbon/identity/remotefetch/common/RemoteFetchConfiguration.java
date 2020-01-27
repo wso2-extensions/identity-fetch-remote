@@ -64,7 +64,9 @@ public class RemoteFetchConfiguration implements Serializable {
     }
 
     /**
-     * @param remoteFetchName
+     * set remoteFetchName
+     *
+     * @param remoteFetchName remoteFetchName
      */
     public void setRemoteFetchName(String remoteFetchName) {
 
@@ -72,7 +74,9 @@ public class RemoteFetchConfiguration implements Serializable {
     }
 
     /**
-     * @return
+     * get remoteFetchName
+     *
+     * @return remoteFetchName
      */
     public String getRemoteFetchName() {
 

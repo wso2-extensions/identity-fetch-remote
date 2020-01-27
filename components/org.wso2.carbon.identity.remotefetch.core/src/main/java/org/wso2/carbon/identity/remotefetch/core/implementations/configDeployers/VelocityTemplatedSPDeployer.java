@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -41,6 +41,9 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Configure service provider using environment variables.
+ */
 public class VelocityTemplatedSPDeployer extends ServiceProviderConfigDeployer {
 
     private static final Log log = LogFactory.getLog(VelocityTemplatedSPDeployer.class);
@@ -53,6 +56,12 @@ public class VelocityTemplatedSPDeployer extends ServiceProviderConfigDeployer {
         this.id = id;
     }
 
+    /**
+     * Parameter replacement
+     *
+     * @param configurationFileStream
+     * @throws RemoteFetchCoreException
+     */
     @Override
     public void deploy(ConfigurationFileStream configurationFileStream) throws RemoteFetchCoreException {
 
