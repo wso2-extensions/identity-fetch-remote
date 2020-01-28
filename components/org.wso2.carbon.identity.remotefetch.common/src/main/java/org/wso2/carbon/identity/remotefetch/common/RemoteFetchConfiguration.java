@@ -30,6 +30,7 @@ public class RemoteFetchConfiguration implements Serializable {
 
     private int remoteFetchConfigurationId = -1;
     private int tenantId = 0;
+    private String remoteFetchName = "";
     private boolean isEnabled;
     private String repositoryManagerType = "";
     private String actionListenerType = "";
@@ -39,12 +40,14 @@ public class RemoteFetchConfiguration implements Serializable {
     private Map<String, String> actionListenerAttributes = new HashMap<>();
     private Map<String, String> configurationDeployerAttributes = new HashMap<>();
 
-    public RemoteFetchConfiguration(int remoteFetchConfigurationId, int tenantId, boolean isEnabled, String userName,
+    public RemoteFetchConfiguration(int remoteFetchConfigurationId, int tenantId,
+                                    boolean isEnabled, String userName,
                                     String repositoryManagerType, String actionListenerType,
-                                    String configurationDeployerType) {
+                                    String configurationDeployerType, String remoteFetchName) {
 
         this.remoteFetchConfigurationId = remoteFetchConfigurationId;
         this.tenantId = tenantId;
+        this.remoteFetchName = remoteFetchName;
         this.isEnabled = isEnabled;
         this.repositoryManagerType = repositoryManagerType;
         this.actionListenerType = actionListenerType;
@@ -58,6 +61,26 @@ public class RemoteFetchConfiguration implements Serializable {
     public int getTenantId() {
 
         return tenantId;
+    }
+
+    /**
+     * set remoteFetchName
+     *
+     * @param remoteFetchName remoteFetchName
+     */
+    public void setRemoteFetchName(String remoteFetchName) {
+
+        this.remoteFetchName = remoteFetchName;
+    }
+
+    /**
+     * get remoteFetchName
+     *
+     * @return remoteFetchName
+     */
+    public String getRemoteFetchName() {
+
+        return remoteFetchName;
     }
 
     /**
@@ -224,6 +247,7 @@ public class RemoteFetchConfiguration implements Serializable {
         RemoteFetchConfiguration that = (RemoteFetchConfiguration) o;
         return remoteFetchConfigurationId == that.remoteFetchConfigurationId &&
                 tenantId == that.tenantId &&
+                remoteFetchName == that.remoteFetchName &&
                 isEnabled == that.isEnabled &&
                 Objects.equals(repositoryManagerType, that.repositoryManagerType) &&
                 Objects.equals(actionListenerType, that.actionListenerType) &&
@@ -238,8 +262,8 @@ public class RemoteFetchConfiguration implements Serializable {
     public int hashCode() {
 
         return Objects.hash(remoteFetchConfigurationId, tenantId, isEnabled, repositoryManagerType, actionListenerType,
-                configurationDeployerType, userName, repositoryManagerAttributes, actionListenerAttributes,
-                configurationDeployerAttributes);
+                configurationDeployerType, userName, remoteFetchName, repositoryManagerAttributes,
+                actionListenerAttributes, configurationDeployerAttributes);
     }
 
     @Override
@@ -248,6 +272,7 @@ public class RemoteFetchConfiguration implements Serializable {
         return "RemoteFetchConfiguration{" +
                 "remoteFetchConfigurationId=" + remoteFetchConfigurationId +
                 ", tenantId=" + tenantId +
+                ", remoteFetchName=" + remoteFetchName +
                 ", isEnabled=" + isEnabled +
                 ", repositoryManagerType='" + repositoryManagerType + '\'' +
                 ", actionListenerType='" + actionListenerType + '\'' +

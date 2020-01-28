@@ -43,6 +43,6 @@ public class PollingActionListenerBuilder extends ActionListenerBuilder {
         }
 
         return new PollingActionListener(this.repoConnector, this.configDeployer, frequency,
-                this.fetchConfig.getRemoteFetchConfigurationId());
+                this.fetchConfig.getRemoteFetchConfigurationId(), this.fetchConfig.getTenantId(), this.fetchConfig.getUserName());
     }
 }

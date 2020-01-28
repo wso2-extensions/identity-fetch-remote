@@ -18,6 +18,9 @@
 
 package org.wso2.carbon.identity.remotefetch.core.implementations.configDeployers;
 
+import com.jcraft.jsch.IO;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.identity.application.common.IdentityApplicationManagementException;
 import org.wso2.carbon.identity.application.common.model.ImportResponse;
@@ -27,25 +30,32 @@ import org.wso2.carbon.identity.application.mgt.ApplicationMgtUtil;
 import org.wso2.carbon.identity.remotefetch.common.ConfigurationFileStream;
 import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployer;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
+import org.wso2.carbon.identity.remotefetch.core.implementations.repositoryHandlers.GitRepositoryManager;
 import org.wso2.carbon.identity.remotefetch.core.internal.RemoteFetchServiceComponentHolder;
 import org.wso2.carbon.identity.application.common.model.SpFileStream;
 import org.wso2.carbon.user.api.UserStoreException;
+
+import java.io.IOException;
 
 /**
  * Deploy new or update ServiceProviders using ApplicationManagementService.
  */
 public class ServiceProviderConfigDeployer implements ConfigDeployer {
 
+    private static final Log log = LogFactory.getLog(GitRepositoryManager.class);
+
     private ApplicationManagementService applicationManagementService;
     private int tenantId;
     private String userName;
+    private int id;
 
-    public ServiceProviderConfigDeployer(int tenantId, String userName) {
+    public ServiceProviderConfigDeployer(int tenantId, String userName, int id) {
 
         this.applicationManagementService = RemoteFetchServiceComponentHolder.getInstance()
                 .getApplicationManagementService();
         this.tenantId = tenantId;
         this.userName = userName;
+        this.id = id;
     }
 
     /**

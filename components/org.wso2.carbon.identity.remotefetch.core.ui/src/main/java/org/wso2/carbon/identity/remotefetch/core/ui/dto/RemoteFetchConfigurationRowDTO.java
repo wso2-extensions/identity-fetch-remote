@@ -24,6 +24,7 @@ public class RemoteFetchConfigurationRowDTO {
 
     private int id;
     private boolean isEnabled;
+    private String remoteFetchName;
     private String repositoryType;
     private String actionListenerType;
     private String configurationDeployerType;
@@ -32,17 +33,20 @@ public class RemoteFetchConfigurationRowDTO {
     private Date lastDeployed;
 
     public RemoteFetchConfigurationRowDTO(int id, boolean isEnabled, String repositoryType,
-                                          String actionListenerType, String configarationDeployerType
-            , int successfulDeployments, int failedDeployments, Date lastDeployed) {
+                                          String actionListenerType, String configarationDeployerType,
+                                          String remoteFetchName, int successfulDeployments, int failedDeployments,
+                                          Date lastDeployed) {
 
         this.id = id;
         this.isEnabled = isEnabled;
+        this.remoteFetchName = remoteFetchName;
         this.repositoryType = repositoryType;
         this.actionListenerType = actionListenerType;
         this.configurationDeployerType = configarationDeployerType;
         this.successfulDeployments = successfulDeployments;
         this.failedDeployments = failedDeployments;
         this.lastDeployed = lastDeployed;
+
     }
 
     public int getId() {
@@ -53,6 +57,11 @@ public class RemoteFetchConfigurationRowDTO {
     public boolean getIsEnabled() {
 
         return isEnabled;
+    }
+
+    public String getRemoteFetchName() {
+
+        return remoteFetchName;
     }
 
     public String getRepositoryType() {
@@ -90,6 +99,7 @@ public class RemoteFetchConfigurationRowDTO {
 
         return "RemoteFetchConfigurationRowDTO{" +
                 "id=" + id +
+                ", remoteFetchName=" + remoteFetchName +
                 ", isEnabled=" + isEnabled +
                 ", repositoryType='" + repositoryType + '\'' +
                 ", actionListenerType='" + actionListenerType + '\'' +

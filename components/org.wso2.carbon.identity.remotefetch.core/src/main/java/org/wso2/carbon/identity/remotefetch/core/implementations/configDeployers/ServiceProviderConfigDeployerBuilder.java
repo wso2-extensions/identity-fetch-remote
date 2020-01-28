@@ -18,7 +18,6 @@
 
 package org.wso2.carbon.identity.remotefetch.core.implementations.configDeployers;
 
-import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployer;
 import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployerBuilder;
 import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployerBuilderException;
 
@@ -31,8 +30,9 @@ public class ServiceProviderConfigDeployerBuilder extends ConfigDeployerBuilder 
      * @throws ConfigDeployerBuilderException
      */
     @Override
-    public ConfigDeployer build() throws ConfigDeployerBuilderException {
+    public ServiceProviderConfigDeployer build() throws ConfigDeployerBuilderException {
 
-        return new ServiceProviderConfigDeployer(this.fetchConfig.getTenantId(), this.fetchConfig.getUserName());
+        return new ServiceProviderConfigDeployer(this.fetchConfig.getTenantId(), this.fetchConfig.getUserName(),
+                this.fetchConfig.getRemoteFetchConfigurationId());
     }
 }

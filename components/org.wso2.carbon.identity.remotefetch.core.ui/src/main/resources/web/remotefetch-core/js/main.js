@@ -79,7 +79,7 @@ UIFieldGenerator.prototype.validateForm = function (form) {
 // Main Entry
 
 function updatePartial(selected, componentSet, section, placeholder, valueset) {
-    $(section).slideUp().after(function () {
+    $(section).show().after(function () {
         $(placeholder).html("");
         var fields = componentSet[selected];
         if (fields) {
@@ -89,7 +89,7 @@ function updatePartial(selected, componentSet, section, placeholder, valueset) {
         } else {
             $(placeholder).append(uiGen.renderField("NONE", undefined, undefined));
         }
-        $(section).slideDown();
+        $(section).show();
     });
 }
 
@@ -97,7 +97,7 @@ function validateForms() {
     var validation = uiGen.validateForm($("#basicInformationForm"));
     if (validation.length == 0) {
         validation = validation.concat(uiGen.validateForm($("#repositoryManagerForm")));
-        validation = validation.concat(uiGen.validateForm($("#configurationDeployerForm")));
+        // validation = validation.concat(uiGen.validateForm($("#configurationDeployerForm")));
         validation = validation.concat(uiGen.validateForm($("#actionListenerForm")));
     }
     return validation;
@@ -106,9 +106,9 @@ function validateForms() {
 function serializeForm(selector) {
     var payload = {};
     $($(selector).serializeArray()).each(function (i, value) {
-        if(typeof value.value === "string") {
+        if (typeof value.value === "string") {
             payload[value.name] = value.value.replace(/"/g, '');
-        }else{
+        } else {
             payload[value.name] = value.value;
         }
     });
@@ -117,16 +117,16 @@ function serializeForm(selector) {
 
 function makePayload() {
     var payload = serializeForm("#basicInformationForm");
-    payload["configurationDeployerAttributes"] = serializeForm("#configurationDeployerForm");
+    payload["configurationDeployerAttributes"] = serializeForm("");
     payload["repositoryManagerAttributes"] = serializeForm("#repositoryManagerForm");
     payload["actionListenerAttributes"] = serializeForm("#actionListenerForm");
     return payload;
 }
 
-function populateForms(config){
+function populateForms(config) {
     updatePartial(
         config.configurationDeployerType, remoteFetchState.componentUIFields.configDeployer,
-        "#configurationDeployerSection", "#configurationDeployerPlaceholder", config.configurationDeployerAttributes
+        "", "", config.configurationDeployerAttributes
     );
     updatePartial(
         config.repositoryManagerType, remoteFetchState.componentUIFields.repositoryManager,
@@ -154,26 +154,18 @@ $(document).ready(function () {
         width: "fit-content"
     });
 
-    $("#configurationDeployerType").change(function () {
-        updatePartial(
-            this.value, remoteFetchState.componentUIFields.configDeployer,
-            "#configurationDeployerSection", "#configurationDeployerPlaceholder", {}
-        );
-    });
-
-    $("#repositoryManagerType").change(function () {
-        updatePartial(
-            this.value, remoteFetchState.componentUIFields.repositoryManager,
-            "#repositoryManagerSection", "#repositoryManagerPlaceholder", {}
-        );
-    });
-
-    $("#actionListenerType").change(function () {
-        updatePartial(
-            this.value, remoteFetchState.componentUIFields.actionListener,
-            "#actionListenerSection", "#actionListenerPlaceholder", {}
-        );
-    });
+    updatePartial(
+        "SP", remoteFetchState.componentUIFields.configDeployer,
+        "", "", {}
+    );
+    updatePartial(
+        "GIT", remoteFetchState.componentUIFields.repositoryManager,
+        "#repositoryManagerSection", "#repositoryManagerPlaceholder", {}
+    );
+    updatePartial(
+        "POLLING", remoteFetchState.componentUIFields.actionListener,
+        "#actionListenerSection", "#actionListenerPlaceholder", {}
+    );
 
     $("#registerBtn").click(function () {
         var validation = validateForms();
@@ -194,7 +186,7 @@ $(document).ready(function () {
         window.location.href = "list-remotefetch-configs.jsp";
     });
 
-    if (remoteFetchState.configurationObject){
+    if (remoteFetchState.configurationObject) {
         populateForms(remoteFetchState.configurationObject);
         $("#hiddenFormAction").val("update");
         $("#registerBtn").val("Update");

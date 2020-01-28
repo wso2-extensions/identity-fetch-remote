@@ -100,7 +100,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                 jdbcTemplate.executeUpdate(SQLConstants.UPDATE_CONFIG,
                         preparedStatement -> {
                             this.configurationToPreparedStatement(preparedStatement, configuration);
-                            preparedStatement.setInt(8,configuration.getRemoteFetchConfigurationId());
+                            preparedStatement.setInt(9, configuration.getRemoteFetchConfigurationId());
 
                         }
 
@@ -202,17 +202,18 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
         try {
             return jdbcTemplate.withTransaction(template ->
                     template.executeQuery(SQLConstants.LIST_BASIC_CONFIGS_BY_TENANT,
-                            ((resultSet, i) ->{
+                            ((resultSet, i) -> {
                                 BasicRemoteFetchConfiguration obj = new BasicRemoteFetchConfiguration(
-                                    resultSet.getInt(1),
-                                    resultSet.getString(2).equals("1"),
-                                    resultSet.getString(3),
-                                    resultSet.getString(4),
-                                    resultSet.getString(5),
-                                    resultSet.getInt(6),
-                                    resultSet.getInt(7));
-                                Timestamp lastDeployed = resultSet.getTimestamp(8);
-                                if(lastDeployed != null){
+                                        resultSet.getInt(1),
+                                        resultSet.getString(2).equals("1"),
+                                        resultSet.getString(3),
+                                        resultSet.getString(4),
+                                        resultSet.getString(5),
+                                        resultSet.getString(6),
+                                        resultSet.getInt(7),
+                                        resultSet.getInt(8));
+                                Timestamp lastDeployed = resultSet.getTimestamp(9);
+                                if (lastDeployed != null) {
                                     obj.setLastDeployed(new Date(lastDeployed.getTime()));
                                 }
                                 return obj;
@@ -244,9 +245,10 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                 resultSet.getString(4),
                 resultSet.getString(5),
                 resultSet.getString(6),
-                resultSet.getString(7)
+                resultSet.getString(7),
+                resultSet.getString(8)
         );
-        JSONObject attributesBundle = new JSONObject(resultSet.getString(8));
+        JSONObject attributesBundle = new JSONObject(resultSet.getString(9));
         this.mapAttributes(remoteFetchConfiguration, attributesBundle);
         return remoteFetchConfiguration;
     }
@@ -257,14 +259,16 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
         preparedStatement.setInt(1, configuration.getTenantId());
         preparedStatement.setString(2, (configuration.isEnabled() ? "1" : "0"));
         preparedStatement.setString(3, configuration.getUserName());
-        preparedStatement.setString(4, configuration.getRepositoryManagerType());
-        preparedStatement.setString(5, configuration.getActionListenerType());
-        preparedStatement.setString(6, configuration.getConfigurationDeployerType());
+        preparedStatement.setString(4, "GIT");
+        preparedStatement.setString(5, "POLLING");
+        preparedStatement.setString(6, "SP");
 
         //Encode object attributes to JSON
         JSONObject attributesBundle = this.makeAttributeBundle(configuration);
 
         preparedStatement.setString(7, attributesBundle.toString(4));
+        preparedStatement.setString(8, configuration.getRemoteFetchName());
+
     }
 
     private JSONObject makeAttributeBundle(RemoteFetchConfiguration configuration) {
@@ -287,5 +291,6 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
         remoteFetchConfiguration.setConfigurationDeployerAttributes(
                 this.attributeToMap(attributesBundle.getJSONObject("confgiurationDeployerAttributes"))
         );
+
     }
 }
