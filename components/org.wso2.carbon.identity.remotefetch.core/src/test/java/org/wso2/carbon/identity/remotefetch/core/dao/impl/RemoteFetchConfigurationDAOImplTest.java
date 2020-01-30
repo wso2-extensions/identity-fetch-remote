@@ -87,9 +87,6 @@ public class RemoteFetchConfigurationDAOImplTest extends PowerMockTestCase {
         }
     }
 
-
-
-
     @Test(priority = 1)
     public void testGetRemoteFetchConfigurationsById() throws Exception {
 
