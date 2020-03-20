@@ -23,11 +23,11 @@
     <parent>
         <artifactId>remotefetch</artifactId>
         <groupId>org.wso2.identity.remotefetch</groupId>
-        <version>1.0.0-SNAPSHOT </version>
+        <version>1.0.0</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
 
     <artifactId>org.wso2.carbon.identity.remotefetch.common</artifactId>
@@ -45,7 +45,19 @@
         <dependency>
             <groupId>org.eclipse.jgit</groupId>
             <artifactId>org.eclipse.jgit</artifactId>
+            <version>${org.jgit.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.wso2.orbit.com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>${jsch.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on -->
+<!--        <dependency>-->
+<!--            <groupId>org.bouncycastle</groupId>-->
+<!--            <artifactId>bcprov-jdk15on</artifactId>-->
+<!--            <version>1.62</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <packaging>bundle</packaging>
@@ -77,7 +89,8 @@
                             org.apache.commons.collections; version="${commons-collections.wso2.osgi.version.range}",
                         </Import-Package>
                         <Export-Package>
-                            org.wso2.carbon.identity.remotefetch.common.*; version="${project.version}"
+                            org.wso2.carbon.identity.remotefetch.common.*; version="${project.version}",
+                            org.wso2.orbit.com.jcraft.jsch.*;version="${jsch.version}"
                         </Export-Package>
                     </instructions>
                 </configuration>
