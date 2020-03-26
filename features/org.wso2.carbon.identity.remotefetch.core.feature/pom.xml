@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~ Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -92,6 +92,7 @@
                                 <bundleDef>org.eclipse.jgit:org.eclipse.jgit</bundleDef>
                                 <bundleDef>com.googlecode.javaewah:JavaEWAH</bundleDef>
                                 <bundleDef>org.wso2.orbit.com.jcraft:jsch:${jsch.version}</bundleDef>
+                                <bundleDef>org.wso2.orbit.org.apache.velocity:velocity:1.7.0.wso2v1</bundleDef>
                             </bundles>
                         </configuration>
                     </execution>
