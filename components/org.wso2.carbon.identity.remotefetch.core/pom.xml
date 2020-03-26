@@ -71,7 +71,7 @@
         <dependency>
             <groupId>org.wso2.orbit.org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
-            <version>1.7.0.wso2v1</version>
+            <version>${org.wso2.orbit.org.apache.velocity.version}</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
@@ -170,7 +170,7 @@
                             org.wso2.carbon.database.utils.jdbc;version="${carbon.database.utils.version.range}",
                             org.wso2.carbon.database.utils.jdbc.exceptions;version="${carbon.database.utils.version.range}",
 
-                            org.wso2.orbit.org.apache.velocity.velocity.*;version="1.7.0.wso2v1",
+                            org.wso2.orbit.org.apache.velocity.velocity.*;version="${org.wso2.orbit.org.apache.velocity.version}",
 
                             org.wso2.carbon.user.core.*; version="${carbon.kernel.package.import.version.range}",
                             org.wso2.carbon.user.api; version="${carbon.user.api.imp.pkg.version.range}",
