@@ -170,7 +170,7 @@
                             org.wso2.carbon.database.utils.jdbc;version="${carbon.database.utils.version.range}",
                             org.wso2.carbon.database.utils.jdbc.exceptions;version="${carbon.database.utils.version.range}",
 
-                            org.wso2.orbit.org.apache.velocity.velocity.*;version="${org.wso2.orbit.org.apache.velocity.version}",
+                            org.apache.velocity.*;version="${velocity.version}",
 
                             org.wso2.carbon.user.core.*; version="${carbon.kernel.package.import.version.range}",
                             org.wso2.carbon.user.api; version="${carbon.user.api.imp.pkg.version.range}",
@@ -181,7 +181,6 @@
                             !org.wso2.carbon.identity.remotefetch.core.internal,
                             org.wso2.carbon.identity.remotefetch.core.*; version="${project.version}"
                         </Export-Package>
-                        <DynamicImport-Package>*</DynamicImport-Package>
                     </instructions>
                 </configuration>
             </plugin>
