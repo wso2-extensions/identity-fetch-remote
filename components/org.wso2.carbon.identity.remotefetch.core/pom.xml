@@ -69,9 +69,9 @@
             <version>${jsch.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.velocity</groupId>
+            <groupId>org.wso2.orbit.org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
-            <version>${velocity.version}</version>
+            <version>${org.wso2.orbit.org.apache.velocity.version}</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
@@ -169,6 +169,7 @@
                             org.wso2.carbon.context; version="${carbon.kernel.package.import.version.range}",
                             org.wso2.carbon.database.utils.jdbc;version="${carbon.database.utils.version.range}",
                             org.wso2.carbon.database.utils.jdbc.exceptions;version="${carbon.database.utils.version.range}",
+
                             org.apache.velocity.*;version="${velocity.version}",
 
                             org.wso2.carbon.user.core.*; version="${carbon.kernel.package.import.version.range}",
@@ -178,11 +179,8 @@
                         </Import-Package>
                         <Export-Package>
                             !org.wso2.carbon.identity.remotefetch.core.internal,
-                            org.wso2.carbon.identity.remotefetch.core.*; version="${project.version}",
-                            org.wso2.orbit.com.jcraft.jsch.*;version="${jsch.version}",
-                            org.apache.velocity.*;version="${velocity.version}"
+                            org.wso2.carbon.identity.remotefetch.core.*; version="${project.version}"
                         </Export-Package>
-                        <DynamicImport-Package>*</DynamicImport-Package>
                     </instructions>
                 </configuration>
             </plugin>

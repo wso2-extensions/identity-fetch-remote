@@ -58,10 +58,6 @@
             <groupId>com.googlecode.javaewah</groupId>
             <artifactId>JavaEWAH</artifactId>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>com.jcraft</groupId>-->
-            <!--<artifactId>jsch</artifactId>-->
-        <!--</dependency>-->
     </dependencies>
 
     <build>
@@ -92,6 +88,7 @@
                                 <bundleDef>org.eclipse.jgit:org.eclipse.jgit</bundleDef>
                                 <bundleDef>com.googlecode.javaewah:JavaEWAH</bundleDef>
                                 <bundleDef>org.wso2.orbit.com.jcraft:jsch:${jsch.version}</bundleDef>
+                                <bundleDef>org.wso2.orbit.org.apache.velocity:velocity:${org.wso2.orbit.org.apache.velocity.version}</bundleDef>
                             </bundles>
                         </configuration>
                     </execution>

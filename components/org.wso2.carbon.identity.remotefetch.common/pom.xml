@@ -83,7 +83,6 @@
                         </Import-Package>
                         <Export-Package>
                             org.wso2.carbon.identity.remotefetch.common.*; version="${project.version}",
-                            org.wso2.orbit.com.jcraft.jsch.*;version="${jsch.version}"
                         </Export-Package>
                     </instructions>
                 </configuration>
