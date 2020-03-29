@@ -30,7 +30,7 @@ public class SQLConstants {
 
     // Revision Management SQL
     public static final String CREATE_REVISION = "INSERT INTO IDN_REMOTE_FETCH_REVISIONS (CONFIG_ID, FILE_PATH, " +
-            " FILE_HASH, ITEM_NAME) VALUES(?,?,?,?);";
+            " FILE_HASH, ITEM_NAME) VALUES(?,?,?,?)";
 
     public static final String UPDATE_REVISION = "UPDATE IDN_REMOTE_FETCH_REVISIONS SET CONFIG_ID = ?, FILE_PATH = ?," +
             " FILE_HASH = ?, DEPLOYED_DATE = ?, DEPLOYMENT_STATUS = ?, ITEM_NAME = ? WHERE ID = ?";
