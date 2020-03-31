@@ -29,7 +29,7 @@ public class PollingActionListenerBuilder extends ActionListenerBuilder {
     @Override
     public ActionListener build() throws ActionListenerBuilderException {
 
-        Map<String, String> actionListenerAttributes = this.fetchConfig.getActionListenerAttributes();
+        Map<String, String> actionListenerAttributes = this.getFetchConfig().getActionListenerAttributes();
         int frequency;
 
         if (actionListenerAttributes.containsKey("frequency")) {
@@ -42,7 +42,8 @@ public class PollingActionListenerBuilder extends ActionListenerBuilder {
             throw new ActionListenerBuilderException("Frequency not available in configuration");
         }
 
-        return new PollingActionListener(this.repoConnector, this.configDeployer, frequency,
-                this.fetchConfig.getRemoteFetchConfigurationId(), this.fetchConfig.getTenantId(), this.fetchConfig.getUserName());
+        return new PollingActionListener(this.getRepoConnector(), this.getConfigDeployer(), frequency,
+                this.getFetchConfig().getRemoteFetchConfigurationId(), this.getFetchConfig().getTenantId(),
+                this.getFetchConfig().getUserName());
     }
 }

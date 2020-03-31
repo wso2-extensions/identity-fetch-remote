@@ -361,6 +361,7 @@
         <encoder.wso2.version>1.2.0.wso2v1</encoder.wso2.version>
         <org.apache.felix.annotations.version>1.2.4</org.apache.felix.annotations.version>
 
+        <equinox.osgi.services.version>3.5.100.v20160504-1419</equinox.osgi.services.version>
         <maven.findbugsplugin.version>3.0.4</maven.findbugsplugin.version>
         <!--swagger2cxf.maven.plugin.version>1.0-SNAPSHOT</swagger2cxf.maven.plugin.version-->
         <maven.buildnumber.plugin.version>1.4</maven.buildnumber.plugin.version>

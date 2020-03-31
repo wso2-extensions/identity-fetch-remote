@@ -33,6 +33,7 @@ public class ValidationReport {
     public static enum ValidationStatus {
         PASSED, FAILED
     }
+
     private ValidationStatus validationStatus;
     private List<String> validationMessages = new ArrayList<>();
 
@@ -44,8 +45,32 @@ public class ValidationReport {
         this.validationMessages.add(message);
     }
 
-    public void addMessage(String format, Object... args) {
-        this.addMessage(new Formatter().format(format, args).toString());
+
+    public void addMessageForMandatoryValidation(String field) {
+        this.addMessage(new Formatter().format(ValidationFormat.MANDATORY_VALUE, field).toString());
+    }
+
+    public void addMessageForPatternValidation(String field) {
+        this.addMessage(new Formatter().format(ValidationFormat.DOES_NOT_MATCH_PATTERN, field).toString());
+    }
+
+    public void addMessageForActionListenerValidation(String actionListenerType) {
+        this.addMessage(new Formatter().format(ValidationFormat.NOT_A_VALID_ACTION_LISTENER, actionListenerType)
+                .toString());
+    }
+
+    public void addMessageForRepoManagerValidation(String repoManagerType) {
+        this.addMessage(new Formatter().format(ValidationFormat.NOT_A_VALID_REPO_MANAGER, repoManagerType).toString());
+    }
+
+    public void addMessageForConfigDeployerValidation(String configDeployerType) {
+        this.addMessage(new Formatter().format(ValidationFormat.NOT_A_VALID_CONFIG_DEPLOYER, configDeployerType)
+                .toString());
+    }
+
+    public void addMessageForComponentValidation(String validationReport, String componentName) {
+        this.addMessage(new Formatter().format(ValidationFormat.COMPONENT_VALIDATION, validationReport, componentName)
+                .toString());
     }
 
     /**

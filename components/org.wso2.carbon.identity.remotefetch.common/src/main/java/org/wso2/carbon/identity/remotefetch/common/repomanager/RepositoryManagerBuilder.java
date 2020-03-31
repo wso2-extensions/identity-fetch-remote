@@ -26,8 +26,8 @@ import org.wso2.carbon.identity.remotefetch.common.RemoteFetchCoreConfiguration;
  */
 public abstract class RepositoryManagerBuilder {
 
-    protected RemoteFetchConfiguration fetchConfig;
-    protected RemoteFetchCoreConfiguration fetchCoreConfiguration;
+    private RemoteFetchConfiguration fetchConfig;
+    private RemoteFetchCoreConfiguration fetchCoreConfiguration;
 
     public RepositoryManagerBuilder() {
 
@@ -55,6 +55,14 @@ public abstract class RepositoryManagerBuilder {
 
         this.fetchCoreConfiguration = fetchCoreConfiguration;
         return this;
+    }
+
+    public RemoteFetchConfiguration getFetchConfig() {
+        return fetchConfig;
+    }
+
+    public RemoteFetchCoreConfiguration getFetchCoreConfiguration() {
+        return fetchCoreConfiguration;
     }
 
     /**

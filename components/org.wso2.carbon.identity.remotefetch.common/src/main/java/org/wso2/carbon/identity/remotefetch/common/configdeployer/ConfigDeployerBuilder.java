@@ -25,7 +25,7 @@ import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
  */
 public abstract class ConfigDeployerBuilder {
 
-    protected RemoteFetchConfiguration fetchConfig;
+    private RemoteFetchConfiguration fetchConfig;
 
     public ConfigDeployerBuilder() {
 
@@ -41,6 +41,10 @@ public abstract class ConfigDeployerBuilder {
 
         this.fetchConfig = fetchConfig;
         return this;
+    }
+
+    public RemoteFetchConfiguration getFetchConfig() {
+        return fetchConfig;
     }
 
     /**

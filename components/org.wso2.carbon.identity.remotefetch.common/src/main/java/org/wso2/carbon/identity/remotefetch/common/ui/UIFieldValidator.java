@@ -38,11 +38,11 @@ public class UIFieldValidator {
             if (inputValue == null) {
                 // Check if mandatory value is present
                 if (field.isMandatory()) {
-                    validationReport.addMessage("%s is a mandatory value", field.getDisplayName());
+                    validationReport.addMessageForMandatoryValidation(field.getDisplayName());
                 }
             } else {
                 if (!UIFieldValidator.doesPatternMatch(field.getValidationRegex(), inputValue)) {
-                    validationReport.addMessage("%s does not match pattern", field.getDisplayName());
+                    validationReport.addMessageForPatternValidation(field.getDisplayName());
                 }
             }
 

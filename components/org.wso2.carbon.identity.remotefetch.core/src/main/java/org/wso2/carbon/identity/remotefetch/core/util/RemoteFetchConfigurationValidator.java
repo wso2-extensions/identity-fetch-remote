@@ -20,6 +20,7 @@ package org.wso2.carbon.identity.remotefetch.core.util;
 
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchComponentRegistry;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
+import org.wso2.carbon.identity.remotefetch.common.ValidationFormat;
 import org.wso2.carbon.identity.remotefetch.common.ValidationReport;
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListenerComponent;
 import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployerComponent;
@@ -128,17 +129,17 @@ public class RemoteFetchConfigurationValidator {
         boolean isValid = true;
 
         if (actionListenerComponent == null) {
-            this.validationReport.addMessage("%s is not a valid Action Listener",
+            this.validationReport.addMessageForActionListenerValidation(
                     this.fetchConfiguration.getActionListenerType());
             isValid = false;
         }
         if (configDeployerComponent == null) {
-            this.validationReport.addMessage("%s is not a valid Config Deployer",
+            this.validationReport.addMessageForConfigDeployerValidation(
                     this.fetchConfiguration.getConfigurationDeployerType());
             isValid = false;
         }
         if (repositoryManagerComponent == null) {
-            this.validationReport.addMessage("%s is not a valid Repository Manager",
+            this.validationReport.addMessageForRepoManagerValidation(
                     this.fetchConfiguration.getRepositoryManagerType());
             isValid = false;
         }
@@ -150,7 +151,7 @@ public class RemoteFetchConfigurationValidator {
 
         ValidationReport componentReport = UIFieldValidator.validate(attributes, fieldList);
         for (String report : componentReport.getMessages()) {
-            this.validationReport.addMessage("%s for %s", report, component_name);
+            this.validationReport.addMessageForComponentValidation(report, component_name);
         }
     }
 

@@ -32,7 +32,7 @@ public class ServiceProviderConfigDeployerBuilder extends ConfigDeployerBuilder 
     @Override
     public ServiceProviderConfigDeployer build() throws ConfigDeployerBuilderException {
 
-        return new ServiceProviderConfigDeployer(this.fetchConfig.getTenantId(), this.fetchConfig.getUserName(),
-                this.fetchConfig.getRemoteFetchConfigurationId());
+        return new ServiceProviderConfigDeployer(this.getFetchConfig().getTenantId(),
+                this.getFetchConfig().getUserName(), this.getFetchConfig().getRemoteFetchConfigurationId());
     }
 }

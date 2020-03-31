@@ -119,16 +119,22 @@ public class DeploymentRevision {
      * @return
      */
     public Date getDeployedDate() {
-
-        return deployedDate;
+        if (deployedDate == null) {
+            return null;
+        } else {
+            return new Date(deployedDate.getTime());
+        }
     }
 
     /**
      * @param deployedDate
      */
     public void setDeployedDate(Date deployedDate) {
-
-        this.deployedDate = deployedDate;
+        if (deployedDate == null) {
+            this.deployedDate = null;
+        } else {
+            this.deployedDate = new Date(deployedDate.getTime());
+        }
     }
 
     /**

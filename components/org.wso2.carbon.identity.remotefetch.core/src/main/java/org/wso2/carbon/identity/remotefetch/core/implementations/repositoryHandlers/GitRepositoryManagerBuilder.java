@@ -34,7 +34,7 @@ public class GitRepositoryManagerBuilder extends RepositoryManagerBuilder {
     @Override
     public RepositoryManager build() throws RepositoryManagerBuilderException {
 
-        repoAttributes = this.fetchConfig.getRepositoryManagerAttributes();
+        repoAttributes = this.getFetchConfig().getRepositoryManagerAttributes();
 
         String branch;
         String uri;
@@ -75,8 +75,8 @@ public class GitRepositoryManagerBuilder extends RepositoryManagerBuilder {
 
         credentials = new UsernamePasswordCredentialsProvider(userName, token);
 
-        return new GitRepositoryManager("repo-" + this.fetchConfig.getRemoteFetchConfigurationId()
-                , uri, branch, directory, this.fetchCoreConfiguration.getWorkingDirectory(), credentials);
+        return new GitRepositoryManager("repo-" + this.getFetchConfig().getRemoteFetchConfigurationId()
+                , uri, branch, directory, this.getFetchCoreConfiguration().getWorkingDirectory(), credentials);
     }
 
 }

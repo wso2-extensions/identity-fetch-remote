@@ -92,13 +92,19 @@ public class BasicRemoteFetchConfiguration {
     }
 
     public Date getLastDeployed() {
-
-        return lastDeployed;
+        if (lastDeployed == null) {
+            return null;
+        } else {
+            return new Date(lastDeployed.getTime());
+        }
     }
 
     public void setLastDeployed(Date lastDeployed) {
-
-        this.lastDeployed = lastDeployed;
+        if (lastDeployed == null) {
+            this.lastDeployed = null;
+        } else {
+            this.lastDeployed = new Date(lastDeployed.getTime());
+        }
     }
 
 }
