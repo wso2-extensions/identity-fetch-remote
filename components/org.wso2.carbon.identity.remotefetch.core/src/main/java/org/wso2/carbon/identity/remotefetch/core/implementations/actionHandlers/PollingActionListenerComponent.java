@@ -51,7 +51,7 @@ public class PollingActionListenerComponent implements ActionListenerComponent {
         ArrayList<UIField> fieldList = new ArrayList();
 
         fieldList.add(new UIField(
-                "frequency", UIField.FIELD_TYPES.TEXT_BOX, "Polling Frequency",
+                "frequency", UIField.FieldTypes.TEXT_BOX, "Polling Frequency",
                 "Number of seconds polling should occur", "^\\d+$", "60",
                 true, false, false
 

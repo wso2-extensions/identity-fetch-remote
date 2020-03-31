@@ -82,8 +82,7 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
                             revisionObj.setDeploymentRevisionId(resultSet.getInt(1));
                             revisionObj.setFileHash(resultSet.getString(4));
                             revisionObj.setDeployedDate(new Date(resultSet.getTimestamp(5).getTime()));
-                            revisionObj.setDeploymentStatus(DeploymentRevision
-                                    .DEPLOYMENT_STATUS.valueOf(resultSet.getString(6)));
+                            revisionObj.setDeploymentStatus(DeploymentRevision.DeploymentStatus.valueOf(resultSet.getString(6)));
                             revisionObj.setItemName(resultSet.getString(7));
 
                             return revisionObj;
@@ -176,8 +175,7 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
                         deploymentRevision.setDeploymentRevisionId(resultSet.getInt(1));
                         deploymentRevision.setFileHash(resultSet.getString(4));
                         deploymentRevision.setDeployedDate(new Date(resultSet.getTimestamp(5).getTime()));
-                        deploymentRevision.setDeploymentStatus(DeploymentRevision
-                                .DEPLOYMENT_STATUS.valueOf(resultSet.getString(6)));
+                        deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.valueOf(resultSet.getString(6)));
                         deploymentRevision.setItemName(resultSet.getString(7));
 
                         return deploymentRevision;

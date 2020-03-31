@@ -52,7 +52,7 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
 
         ValidationReport validationReport = validator.validate();
 
-        if (validationReport.getValidationStatus() == ValidationReport.VALIDATION_STATUS.PASSED) {
+        if (validationReport.getValidationStatus() == ValidationReport.ValidationStatus.PASSED) {
             this.fetchConfigurationDAO.createRemoteFetchConfiguration(fetchConfiguration);
         }
 
@@ -73,7 +73,7 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
 
         ValidationReport validationReport = validator.validate();
 
-        if (validationReport.getValidationStatus() == ValidationReport.VALIDATION_STATUS.PASSED) {
+        if (validationReport.getValidationStatus() == ValidationReport.ValidationStatus.PASSED) {
             this.fetchConfigurationDAO.updateRemoteFetchConfiguration(fetchConfiguration);
         }
 

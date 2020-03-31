@@ -27,10 +27,13 @@ import java.util.List;
  */
 public class ValidationReport {
 
-    public static enum VALIDATION_STATUS {
-        PASSED,FAILED
+    /**
+     * Status of validation report
+     */
+    public static enum ValidationStatus {
+        PASSED, FAILED
     }
-    private VALIDATION_STATUS validationStatus;
+    private ValidationStatus validationStatus;
     private List<String> validationMessages = new ArrayList<>();
 
     /**
@@ -53,12 +56,12 @@ public class ValidationReport {
         return this.validationMessages;
     }
 
-    public VALIDATION_STATUS getValidationStatus() {
+    public ValidationStatus getValidationStatus() {
 
         return validationStatus;
     }
 
-    public void setValidationStatus(VALIDATION_STATUS validationStatus) {
+    public void setValidationStatus(ValidationStatus validationStatus) {
 
         this.validationStatus = validationStatus;
     }

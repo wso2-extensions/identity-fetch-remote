@@ -156,9 +156,9 @@ public class RemoteFetchConfigurationValidator {
 
     private ValidationReport returnReport(){
         if(this.validationReport.getMessages().size() == 0){
-            this.validationReport.setValidationStatus(ValidationReport.VALIDATION_STATUS.PASSED);
+            this.validationReport.setValidationStatus(ValidationReport.ValidationStatus.PASSED);
         }else{
-            this.validationReport.setValidationStatus(ValidationReport.VALIDATION_STATUS.FAILED);
+            this.validationReport.setValidationStatus(ValidationReport.ValidationStatus.FAILED);
         }
         return this.validationReport;
     }

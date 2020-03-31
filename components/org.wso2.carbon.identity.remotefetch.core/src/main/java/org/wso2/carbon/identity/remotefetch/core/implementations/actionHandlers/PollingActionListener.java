@@ -210,11 +210,11 @@ public class PollingActionListener implements ActionListener {
                                     this.remoteFetchConfigurationId);
                     velocityTemplatedSPDeployer.deploy(configurationFileStream);
 
-                    deploymentRevision.setDeploymentStatus(DeploymentRevision.DEPLOYMENT_STATUS.DEPLOYED);
+                    deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.DEPLOYED);
 
                 } catch (RemoteFetchCoreException e) {
                     log.error("Error Deploying " + deploymentRevision.getFile().getName(), e);
-                    deploymentRevision.setDeploymentStatus(DeploymentRevision.DEPLOYMENT_STATUS.ERROR_DEPLOYING);
+                    deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING);
                 }
 
                 // Set new deployment Date

@@ -20,6 +20,9 @@ package org.wso2.carbon.identity.remotefetch.common;
 
 import java.io.File;
 
+/**
+ * Holds core configuration
+ */
 public class RemoteFetchCoreConfiguration {
 
     private File workingDirectory;

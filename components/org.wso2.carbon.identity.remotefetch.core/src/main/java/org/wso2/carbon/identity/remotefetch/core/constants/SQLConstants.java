@@ -25,8 +25,8 @@ import org.wso2.carbon.identity.remotefetch.common.DeploymentRevision;
  */
 public class SQLConstants {
 
-    private static final String REVISION_DEPLOYMENT_OK = DeploymentRevision.DEPLOYMENT_STATUS.DEPLOYED.name();
-    private static final String REVISION_DEPLOYMENT_FAIL = DeploymentRevision.DEPLOYMENT_STATUS.ERROR_DEPLOYING.name();
+    private static final String REVISION_DEPLOYMENT_OK = DeploymentRevision.DeploymentStatus.DEPLOYED.name();
+    private static final String REVISION_DEPLOYMENT_FAIL = DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING.name();
 
     // Revision Management SQL
     public static final String CREATE_REVISION = "INSERT INTO IDN_REMOTE_FETCH_REVISIONS (CONFIG_ID, FILE_PATH, " +
