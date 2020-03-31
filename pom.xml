@@ -354,7 +354,7 @@
     <properties>
         <carbon.p2.plugin.version>1.5.3</carbon.p2.plugin.version>
         <maven.compiler.plugin>3.7.0</maven.compiler.plugin>
-        <maven.bundle.plugin.version>2.4.0</maven.bundle.plugin.version>
+        <maven.bundle.plugin.version>4.2.0</maven.bundle.plugin.version>
         <version.equinox.osgi>3.5.100.v20160504-1419</version.equinox.osgi>
         <carbon.core.version>4.4.32</carbon.core.version>
         <json.wso2.version>3.0.0.wso2v1</json.wso2.version>
