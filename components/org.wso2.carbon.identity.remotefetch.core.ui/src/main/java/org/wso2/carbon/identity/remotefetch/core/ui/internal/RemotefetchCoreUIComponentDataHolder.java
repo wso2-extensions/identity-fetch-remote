@@ -21,6 +21,9 @@ package org.wso2.carbon.identity.remotefetch.core.ui.internal;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchComponentRegistry;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfigurationService;
 
+/**
+ * Holds data for Remote fetch core UI.
+ */
 public class RemotefetchCoreUIComponentDataHolder {
 
     private static RemotefetchCoreUIComponentDataHolder instance = new RemotefetchCoreUIComponentDataHolder();

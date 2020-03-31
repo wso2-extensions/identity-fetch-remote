@@ -19,15 +19,15 @@
 package org.wso2.carbon.identity.remotefetch.core.ui.client;
 
 import org.wso2.carbon.identity.remotefetch.common.ui.UIField;
-import org.wso2.carbon.identity.remotefetch.core.ui.dto.RemoteFetchComponentDTO;
 import org.wso2.carbon.identity.remotefetch.core.ui.internal.RemotefetchCoreUIComponentDataHolder;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
+/**
+ * Holds functions for remote fetch client.
+ */
 public class RemoteFetchRegistryClient {
 
     private static final String FIELD_REPOSITORY_MANAGER = "repositoryManager";

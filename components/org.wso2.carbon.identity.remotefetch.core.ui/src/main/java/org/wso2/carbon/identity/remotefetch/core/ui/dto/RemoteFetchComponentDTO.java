@@ -18,31 +18,37 @@
 
 package org.wso2.carbon.identity.remotefetch.core.ui.dto;
 
+/**
+ *  DTO of remote fetch component.
+ */
 public class RemoteFetchComponentDTO {
 
-    public static enum COMPONENT_TYPE {
+    /**
+     * type of component.
+     */
+    public static enum ComponentType {
         REPOSITORY_MANAGER,
         ACTION_LISTENER,
         CONFIG_DEPLOYER
     }
 
-    COMPONENT_TYPE type;
+    ComponentType type;
     String identifier;
     String name;
 
-    public RemoteFetchComponentDTO(COMPONENT_TYPE type, String identifier, String name) {
+    public RemoteFetchComponentDTO(ComponentType type, String identifier, String name) {
 
         this.type = type;
         this.identifier = identifier;
         this.name = name;
     }
 
-    public COMPONENT_TYPE getType() {
+    public ComponentType getType() {
 
         return type;
     }
 
-    public void setType(COMPONENT_TYPE type) {
+    public void setType(ComponentType type) {
 
         this.type = type;
     }

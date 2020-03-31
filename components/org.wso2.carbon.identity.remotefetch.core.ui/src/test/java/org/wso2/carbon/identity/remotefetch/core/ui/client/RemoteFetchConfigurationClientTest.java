@@ -19,7 +19,6 @@
 package org.wso2.carbon.identity.remotefetch.core.ui.client;
 
 import org.powermock.modules.testng.PowerMockTestCase;
-import org.testng.Assert;
 import org.testng.IObjectFactory;
 import org.testng.annotations.ObjectFactory;
 import org.testng.annotations.Test;
@@ -38,7 +37,6 @@ import org.wso2.carbon.identity.remotefetch.core.ui.internal.RemotefetchCoreUICo
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 /**
