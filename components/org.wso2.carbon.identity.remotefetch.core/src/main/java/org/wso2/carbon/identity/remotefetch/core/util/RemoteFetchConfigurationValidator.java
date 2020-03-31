@@ -20,6 +20,7 @@ package org.wso2.carbon.identity.remotefetch.core.util;
 
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchComponentRegistry;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
+import org.wso2.carbon.identity.remotefetch.common.ValidationFormat;
 import org.wso2.carbon.identity.remotefetch.common.ValidationReport;
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListenerComponent;
 import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployerComponent;
