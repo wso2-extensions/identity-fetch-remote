@@ -34,8 +34,6 @@ import org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository.GitRep
 import org.wso2.carbon.identity.remotefetch.core.internal.RemoteFetchServiceComponentHolder;
 import org.wso2.carbon.user.api.UserStoreException;
 
-import java.io.IOException;
-
 /**
  * Deploy new or update ServiceProviders using ApplicationManagementService.
  */
