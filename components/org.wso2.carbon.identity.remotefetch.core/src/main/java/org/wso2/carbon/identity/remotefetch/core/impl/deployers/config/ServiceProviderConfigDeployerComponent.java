@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -16,14 +16,17 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.remotefetch.core.implementations.configDeployers;
+package org.wso2.carbon.identity.remotefetch.core.impl.deployers.config;
 
-import org.wso2.carbon.identity.remotefetch.common.ui.UIField;
 import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployerBuilder;
 import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployerComponent;
+import org.wso2.carbon.identity.remotefetch.common.ui.UIField;
 
 import java.util.List;
 
+/**
+ * Holds functions SP config UI elemnets.
+ */
 public class ServiceProviderConfigDeployerComponent implements ConfigDeployerComponent {
 
     /**

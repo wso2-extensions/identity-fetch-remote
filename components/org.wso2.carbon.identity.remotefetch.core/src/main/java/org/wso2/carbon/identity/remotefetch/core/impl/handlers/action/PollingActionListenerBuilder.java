@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.remotefetch.core.implementations.actionHandlers;
+package org.wso2.carbon.identity.remotefetch.core.impl.handlers.action;
 
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListener;
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListenerBuilder;
@@ -24,6 +24,9 @@ import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListener
 
 import java.util.Map;
 
+/**
+ * Holds builder method to build polling action listener.
+ */
 public class PollingActionListenerBuilder extends ActionListenerBuilder {
 
     @Override

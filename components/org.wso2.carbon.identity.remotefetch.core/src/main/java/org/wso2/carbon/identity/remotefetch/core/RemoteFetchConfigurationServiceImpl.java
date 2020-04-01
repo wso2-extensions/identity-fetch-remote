@@ -65,7 +65,8 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
      * @throws RemoteFetchCoreException
      */
     @Override
-    public ValidationReport updateRemoteFetchConfiguration(RemoteFetchConfiguration fetchConfiguration) throws RemoteFetchCoreException {
+    public ValidationReport updateRemoteFetchConfiguration(RemoteFetchConfiguration fetchConfiguration)
+            throws RemoteFetchCoreException {
 
         RemoteFetchConfigurationValidator validator =
                 new RemoteFetchConfigurationValidator(RemoteFetchServiceComponentHolder.getInstance()
@@ -86,31 +87,34 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
      * @throws RemoteFetchCoreException
      */
     @Override
-    public RemoteFetchConfiguration getRemoteFetchConfiguration(int fetchConfigurationId) throws RemoteFetchCoreException {
+    public RemoteFetchConfiguration getRemoteFetchConfiguration(int fetchConfigurationId)
+            throws RemoteFetchCoreException {
 
         return this.fetchConfigurationDAO.getRemoteFetchConfiguration(fetchConfigurationId);
     }
 
     /**
-     * @param tenant_id
+     * @param tenantId
      * @return Remote Fetch Configuration list for tenant id.
      * @throws RemoteFetchCoreException
      */
     @Override
-    public List<RemoteFetchConfiguration> getRemoteFetchConfigurationList(int tenant_id) throws RemoteFetchCoreException {
+    public List<RemoteFetchConfiguration> getRemoteFetchConfigurationList(int tenantId)
+            throws RemoteFetchCoreException {
 
-        return this.fetchConfigurationDAO.getRemoteFetchConfigurationsByTenant(tenant_id);
+        return this.fetchConfigurationDAO.getRemoteFetchConfigurationsByTenant(tenantId);
     }
 
     /**
-     * @param tenant_id
+     * @param tenantId
      * @return
      * @throws RemoteFetchCoreException
      */
     @Override
-    public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList(int tenant_id) throws RemoteFetchCoreException {
+    public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList(int tenantId)
+            throws RemoteFetchCoreException {
 
-        return this.fetchConfigurationDAO.getBasicRemoteFetchConfigurationsByTenant(tenant_id);
+        return this.fetchConfigurationDAO.getBasicRemoteFetchConfigurationsByTenant(tenantId);
     }
 
     /**

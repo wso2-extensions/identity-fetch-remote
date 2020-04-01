@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -16,26 +16,23 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.remotefetch.core.implementations.configDeployers;
+package org.wso2.carbon.identity.remotefetch.core.impl.deployers.config;
 
-import com.jcraft.jsch.IO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.identity.application.common.IdentityApplicationManagementException;
 import org.wso2.carbon.identity.application.common.model.ImportResponse;
 import org.wso2.carbon.identity.application.common.model.ServiceProvider;
+import org.wso2.carbon.identity.application.common.model.SpFileStream;
 import org.wso2.carbon.identity.application.mgt.ApplicationManagementService;
 import org.wso2.carbon.identity.application.mgt.ApplicationMgtUtil;
 import org.wso2.carbon.identity.remotefetch.common.ConfigurationFileStream;
 import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployer;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
-import org.wso2.carbon.identity.remotefetch.core.implementations.repositoryHandlers.GitRepositoryManager;
+import org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository.GitRepositoryManager;
 import org.wso2.carbon.identity.remotefetch.core.internal.RemoteFetchServiceComponentHolder;
-import org.wso2.carbon.identity.application.common.model.SpFileStream;
 import org.wso2.carbon.user.api.UserStoreException;
-
-import java.io.IOException;
 
 /**
  * Deploy new or update ServiceProviders using ApplicationManagementService.

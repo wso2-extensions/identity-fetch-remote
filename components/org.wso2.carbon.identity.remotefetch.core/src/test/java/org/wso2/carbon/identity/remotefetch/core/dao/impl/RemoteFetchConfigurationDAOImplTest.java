@@ -27,7 +27,6 @@ import org.testng.annotations.ObjectFactory;
 import org.testng.annotations.Test;
 import org.wso2.carbon.database.utils.jdbc.JdbcTemplate;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
-import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 import org.wso2.carbon.identity.remotefetch.core.dao.TestConstants;
 import org.wso2.carbon.identity.remotefetch.core.util.JdbcUtils;
 

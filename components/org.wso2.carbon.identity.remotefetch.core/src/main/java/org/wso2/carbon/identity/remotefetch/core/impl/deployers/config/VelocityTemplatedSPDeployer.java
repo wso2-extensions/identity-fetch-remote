@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.remotefetch.core.implementations.configDeployers;
+package org.wso2.carbon.identity.remotefetch.core.impl.deployers.config;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
@@ -30,7 +30,6 @@ import org.wso2.carbon.identity.remotefetch.common.ConfigurationFileStream;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;

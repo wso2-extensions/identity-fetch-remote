@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.remotefetch.core.implementations.actionHandlers;
+package org.wso2.carbon.identity.remotefetch.core.impl.handlers.action;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,8 +28,8 @@ import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreExc
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager;
 import org.wso2.carbon.identity.remotefetch.core.dao.DeploymentRevisionDAO;
 import org.wso2.carbon.identity.remotefetch.core.dao.impl.DeploymentRevisionDAOImpl;
-import org.wso2.carbon.identity.remotefetch.core.implementations.configDeployers.VelocityTemplatedSPDeployer;
-import org.wso2.carbon.identity.remotefetch.core.implementations.repositoryHandlers.GitRepositoryManager;
+import org.wso2.carbon.identity.remotefetch.core.impl.deployers.config.VelocityTemplatedSPDeployer;
+import org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository.GitRepositoryManager;
 
 import java.io.File;
 import java.util.Calendar;

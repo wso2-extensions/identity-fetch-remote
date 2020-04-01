@@ -33,15 +33,15 @@ import org.wso2.carbon.identity.core.util.IdentityCoreInitializedEvent;
 import org.wso2.carbon.identity.core.util.IdentityDatabaseUtil;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchComponentRegistry;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfigurationService;
+import org.wso2.carbon.identity.remotefetch.common.RemoteFetchCoreConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 import org.wso2.carbon.identity.remotefetch.core.RemoteFetchComponentRegistryImpl;
 import org.wso2.carbon.identity.remotefetch.core.RemoteFetchConfigurationServiceImpl;
 import org.wso2.carbon.identity.remotefetch.core.RemoteFetchCore;
-import org.wso2.carbon.identity.remotefetch.core.implementations.actionHandlers.PollingActionListenerComponent;
-import org.wso2.carbon.identity.remotefetch.core.implementations.configDeployers.ServiceProviderConfigDeployerComponent;
-import org.wso2.carbon.identity.remotefetch.core.implementations.repositoryHandlers.GitRepositoryManagerComponent;
+import org.wso2.carbon.identity.remotefetch.core.impl.deployers.config.ServiceProviderConfigDeployerComponent;
+import org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.PollingActionListenerComponent;
+import org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository.GitRepositoryManagerComponent;
 import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationParser;
-import org.wso2.carbon.identity.remotefetch.common.RemoteFetchCoreConfiguration;
 import org.wso2.carbon.user.core.service.RealmService;
 
 import java.util.concurrent.Executors;
@@ -49,6 +49,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import javax.sql.DataSource;
 
+/**
+ * Holds functions for service component.
+ */
 @Component(
         name = "identity.application.remotefetch.component",
         immediate = true
@@ -85,7 +88,7 @@ public class RemoteFetchServiceComponent {
 
                 RemoteFetchServiceComponentHolder.getInstance().getRemoteFetchConfigurationService(), null);
 
-        if(fetchCoreConfiguration.isEnableCore()){
+        if (fetchCoreConfiguration.isEnableCore()) {
             RemoteFetchCore core = new RemoteFetchCore();
             try {
                 scheduler.scheduleAtFixedRate(core, 0, (60 * 1), TimeUnit.SECONDS);
@@ -162,12 +165,12 @@ public class RemoteFetchServiceComponent {
         return IdentityDatabaseUtil.getDataSource();
     }
 
-    private RemoteFetchCoreConfiguration parseRemoteFetchCoreConfiguration(){
+    private RemoteFetchCoreConfiguration parseRemoteFetchCoreConfiguration() {
         try {
             return RemoteFetchConfigurationParser.parseConfiguration();
-        } catch (RemoteFetchCoreException e){
-            log.error("Error parsing RemoteFetchCoreConfiguration, Core disabled",e);
-            return new RemoteFetchCoreConfiguration(null,false);
+        } catch (RemoteFetchCoreException e) {
+            log.error("Error parsing RemoteFetchCoreConfiguration, Core disabled", e);
+            return new RemoteFetchCoreConfiguration(null, false);
         }
     }
 }

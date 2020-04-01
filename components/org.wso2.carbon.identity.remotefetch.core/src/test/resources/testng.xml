@@ -21,12 +21,12 @@
 
 <test name="Remote_Fetch_Core_Unit_Tests">
     <classes>
-        <class name="org.wso2.carbon.identity.remotefetch.core.implementations.actionHandlers.PollingActionListenerBuilderTest"/>
+        <class name="org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.PollingActionListenerBuilderTest"/>
         <class name="org.wso2.carbon.identity.remotefetch.core.dao.impl.DeploymentRevisionDAOImplTest"/>
         <class name="org.wso2.carbon.identity.remotefetch.core.dao.impl.RemoteFetchConfigurationDAOImplTest"/>
         <class name="org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationValidatorTest"/>
         <class name="org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationParserTest"/>
-        <class name="org.wso2.carbon.identity.remotefetch.core.implementations.configDeployers.ServiceProviderConfigDeployerTest"/>
+        <class name="org.wso2.carbon.identity.remotefetch.core.impl.deployers.config.ServiceProviderConfigDeployerTest"/>
     </classes>
 </test>
 </suite>

@@ -27,6 +27,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Registry for remote fetch component.
+ */
 public class RemoteFetchComponentRegistryImpl implements RemoteFetchComponentRegistry {
 
     private HashMap<String, RepositoryManagerComponent> repositoryManagerComponentMap = new HashMap<>();

@@ -127,7 +127,7 @@ public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
             List<DeploymentRevision> deploymentRevisionList =
                     deploymentRevisionDAO.getDeploymentRevisionsByConfigurationId(1);
             assertNotNull(deploymentRevisionList);
-            assertEquals(deploymentRevisionList.size(),1);
+            assertEquals(deploymentRevisionList.size(), 1);
         }
     }
 
@@ -141,7 +141,7 @@ public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
             Connection spy = DAOTestUtils.spyConnection(connection);
             when(dataSource.getConnection()).thenReturn(spy);
             DeploymentRevision deploymentRevisionNew =
-                    deploymentRevisionDAO.getDeploymentRevision(1,"NewDemoApp");
+                    deploymentRevisionDAO.getDeploymentRevision(1, "NewDemoApp");
             assertNotNull(deploymentRevisionNew);
             assertEquals(deploymentRevisionNew.getDeploymentStatus(), DeploymentRevision.DeploymentStatus.DEPLOYED);
 

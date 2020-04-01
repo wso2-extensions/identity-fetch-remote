@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -16,15 +16,18 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.remotefetch.core.implementations.repositoryHandlers;
+package org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository;
 
-import org.wso2.carbon.identity.remotefetch.common.ui.UIField;
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManagerBuilder;
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManagerComponent;
+import org.wso2.carbon.identity.remotefetch.common.ui.UIField;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Holds functions git repo for UI elements.
+ */
 public class GitRepositoryManagerComponent implements RepositoryManagerComponent {
 
     @Override
@@ -71,13 +74,15 @@ public class GitRepositoryManagerComponent implements RepositoryManagerComponent
 
         ));
         fieldList.add(new UIField(
-                "accessToken", UIField.FieldTypes.TEXT_BOX, "Personal Access Token", "Access token if repository is private",
+                "accessToken", UIField.FieldTypes.TEXT_BOX, "Personal Access Token",
+                "Access token if repository is private",
                 "",
                 "", false, false, false
 
         ));
         fieldList.add(new UIField(
-                "userName", UIField.FieldTypes.TEXT_BOX, "User Name", "User name if repository is private",
+                "userName", UIField.FieldTypes.TEXT_BOX, "User Name",
+                "User name if repository is private",
                 "",
                 "", false, false, false
 

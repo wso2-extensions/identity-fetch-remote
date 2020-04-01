@@ -20,7 +20,6 @@ package org.wso2.carbon.identity.remotefetch.core.util;
 
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchComponentRegistry;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
-import org.wso2.carbon.identity.remotefetch.common.ValidationFormat;
 import org.wso2.carbon.identity.remotefetch.common.ValidationReport;
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListenerComponent;
 import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployerComponent;
@@ -31,6 +30,9 @@ import org.wso2.carbon.identity.remotefetch.common.ui.UIFieldValidator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Validator for remote fetch component.
+ */
 public class RemoteFetchConfigurationValidator {
 
     private RemoteFetchComponentRegistry fetchComponentRegistry;
@@ -99,25 +101,25 @@ public class RemoteFetchConfigurationValidator {
     }
 
     private boolean checkBasicFields() {
-        if (this.fetchConfiguration.getUserName() == null && !this.fetchConfiguration.getUserName().isEmpty()){
+        if (this.fetchConfiguration.getUserName() == null && !this.fetchConfiguration.getUserName().isEmpty()) {
             this.validationReport.addMessage("username field is empty");
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     private boolean checkEmpty() {
         boolean isValid = true;
-        if(this.fetchConfiguration.getActionListenerType().isEmpty()){
+        if (this.fetchConfiguration.getActionListenerType().isEmpty()) {
             this.validationReport.addMessage("Empty field provided for Action Listener Type");
             isValid = false;
         }
-        if(this.fetchConfiguration.getConfigurationDeployerType().isEmpty()){
+        if (this.fetchConfiguration.getConfigurationDeployerType().isEmpty()) {
             this.validationReport.addMessage("Empty field provided for Config Deployer Type");
             isValid = false;
         }
-        if(this.fetchConfiguration.getRepositoryManagerType().isEmpty()){
+        if (this.fetchConfiguration.getRepositoryManagerType().isEmpty()) {
             this.validationReport.addMessage("Empty field provided for Repository Manager Type");
             isValid = false;
         }
@@ -147,18 +149,18 @@ public class RemoteFetchConfigurationValidator {
         return isValid;
     }
 
-    private void checkAttributes(Map<String, String> attributes, List<UIField> fieldList, String component_name) {
+    private void checkAttributes(Map<String, String> attributes, List<UIField> fieldList, String componentName) {
 
         ValidationReport componentReport = UIFieldValidator.validate(attributes, fieldList);
         for (String report : componentReport.getMessages()) {
-            this.validationReport.addMessageForComponentValidation(report, component_name);
+            this.validationReport.addMessageForComponentValidation(report, componentName);
         }
     }
 
-    private ValidationReport returnReport(){
-        if(this.validationReport.getMessages().size() == 0){
+    private ValidationReport returnReport() {
+        if (this.validationReport.getMessages().size() == 0) {
             this.validationReport.setValidationStatus(ValidationReport.ValidationStatus.PASSED);
-        }else{
+        } else {
             this.validationReport.setValidationStatus(ValidationReport.ValidationStatus.FAILED);
         }
         return this.validationReport;
