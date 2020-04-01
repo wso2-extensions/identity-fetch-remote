@@ -30,8 +30,9 @@ import org.wso2.carbon.identity.remotefetch.common.ConfigurationFileStream;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -100,7 +101,8 @@ public class VelocityTemplatedSPDeployer extends ServiceProviderConfigDeployer {
 
         try {
             String line;
-            BufferedReader reader = new BufferedReader(new FileReader("/etc/environment"));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    new FileInputStream("/etc/environment"), "UTF-8"));
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split("=", 2);
                 if (parts.length >= 2) {
