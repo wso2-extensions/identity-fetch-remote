@@ -26,7 +26,7 @@
 <%@ page import="java.util.List" %>
 
 <%@ page import="java.util.Map" %>
-<%@ page import="org.wso2.carbon.identity.remotefetch.core.implementations.repositoryHandlers.GitRepositoryManager" %>
+<%@ page import="org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository.GitRepositoryManager" %>
 <%@ page import="org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration" %>
 <%@ page import="org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager" %>
 <%@ page import="java.io.File" %>
