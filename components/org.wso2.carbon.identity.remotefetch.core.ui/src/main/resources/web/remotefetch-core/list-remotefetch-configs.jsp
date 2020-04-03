@@ -147,7 +147,8 @@
                                     </a>
                                     <button title="Trigger Configuration"
                                             id="trigger-now"
-                                            data-id="<%=configuration.getId()%>">Trigger Now
+                                            data-id="<%=configuration.getId()%>"
+                                            onclick="trigger('<%=configuration.getId()%>')">Trigger Now
                                     </button>
                                 </td>
                             </tr>
@@ -175,12 +176,10 @@
                     window.location.href = "delete-remotefetch-config.jsp?id=" + id;
                 })
             });
-            $("#trigger-now").click(function () {
-                var id = this.getAttribute("data-id");
-                window.location.href =
-                    "trigger-now.jsp?id=" + id;
-            });
         });
+        function  trigger(id){
+            window.location.href ="trigger-now.jsp?id=" + id;
+        }
     </script>
     <script src="js/main.js"></script>
 </fmt:bundle>
