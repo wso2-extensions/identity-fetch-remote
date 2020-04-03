@@ -34,6 +34,8 @@ import org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository.GitRep
 import org.wso2.carbon.identity.remotefetch.core.internal.RemoteFetchServiceComponentHolder;
 import org.wso2.carbon.user.api.UserStoreException;
 
+import java.io.IOException;
+
 /**
  * Deploy new or update ServiceProviders using ApplicationManagementService.
  */
@@ -55,6 +57,10 @@ public class ServiceProviderConfigDeployer implements ConfigDeployer {
         this.id = id;
     }
 
+    public int getId() {
+        return id;
+    }
+
     /**
      * Deploy the configuration.
      *
@@ -62,7 +68,7 @@ public class ServiceProviderConfigDeployer implements ConfigDeployer {
      * @throws RemoteFetchCoreException
      */
     @Override
-    public void deploy(ConfigurationFileStream configurationFileStream) throws RemoteFetchCoreException {
+    public void deploy(ConfigurationFileStream configurationFileStream) throws RemoteFetchCoreException, IOException {
 
         ServiceProvider previousServiceProvider = null;
 

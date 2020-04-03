@@ -24,7 +24,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.wso2.carbon.identity.core.util.IdentityUtil;
 import org.wso2.carbon.identity.remotefetch.common.ConfigurationFileStream;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
@@ -36,7 +35,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -63,69 +62,48 @@ public class VelocityTemplatedSPDeployer extends ServiceProviderConfigDeployer {
      * @throws RemoteFetchCoreException
      */
     @Override
-    public void deploy(ConfigurationFileStream configurationFileStream) throws RemoteFetchCoreException {
+    public void deploy(ConfigurationFileStream configurationFileStream) throws RemoteFetchCoreException, IOException {
 
         String velocityTemplate;
-        try {
-            velocityTemplate = IOUtils.toString(configurationFileStream.getContentStream());
-        } catch (IOException e) {
-            log.error("Failed to load template", e);
-            return;
-        }
+        velocityTemplate = IOUtils.toString(configurationFileStream.getContentStream());
 
         String fileNumber = String.valueOf(this.id);
         String workingDirectory = IdentityUtil.getProperty("RemoteFetch.WorkingDirectory");
 
-        HashMap<String, String> map = new HashMap<String, String>();
         ArrayList<String> arrayList = new ArrayList<String>();
 
         final Properties props = new Properties();
         props.setProperty("file.resource.loader.path",
                 workingDirectory + "/repo-" + fileNumber + "/" + configurationFileStream.getPath().getParent());
 
-        try {
-            String currentLine;
-            BufferedReader bufferedReader = new BufferedReader(new StringReader(velocityTemplate));
-            while ((currentLine = bufferedReader.readLine()) != null) {
-                Pattern pattern = Pattern.compile("(\\$\\w+)");
-                Matcher matcher = pattern.matcher(currentLine);
-                while (matcher.find()) {
-                    String[] parts = matcher.group(1).split("\\$");
-                    arrayList.add(parts[1]);
-                }
-            }
-            bufferedReader.close();
-        } catch (IOException e) {
-            log.error("Error while reading " + configurationFileStream.getPath(), e);
-        }
 
-        try {
-            String line;
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    new FileInputStream("/etc/environment"), "UTF-8"));
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split("=", 2);
-                if (parts.length >= 2) {
-                    String key = parts[0];
-                    String value = parts[1];
-                    map.put(key, value);
-                }
+        String currentLine;
+        BufferedReader bufferedReader = new BufferedReader(new StringReader(velocityTemplate));
+        while ((currentLine = bufferedReader.readLine()) != null) {
+            Pattern pattern = Pattern.compile("(\\$\\w+)");
+            Matcher matcher = pattern.matcher(currentLine);
+            while (matcher.find()) {
+                String[] parts = matcher.group(1).split("\\$");
+                arrayList.add(parts[1]);
             }
-            reader.close();
-        } catch (IOException e) {
-            log.error("Error while reading environment file", e);
         }
+        bufferedReader.close();
 
+
+        BufferedReader reader = null;
         try {
             VelocityEngine velocityEngine = new VelocityEngine();
             velocityEngine.init(props);
             VelocityContext context = new VelocityContext();
 
-            for (String key : map.keySet()) {
-                for (String string : arrayList) {
-                    if (key.equalsIgnoreCase(string)) {
-                        context.put(string, map.get(key));
-                    }
+            String line;
+            reader = new BufferedReader(new InputStreamReader(new FileInputStream("/etc/environment"), "UTF-8"));
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split("=", 2);
+                if ((parts.length >= 2) && (arrayList.contains(parts[0].toLowerCase(Locale.ENGLISH)))) {
+                    String key = parts[0].toLowerCase(Locale.ENGLISH);
+                    String value = parts[1];
+                    context.put(key, value);
                 }
             }
 
@@ -134,8 +112,10 @@ public class VelocityTemplatedSPDeployer extends ServiceProviderConfigDeployer {
             template.merge(context, writer);
             velocityTemplate = writer.toString();
 
-        } catch (ResourceNotFoundException e) {
-            log.error("Cannot find velocity template", e);
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
         }
 
         String spXml = velocityTemplate;
