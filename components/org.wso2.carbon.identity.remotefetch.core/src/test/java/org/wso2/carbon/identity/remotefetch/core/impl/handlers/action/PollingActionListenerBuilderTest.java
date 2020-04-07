@@ -16,8 +16,9 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.remotefetch.core.implementations.actionHandlers;
+package org.wso2.carbon.identity.remotefetch.core.impl.handlers.action;
 
+import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.testng.PowerMockTestCase;
 import org.testng.IObjectFactory;
@@ -29,7 +30,11 @@ import org.wso2.carbon.identity.remotefetch.common.DeploymentRevision;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListenerBuilder;
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListenerBuilderException;
-
+import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployer;
+import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager;
+import org.wso2.carbon.identity.remotefetch.core.dao.impl.DAOTestUtils;
+import org.wso2.carbon.identity.remotefetch.core.dao.impl.DeploymentRevisionDAOImpl;
+import org.wso2.carbon.identity.remotefetch.core.util.JdbcUtils;
 import java.io.File;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -37,12 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.mockito.Mock;
-import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployer;
-import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager;
-import org.wso2.carbon.identity.remotefetch.core.dao.impl.DAOTestUtils;
-import org.wso2.carbon.identity.remotefetch.core.dao.impl.DeploymentRevisionDAOImpl;
-import org.wso2.carbon.identity.remotefetch.core.util.JdbcUtils;
+
 
 import javax.sql.DataSource;
 
@@ -69,8 +69,10 @@ public class PollingActionListenerBuilderTest extends PowerMockTestCase {
     ConfigDeployer configDeployer;
 
     Map<String, String> actionListenerAttributesMap = new HashMap<>();
-    RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration(1, -1234,
-            true, "admin", "GIT", "POLLING", "SP", "RemoteFetchTest");
+    RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration(1,
+            -1234,
+            true, "admin", "GIT", "POLLING",
+            "SP", "RemoteFetchTest");
 
     @ObjectFactory
     public IObjectFactory getObjectFactory() {
@@ -105,7 +107,8 @@ public class PollingActionListenerBuilderTest extends PowerMockTestCase {
             Connection spy = DAOTestUtils.spyConnection(connection);
             when(dataSource.getConnection()).thenReturn(spy);
             ActionListenerBuilder actionListenerBuilder = new PollingActionListenerBuilder();
-            assertNotNull(actionListenerBuilder.addRemoteFetchConfig(remoteFetchConfiguration).addConfigDeployer(configDeployer)
+            assertNotNull(actionListenerBuilder.addRemoteFetchConfig(remoteFetchConfiguration)
+                    .addConfigDeployer(configDeployer)
                     .addRepositoryConnector(repoConnector).build());
         }
     }
@@ -143,7 +146,7 @@ public class PollingActionListenerBuilderTest extends PowerMockTestCase {
         deploymentRevision.setFile(new File("sp/newFile.xml"));
         deploymentRevision.setConfigId(remoteFetchConfiguration.getRemoteFetchConfigurationId());
         deploymentRevision.setDeployedDate(date);
-        deploymentRevision.setDeploymentStatus(DeploymentRevision.DEPLOYMENT_STATUS.DEPLOYED);
+        deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.DEPLOYED);
         return deploymentRevision;
     }
 }

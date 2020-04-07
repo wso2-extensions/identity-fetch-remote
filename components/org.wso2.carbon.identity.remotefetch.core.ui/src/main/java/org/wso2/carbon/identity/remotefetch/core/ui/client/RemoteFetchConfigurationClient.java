@@ -25,10 +25,10 @@ import org.wso2.carbon.context.CarbonContext;
 import org.wso2.carbon.identity.remotefetch.common.BasicRemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchComponentRegistry;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
+import org.wso2.carbon.identity.remotefetch.common.ValidationReport;
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListenerComponent;
 import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployerComponent;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
-import org.wso2.carbon.identity.remotefetch.common.ValidationReport;
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManagerComponent;
 import org.wso2.carbon.identity.remotefetch.core.ui.dto.RemoteFetchConfigurationRowDTO;
 import org.wso2.carbon.identity.remotefetch.core.ui.internal.RemotefetchCoreUIComponentDataHolder;
@@ -36,16 +36,19 @@ import org.wso2.carbon.identity.remotefetch.core.ui.internal.RemotefetchCoreUICo
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Holds client function for remote fetch configuration.
+ */
 public class RemoteFetchConfigurationClient {
 
     private static final Log log = LogFactory.getLog(RemoteFetchConfigurationClient.class);
 
     public static List<RemoteFetchConfigurationRowDTO> getConfigurations() throws RemoteFetchCoreException {
 
-        int tenant_id = CarbonContext.getThreadLocalCarbonContext().getTenantId();
+        int tenantId = CarbonContext.getThreadLocalCarbonContext().getTenantId();
 
         List<BasicRemoteFetchConfiguration> fetchConfigurations = RemotefetchCoreUIComponentDataHolder
-                .getInstance().getRemoteFetchConfigurationService().getBasicRemoteFetchConfigurationList(tenant_id);
+                .getInstance().getRemoteFetchConfigurationService().getBasicRemoteFetchConfigurationList(tenantId);
 
         return fetchConfigurations.stream().map((basicFetchConfiguration ->
                 RemoteFetchConfigurationClient.fetchConfigurationToDTO(basicFetchConfiguration)

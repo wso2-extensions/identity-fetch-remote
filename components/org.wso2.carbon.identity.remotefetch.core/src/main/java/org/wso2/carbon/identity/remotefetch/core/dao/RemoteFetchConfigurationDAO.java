@@ -19,8 +19,8 @@
 package org.wso2.carbon.identity.remotefetch.core.dao;
 
 import org.wso2.carbon.identity.remotefetch.common.BasicRemoteFetchConfiguration;
-import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
+import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 
 import java.util.List;
 
@@ -68,18 +68,18 @@ public interface RemoteFetchConfigurationDAO {
     List<RemoteFetchConfiguration> getAllEnabledRemoteFetchConfigurations() throws RemoteFetchCoreException;
 
     /**
-     * @param tenant_id
+     * @param tenantId
      * @return
      * @throws RemoteFetchCoreException
      */
-    List<RemoteFetchConfiguration> getRemoteFetchConfigurationsByTenant(int tenant_id) throws RemoteFetchCoreException;
+    List<RemoteFetchConfiguration> getRemoteFetchConfigurationsByTenant(int tenantId) throws RemoteFetchCoreException;
 
     /**
-     * @param tenant_id
+     * @param tenantId
      * @return
      * @throws RemoteFetchCoreException
      */
-    List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationsByTenant(int tenant_id)
+    List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationsByTenant(int tenantId)
             throws RemoteFetchCoreException;
 
 }

@@ -18,13 +18,15 @@
 
 package org.wso2.carbon.identity.remotefetch.core.dao.impl;
 
+import org.json.JSONObject;
 import org.wso2.carbon.database.utils.jdbc.JdbcTemplate;
 import org.wso2.carbon.database.utils.jdbc.exceptions.TransactionException;
 import org.wso2.carbon.identity.remotefetch.common.BasicRemoteFetchConfiguration;
-import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
+import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 import org.wso2.carbon.identity.remotefetch.core.constants.SQLConstants;
 import org.wso2.carbon.identity.remotefetch.core.dao.RemoteFetchConfigurationDAO;
+import org.wso2.carbon.identity.remotefetch.core.util.JdbcUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,8 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONObject;
-import org.wso2.carbon.identity.remotefetch.core.util.JdbcUtils;
+
 
 /**
  * this class accesses IDN_REMOTE_FETCH_CONFIG table to store/update and delete Remote Fetch configurations.
@@ -171,19 +172,20 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
     }
 
     /**
-     * @param tenant_id
+     * @param tenantId
      * @return
      * @throws RemoteFetchCoreException
      */
     @Override
-    public List<RemoteFetchConfiguration> getRemoteFetchConfigurationsByTenant(int tenant_id) throws RemoteFetchCoreException {
+    public List<RemoteFetchConfiguration> getRemoteFetchConfigurationsByTenant(int tenantId)
+            throws RemoteFetchCoreException {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {
             return jdbcTemplate.withTransaction(template ->
                     template.executeQuery(SQLConstants.LIST_CONFIGS_BY_TENANT,
                             ((resultSet, i) -> this.resultSetToConfiguration(resultSet)),
-                            preparedStatement -> preparedStatement.setInt(1, tenant_id))
+                            preparedStatement -> preparedStatement.setInt(1, tenantId))
             );
         } catch (TransactionException e) {
             throw new RemoteFetchCoreException("Error listing RemoteFetchConfigurations from database", e);
@@ -191,12 +193,13 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
     }
 
     /**
-     * @param tenant_id
+     * @param tenantId
      * @return
      * @throws RemoteFetchCoreException
      */
     @Override
-    public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationsByTenant(int tenant_id) throws RemoteFetchCoreException {
+    public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationsByTenant(int tenantId)
+            throws RemoteFetchCoreException {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {
@@ -218,7 +221,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                                 }
                                 return obj;
                             })
-                            , preparedStatement -> preparedStatement.setInt(1, tenant_id))
+                            , preparedStatement -> preparedStatement.setInt(1, tenantId))
             );
         } catch (TransactionException e) {
             throw new RemoteFetchCoreException("Error listing BasicRemoteFetchConfigurations from database", e);

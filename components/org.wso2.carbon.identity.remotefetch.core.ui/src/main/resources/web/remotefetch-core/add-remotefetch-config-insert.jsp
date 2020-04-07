@@ -52,7 +52,7 @@
         }
         
         if (validationReport != null &&
-                validationReport.getValidationStatus() == ValidationReport.VALIDATION_STATUS.FAILED) {
+                validationReport.getValidationStatus() == ValidationReport.ValidationStatus.FAILED) {
             CarbonUIMessage.sendCarbonUIMessage("Validation Error", CarbonUIMessage.ERROR, request);
             redirect = "add-remotefetch-config.jsp";
         }

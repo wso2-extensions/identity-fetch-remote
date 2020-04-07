@@ -31,10 +31,13 @@ public class DeploymentRevision {
     private File file;
     private String fileHash;
     private Date deployedDate;
-    private DEPLOYMENT_STATUS deploymentStatus;
+    private DeploymentStatus deploymentStatus;
     private String itemName;
 
-    public enum DEPLOYMENT_STATUS {
+    /**
+     * Status pf Deployment.
+     */
+    public enum DeploymentStatus {
         DEPLOYED, ERROR_DEPLOYING, FILE_MISSING
     }
 
@@ -116,22 +119,28 @@ public class DeploymentRevision {
      * @return
      */
     public Date getDeployedDate() {
-
-        return deployedDate;
+        if (deployedDate == null) {
+            return null;
+        } else {
+            return new Date(deployedDate.getTime());
+        }
     }
 
     /**
      * @param deployedDate
      */
     public void setDeployedDate(Date deployedDate) {
-
-        this.deployedDate = deployedDate;
+        if (deployedDate == null) {
+            this.deployedDate = null;
+        } else {
+            this.deployedDate = new Date(deployedDate.getTime());
+        }
     }
 
     /**
      * @return
      */
-    public DEPLOYMENT_STATUS getDeploymentStatus() {
+    public DeploymentStatus getDeploymentStatus() {
 
         return deploymentStatus;
     }
@@ -139,7 +148,7 @@ public class DeploymentRevision {
     /**
      * @param deploymentStatus
      */
-    public void setDeploymentStatus(DeploymentRevision.DEPLOYMENT_STATUS deploymentStatus) {
+    public void setDeploymentStatus(DeploymentStatus deploymentStatus) {
 
         this.deploymentStatus = deploymentStatus;
     }

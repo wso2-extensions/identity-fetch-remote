@@ -90,7 +90,8 @@ public class DAOTestUtils {
 
     public static void createFetchConfig(String databaseName, int id, int tenantId, boolean isEnabled,
                                          String userName, String repoManagerType, String actionListenerType,
-                                         String configDeployerType, JSONObject attributes, String remoteFetchName) throws Exception {
+                                         String configDeployerType, JSONObject attributes, String remoteFetchName)
+            throws Exception {
 
         try (Connection connection = getConnection(databaseName);
              PreparedStatement preparedStatement = connection.prepareStatement(CREATE_CONFIG)) {

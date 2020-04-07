@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.remotefetch.core.implementations.configDeployers;
+package org.wso2.carbon.identity.remotefetch.core.impl.deployers.config;
 
 import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -74,7 +74,8 @@ public class ServiceProviderConfigDeployerTest extends PowerMockTestCase {
         String absolutePath = file.getAbsolutePath();
         File filePath = new File(absolutePath);
 
-        VelocityTemplatedSPDeployer velocityTemplatedSPDeployer = new VelocityTemplatedSPDeployer(TENANT_ID, USER_NAME, ID);
+        VelocityTemplatedSPDeployer velocityTemplatedSPDeployer =
+                new VelocityTemplatedSPDeployer(TENANT_ID, USER_NAME, ID);
         InputStream inputStream = new FileInputStream(absolutePath);
         ConfigurationFileStream configurationFileStream = new ConfigurationFileStream(inputStream, filePath);
 
@@ -83,8 +84,10 @@ public class ServiceProviderConfigDeployerTest extends PowerMockTestCase {
         mockStatic(RealmService.class);
         when(RemoteFetchServiceComponentHolder.getInstance().getRealmService()).thenReturn(realmService);
         mockStatic(TenantManager.class);
-        when(RemoteFetchServiceComponentHolder.getInstance().getRealmService().getTenantManager()).thenReturn(tenantManager);
-        when(RemoteFetchServiceComponentHolder.getInstance().getRealmService().getTenantManager().getDomain(-1234)).thenReturn("carbon.super");
+        when(RemoteFetchServiceComponentHolder.getInstance().getRealmService().getTenantManager())
+                .thenReturn(tenantManager);
+        when(RemoteFetchServiceComponentHolder.getInstance().getRealmService().getTenantManager()
+                .getDomain(-1234)).thenReturn("carbon.super");
         assertEquals(velocityTemplatedSPDeployer.resolveConfigName(configurationFileStream), "tester");
     }
 
@@ -95,7 +98,8 @@ public class ServiceProviderConfigDeployerTest extends PowerMockTestCase {
         String absolutePath = file.getAbsolutePath();
         File filePath = new File(absolutePath);
 
-        VelocityTemplatedSPDeployer velocityTemplatedSPDeployer = new VelocityTemplatedSPDeployer(TENANT_ID, USER_NAME, ID);
+        VelocityTemplatedSPDeployer velocityTemplatedSPDeployer =
+                new VelocityTemplatedSPDeployer(TENANT_ID, USER_NAME, ID);
         InputStream inputStream = new FileInputStream(absolutePath);
         ConfigurationFileStream configurationFileStream = new ConfigurationFileStream(inputStream, filePath);
         velocityTemplatedSPDeployer.resolveConfigName(configurationFileStream);

@@ -21,12 +21,19 @@ package org.wso2.carbon.identity.remotefetch.common.ui;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Class to holds UI Field.
+ */
 public class UIField {
-    public enum FIELD_TYPES {
+
+    /**
+     * Types of UI Field
+     */
+    public enum FieldTypes {
         TEXT_BOX,
     }
     private String id;
-    private FIELD_TYPES type;
+    private FieldTypes type;
     private String displayName;
     private String helpText;
     private String validationRegex;
@@ -35,7 +42,7 @@ public class UIField {
     private boolean isSensitive;
     private boolean isMultiValue;
 
-    public UIField(String id, FIELD_TYPES type, String displayName, String helpText, String validationRegex,
+    public UIField(String id, FieldTypes type, String displayName, String helpText, String validationRegex,
                    List<String> defaultValues, boolean isMandatory, boolean isSensitive, boolean isMultiValue) {
 
         this.id = id;
@@ -49,7 +56,7 @@ public class UIField {
         this.isMultiValue = isMultiValue;
     }
 
-    public UIField(String id, FIELD_TYPES type, String displayName, String helpText, String validationRegex,
+    public UIField(String id, FieldTypes type, String displayName, String helpText, String validationRegex,
                    String defaultValue, boolean isMandatory, boolean isSensitive, boolean isMultiValue) {
 
         this.id = id;
@@ -69,7 +76,7 @@ public class UIField {
         return id;
     }
 
-    public FIELD_TYPES getType() {
+    public FieldTypes getType() {
 
         return type;
     }

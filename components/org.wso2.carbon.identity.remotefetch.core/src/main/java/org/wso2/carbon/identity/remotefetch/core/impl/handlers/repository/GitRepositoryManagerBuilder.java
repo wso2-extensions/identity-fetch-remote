@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.remotefetch.core.implementations.repositoryHandlers;
+package org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository;
 
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
@@ -27,6 +27,9 @@ import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager
 import java.io.File;
 import java.util.Map;
 
+/**
+ * Holds builder function to build git repo manager.
+ */
 public class GitRepositoryManagerBuilder extends RepositoryManagerBuilder {
 
     Map<String, String> repoAttributes;
@@ -34,7 +37,7 @@ public class GitRepositoryManagerBuilder extends RepositoryManagerBuilder {
     @Override
     public RepositoryManager build() throws RepositoryManagerBuilderException {
 
-        repoAttributes = this.fetchConfig.getRepositoryManagerAttributes();
+        repoAttributes = this.getFetchConfig().getRepositoryManagerAttributes();
 
         String branch;
         String uri;
@@ -64,19 +67,21 @@ public class GitRepositoryManagerBuilder extends RepositoryManagerBuilder {
         if (repoAttributes.containsKey("accessToken")) {
             token = repoAttributes.get("accessToken");
         } else {
-            throw new RepositoryManagerBuilderException("Access token is not specified in RemoteFetchConfiguration Repository");
+            throw new RepositoryManagerBuilderException("Access token is not specified in" +
+                    " RemoteFetchConfiguration Repository");
         }
 
         if (repoAttributes.containsKey("userName")) {
             userName = repoAttributes.get("userName");
         } else {
-            throw new RepositoryManagerBuilderException("User name is not specified in RemoteFetchConfiguration Repository");
+            throw new RepositoryManagerBuilderException("User name is not specified in" +
+                    " RemoteFetchConfiguration Repository");
         }
 
         credentials = new UsernamePasswordCredentialsProvider(userName, token);
 
-        return new GitRepositoryManager("repo-" + this.fetchConfig.getRemoteFetchConfigurationId()
-                , uri, branch, directory, this.fetchCoreConfiguration.getWorkingDirectory(), credentials);
+        return new GitRepositoryManager("repo-" + this.getFetchConfig().getRemoteFetchConfigurationId()
+                , uri, branch, directory, this.getFetchCoreConfiguration().getWorkingDirectory(), credentials);
     }
 
 }

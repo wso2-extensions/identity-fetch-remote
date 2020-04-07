@@ -36,29 +36,32 @@ public class TestConstants {
     public static Map<String, String> actionListenerAttributes = new HashMap<>();
     public static Map<String, String> configurationDeployerAttributes = new HashMap<>();
 
-    public static JSONObject getAttributesJson(){
+    public static JSONObject getAttributesJson() {
 
         int remoteFetchConfigurationId = -1;
         RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration(remoteFetchConfigurationId,
-                TENANT_ID,false, USER_NAME,null,null,null,
+                TENANT_ID, false, USER_NAME, null, null,
+                null,
                 null);
 
-        repositoryManagerAttributes.put("accessToken","1234");
-        repositoryManagerAttributes.put("userName","IS");
-        repositoryManagerAttributes.put("uri","https://github.com/IS/Test2.git");
-        repositoryManagerAttributes.put("branch","master");
-        repositoryManagerAttributes.put("directory","sp/");
-        actionListenerAttributes.put("frequency","60");
-        configurationDeployerAttributes.put("","");
+        repositoryManagerAttributes.put("accessToken", "1234");
+        repositoryManagerAttributes.put("userName", "IS");
+        repositoryManagerAttributes.put("uri", "https://github.com/IS/Test2.git");
+        repositoryManagerAttributes.put("branch", "master");
+        repositoryManagerAttributes.put("directory", "sp/");
+        actionListenerAttributes.put("frequency", "60");
+        configurationDeployerAttributes.put("", "");
 
         remoteFetchConfiguration.setRepositoryManagerAttributes(repositoryManagerAttributes);
         remoteFetchConfiguration.setConfigurationDeployerAttributes(configurationDeployerAttributes);
         remoteFetchConfiguration.setActionListenerAttributes(actionListenerAttributes);
 
         JSONObject attributesBundle = new JSONObject();
-        attributesBundle.put("repositoryManagerAttributes", remoteFetchConfiguration.getRepositoryManagerAttributes());
-        attributesBundle.put("confgiurationDeployerAttributes", remoteFetchConfiguration.getConfigurationDeployerAttributes());
-        attributesBundle.put("actionListenerAttributes" , remoteFetchConfiguration.getActionListenerAttributes());
+        attributesBundle.put("repositoryManagerAttributes",
+                remoteFetchConfiguration.getRepositoryManagerAttributes());
+        attributesBundle.put("confgiurationDeployerAttributes",
+                remoteFetchConfiguration.getConfigurationDeployerAttributes());
+        attributesBundle.put("actionListenerAttributes", remoteFetchConfiguration.getActionListenerAttributes());
 
         return attributesBundle;
     }

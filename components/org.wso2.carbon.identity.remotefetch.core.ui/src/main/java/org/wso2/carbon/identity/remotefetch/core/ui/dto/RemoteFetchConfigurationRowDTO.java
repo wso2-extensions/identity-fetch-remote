@@ -20,6 +20,9 @@ package org.wso2.carbon.identity.remotefetch.core.ui.dto;
 
 import java.util.Date;
 
+/**
+ * DTO of remote fetch configuration
+ */
 public class RemoteFetchConfigurationRowDTO {
 
     private int id;
@@ -45,7 +48,11 @@ public class RemoteFetchConfigurationRowDTO {
         this.configurationDeployerType = configarationDeployerType;
         this.successfulDeployments = successfulDeployments;
         this.failedDeployments = failedDeployments;
-        this.lastDeployed = lastDeployed;
+        if (lastDeployed == null) {
+            this.lastDeployed = null;
+        } else {
+            this.lastDeployed = new Date(lastDeployed.getTime());
+        }
 
     }
 
@@ -91,7 +98,11 @@ public class RemoteFetchConfigurationRowDTO {
 
     public Date getLastDeployed() {
 
-        return lastDeployed;
+        if (lastDeployed == null) {
+            return null;
+        } else {
+            return new Date(lastDeployed.getTime());
+        }
     }
 
     @Override

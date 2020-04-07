@@ -25,8 +25,8 @@ import org.wso2.carbon.identity.remotefetch.common.DeploymentRevision;
  */
 public class SQLConstants {
 
-    private static final String REVISION_DEPLOYMENT_OK = DeploymentRevision.DEPLOYMENT_STATUS.DEPLOYED.name();
-    private static final String REVISION_DEPLOYMENT_FAIL = DeploymentRevision.DEPLOYMENT_STATUS.ERROR_DEPLOYING.name();
+    private static final String REVISION_DEPLOYMENT_OK = DeploymentRevision.DeploymentStatus.DEPLOYED.name();
+    private static final String REVISION_DEPLOYMENT_FAIL = DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING.name();
 
     // Revision Management SQL
     public static final String CREATE_REVISION = "INSERT INTO IDN_REMOTE_FETCH_REVISIONS (CONFIG_ID, FILE_PATH, " +
@@ -68,7 +68,7 @@ public class SQLConstants {
                     " WHERE IDN_REMOTE_FETCH_REVISIONS.CONFIG_ID = IDN_REMOTE_FETCH_CONFIG.ID AND" +
                     " IDN_REMOTE_FETCH_REVISIONS.DEPLOYMENT_STATUS = '%s')," +
                     " (SELECT COUNT(IDN_REMOTE_FETCH_REVISIONS.ID) FROM IDN_REMOTE_FETCH_REVISIONS" +
-                    " WHERE IDN_REMOTE_FETCH_REVISIONS.CONFIG_ID = IDN_REMOTE_FETCH_CONFIG.ID AND"+
+                    " WHERE IDN_REMOTE_FETCH_REVISIONS.CONFIG_ID = IDN_REMOTE_FETCH_CONFIG.ID AND" +
                     " IDN_REMOTE_FETCH_REVISIONS.DEPLOYMENT_STATUS = '%s')," +
                     " (SELECT MAX(IDN_REMOTE_FETCH_REVISIONS.DEPLOYED_DATE) FROM IDN_REMOTE_FETCH_REVISIONS" +
                     " WHERE IDN_REMOTE_FETCH_REVISIONS.CONFIG_ID = IDN_REMOTE_FETCH_CONFIG.ID)" +

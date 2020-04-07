@@ -1,13 +1,13 @@
 <%@ page import="org.wso2.carbon.identity.remotefetch.core.ui.client.RemoteFetchConfigurationClient" %>
-<%@ page import="org.wso2.carbon.identity.remotefetch.core.implementations.actionHandlers.PollingActionListener" %>
+<%@ page import="org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.PollingActionListener" %>
 <%@ page import="org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration" %>
 <%@ page import="org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager" %>
 <%@ page import="java.util.Map" %>
-<%@ page import="org.wso2.carbon.identity.remotefetch.core.implementations.repositoryHandlers.GitRepositoryManager" %>
+<%@ page import="org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository.GitRepositoryManager" %>
 <%@ page import="java.io.File" %>
 <%@ page import="org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider" %>
 <%@ page
-        import="org.wso2.carbon.identity.remotefetch.core.implementations.configDeployers.VelocityTemplatedSPDeployer" %>
+        import="org.wso2.carbon.identity.remotefetch.core.impl.deployers.config.VelocityTemplatedSPDeployer" %>
 <%@ page import="org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployer" %>
 <%@ page import="org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException" %>
 <%@ page import="org.wso2.carbon.ui.CarbonUIMessage" %>

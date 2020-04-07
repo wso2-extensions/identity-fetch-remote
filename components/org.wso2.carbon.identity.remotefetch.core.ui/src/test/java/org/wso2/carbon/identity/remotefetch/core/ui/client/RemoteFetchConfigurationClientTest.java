@@ -19,7 +19,6 @@
 package org.wso2.carbon.identity.remotefetch.core.ui.client;
 
 import org.powermock.modules.testng.PowerMockTestCase;
-import org.testng.Assert;
 import org.testng.IObjectFactory;
 import org.testng.annotations.ObjectFactory;
 import org.testng.annotations.Test;
@@ -30,15 +29,14 @@ import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListener
 import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployerComponent;
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManagerComponent;
 import org.wso2.carbon.identity.remotefetch.core.RemoteFetchComponentRegistryImpl;
-import org.wso2.carbon.identity.remotefetch.core.implementations.actionHandlers.PollingActionListenerComponent;
-import org.wso2.carbon.identity.remotefetch.core.implementations.configDeployers.ServiceProviderConfigDeployerComponent;
-import org.wso2.carbon.identity.remotefetch.core.implementations.repositoryHandlers.GitRepositoryManagerComponent;
+import org.wso2.carbon.identity.remotefetch.core.impl.deployers.config.ServiceProviderConfigDeployerComponent;
+import org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.PollingActionListenerComponent;
+import org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository.GitRepositoryManagerComponent;
 import org.wso2.carbon.identity.remotefetch.core.ui.dto.RemoteFetchConfigurationRowDTO;
 import org.wso2.carbon.identity.remotefetch.core.ui.internal.RemotefetchCoreUIComponentDataHolder;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 /**

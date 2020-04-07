@@ -32,14 +32,16 @@ public interface RemoteFetchConfigurationService {
      * @return
      * @throws RemoteFetchCoreException
      */
-    ValidationReport addRemoteFetchConfiguration(RemoteFetchConfiguration fetchConfiguration) throws RemoteFetchCoreException;
+    ValidationReport addRemoteFetchConfiguration(RemoteFetchConfiguration fetchConfiguration)
+            throws RemoteFetchCoreException;
 
     /**
      * @param fetchConfiguration
      * @return
      * @throws RemoteFetchCoreException
      */
-    ValidationReport updateRemoteFetchConfiguration(RemoteFetchConfiguration fetchConfiguration) throws RemoteFetchCoreException;
+    ValidationReport updateRemoteFetchConfiguration(RemoteFetchConfiguration fetchConfiguration)
+            throws RemoteFetchCoreException;
 
     /**
      * @param fetchConfigurationId
@@ -49,18 +51,18 @@ public interface RemoteFetchConfigurationService {
     RemoteFetchConfiguration getRemoteFetchConfiguration(int fetchConfigurationId) throws RemoteFetchCoreException;
 
     /**
-     * @param tenant_id
+     * @param tenantId
      * @return Remote Fetch Configuration list for tenant id.
      * @throws RemoteFetchCoreException
      */
-    List<RemoteFetchConfiguration> getRemoteFetchConfigurationList(int tenant_id) throws RemoteFetchCoreException;
+    List<RemoteFetchConfiguration> getRemoteFetchConfigurationList(int tenantId) throws RemoteFetchCoreException;
 
     /**
-     * @param tenant_id
+     * @param tenantId
      * @return
      * @throws RemoteFetchCoreException
      */
-    List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList(int tenant_id)
+    List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList(int tenantId)
             throws RemoteFetchCoreException;
 
     /**

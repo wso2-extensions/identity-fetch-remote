@@ -146,7 +146,8 @@ public class RemoteFetchCore implements Runnable {
     private void loadListeners() {
 
         try {
-            this.fetchConfigurationService.getEnabledRemoteFetchConfigurationList().forEach((RemoteFetchConfiguration config) -> {
+            this.fetchConfigurationService.getEnabledRemoteFetchConfigurationList()
+                    .forEach((RemoteFetchConfiguration config) -> {
                 int configurationId = config.getRemoteFetchConfigurationId();
                 // Check if RemoteFetchConfig already exists in Map.
                 if (this.remoteFetchConfigurationMap.containsKey(configurationId)) {

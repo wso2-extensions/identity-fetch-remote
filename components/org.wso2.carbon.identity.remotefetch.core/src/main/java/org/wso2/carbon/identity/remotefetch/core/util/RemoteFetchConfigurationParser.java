@@ -24,6 +24,9 @@ import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreExc
 
 import java.io.File;
 
+/**
+ *Parser for core configuration from deployment.toml file.
+ */
 public class RemoteFetchConfigurationParser {
     public static RemoteFetchCoreConfiguration parseConfiguration() throws RemoteFetchCoreException {
 
@@ -33,22 +36,22 @@ public class RemoteFetchConfigurationParser {
         String isEnabledProperty = IdentityUtil.getProperty("RemoteFetch.FetchEnabled");
         String workingDirectoryProperty = IdentityUtil.getProperty("RemoteFetch.WorkingDirectory");
 
-        if(isEnabledProperty != null && !isEnabledProperty.isEmpty()){
+        if (isEnabledProperty != null && !isEnabledProperty.isEmpty()) {
             isEnabled = isEnabledProperty.equalsIgnoreCase("true");
         }
 
-        if(workingDirectoryProperty != null && !workingDirectoryProperty.isEmpty()){
+        if (workingDirectoryProperty != null && !workingDirectoryProperty.isEmpty()) {
             workingDirectory = new File(workingDirectoryProperty);
             validateDirectory(workingDirectory);
         }
 
-        return new RemoteFetchCoreConfiguration(workingDirectory,isEnabled);
+        return new RemoteFetchCoreConfiguration(workingDirectory, isEnabled);
 
     }
 
-    private static void validateDirectory(File workingDirectory) throws RemoteFetchCoreException{
+    private static void validateDirectory(File workingDirectory) throws RemoteFetchCoreException {
 
-        if(!workingDirectory.isDirectory()){
+        if (!workingDirectory.isDirectory()) {
             throw new RemoteFetchCoreException("Not a valid WorkingDirectory for RemoteFetchCore");
         }
     }

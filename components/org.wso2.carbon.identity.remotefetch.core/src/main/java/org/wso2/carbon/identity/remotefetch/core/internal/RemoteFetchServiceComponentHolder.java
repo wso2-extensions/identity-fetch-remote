@@ -26,6 +26,9 @@ import org.wso2.carbon.user.core.service.RealmService;
 
 import javax.sql.DataSource;
 
+/**
+ * Holds remote fetch service component.
+ */
 public class RemoteFetchServiceComponentHolder {
 
     private static RemoteFetchServiceComponentHolder instance = new RemoteFetchServiceComponentHolder();

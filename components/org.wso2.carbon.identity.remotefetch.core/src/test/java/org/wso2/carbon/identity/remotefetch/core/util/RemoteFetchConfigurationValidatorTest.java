@@ -46,7 +46,8 @@ public class RemoteFetchConfigurationValidatorTest extends PowerMockTestCase {
     private static final String CONFIG_DEPLOYER_TYPE = "SP";
     private static final String REMOTE_FETCH_NAME = "RemoteFetchTest";
 
-    RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration(ID, TENANT_ID, IS_ENABLED, USER_NAME,
+    RemoteFetchConfiguration remoteFetchConfiguration =
+            new RemoteFetchConfiguration(ID, TENANT_ID, IS_ENABLED, USER_NAME,
             REPO_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE, REMOTE_FETCH_NAME);
 
     RemoteFetchComponentRegistry remoteFetchComponentRegistry = new RemoteFetchComponentRegistryImpl();

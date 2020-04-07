@@ -27,10 +27,14 @@ import java.util.List;
  */
 public class ValidationReport {
 
-    public static enum VALIDATION_STATUS {
-        PASSED,FAILED
+    /**
+     * Status of validation report
+     */
+    public static enum ValidationStatus {
+        PASSED, FAILED
     }
-    private VALIDATION_STATUS validationStatus;
+
+    private ValidationStatus validationStatus;
     private List<String> validationMessages = new ArrayList<>();
 
     /**
@@ -41,8 +45,32 @@ public class ValidationReport {
         this.validationMessages.add(message);
     }
 
-    public void addMessage(String format, Object... args) {
-        this.addMessage(new Formatter().format(format, args).toString());
+
+    public void addMessageForMandatoryValidation(String field) {
+        this.addMessage(new Formatter().format(ValidationFormat.MANDATORY_VALUE, field).toString());
+    }
+
+    public void addMessageForPatternValidation(String field) {
+        this.addMessage(new Formatter().format(ValidationFormat.DOES_NOT_MATCH_PATTERN, field).toString());
+    }
+
+    public void addMessageForActionListenerValidation(String actionListenerType) {
+        this.addMessage(new Formatter().format(ValidationFormat.NOT_A_VALID_ACTION_LISTENER, actionListenerType)
+                .toString());
+    }
+
+    public void addMessageForRepoManagerValidation(String repoManagerType) {
+        this.addMessage(new Formatter().format(ValidationFormat.NOT_A_VALID_REPO_MANAGER, repoManagerType).toString());
+    }
+
+    public void addMessageForConfigDeployerValidation(String configDeployerType) {
+        this.addMessage(new Formatter().format(ValidationFormat.NOT_A_VALID_CONFIG_DEPLOYER, configDeployerType)
+                .toString());
+    }
+
+    public void addMessageForComponentValidation(String validationReport, String componentName) {
+        this.addMessage(new Formatter().format(ValidationFormat.COMPONENT_VALIDATION, validationReport, componentName)
+                .toString());
     }
 
     /**
@@ -53,12 +81,12 @@ public class ValidationReport {
         return this.validationMessages;
     }
 
-    public VALIDATION_STATUS getValidationStatus() {
+    public ValidationStatus getValidationStatus() {
 
         return validationStatus;
     }
 
-    public void setValidationStatus(VALIDATION_STATUS validationStatus) {
+    public void setValidationStatus(ValidationStatus validationStatus) {
 
         this.validationStatus = validationStatus;
     }

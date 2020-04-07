@@ -30,6 +30,9 @@ import org.osgi.service.component.annotations.ReferencePolicy;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchComponentRegistry;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfigurationService;
 
+/**
+ * UI component for Remote fetch core.
+ */
 @Component(
         name = "org.wso2.carbon.identity.remotefetch.core.ui",
         immediate = true
@@ -58,11 +61,12 @@ public class RemotefetchCoreUIComponent {
             policy = ReferencePolicy.DYNAMIC,
             unbind = "unsetRemoteFetchComponentRegistryReference"
     )
-    protected void setRemoteFetchComponentRegistryReference(RemoteFetchComponentRegistry componentRegistry){
+    protected void setRemoteFetchComponentRegistryReference(RemoteFetchComponentRegistry componentRegistry) {
         RemotefetchCoreUIComponentDataHolder.getInstance().setComponentRegistry(componentRegistry);
 
     }
-    protected void unsetRemoteFetchComponentRegistryReference(RemoteFetchComponentRegistry componentRegistry){
+
+    protected void unsetRemoteFetchComponentRegistryReference(RemoteFetchComponentRegistry componentRegistry) {
         RemotefetchCoreUIComponentDataHolder.getInstance().setComponentRegistry(null);
     }
 
@@ -74,14 +78,15 @@ public class RemotefetchCoreUIComponent {
             unbind = "unsetRemoteFetchConfigurationServiceReference"
     )
     protected void setRemoteFetchConfigurationServiceReference(
-            RemoteFetchConfigurationService fetchConfigurationService){
+            RemoteFetchConfigurationService fetchConfigurationService) {
 
         RemotefetchCoreUIComponentDataHolder.getInstance()
                 .setRemoteFetchConfigurationService(fetchConfigurationService);
 
     }
+
     protected void unsetRemoteFetchConfigurationServiceReference(
-            RemoteFetchConfigurationService fetchConfigurationService){
+            RemoteFetchConfigurationService fetchConfigurationService) {
 
         RemotefetchCoreUIComponentDataHolder.getInstance().setRemoteFetchConfigurationService(null);
     }

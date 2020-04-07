@@ -30,6 +30,9 @@ import org.wso2.carbon.identity.remotefetch.common.ui.UIFieldValidator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Validator for remote fetch component.
+ */
 public class RemoteFetchConfigurationValidator {
 
     private RemoteFetchComponentRegistry fetchComponentRegistry;
@@ -98,25 +101,25 @@ public class RemoteFetchConfigurationValidator {
     }
 
     private boolean checkBasicFields() {
-        if (this.fetchConfiguration.getUserName() == null && !this.fetchConfiguration.getUserName().isEmpty()){
+        if (this.fetchConfiguration.getUserName() == null && !this.fetchConfiguration.getUserName().isEmpty()) {
             this.validationReport.addMessage("username field is empty");
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     private boolean checkEmpty() {
         boolean isValid = true;
-        if(this.fetchConfiguration.getActionListenerType().isEmpty()){
+        if (this.fetchConfiguration.getActionListenerType().isEmpty()) {
             this.validationReport.addMessage("Empty field provided for Action Listener Type");
             isValid = false;
         }
-        if(this.fetchConfiguration.getConfigurationDeployerType().isEmpty()){
+        if (this.fetchConfiguration.getConfigurationDeployerType().isEmpty()) {
             this.validationReport.addMessage("Empty field provided for Config Deployer Type");
             isValid = false;
         }
-        if(this.fetchConfiguration.getRepositoryManagerType().isEmpty()){
+        if (this.fetchConfiguration.getRepositoryManagerType().isEmpty()) {
             this.validationReport.addMessage("Empty field provided for Repository Manager Type");
             isValid = false;
         }
@@ -128,17 +131,17 @@ public class RemoteFetchConfigurationValidator {
         boolean isValid = true;
 
         if (actionListenerComponent == null) {
-            this.validationReport.addMessage("%s is not a valid Action Listener",
+            this.validationReport.addMessageForActionListenerValidation(
                     this.fetchConfiguration.getActionListenerType());
             isValid = false;
         }
         if (configDeployerComponent == null) {
-            this.validationReport.addMessage("%s is not a valid Config Deployer",
+            this.validationReport.addMessageForConfigDeployerValidation(
                     this.fetchConfiguration.getConfigurationDeployerType());
             isValid = false;
         }
         if (repositoryManagerComponent == null) {
-            this.validationReport.addMessage("%s is not a valid Repository Manager",
+            this.validationReport.addMessageForRepoManagerValidation(
                     this.fetchConfiguration.getRepositoryManagerType());
             isValid = false;
         }
@@ -146,19 +149,19 @@ public class RemoteFetchConfigurationValidator {
         return isValid;
     }
 
-    private void checkAttributes(Map<String, String> attributes, List<UIField> fieldList, String component_name) {
+    private void checkAttributes(Map<String, String> attributes, List<UIField> fieldList, String componentName) {
 
         ValidationReport componentReport = UIFieldValidator.validate(attributes, fieldList);
         for (String report : componentReport.getMessages()) {
-            this.validationReport.addMessage("%s for %s", report, component_name);
+            this.validationReport.addMessageForComponentValidation(report, componentName);
         }
     }
 
-    private ValidationReport returnReport(){
-        if(this.validationReport.getMessages().size() == 0){
-            this.validationReport.setValidationStatus(ValidationReport.VALIDATION_STATUS.PASSED);
-        }else{
-            this.validationReport.setValidationStatus(ValidationReport.VALIDATION_STATUS.FAILED);
+    private ValidationReport returnReport() {
+        if (this.validationReport.getMessages().size() == 0) {
+            this.validationReport.setValidationStatus(ValidationReport.ValidationStatus.PASSED);
+        } else {
+            this.validationReport.setValidationStatus(ValidationReport.ValidationStatus.FAILED);
         }
         return this.validationReport;
     }

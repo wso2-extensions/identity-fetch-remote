@@ -27,9 +27,9 @@ import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager
  */
 public abstract class ActionListenerBuilder {
 
-    protected RemoteFetchConfiguration fetchConfig;
-    protected RepositoryManager repoConnector;
-    protected ConfigDeployer configDeployer;
+    private RemoteFetchConfiguration fetchConfig;
+    private RepositoryManager repoConnector;
+    private ConfigDeployer configDeployer;
 
     /**
      * Set RemoteFetchConfiguration attribute.
@@ -61,6 +61,18 @@ public abstract class ActionListenerBuilder {
 
         this.configDeployer = configDeployer;
         return this;
+    }
+
+    public RemoteFetchConfiguration getFetchConfig() {
+        return fetchConfig;
+    }
+
+    public RepositoryManager getRepoConnector() {
+        return repoConnector;
+    }
+
+    public ConfigDeployer getConfigDeployer() {
+        return configDeployer;
     }
 
     /**

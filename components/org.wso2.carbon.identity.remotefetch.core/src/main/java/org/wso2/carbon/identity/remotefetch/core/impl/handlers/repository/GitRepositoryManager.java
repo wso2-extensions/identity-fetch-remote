@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -16,8 +16,9 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.remotefetch.core.implementations.repositoryHandlers;
+package org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jgit.api.CloneCommand;
@@ -42,11 +43,16 @@ import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Wrapper class of JGit implementations.
+ */
 public class GitRepositoryManager implements RepositoryManager {
 
     private static final Log log = LogFactory.getLog(GitRepositoryManager.class);
@@ -95,8 +101,7 @@ public class GitRepositoryManager implements RepositoryManager {
     private Repository getLocalRepository() throws IOException {
 
         FileRepositoryBuilder localBuilder = new FileRepositoryBuilder();
-        return localBuilder.findGitDir(this.repoPath)
-                .build();
+        return localBuilder.findGitDir(this.repoPath).build();
     }
 
     private void pullRepository() throws GitAPIException {
@@ -106,7 +111,7 @@ public class GitRepositoryManager implements RepositoryManager {
             pullRequest.setCredentialsProvider(this.credentialsProvider);
             pullRequest.call();
         } catch (JGitInternalException e) {
-            log.error("Unable to pull git repository: " + this.uri, e);
+            log.error("Unable to pull git repository: " + sanitize(this.uri), e);
         }
     }
 
@@ -125,13 +130,13 @@ public class GitRepositoryManager implements RepositoryManager {
             try {
                 this.pullRepository();
             } catch (GitAPIException e) {
-                log.error("Unable to pull repository " + this.uri + " from remote", e);
+                log.error("Unable to pull repository " + sanitize(this.uri) + " from remote", e);
             }
         } else {
             try {
                 this.repo = this.cloneRepository();
             } catch (GitAPIException e) {
-                log.error("Unable to clone repository " + this.uri + " from remote", e);
+                log.error("Unable to clone repository " + sanitize(this.uri) + " from remote", e);
             }
             this.git = new Git(this.repo);
         }
@@ -140,7 +145,7 @@ public class GitRepositoryManager implements RepositoryManager {
     @Override
     public ConfigurationFileStream getFile(File location) throws RemoteFetchCoreException {
 
-        if (!this.isFileInSubDirectory(this.fileRoot, location)) {
+        if (!this.isSubDir(this.fileRoot, location)) {
             throw new RemoteFetchCoreException("Requested file doesn't share repository root");
         }
 
@@ -221,5 +226,41 @@ public class GitRepositoryManager implements RepositoryManager {
             return true;
         }
         return isFileInSubDirectory(baseDir, path.getParentFile());
+    }
+
+    private String sanitize(String input) {
+
+        if (StringUtils.isBlank(input)) {
+            return input;
+        }
+
+        return input.replaceAll("(\\r|\\n|%0D|%0A|%0a|%0d)", "");
+    }
+
+    private  boolean isSubDir(File baseFile, File userFile) {
+
+        Path baseDirPath = Paths.get(baseFile.getAbsolutePath());
+        Path userPath = Paths.get(userFile.getPath());
+
+        if (!baseDirPath.isAbsolute()) {
+            throw new IllegalArgumentException("Base path must be absolute");
+        }
+
+        if (userPath.isAbsolute()) {
+            throw new IllegalArgumentException("User path must be relative");
+        }
+
+    // Join the two paths together, then normalize so that any ".." elements
+    // in the userPath can remove parts of baseDirPath.
+    // (e.g. "/foo/bar/baz" + "../attack" -> "/foo/bar/attack")
+    final Path resolvedPath = baseDirPath.resolve(userPath).normalize();
+
+    // Make sure the resulting path is still within the required directory.
+    // (In the example above, "/foo/bar/attack" is not.)
+    if (!resolvedPath.startsWith(baseDirPath)) {
+            throw new IllegalArgumentException("User path escapes the base path");
+        }
+
+    return true;
     }
 }

@@ -18,7 +18,6 @@
 
 package org.wso2.carbon.identity.remotefetch.common;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -26,7 +25,7 @@ import java.util.Objects;
 /**
  * Holds configuration data to instantiate a RemoteFetch
  */
-public class RemoteFetchConfiguration implements Serializable {
+public class RemoteFetchConfiguration {
 
     private int remoteFetchConfigurationId = -1;
     private int tenantId = 0;
@@ -247,7 +246,7 @@ public class RemoteFetchConfiguration implements Serializable {
         RemoteFetchConfiguration that = (RemoteFetchConfiguration) o;
         return remoteFetchConfigurationId == that.remoteFetchConfigurationId &&
                 tenantId == that.tenantId &&
-                remoteFetchName == that.remoteFetchName &&
+                Objects.equals(remoteFetchName, that.remoteFetchName) &&
                 isEnabled == that.isEnabled &&
                 Objects.equals(repositoryManagerType, that.repositoryManagerType) &&
                 Objects.equals(actionListenerType, that.actionListenerType) &&

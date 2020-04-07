@@ -25,35 +25,37 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Holds validation for UI Field.
+ */
 public class UIFieldValidator {
-    public static ValidationReport validate(Map<String,String> attributes, List<UIField> fields){
+    public static ValidationReport validate(Map<String, String> attributes, List<UIField> fields) {
         ValidationReport validationReport = new ValidationReport();
-        for (UIField field : fields){
+        for (UIField field : fields) {
 
-            String input_value = attributes.getOrDefault(field.getId(),null);
+            String inputValue = attributes.getOrDefault(field.getId(), null);
 
-            if (input_value == null){
+            if (inputValue == null) {
                 // Check if mandatory value is present
-                if(field.isMandatory()){
-                    validationReport.addMessage("%s is a mandatory value",field.getDisplayName());
+                if (field.isMandatory()) {
+                    validationReport.addMessageForMandatoryValidation(field.getDisplayName());
                 }
-                continue;
-            }else{
-                if (!UIFieldValidator.doesPatternMatch(field.getValidationRegex(),input_value)){
-                    validationReport.addMessage("%s does not match pattern",field.getDisplayName());
+            } else {
+                if (!UIFieldValidator.doesPatternMatch(field.getValidationRegex(), inputValue)) {
+                    validationReport.addMessageForPatternValidation(field.getDisplayName());
                 }
             }
 
         }
-        if(validationReport.getMessages().size() == 0){
-            validationReport.setValidationStatus(ValidationReport.VALIDATION_STATUS.PASSED);
-        }else{
-            validationReport.setValidationStatus(ValidationReport.VALIDATION_STATUS.FAILED);
+        if (validationReport.getMessages().size() == 0) {
+            validationReport.setValidationStatus(ValidationReport.ValidationStatus.PASSED);
+        } else {
+            validationReport.setValidationStatus(ValidationReport.ValidationStatus.FAILED);
         }
         return validationReport;
     }
 
-    private static boolean doesPatternMatch(String pattern, String value){
+    private static boolean doesPatternMatch(String pattern, String value) {
 
         Pattern regex = Pattern.compile(pattern);
         Matcher matcher = regex.matcher(value);

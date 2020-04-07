@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -16,8 +16,9 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.remotefetch.core.implementations.actionHandlers;
+package org.wso2.carbon.identity.remotefetch.core.impl.handlers.action;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.identity.remotefetch.common.ConfigurationFileStream;
@@ -28,10 +29,13 @@ import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreExc
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager;
 import org.wso2.carbon.identity.remotefetch.core.dao.DeploymentRevisionDAO;
 import org.wso2.carbon.identity.remotefetch.core.dao.impl.DeploymentRevisionDAOImpl;
-import org.wso2.carbon.identity.remotefetch.core.implementations.configDeployers.VelocityTemplatedSPDeployer;
-import org.wso2.carbon.identity.remotefetch.core.implementations.repositoryHandlers.GitRepositoryManager;
+import org.wso2.carbon.identity.remotefetch.core.impl.deployers.config.VelocityTemplatedSPDeployer;
+import org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository.GitRepositoryManager;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -122,13 +126,13 @@ public class PollingActionListener implements ActionListener {
      */
     private void updateRevision(String resolvedName, File configPath) {
 
-        DeploymentRevision currentdDeploymentRevision = this.deploymentRevisionMap.get(resolvedName);
-        if (!currentdDeploymentRevision.getFile().equals(configPath)) {
+        DeploymentRevision currentDeploymentRevision = this.deploymentRevisionMap.get(resolvedName);
+        if (!currentDeploymentRevision.getFile().equals(configPath)) {
             try {
-                currentdDeploymentRevision.setFile(configPath);
-                this.deploymentRevisionDAO.updateDeploymentRevision(currentdDeploymentRevision);
+                currentDeploymentRevision.setFile(configPath);
+                this.deploymentRevisionDAO.updateDeploymentRevision(currentDeploymentRevision);
             } catch (RemoteFetchCoreException e) {
-                log.error("Unable to update DeploymentRevision for " + resolvedName, e);
+                log.error("Unable to update DeploymentRevision for " + sanitize(resolvedName), e);
             }
         }
     }
@@ -150,7 +154,7 @@ public class PollingActionListener implements ActionListener {
             deploymentRevision.setDeploymentRevisionId(id);
             this.deploymentRevisionMap.put(deploymentRevision.getItemName(), deploymentRevision);
         } catch (RemoteFetchCoreException e) {
-            log.error("Unable to add a new DeploymentRevision for " + resolvedName, e);
+            log.error("Unable to add a new DeploymentRevision for " + sanitize(resolvedName), e);
         }
     }
 
@@ -194,7 +198,7 @@ public class PollingActionListener implements ActionListener {
             try {
                 newHash = this.repo.getRevisionHash(deploymentRevision.getFile());
             } catch (RemoteFetchCoreException e) {
-                log.error("Unable to get new hash for " + deploymentRevision.getItemName(), e);
+                log.error("Unable to get new hash for " + sanitize(deploymentRevision.getItemName()), e);
             }
 
             // Deploy if new file or updated file
@@ -210,11 +214,14 @@ public class PollingActionListener implements ActionListener {
                                     this.remoteFetchConfigurationId);
                     velocityTemplatedSPDeployer.deploy(configurationFileStream);
 
-                    deploymentRevision.setDeploymentStatus(DeploymentRevision.DEPLOYMENT_STATUS.DEPLOYED);
+                    deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.DEPLOYED);
 
                 } catch (RemoteFetchCoreException e) {
-                    log.error("Error Deploying " + deploymentRevision.getFile().getName(), e);
-                    deploymentRevision.setDeploymentStatus(DeploymentRevision.DEPLOYMENT_STATUS.ERROR_DEPLOYING);
+                    log.error("Error Deploying " + sanitize(deploymentRevision.getFile().getName()), e);
+                    deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING);
+                } catch (IOException e) {
+                    log.error("Error Deploying " + sanitize(deploymentRevision.getFile().getName()), e);
+                    deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING);
                 }
 
                 // Set new deployment Date
@@ -223,7 +230,8 @@ public class PollingActionListener implements ActionListener {
                 try {
                     this.deploymentRevisionDAO.updateDeploymentRevision(deploymentRevision);
                 } catch (RemoteFetchCoreException e) {
-                    log.error("Error updating DeploymentRevision for " + deploymentRevision.getItemName(), e);
+                    log.error("Error updating DeploymentRevision for " + sanitize(deploymentRevision.getItemName())
+                            , e);
                 }
             }
         }
@@ -240,6 +248,23 @@ public class PollingActionListener implements ActionListener {
 
         String currentHash = deploymentRevision.getFileHash();
         // Check if previous revision is none which indicates the addition of a new file and if so deploy.
-        return (!newHash.isEmpty() && (currentHash.isEmpty() || !(currentHash.equals(newHash))));
+        try {
+            return (!newHash.isEmpty() && (currentHash.isEmpty() ||
+                    !(MessageDigest.isEqual(newHash.getBytes("UTF-8"), currentHash.getBytes("UTF-8")))));
+        } catch (UnsupportedEncodingException e) {
+            log.error("Hash cross check failed. Error Deploying " + sanitize(deploymentRevision.getFile().getName())
+                    , e);
+        }
+        return false;
     }
+
+    private String sanitize(String input) {
+
+        if (StringUtils.isBlank(input)) {
+            return input;
+        }
+
+        return input.replaceAll("(\\r|\\n|%0D|%0A|%0a|%0d)", "");
+    }
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -16,15 +16,19 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.remotefetch.core.implementations.actionHandlers;
+package org.wso2.carbon.identity.remotefetch.core.impl.handlers.action;
 
-import org.wso2.carbon.identity.remotefetch.common.ui.UIField;
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListenerBuilder;
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListenerComponent;
+import org.wso2.carbon.identity.remotefetch.common.ui.UIField;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Holds data for UI elements.
+ */
 public class PollingActionListenerComponent implements ActionListenerComponent {
 
     @Override
@@ -51,7 +55,7 @@ public class PollingActionListenerComponent implements ActionListenerComponent {
         ArrayList<UIField> fieldList = new ArrayList();
 
         fieldList.add(new UIField(
-                "frequency", UIField.FIELD_TYPES.TEXT_BOX, "Polling Frequency",
+                "frequency", UIField.FieldTypes.TEXT_BOX, "Polling Frequency",
                 "Number of seconds polling should occur", "^\\d+$", "60",
                 true, false, false
 
