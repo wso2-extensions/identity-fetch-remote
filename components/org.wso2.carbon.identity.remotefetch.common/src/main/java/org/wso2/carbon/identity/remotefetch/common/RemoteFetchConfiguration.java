@@ -155,6 +155,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * set RepositoryManagerType
+     * @param repositoryManagerType repositoryManagerType
      */
     public void setRepositoryManagerType(String repositoryManagerType) {
 
