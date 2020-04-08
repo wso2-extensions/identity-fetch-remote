@@ -27,7 +27,8 @@ import java.util.List;
  */
 public interface RemoteFetchConfigurationService {
 
-    /**This method is used to call by clients to add RemoteFetchConfiguration into database.
+    /**
+     * This method is used to call by clients to add RemoteFetchConfiguration into database.
      * This method called by clients when user add new RemoteFetchConfiguration via carbon console.
      * @param fetchConfiguration RemoteFetchConfiguration Object.
      * @return ValidationReport ValidationReport says whether params of RemoteFetchConfiguration is valid or not.
@@ -36,7 +37,8 @@ public interface RemoteFetchConfigurationService {
     ValidationReport addRemoteFetchConfiguration(RemoteFetchConfiguration fetchConfiguration)
             throws RemoteFetchCoreException;
 
-    /**This method is used to call by clients to update existing RemoteFetchConfiguration.
+    /**
+     * This method is used to call by clients to update existing RemoteFetchConfiguration.
      * This method called by clients when user edit existing RemoteFetchConfiguration via carbon console.
      * @param fetchConfiguration  RemoteFetchConfiguration Object.
      * @return ValidationReport ValidationReport says whether params of RemoteFetchConfiguration is valid or not.
@@ -45,7 +47,8 @@ public interface RemoteFetchConfigurationService {
     ValidationReport updateRemoteFetchConfiguration(RemoteFetchConfiguration fetchConfiguration)
             throws RemoteFetchCoreException;
 
-    /**This method is used to call by clients to get existing RemoteFetchConfiguration by Id.
+    /**
+     * This method is used to call by clients to get existing RemoteFetchConfiguration by Id.
      * This method is called by clients while triggering or edit existing RemoteFetchConfiguration.
      * @param fetchConfigurationId ID
      * @return Remote Fetch Configuration for id.
@@ -54,7 +57,8 @@ public interface RemoteFetchConfigurationService {
     RemoteFetchConfiguration getRemoteFetchConfiguration(int fetchConfigurationId)
             throws RemoteFetchCoreException;
 
-    /** This method is used to call by clients to get list of BasicRemoteFetchConfiguration by tenantID.
+    /**
+     * This method is used to call by clients to get list of BasicRemoteFetchConfiguration by tenantID.
      * This method is called by clients in list view.
      * @return List of BasicRemoteFetchConfiguration
      * @throws RemoteFetchCoreException
@@ -62,13 +66,15 @@ public interface RemoteFetchConfigurationService {
     List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList()
             throws RemoteFetchCoreException;
 
-    /**This method is used to call by internal auto pull method to get list of enabled BasicRemoteFetchConfiguration.
+    /**
+     * This method is used to call by internal auto pull method to get list of enabled BasicRemoteFetchConfiguration.
      * @return All Enabled Remote Fetch Configurations.
      * @throws RemoteFetchCoreException
      */
     List<RemoteFetchConfiguration> getEnabledRemoteFetchConfigurationList() throws RemoteFetchCoreException;
 
-    /**This method is used to call by clients to delete BasicRemoteFetchConfiguration by ID.
+    /**
+     * This method is used to call by clients to delete BasicRemoteFetchConfiguration by ID.
      * @param fetchConfigurationId
      * @throws RemoteFetchCoreException
      */

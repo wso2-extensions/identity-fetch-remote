@@ -57,7 +57,8 @@ public class RemoteFetchConfiguration {
         this.userName = userName;
     }
 
-    /**Tenant Id is used derived from carbon context while creation.
+    /**
+     * Tenant Id is used derived from carbon context while creation.
      * removing this tenant Id attribute  from this class produce malfunction because auto pull threads may not
      * have carbon context but it needs to deploy configuration.
      * @return tenantId
@@ -67,7 +68,8 @@ public class RemoteFetchConfiguration {
         return tenantId;
     }
 
-    /**Human readable name given by user while creation.
+    /**
+     * Human readable name given by user while creation.
      * set remoteFetchName
      *
      * @param remoteFetchName remoteFetchName
@@ -87,7 +89,8 @@ public class RemoteFetchConfiguration {
         return remoteFetchName;
     }
 
-    /**set tenantId using carbon context.
+    /**
+     * set tenantId using carbon context.
      * @param tenantId
      */
     public void setTenantId(int tenantId) {
@@ -95,7 +98,8 @@ public class RemoteFetchConfiguration {
         this.tenantId = tenantId;
     }
 
-    /**boolean parameter used to represent that auto pull is enabled for this remoteFetchConfiguration or not.
+    /**
+     * boolean parameter used to represent that auto pull is enabled for this remoteFetchConfiguration or not.
      * @return isEnabled
      */
     public boolean isEnabled() {
@@ -103,7 +107,8 @@ public class RemoteFetchConfiguration {
         return isEnabled;
     }
 
-    /**set isEnabled.
+    /**
+     * set isEnabled.
      * @param isEnabled isEnabled
      */
     public void setEnabled(boolean isEnabled) {
@@ -111,15 +116,17 @@ public class RemoteFetchConfiguration {
         this.isEnabled = isEnabled;
     }
 
-    /**This represents the user who created this remoteFetch configuration, set from session.
-     * @return
+    /**
+     * This represents the user who created this remoteFetch configuration, set from session.
+     * @return userName
      */
     public String getUserName() {
 
         return userName;
     }
 
-    /**set username.
+    /**
+     * set username.
      * @param userName userName
      */
     public void setUserName(String userName) {
@@ -127,7 +134,8 @@ public class RemoteFetchConfiguration {
         this.userName = userName;
     }
 
-    /** unique ID to represent this configuration.
+    /**
+     * unique ID to represent this configuration.
      * @return
      */
     public int getRemoteFetchConfigurationId() {
@@ -135,7 +143,8 @@ public class RemoteFetchConfiguration {
         return remoteFetchConfigurationId;
     }
 
-    /**set RemoteFetchConfigurationId.
+    /**
+     * set RemoteFetchConfigurationId.
      * @param remoteFetchConfigurationId remoteFetchConfigurationId
      */
     public void setRemoteFetchConfigurationId(int remoteFetchConfigurationId) {
@@ -172,7 +181,8 @@ public class RemoteFetchConfiguration {
         return actionListenerType;
     }
 
-    /**set ActionListenerType
+    /**
+     * set ActionListenerType
      * @param actionListenerType actionListenerType
      */
     public void setActionListenerType(String actionListenerType) {
@@ -189,7 +199,8 @@ public class RemoteFetchConfiguration {
         return configurationDeployerType;
     }
 
-    /**set ConfigurationDeployerType
+    /**
+     * set ConfigurationDeployerType
      * @param configurationDeployerType configurationDeployerType
      */
     public void setConfigurationDeployerType(String configurationDeployerType) {
@@ -197,7 +208,8 @@ public class RemoteFetchConfiguration {
         this.configurationDeployerType = configurationDeployerType;
     }
 
-    /**RepositoryManagerAttributes Holds Configurations regarding RepositoryManager.
+    /**
+     * RepositoryManagerAttributes Holds Configurations regarding RepositoryManager.
      * @return repositoryManagerAttributes
      */
     public Map<String, String> getRepositoryManagerAttributes() {
@@ -205,7 +217,8 @@ public class RemoteFetchConfiguration {
         return repositoryManagerAttributes;
     }
 
-    /**set RepositoryManagerAttributes.
+    /**
+     * set RepositoryManagerAttributes.
      * @param repositoryManagerAttributes repositoryManagerAttributes
      */
     public void setRepositoryManagerAttributes(Map<String, String> repositoryManagerAttributes) {
@@ -213,7 +226,8 @@ public class RemoteFetchConfiguration {
         this.repositoryManagerAttributes = repositoryManagerAttributes;
     }
 
-    /**ActionListenerAttributes holds configurations regarding Action Listener.
+    /**
+     * ActionListenerAttributes holds configurations regarding Action Listener.
      * @return actionListenerAttributes
      */
     public Map<String, String> getActionListenerAttributes() {
@@ -221,7 +235,8 @@ public class RemoteFetchConfiguration {
         return actionListenerAttributes;
     }
 
-    /**set ActionListenerAttributes.
+    /**
+     * set ActionListenerAttributes.
      * @param actionListenerAttributes actionListenerAttributes
      */
     public void setActionListenerAttributes(Map<String, String> actionListenerAttributes) {
@@ -229,7 +244,8 @@ public class RemoteFetchConfiguration {
         this.actionListenerAttributes = actionListenerAttributes;
     }
 
-    /**ConfigurationDeployerAttributes holds configuration regarding ConfigurationDeployer.
+    /**
+     * ConfigurationDeployerAttributes holds configuration regarding ConfigurationDeployer.
      * @return configurationDeployerAttributes
      */
     public Map<String, String> getConfigurationDeployerAttributes() {
@@ -237,7 +253,8 @@ public class RemoteFetchConfiguration {
         return configurationDeployerAttributes;
     }
 
-    /**set ConfigurationDeployerAttributes.
+    /**
+     * set ConfigurationDeployerAttributes.
      * @param configurationDeployerAttributes configurationDeployerAttributes
      */
     public void setConfigurationDeployerAttributes(Map<String, String> configurationDeployerAttributes) {

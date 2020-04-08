@@ -38,7 +38,8 @@ public class ValidationReport {
     private ValidationStatus validationStatus;
     private List<String> validationMessages = new ArrayList<>();
 
-    /** Add message into validation report.
+    /**
+     * Add message into validation report.
      * @param message message
      */
     public void addMessage(String message) {
