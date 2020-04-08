@@ -30,7 +30,8 @@ public class ConfigurationFileStream {
     private InputStream contentStream;
     private File path;
 
-    /**Default constructor.
+    /**
+     * Default constructor.
      * @param contentStream
      * @param path
      */
@@ -40,7 +41,8 @@ public class ConfigurationFileStream {
         this.path = path;
     }
 
-    /**get input stream to read file.
+    /**
+     * get input stream to read file.
      * @return contentStream
      */
     public InputStream getContentStream() {
@@ -48,7 +50,8 @@ public class ConfigurationFileStream {
         return contentStream;
     }
 
-    /**get file path.
+    /**
+     * get file path.
      * @return path.
      */
     public File getPath() {
