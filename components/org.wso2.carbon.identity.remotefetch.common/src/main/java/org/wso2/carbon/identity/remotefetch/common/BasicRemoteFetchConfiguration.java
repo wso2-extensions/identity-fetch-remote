@@ -22,6 +22,7 @@ import java.util.Date;
 
 /**
  * Holds RemoteFetch Configuration Data and related deployment data.
+ * This class to hold data object for listview UI.
  */
 public class BasicRemoteFetchConfiguration {
 
@@ -51,46 +52,85 @@ public class BasicRemoteFetchConfiguration {
         this.failedDeployments = failedDeployments;
     }
 
+    /**
+     * get id.
+     * @return Id
+     */
     public int getId() {
 
         return id;
     }
 
+    /**
+     *get remoteFetchName.
+     * @return remoteFetName.
+     */
     public String getRemoteFetchName() {
 
         return remoteFetchName;
     }
 
+    /**
+     * get isEnabled which is used to point particular remoteFetchConfig is enabled or not.
+     * @return isEnabled.
+     */
     public boolean isEnabled() {
 
         return isEnabled;
     }
 
+    /**
+     * This string refers the type of remote repository manager eg : "GIT".
+     * {@link org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager}
+     * @return repositoryManagerType
+     */
     public String getRepositoryManagerType() {
 
         return repositoryManagerType;
     }
 
+    /**
+     * This string refers the type of actionListener eg: "POLLING".
+     * {@link org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListener}
+     * @return actionListenerType
+     */
     public String getActionListenerType() {
 
         return actionListenerType;
     }
 
+    /**
+     * This string refers the type of configurationDeployer eg : "SP".
+     * {@link org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployer}
+     * @return configurationDeployerType
+     */
     public String getConfigurationDeployerType() {
 
         return configurationDeployerType;
     }
 
+    /**
+     * get number of successful deployments for list view.
+     * @return successfulDeployments
+     */
     public int getSuccessfulDeployments() {
 
         return successfulDeployments;
     }
 
+    /**
+     * get number of failed deployments for listview.
+     * @return failedDeployments
+     */
     public int getFailedDeployments() {
 
         return failedDeployments;
     }
 
+    /**
+     * get last deployed time for listview.
+     * @return lastDeployed
+     */
     public Date getLastDeployed() {
         if (lastDeployed == null) {
             return null;
@@ -99,6 +139,10 @@ public class BasicRemoteFetchConfiguration {
         }
     }
 
+    /**
+     * set last deployed time after successful trigger.
+     * @param lastDeployed
+     */
     public void setLastDeployed(Date lastDeployed) {
         if (lastDeployed == null) {
             this.lastDeployed = null;
