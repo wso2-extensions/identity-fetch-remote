@@ -99,11 +99,11 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * @param enabled
+     * @param isEnabled
      */
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(boolean isEnabled) {
 
-        isEnabled = enabled;
+        this.isEnabled = isEnabled;
     }
 
     /**

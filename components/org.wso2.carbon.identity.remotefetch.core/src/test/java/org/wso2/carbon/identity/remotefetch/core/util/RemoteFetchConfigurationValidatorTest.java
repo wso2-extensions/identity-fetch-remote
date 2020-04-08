@@ -73,7 +73,7 @@ public class RemoteFetchConfigurationValidatorTest extends PowerMockTestCase {
         assertEquals(remoteFetchConfigurationValidator.validate().getValidationStatus().toString(), "PASSED");
     }
 
-    @Test(expectedExceptions = NullPointerException.class)
+    @Test
     public void testValidateForNullUserName() {
 
         remoteFetchConfiguration.setUserName(null);

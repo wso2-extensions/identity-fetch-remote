@@ -26,12 +26,12 @@ import java.io.File;
 public class RemoteFetchCoreConfiguration {
 
     private File workingDirectory;
-    private boolean enableCore;
+    private boolean isEnableCore;
 
-    public RemoteFetchCoreConfiguration(File workingDirectory, boolean enableCore) {
+    public RemoteFetchCoreConfiguration(File workingDirectory, boolean isEnableCore) {
 
         this.workingDirectory = workingDirectory;
-        this.enableCore = enableCore;
+        this.isEnableCore = isEnableCore;
     }
 
     public File getWorkingDirectory() {
@@ -46,11 +46,11 @@ public class RemoteFetchCoreConfiguration {
 
     public boolean isEnableCore() {
 
-        return enableCore;
+        return isEnableCore;
     }
 
-    public void setEnableCore(boolean enableCore) {
+    public void setEnableCore(boolean isEnableCore) {
 
-        this.enableCore = enableCore;
+        this.isEnableCore = isEnableCore;
     }
 }

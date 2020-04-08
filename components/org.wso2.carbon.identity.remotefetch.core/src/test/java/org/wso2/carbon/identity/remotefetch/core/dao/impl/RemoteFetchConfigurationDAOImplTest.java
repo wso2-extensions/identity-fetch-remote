@@ -148,22 +148,6 @@ public class RemoteFetchConfigurationDAOImplTest extends PowerMockTestCase {
     }
 
     @Test(priority = 5)
-    public void testGetAllRemoteFetchConfigurations() throws Exception {
-
-        DataSource dataSource = mock(DataSource.class);
-        mockStatic(JdbcUtils.class);
-        when(JdbcUtils.getNewTemplate()).thenReturn(new JdbcTemplate(dataSource));
-        try (Connection connection = DAOTestUtils.getConnection(DB_NAME)) {
-            Connection spy = DAOTestUtils.spyConnection(connection);
-            when(dataSource.getConnection()).thenReturn(spy);
-            List<RemoteFetchConfiguration> remoteFetchConfigurationArrayList =
-                    remoteFetchConfigurationDAO.getAllRemoteFetchConfigurations();
-            assertNotNull(remoteFetchConfigurationArrayList);
-            assertEquals(remoteFetchConfigurationArrayList.size(), 1);
-        }
-    }
-
-    @Test(priority = 6)
     public void testDeleteRemoteFetchConfiguration() throws Exception {
 
         DataSource dataSource = mock(DataSource.class);
