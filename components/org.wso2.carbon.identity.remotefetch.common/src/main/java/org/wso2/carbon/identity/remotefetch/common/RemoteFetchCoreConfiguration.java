@@ -21,36 +21,57 @@ package org.wso2.carbon.identity.remotefetch.common;
 import java.io.File;
 
 /**
- * Holds core configuration
+ * Holds core configuration setup in deployment toml.
  */
 public class RemoteFetchCoreConfiguration {
 
     private File workingDirectory;
-    private boolean enableCore;
+    private boolean isEnableCore;
 
-    public RemoteFetchCoreConfiguration(File workingDirectory, boolean enableCore) {
+    /**
+     * default Constructor.
+     * @param workingDirectory path of local repository.
+     * @param isEnableCore autoPull enabled or not.
+     */
+    public RemoteFetchCoreConfiguration(File workingDirectory, boolean isEnableCore) {
 
         this.workingDirectory = workingDirectory;
-        this.enableCore = enableCore;
+        this.isEnableCore = isEnableCore;
     }
 
+    /**
+     * get WorkingDirectory.
+     * @return workingDirectory
+     */
     public File getWorkingDirectory() {
 
         return workingDirectory;
     }
 
+    /**
+     * set WorkingDirectory.
+     * @param workingDirectory workingDirectory
+     */
     public void setWorkingDirectory(File workingDirectory) {
 
         this.workingDirectory = workingDirectory;
     }
 
+    /**
+     * is EnableCore.
+     * @return isEnableCore
+     */
     public boolean isEnableCore() {
 
-        return enableCore;
+        return isEnableCore;
     }
 
-    public void setEnableCore(boolean enableCore) {
+    /**
+     * set EnableCore.
+     * @param isEnableCore isEnableCore
+     */
+    public void setEnableCore(boolean isEnableCore) {
 
-        this.enableCore = enableCore;
+        this.isEnableCore = isEnableCore;
     }
 }

@@ -41,14 +41,17 @@ import java.util.stream.Collectors;
  */
 public class RemoteFetchConfigurationClient {
 
+    private static final String TYPE_REPOSITORY_MANAGER = "GIT";
+    private static final String TYPE_ACTION_LISTENER = "POLLING";
+    private static final String TYPE_CONFIG_DEPLOYER = "SP";
+
     private static final Log log = LogFactory.getLog(RemoteFetchConfigurationClient.class);
 
     public static List<RemoteFetchConfigurationRowDTO> getConfigurations() throws RemoteFetchCoreException {
 
-        int tenantId = CarbonContext.getThreadLocalCarbonContext().getTenantId();
 
         List<BasicRemoteFetchConfiguration> fetchConfigurations = RemotefetchCoreUIComponentDataHolder
-                .getInstance().getRemoteFetchConfigurationService().getBasicRemoteFetchConfigurationList(tenantId);
+                .getInstance().getRemoteFetchConfigurationService().getBasicRemoteFetchConfigurationList();
 
         return fetchConfigurations.stream().map((basicFetchConfiguration ->
                 RemoteFetchConfigurationClient.fetchConfigurationToDTO(basicFetchConfiguration)
@@ -110,6 +113,9 @@ public class RemoteFetchConfigurationClient {
                 RemoteFetchConfigurationClient.parseJsonToConfiguration(jsonObject);
 
         fetchConfiguration.setUserName(currentUser);
+        fetchConfiguration.setActionListenerType(TYPE_ACTION_LISTENER);
+        fetchConfiguration.setConfigurationDeployerType(TYPE_CONFIG_DEPLOYER);
+        fetchConfiguration.setRepositoryManagerType(TYPE_REPOSITORY_MANAGER);
 
         return RemotefetchCoreUIComponentDataHolder.getInstance()
                 .getRemoteFetchConfigurationService()
@@ -123,6 +129,9 @@ public class RemoteFetchConfigurationClient {
                 RemoteFetchConfigurationClient.parseJsonToConfiguration(jsonObject);
 
         fetchConfiguration.setUserName(currentUser);
+        fetchConfiguration.setActionListenerType(TYPE_ACTION_LISTENER);
+        fetchConfiguration.setConfigurationDeployerType(TYPE_CONFIG_DEPLOYER);
+        fetchConfiguration.setRepositoryManagerType(TYPE_REPOSITORY_MANAGER);
 
         return RemotefetchCoreUIComponentDataHolder.getInstance()
                 .getRemoteFetchConfigurationService()

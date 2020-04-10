@@ -26,54 +26,67 @@ import java.util.List;
 
 /**
  * Interface for registry that allows to register RemoteFetch components.
+ * This registry holds active remoteFetch Components which used to create relevant builders.
+ * This registry is used by auto pull threads at runtime to get active component to build listeners.
+ * This registry is used by clients to list basic configurations in listView.
+ *
  */
 public interface RemoteFetchComponentRegistry {
 
     /**
-     * @param repositoryManagerComponent
+     * Register repositoryManager Component into registry.
+     * @param repositoryManagerComponent repositoryManagerComponent
      */
     void registerRepositoryManager(RepositoryManagerComponent repositoryManagerComponent);
 
     /**
-     * @param configDeployerComponent
+     * Register ConfigDeployer Component into registry
+     * @param configDeployerComponent configDeployerComponent
      */
     void registerConfigDeployer(ConfigDeployerComponent configDeployerComponent);
 
     /**
+     * Register ActionListener Component into registry.
      * @param actionListenerComponent
      */
     void registerActionListener(ActionListenerComponent actionListenerComponent);
 
     /**
-     * @param identifier
+     * deRegister RepositoryManager by identifier.
+     * @param identifier unique identifier
      */
     void deRegisterRepositoryManager(String identifier);
 
     /**
-     * @param identifier
+     * deRegister ConfigDeployer by identifier.
+     * @param identifier unique identifier
      */
     void deRegisterConfigDeployer(String identifier);
 
     /**
-     * @param identifier
+     * deRegister ActionListener by identifier.
+     * @param identifier unique identifier
      */
     void deRegisterActionListener(String identifier);
 
     /**
-     * @param identifier
-     * @return
+     * get RepositoryManagerComponent by identifier.
+     * @param identifier identifier
+     * @return RepositoryManagerComponent
      */
     RepositoryManagerComponent getRepositoryManagerComponent(String identifier);
 
     /**
-     * @param identifier
-     * @return
+     * get ConfigDeployerComponent by identifier.
+     * @param identifier identifier
+     * @return ConfigDeployerComponent
      */
     ConfigDeployerComponent getConfigDeployerComponent(String identifier);
 
     /**
-     * @param identifier
-     * @return
+     * get ActionListenerComponent  by identifier.
+     * @param identifier identifier
+     * @return ActionListenerComponent
      */
     ActionListenerComponent getActionListenerComponent(String identifier);
 

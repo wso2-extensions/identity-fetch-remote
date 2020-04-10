@@ -18,6 +18,7 @@
 
 package org.wso2.carbon.identity.remotefetch.core;
 
+import org.wso2.carbon.context.CarbonContext;
 import org.wso2.carbon.identity.remotefetch.common.BasicRemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfigurationService;
@@ -94,37 +95,16 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
     }
 
     /**
-     * @param tenantId
-     * @return Remote Fetch Configuration list for tenant id.
-     * @throws RemoteFetchCoreException
-     */
-    @Override
-    public List<RemoteFetchConfiguration> getRemoteFetchConfigurationList(int tenantId)
-            throws RemoteFetchCoreException {
-
-        return this.fetchConfigurationDAO.getRemoteFetchConfigurationsByTenant(tenantId);
-    }
-
-    /**
-     * @param tenantId
      * @return
      * @throws RemoteFetchCoreException
      */
     @Override
-    public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList(int tenantId)
+    public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList()
             throws RemoteFetchCoreException {
 
-        return this.fetchConfigurationDAO.getBasicRemoteFetchConfigurationsByTenant(tenantId);
-    }
+        String tenantDomain = CarbonContext.getThreadLocalCarbonContext().getTenantDomain();
 
-    /**
-     * @return All Remote Fetch Configurations.
-     * @throws RemoteFetchCoreException
-     */
-    @Override
-    public List<RemoteFetchConfiguration> getRemoteFetchConfigurationList() throws RemoteFetchCoreException {
-
-        return this.fetchConfigurationDAO.getAllRemoteFetchConfigurations();
+        return this.fetchConfigurationDAO.getBasicRemoteFetchConfigurationsByTenant(tenantDomain);
     }
 
     /**

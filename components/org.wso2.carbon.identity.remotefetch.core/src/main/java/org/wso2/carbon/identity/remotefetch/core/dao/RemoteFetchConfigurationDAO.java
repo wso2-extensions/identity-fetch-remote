@@ -59,12 +59,6 @@ public interface RemoteFetchConfigurationDAO {
      * @return
      * @throws RemoteFetchCoreException
      */
-    List<RemoteFetchConfiguration> getAllRemoteFetchConfigurations() throws RemoteFetchCoreException;
-
-    /**
-     * @return
-     * @throws RemoteFetchCoreException
-     */
     List<RemoteFetchConfiguration> getAllEnabledRemoteFetchConfigurations() throws RemoteFetchCoreException;
 
     /**
@@ -72,14 +66,15 @@ public interface RemoteFetchConfigurationDAO {
      * @return
      * @throws RemoteFetchCoreException
      */
-    List<RemoteFetchConfiguration> getRemoteFetchConfigurationsByTenant(int tenantId) throws RemoteFetchCoreException;
+    List<RemoteFetchConfiguration> getRemoteFetchConfigurationsByTenant(int tenantId)
+            throws RemoteFetchCoreException;
 
     /**
-     * @param tenantId
+     * @param tenantDomain
      * @return
      * @throws RemoteFetchCoreException
      */
-    List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationsByTenant(int tenantId)
+    List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationsByTenant(String tenantDomain)
             throws RemoteFetchCoreException;
 
 }

@@ -29,7 +29,15 @@ import java.util.regex.Pattern;
  * Holds validation for UI Field.
  */
 public class UIFieldValidator {
+
+    /**
+     * This validates UIFields whether they are not null and they match with required pattern.
+     * @param attributes Input values map.
+     * @param fields UI fields {@link UIField}
+     * @return Validation report {@link ValidationReport}
+     */
     public static ValidationReport validate(Map<String, String> attributes, List<UIField> fields) {
+
         ValidationReport validationReport = new ValidationReport();
         for (UIField field : fields) {
 

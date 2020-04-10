@@ -24,6 +24,7 @@ import java.util.List;
 
 /**
  * Hold Validation Messages.
+ * Since UI fields are dynamic, this class provide a report to process whether UI fields are valid or not.
  */
 public class ValidationReport {
 
@@ -38,54 +39,93 @@ public class ValidationReport {
     private List<String> validationMessages = new ArrayList<>();
 
     /**
-     * @param message
+     * Add message into validation report.
+     * @param message message
      */
     public void addMessage(String message) {
 
         this.validationMessages.add(message);
     }
 
-
+    /**
+     * add MessageForMandatoryValidation
+     * @param field field
+     */
     public void addMessageForMandatoryValidation(String field) {
+
         this.addMessage(new Formatter().format(ValidationFormat.MANDATORY_VALUE, field).toString());
     }
 
+    /**
+     * add MessageForPatternValidation
+     * @param field field
+     */
     public void addMessageForPatternValidation(String field) {
+
         this.addMessage(new Formatter().format(ValidationFormat.DOES_NOT_MATCH_PATTERN, field).toString());
     }
 
+    /**
+     * add MessageForActionListenerValidation
+     * @param actionListenerType actionListenerType
+     */
     public void addMessageForActionListenerValidation(String actionListenerType) {
+
         this.addMessage(new Formatter().format(ValidationFormat.NOT_A_VALID_ACTION_LISTENER, actionListenerType)
                 .toString());
     }
 
+    /**
+     * add MessageForRepoManagerValidation
+     * @param repoManagerType repoManagerType
+     */
     public void addMessageForRepoManagerValidation(String repoManagerType) {
+
         this.addMessage(new Formatter().format(ValidationFormat.NOT_A_VALID_REPO_MANAGER, repoManagerType).toString());
     }
 
+    /**
+     * add MessageForConfigDeployerValidation
+     * @param configDeployerType configDeployerType
+     */
     public void addMessageForConfigDeployerValidation(String configDeployerType) {
+
         this.addMessage(new Formatter().format(ValidationFormat.NOT_A_VALID_CONFIG_DEPLOYER, configDeployerType)
                 .toString());
     }
 
+    /**
+     * add MessageForComponentValidation
+     * @param validationReport validationReport
+     * @param componentName componentName
+     */
     public void addMessageForComponentValidation(String validationReport, String componentName) {
         this.addMessage(new Formatter().format(ValidationFormat.COMPONENT_VALIDATION, validationReport, componentName)
                 .toString());
     }
 
     /**
-     * @return
+     * get Messages
+     * @return validationMessages
      */
     public List<String> getMessages() {
 
         return this.validationMessages;
     }
 
+    /**
+     * get status of the report.
+     * @return validationStatus
+     */
     public ValidationStatus getValidationStatus() {
 
         return validationStatus;
     }
 
+    /**
+     * set ValidationStatus.
+     * @param validationStatus validationStatus
+     */
     public void setValidationStatus(ValidationStatus validationStatus) {
 
         this.validationStatus = validationStatus;

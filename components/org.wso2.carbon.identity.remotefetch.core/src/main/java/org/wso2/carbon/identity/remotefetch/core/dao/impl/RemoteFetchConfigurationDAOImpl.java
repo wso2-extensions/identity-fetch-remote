@@ -21,6 +21,7 @@ package org.wso2.carbon.identity.remotefetch.core.dao.impl;
 import org.json.JSONObject;
 import org.wso2.carbon.database.utils.jdbc.JdbcTemplate;
 import org.wso2.carbon.database.utils.jdbc.exceptions.TransactionException;
+import org.wso2.carbon.identity.core.util.IdentityTenantUtil;
 import org.wso2.carbon.identity.remotefetch.common.BasicRemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
@@ -37,10 +38,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+import static org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants.ATTRIBUTE_ACTION_LISTENER;
+import static org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants.ATTRIBUTE_CONFIG_DEPLOYER;
+import static org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants.ATTRIBUTE_REPOSITORY_MANAGER;
+import static org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants.FACTOR_INDENT;
 
 /**
  * this class accesses IDN_REMOTE_FETCH_CONFIG table to store/update and delete Remote Fetch configurations.
+ * TODO : Implement Name preparedstatement
  */
 public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfigurationDAO {
 
@@ -140,24 +145,6 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
      * @throws RemoteFetchCoreException
      */
     @Override
-    public List<RemoteFetchConfiguration> getAllRemoteFetchConfigurations() throws RemoteFetchCoreException {
-
-        JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
-        try {
-            return jdbcTemplate.withTransaction(template ->
-                    template.executeQuery(SQLConstants.LIST_CONFIGS,
-                            ((resultSet, i) -> this.resultSetToConfiguration(resultSet)))
-            );
-        } catch (TransactionException e) {
-            throw new RemoteFetchCoreException("Error listing RemoteFetchConfigurations from database", e);
-        }
-    }
-
-    /**
-     * @return
-     * @throws RemoteFetchCoreException
-     */
-    @Override
     public List<RemoteFetchConfiguration> getAllEnabledRemoteFetchConfigurations() throws RemoteFetchCoreException {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
@@ -193,14 +180,15 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
     }
 
     /**
-     * @param tenantId
+     * @param tenantDomain
      * @return
      * @throws RemoteFetchCoreException
      */
     @Override
-    public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationsByTenant(int tenantId)
+    public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationsByTenant(String tenantDomain)
             throws RemoteFetchCoreException {
 
+        int tenantId = IdentityTenantUtil.getTenantId(tenantDomain);
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {
             return jdbcTemplate.withTransaction(template ->
@@ -259,17 +247,19 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
     private void configurationToPreparedStatement(PreparedStatement preparedStatement,
                                                   RemoteFetchConfiguration configuration) throws SQLException {
 
+
+        // TODO : configuration is enabled as boolean. seperate PR.
         preparedStatement.setInt(1, configuration.getTenantId());
         preparedStatement.setString(2, (configuration.isEnabled() ? "1" : "0"));
         preparedStatement.setString(3, configuration.getUserName());
-        preparedStatement.setString(4, "GIT");
-        preparedStatement.setString(5, "POLLING");
-        preparedStatement.setString(6, "SP");
+        preparedStatement.setString(4, configuration.getRepositoryManagerType());
+        preparedStatement.setString(5, configuration.getActionListenerType());
+        preparedStatement.setString(6, configuration.getConfigurationDeployerType());
 
         //Encode object attributes to JSON
         JSONObject attributesBundle = this.makeAttributeBundle(configuration);
 
-        preparedStatement.setString(7, attributesBundle.toString(4));
+        preparedStatement.setString(7, attributesBundle.toString(FACTOR_INDENT));
         preparedStatement.setString(8, configuration.getRemoteFetchName());
 
     }
@@ -277,22 +267,22 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
     private JSONObject makeAttributeBundle(RemoteFetchConfiguration configuration) {
 
         JSONObject attributesBundle = new JSONObject();
-        attributesBundle.put("repositoryManagerAttributes", configuration.getRepositoryManagerAttributes());
-        attributesBundle.put("actionListenerAttributes", configuration.getActionListenerAttributes());
-        attributesBundle.put("confgiurationDeployerAttributes", configuration.getConfigurationDeployerAttributes());
+        attributesBundle.put(ATTRIBUTE_REPOSITORY_MANAGER, configuration.getRepositoryManagerAttributes());
+        attributesBundle.put(ATTRIBUTE_ACTION_LISTENER, configuration.getActionListenerAttributes());
+        attributesBundle.put(ATTRIBUTE_CONFIG_DEPLOYER, configuration.getConfigurationDeployerAttributes());
         return attributesBundle;
     }
 
     private void mapAttributes(RemoteFetchConfiguration remoteFetchConfiguration, JSONObject attributesBundle) {
 
         remoteFetchConfiguration.setRepositoryManagerAttributes(
-                this.attributeToMap(attributesBundle.getJSONObject("repositoryManagerAttributes"))
+                this.attributeToMap(attributesBundle.getJSONObject(ATTRIBUTE_REPOSITORY_MANAGER))
         );
         remoteFetchConfiguration.setActionListenerAttributes(
-                this.attributeToMap(attributesBundle.getJSONObject("actionListenerAttributes"))
+                this.attributeToMap(attributesBundle.getJSONObject(ATTRIBUTE_ACTION_LISTENER))
         );
         remoteFetchConfiguration.setConfigurationDeployerAttributes(
-                this.attributeToMap(attributesBundle.getJSONObject("confgiurationDeployerAttributes"))
+                this.attributeToMap(attributesBundle.getJSONObject(ATTRIBUTE_CONFIG_DEPLOYER))
         );
 
     }

@@ -22,7 +22,8 @@ import java.io.File;
 import java.io.InputStream;
 
 /**
- * Holds raw config file content.
+ * Holds raw config file content for reading xml files to deploy configurations.
+ *
  */
 public class ConfigurationFileStream {
 
@@ -30,6 +31,7 @@ public class ConfigurationFileStream {
     private File path;
 
     /**
+     * Default constructor.
      * @param contentStream
      * @param path
      */
@@ -40,7 +42,8 @@ public class ConfigurationFileStream {
     }
 
     /**
-     * @return
+     * get input stream to read file.
+     * @return contentStream
      */
     public InputStream getContentStream() {
 
@@ -48,7 +51,8 @@ public class ConfigurationFileStream {
     }
 
     /**
-     * @return
+     * get file path.
+     * @return path.
      */
     public File getPath() {
 

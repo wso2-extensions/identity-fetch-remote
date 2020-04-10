@@ -202,7 +202,7 @@ public class PollingActionListener implements ActionListener {
             }
 
             // Deploy if new file or updated file
-            if (this.deploymentRevisionChanged(deploymentRevision, newHash)) {
+            if (this.isDeploymentRevisionChanged(deploymentRevision, newHash)) {
 
                 try {
                     deploymentRevision.setFileHash(newHash);
@@ -216,10 +216,7 @@ public class PollingActionListener implements ActionListener {
 
                     deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.DEPLOYED);
 
-                } catch (RemoteFetchCoreException e) {
-                    log.error("Error Deploying " + sanitize(deploymentRevision.getFile().getName()), e);
-                    deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING);
-                } catch (IOException e) {
+                } catch (RemoteFetchCoreException | IOException e) {
                     log.error("Error Deploying " + sanitize(deploymentRevision.getFile().getName()), e);
                     deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING);
                 }
@@ -244,7 +241,7 @@ public class PollingActionListener implements ActionListener {
      * @param newHash
      * @return
      */
-    private boolean deploymentRevisionChanged(DeploymentRevision deploymentRevision, String newHash) {
+    private boolean isDeploymentRevisionChanged(DeploymentRevision deploymentRevision, String newHash) {
 
         String currentHash = deploymentRevision.getFileHash();
         // Check if previous revision is none which indicates the addition of a new file and if so deploy.

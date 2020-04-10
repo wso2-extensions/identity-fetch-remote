@@ -23,7 +23,10 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * Holds configuration data to instantiate a RemoteFetch
+ * Holds the logical representation of remoteFetchConfiguration data to instantiate a RemoteFetch.
+ * Used by Client while Insert and update new remoteFetchConfiguration.
+ * Used by DAO to map configuration Db row data.
+ * Used auto pull schedulers at runtime.
  */
 public class RemoteFetchConfiguration {
 
@@ -55,7 +58,10 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * @return
+     * Tenant Id is used derived from carbon context while creation.
+     * removing this tenant Id attribute  from this class produce malfunction because auto pull threads may not
+     * have carbon context but it needs to deploy configuration.
+     * @return tenantId
      */
     public int getTenantId() {
 
@@ -63,6 +69,7 @@ public class RemoteFetchConfiguration {
     }
 
     /**
+     * Human readable name given by user while creation.
      * set remoteFetchName
      *
      * @param remoteFetchName remoteFetchName
@@ -83,6 +90,7 @@ public class RemoteFetchConfiguration {
     }
 
     /**
+     * set tenantId using carbon context.
      * @param tenantId
      */
     public void setTenantId(int tenantId) {
@@ -91,7 +99,8 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * @return
+     * boolean parameter used to represent that auto pull is enabled for this remoteFetchConfiguration or not.
+     * @return isEnabled
      */
     public boolean isEnabled() {
 
@@ -99,15 +108,17 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * @param enabled
+     * set isEnabled.
+     * @param isEnabled isEnabled
      */
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(boolean isEnabled) {
 
-        isEnabled = enabled;
+        this.isEnabled = isEnabled;
     }
 
     /**
-     * @return
+     * This represents the user who created this remoteFetch configuration, set from session.
+     * @return userName
      */
     public String getUserName() {
 
@@ -115,7 +126,8 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * @param userName
+     * set username.
+     * @param userName userName
      */
     public void setUserName(String userName) {
 
@@ -123,6 +135,7 @@ public class RemoteFetchConfiguration {
     }
 
     /**
+     * unique ID to represent this configuration.
      * @return
      */
     public int getRemoteFetchConfigurationId() {
@@ -131,7 +144,8 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * @param remoteFetchConfigurationId
+     * set RemoteFetchConfigurationId.
+     * @param remoteFetchConfigurationId remoteFetchConfigurationId
      */
     public void setRemoteFetchConfigurationId(int remoteFetchConfigurationId) {
 
@@ -139,7 +153,9 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * @return
+     * This string refers the type of remote repository manager eg : "GIT".
+     * {@link org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager}
+     * @return repositoryManagerType
      */
     public String getRepositoryManagerType() {
 
@@ -147,7 +163,8 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * @param repositoryManagerType
+     * set RepositoryManagerType
+     * @param repositoryManagerType repositoryManagerType
      */
     public void setRepositoryManagerType(String repositoryManagerType) {
 
@@ -155,7 +172,9 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * @return
+     * This string refers the type of actionListener eg: "POLLING".
+     * {@link org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListener}
+     * @return actionListenerType
      */
     public String getActionListenerType() {
 
@@ -163,7 +182,8 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * @param actionListenerType
+     * set ActionListenerType
+     * @param actionListenerType actionListenerType
      */
     public void setActionListenerType(String actionListenerType) {
 
@@ -171,7 +191,8 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * @return
+     * This string refers the type of configurationDeployer eg : "SP".
+     * {@link org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployer}
      */
     public String getConfigurationDeployerType() {
 
@@ -179,7 +200,8 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * @param configurationDeployerType
+     * set ConfigurationDeployerType
+     * @param configurationDeployerType configurationDeployerType
      */
     public void setConfigurationDeployerType(String configurationDeployerType) {
 
@@ -187,7 +209,8 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * @return
+     * RepositoryManagerAttributes Holds Configurations regarding RepositoryManager.
+     * @return repositoryManagerAttributes
      */
     public Map<String, String> getRepositoryManagerAttributes() {
 
@@ -195,7 +218,8 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * @param repositoryManagerAttributes
+     * set RepositoryManagerAttributes.
+     * @param repositoryManagerAttributes repositoryManagerAttributes
      */
     public void setRepositoryManagerAttributes(Map<String, String> repositoryManagerAttributes) {
 
@@ -203,7 +227,8 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * @return
+     * ActionListenerAttributes holds configurations regarding Action Listener.
+     * @return actionListenerAttributes
      */
     public Map<String, String> getActionListenerAttributes() {
 
@@ -211,7 +236,8 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * @param actionListenerAttributes
+     * set ActionListenerAttributes.
+     * @param actionListenerAttributes actionListenerAttributes
      */
     public void setActionListenerAttributes(Map<String, String> actionListenerAttributes) {
 
@@ -219,7 +245,8 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * @return
+     * ConfigurationDeployerAttributes holds configuration regarding ConfigurationDeployer.
+     * @return configurationDeployerAttributes
      */
     public Map<String, String> getConfigurationDeployerAttributes() {
 
@@ -227,13 +254,19 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * @param configurationDeployerAttributes
+     * set ConfigurationDeployerAttributes.
+     * @param configurationDeployerAttributes configurationDeployerAttributes
      */
     public void setConfigurationDeployerAttributes(Map<String, String> configurationDeployerAttributes) {
 
         this.configurationDeployerAttributes = configurationDeployerAttributes;
     }
 
+    /**
+     * Compare calling remotefetchConfiguration with given parameter.
+     * @param o object.
+     * @return equals or not.
+     */
     @Override
     public boolean equals(Object o) {
 
@@ -257,6 +290,10 @@ public class RemoteFetchConfiguration {
                 Objects.equals(configurationDeployerAttributes, that.configurationDeployerAttributes);
     }
 
+    /**
+     * return hashCOde of the object.
+     * @return hashCode
+     */
     @Override
     public int hashCode() {
 
@@ -265,6 +302,10 @@ public class RemoteFetchConfiguration {
                 actionListenerAttributes, configurationDeployerAttributes);
     }
 
+    /**
+     * To string method.
+     * @return toString
+     */
     @Override
     public String toString() {
 
