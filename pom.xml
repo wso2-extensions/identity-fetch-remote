@@ -43,13 +43,6 @@
         <tag>HEAD</tag>
     </scm>
 
-    <modules>
-        <module>components/org.wso2.carbon.identity.remotefetch.common</module>
-        <module>components/org.wso2.carbon.identity.remotefetch.core</module>
-        <module>components/org.wso2.carbon.identity.remotefetch.core.ui</module>
-        <module>features/org.wso2.carbon.identity.remotefetch.core.feature</module>
-    </modules>
-
     <repositories>
         <repository>
             <id>wso2-nexus</id>
@@ -87,12 +80,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.wso2.identity.remotefetch</groupId>
-                <artifactId>org.wso2.carbon.identity.remotefetch.core.feature</artifactId>
-                <version>${project.version}</version>
-                <type>zip</type>
-            </dependency>
             <dependency>
                 <groupId>org.wso2.eclipse.osgi</groupId>
                 <artifactId>org.eclipse.osgi.services</artifactId>
@@ -178,11 +165,6 @@
                 <groupId>org.apache.felix</groupId>
                 <artifactId>org.apache.felix.scr.ds-annotations</artifactId>
                 <version>${org.apache.felix.annotations.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wso2.carbon.identity.remotefetch</groupId>
-                <artifactId>org.wso2.carbon.identity.remotefetch.core</artifactId>
-                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.orbit.com.jcraft</groupId>
