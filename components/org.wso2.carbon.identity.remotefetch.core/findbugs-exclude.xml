@@ -1,0 +1,17 @@
+<FindBugsFilter>
+    <!--    Cause : This bug warning raised because of string parameters passed in new file, paths method. -->
+    <!--    Reason : Actual file reading code segment is sanitised.  -->
+    <Match>
+        <Bug pattern="PATH_TRAVERSAL_IN" />
+    </Match>
+    <!--    Cause : This bug warning raised because of string parameters passed in log.error() method. -->
+    <!--    Reason : All bug raised warnings string are sanitised.  -->
+    <Match>
+        <Bug pattern="CRLF_INJECTION_LOGS" />
+    </Match>
+    <!--    Cause : This bug warning raised because of reader object initialized as null. -->
+    <!--    Reason : Reader closed with checking whether its null or not.  -->
+    <Match>
+        <Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" />
+    </Match>
+</FindBugsFilter>
