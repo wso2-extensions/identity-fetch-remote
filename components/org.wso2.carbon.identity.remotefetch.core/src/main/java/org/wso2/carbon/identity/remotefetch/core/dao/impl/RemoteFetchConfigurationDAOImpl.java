@@ -196,7 +196,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                             ((resultSet, i) -> {
                                 BasicRemoteFetchConfiguration obj = new BasicRemoteFetchConfiguration(
                                         resultSet.getInt(1),
-                                        resultSet.getString(2).equals("1"),
+                                        resultSet.getBoolean(2),
                                         resultSet.getString(3),
                                         resultSet.getString(4),
                                         resultSet.getString(5),
@@ -232,7 +232,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
         RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration(
                 resultSet.getInt(1),
                 resultSet.getInt(2),
-                resultSet.getString(3).equals("1"),
+                resultSet.getBoolean(3),
                 resultSet.getString(4),
                 resultSet.getString(5),
                 resultSet.getString(6),
@@ -250,7 +250,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
 
         // TODO : configuration is enabled as boolean. seperate PR.
         preparedStatement.setInt(1, configuration.getTenantId());
-        preparedStatement.setString(2, (configuration.isEnabled() ? "1" : "0"));
+        preparedStatement.setBoolean(2, configuration.isEnabled());
         preparedStatement.setString(3, configuration.getUserName());
         preparedStatement.setString(4, configuration.getRepositoryManagerType());
         preparedStatement.setString(5, configuration.getActionListenerType());
