@@ -42,18 +42,19 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
      * @throws RemoteFetchCoreException
      */
     @Override
-    public int createDeploymentRevision(DeploymentRevision deploymentRevision) throws RemoteFetchCoreException {
+    public void createDeploymentRevision(DeploymentRevision deploymentRevision) throws RemoteFetchCoreException {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
 
         try {
-            return jdbcTemplate.withTransaction(template ->
+            jdbcTemplate.withTransaction(template ->
                     template.executeInsert(SQLConstants.CREATE_REVISION, preparedStatement -> {
-                        preparedStatement.setInt(1, deploymentRevision.getConfigId());
-                        preparedStatement.setString(2, deploymentRevision.getFile().getPath());
-                        preparedStatement.setString(3, deploymentRevision.getFileHash());
-                        preparedStatement.setString(4, deploymentRevision.getItemName());
-                    }, deploymentRevision, true)
+                        preparedStatement.setString(1, deploymentRevision.getDeploymentRevisionId());
+                        preparedStatement.setString(2, deploymentRevision.getConfigId());
+                        preparedStatement.setString(3, deploymentRevision.getFile().getPath());
+                        preparedStatement.setString(4, deploymentRevision.getFileHash());
+                        preparedStatement.setString(5, deploymentRevision.getItemName());
+                    }, deploymentRevision, false)
             );
         } catch (TransactionException e) {
             throw new RemoteFetchCoreException("Error creating new DeploymentRevision " +
@@ -68,7 +69,7 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
      * @throws RemoteFetchCoreException
      */
     @Override
-    public DeploymentRevision getDeploymentRevision(int remoteFetchConfigurationId, String itemName)
+    public DeploymentRevision getDeploymentRevision(String remoteFetchConfigurationId, String itemName)
             throws RemoteFetchCoreException {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
@@ -79,10 +80,10 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
                         (resultSet, rowNumber) -> {
 
                             DeploymentRevision revisionObj = new DeploymentRevision(
-                                    resultSet.getInt(2),
+                                    resultSet.getString(2),
                                     new File(resultSet.getString(3))
                             );
-                            revisionObj.setDeploymentRevisionId(resultSet.getInt(1));
+                            revisionObj.setDeploymentRevisionId(resultSet.getString(1));
                             revisionObj.setFileHash(resultSet.getString(4));
                             revisionObj.setDeployedDate(new Date(resultSet.getTimestamp(5).getTime()));
                             revisionObj.setDeploymentStatus(DeploymentRevision.
@@ -92,7 +93,7 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
                             return revisionObj;
 
                         }, preparedStatement -> {
-                            preparedStatement.setInt(1, remoteFetchConfigurationId);
+                            preparedStatement.setString(1, remoteFetchConfigurationId);
                             preparedStatement.setString(2, itemName);
                         });
             });
@@ -116,7 +117,7 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
         try {
             jdbcTemplate.withTransaction(template -> {
                 template.executeUpdate(SQLConstants.UPDATE_REVISION, preparedStatement -> {
-                    preparedStatement.setInt(1, deploymentRevision.getConfigId());
+                    preparedStatement.setString(1, deploymentRevision.getConfigId());
                     preparedStatement.setString(2, deploymentRevision.getFile().getPath());
                     preparedStatement.setString(3, deploymentRevision.getFileHash());
                     if (deploymentRevision.getDeployedDate() != null) {
@@ -127,7 +128,7 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
                     }
                     preparedStatement.setString(5, deploymentRevision.getDeploymentStatus().name());
                     preparedStatement.setString(6, deploymentRevision.getItemName());
-                    preparedStatement.setInt(7, deploymentRevision.getDeploymentRevisionId());
+                    preparedStatement.setString(7, deploymentRevision.getDeploymentRevisionId());
                 });
                 return null;
             });
@@ -143,14 +144,14 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
      * @throws RemoteFetchCoreException
      */
     @Override
-    public void deleteDeploymentRevision(int deploymentRevisionId) throws RemoteFetchCoreException {
+    public void deleteDeploymentRevision(String deploymentRevisionId) throws RemoteFetchCoreException {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
 
         try {
             jdbcTemplate.withTransaction(template -> {
                 template.executeUpdate(SQLConstants.DELETE_REVISION, preparedStatement -> {
-                    preparedStatement.setInt(1, deploymentRevisionId);
+                    preparedStatement.setString(1, deploymentRevisionId);
                 });
                 return null;
             });
@@ -166,17 +167,17 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
      */
     @Override
     public List<DeploymentRevision> getDeploymentRevisionsByConfigurationId(
-            int remoteFetchConfigurationId) throws RemoteFetchCoreException {
+            String remoteFetchConfigurationId) throws RemoteFetchCoreException {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {
             return jdbcTemplate.withTransaction(template ->
                     template.executeQuery(SQLConstants.GET_REVISIONS_BY_CONFIG, ((resultSet, rowNumber) -> {
                         DeploymentRevision deploymentRevision = new DeploymentRevision(
-                                resultSet.getInt(2),
+                                resultSet.getString(2),
                                 new File(resultSet.getString(3))
                         );
-                        deploymentRevision.setDeploymentRevisionId(resultSet.getInt(1));
+                        deploymentRevision.setDeploymentRevisionId(resultSet.getString(1));
                         deploymentRevision.setFileHash(resultSet.getString(4));
                         deploymentRevision.setDeployedDate(new Date(resultSet.getTimestamp(5).getTime()));
                         deploymentRevision.setDeploymentStatus(DeploymentRevision.
@@ -185,7 +186,7 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
 
                         return deploymentRevision;
                     }), preparedStatement -> {
-                        preparedStatement.setInt(1, remoteFetchConfigurationId);
+                        preparedStatement.setString(1, remoteFetchConfigurationId);
                     })
             );
         } catch (TransactionException e) {

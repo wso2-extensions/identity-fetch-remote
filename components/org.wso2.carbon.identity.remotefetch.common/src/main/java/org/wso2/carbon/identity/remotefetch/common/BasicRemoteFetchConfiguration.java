@@ -26,7 +26,9 @@ import java.util.Date;
  */
 public class BasicRemoteFetchConfiguration {
 
-    private int id;
+    //TODO:UUID
+
+    private String id;
     private boolean isEnabled;
     private String remoteFetchName;
     private String repositoryManagerType;
@@ -36,7 +38,7 @@ public class BasicRemoteFetchConfiguration {
     private int failedDeployments;
     private Date lastDeployed = null;
 
-    public BasicRemoteFetchConfiguration(int id, boolean isEnabled,
+    public BasicRemoteFetchConfiguration(String id, boolean isEnabled,
                                          String repositoryManagerType,
                                          String actionListenerType, String configurationDeployerType,
                                          String remoteFetchName,
@@ -56,7 +58,7 @@ public class BasicRemoteFetchConfiguration {
      * get id.
      * @return Id
      */
-    public int getId() {
+    public String getId() {
 
         return id;
     }

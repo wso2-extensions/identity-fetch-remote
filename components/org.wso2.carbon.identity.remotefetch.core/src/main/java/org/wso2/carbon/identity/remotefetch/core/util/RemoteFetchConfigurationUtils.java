@@ -23,11 +23,12 @@ import org.wso2.carbon.identity.remotefetch.common.RemoteFetchCoreConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 
 import java.io.File;
+import java.util.UUID;
 
 /**
  *Parser for core configuration from deployment.toml file.
  */
-public class RemoteFetchConfigurationParser {
+public class RemoteFetchConfigurationUtils {
     public static RemoteFetchCoreConfiguration parseConfiguration() throws RemoteFetchCoreException {
 
         boolean isEnabled = false;
@@ -54,5 +55,14 @@ public class RemoteFetchConfigurationParser {
         if (!workingDirectory.isDirectory()) {
             throw new RemoteFetchCoreException("Not a valid WorkingDirectory for RemoteFetchCore");
         }
+    }
+
+    /**
+     * generate UUID
+     * @return UUID
+     */
+    public static String generateUniqueID() {
+
+        return UUID.randomUUID().toString();
     }
 }

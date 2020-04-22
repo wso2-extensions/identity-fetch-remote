@@ -51,10 +51,13 @@ import static org.testng.Assert.assertNotNull;
 public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
 
     private static final String DB_NAME = "IDN_REMOTE_FETCH_DB";
-    private int configId = 1;
+    private String configId = "00000000-0000-0000-0000-d29bed62f7bd";
+    private String  deploymentRevisionId = "11111111-0000-0000-0000-d29bed62f7bd";
 
     DeploymentRevisionDAOImpl deploymentRevisionDAO = new DeploymentRevisionDAOImpl();
     DeploymentRevision deploymentRevision = new DeploymentRevision(configId, null);
+
+
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -125,7 +128,7 @@ public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
             Connection spy = DAOTestUtils.spyConnection(connection);
             when(dataSource.getConnection()).thenReturn(spy);
             List<DeploymentRevision> deploymentRevisionList =
-                    deploymentRevisionDAO.getDeploymentRevisionsByConfigurationId(1);
+                    deploymentRevisionDAO.getDeploymentRevisionsByConfigurationId(configId);
             assertNotNull(deploymentRevisionList);
             assertEquals(deploymentRevisionList.size(), 1);
         }
@@ -141,7 +144,7 @@ public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
             Connection spy = DAOTestUtils.spyConnection(connection);
             when(dataSource.getConnection()).thenReturn(spy);
             DeploymentRevision deploymentRevisionNew =
-                    deploymentRevisionDAO.getDeploymentRevision(1, "NewDemoApp");
+                    deploymentRevisionDAO.getDeploymentRevision(configId, "NewDemoApp");
             assertNotNull(deploymentRevisionNew);
             assertEquals(deploymentRevisionNew.getDeploymentStatus(), DeploymentRevision.DeploymentStatus.DEPLOYED);
 
@@ -166,7 +169,7 @@ public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
         long millis = System.currentTimeMillis();
         java.sql.Date date = new java.sql.Date(millis);
 
-        deploymentRevision.setDeploymentRevisionId(1);
+        deploymentRevision.setDeploymentRevisionId(deploymentRevisionId);
         deploymentRevision.setItemName("NewDemoApp");
         deploymentRevision.setFileHash("12345678");
         deploymentRevision.setFile(new File("sp/newFile.xml"));
@@ -184,7 +187,7 @@ public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
 
     private DeploymentRevision updateRevisionForInvalidId() {
 
-        deploymentRevision.setConfigId(2);
+        deploymentRevision.setConfigId("1212121-0000-0000-0000-d29bed62f7bd");
         deploymentRevision.setFileHash("1234567");
         return deploymentRevision;
     }

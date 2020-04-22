@@ -69,7 +69,8 @@ public class PollingActionListenerBuilderTest extends PowerMockTestCase {
     ConfigDeployer configDeployer;
 
     Map<String, String> actionListenerAttributesMap = new HashMap<>();
-    RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration(1,
+    RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration
+            ("00000000-0000-0000-0000-d29bed62f7bd",
             -1234,
             true, "admin", "GIT", "POLLING",
             "SP", "RemoteFetchTest");
@@ -136,11 +137,12 @@ public class PollingActionListenerBuilderTest extends PowerMockTestCase {
 
     private DeploymentRevision buildDummyDeploymentRevision() {
 
-        DeploymentRevision deploymentRevision = new DeploymentRevision(1, null);
+        DeploymentRevision deploymentRevision = new DeploymentRevision
+                ("00000000-0000-0000-0000-d29bed62f7bd", null);
         long millis = System.currentTimeMillis();
         java.sql.Date date = new java.sql.Date(millis);
 
-        deploymentRevision.setDeploymentRevisionId(1);
+        deploymentRevision.setDeploymentRevisionId("11111111-0000-0000-0000-d29bed62f7bd");
         deploymentRevision.setItemName("NewDemoApp");
         deploymentRevision.setFileHash("12345678");
         deploymentRevision.setFile(new File("sp/newFile.xml"));

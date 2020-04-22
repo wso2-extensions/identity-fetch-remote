@@ -22,22 +22,14 @@
 <%
     
     if (request.getParameter("id") != null) {
-        int id = -1;
-        
+        String id = request.getParameter("id");
         try {
-            id = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException e) {
-            CarbonUIMessage.sendCarbonUIMessage("ID is invalid", CarbonUIMessage.ERROR, request, e);
+            RemoteFetchConfigurationClient.deleteRemoteFetchComponent(id);
+            CarbonUIMessage.sendCarbonUIMessage("Configuration successfully deleted!", CarbonUIMessage.INFO, request);
+        } catch (RemoteFetchCoreException e) {
+            CarbonUIMessage.sendCarbonUIMessage(e.getMessage(), CarbonUIMessage.ERROR, request, e);
         }
-        
-        if (id != -1) {
-            try {
-                RemoteFetchConfigurationClient.deleteRemoteFetchComponent(id);
-                CarbonUIMessage.sendCarbonUIMessage("Configuration successfully deleted!", CarbonUIMessage.INFO, request);
-            } catch (RemoteFetchCoreException e) {
-                CarbonUIMessage.sendCarbonUIMessage(e.getMessage(), CarbonUIMessage.ERROR, request, e);
-            }
-        }
+
     }
 
 %>

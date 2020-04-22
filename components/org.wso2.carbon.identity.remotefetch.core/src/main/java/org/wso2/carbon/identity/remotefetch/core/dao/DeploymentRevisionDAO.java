@@ -33,7 +33,7 @@ public interface DeploymentRevisionDAO {
      * @return
      * @throws RemoteFetchCoreException
      */
-    int createDeploymentRevision(DeploymentRevision deploymentRevision) throws RemoteFetchCoreException;
+    void createDeploymentRevision(DeploymentRevision deploymentRevision) throws RemoteFetchCoreException;
 
     /**
      * @param remoteFetchConfigurationId
@@ -41,7 +41,7 @@ public interface DeploymentRevisionDAO {
      * @return
      * @throws RemoteFetchCoreException
      */
-    DeploymentRevision getDeploymentRevision(int remoteFetchConfigurationId, String itemName)
+    DeploymentRevision getDeploymentRevision(String remoteFetchConfigurationId, String itemName)
             throws RemoteFetchCoreException;
 
     /**
@@ -54,14 +54,14 @@ public interface DeploymentRevisionDAO {
      * @param deploymentRevisionId
      * @throws RemoteFetchCoreException
      */
-    void deleteDeploymentRevision(int deploymentRevisionId) throws RemoteFetchCoreException;
+    void deleteDeploymentRevision(String deploymentRevisionId) throws RemoteFetchCoreException;
 
     /**
      * @param remoteFetchConfigurationId
      * @return
      * @throws RemoteFetchCoreException
      */
-    List<DeploymentRevision> getDeploymentRevisionsByConfigurationId(int remoteFetchConfigurationId)
+    List<DeploymentRevision> getDeploymentRevisionsByConfigurationId(String remoteFetchConfigurationId)
             throws RemoteFetchCoreException;
 
 }

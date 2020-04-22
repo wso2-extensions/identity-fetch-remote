@@ -48,7 +48,7 @@ import static org.testng.Assert.assertNotNull;
 public class RemoteFetchConfigurationDAOImplTest extends PowerMockTestCase {
 
     private static final String DB_NAME = "IDN_REMOTE_FETCH_DB";
-    private int remoteFetchConfigurationId = 1;
+    private String remoteFetchConfigurationId = "00000000-0000-0000-0000-d29bed62f7bd";
 
     RemoteFetchConfigurationDAOImpl remoteFetchConfigurationDAO = new RemoteFetchConfigurationDAOImpl();
     RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration(remoteFetchConfigurationId,
@@ -166,7 +166,7 @@ public class RemoteFetchConfigurationDAOImplTest extends PowerMockTestCase {
         remoteFetchConfiguration.setTenantId(TestConstants.TENANT_ID);
         remoteFetchConfiguration.setActionListenerType(TestConstants.ACTION_LISTENER_TYPE);
         remoteFetchConfiguration.setConfigurationDeployerType(TestConstants.CONFIG_DEPLOYER_TYPE);
-        remoteFetchConfiguration.setRemoteFetchConfigurationId(2);
+        remoteFetchConfiguration.setRemoteFetchConfigurationId(remoteFetchConfigurationId);
         remoteFetchConfiguration.setEnabled(true);
         remoteFetchConfiguration.setRepositoryManagerType(TestConstants.REPO_MANAGER_TYPE);
         remoteFetchConfiguration.setRemoteFetchName("RemoteFetchDemoApp");

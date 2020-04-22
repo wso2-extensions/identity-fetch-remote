@@ -54,7 +54,7 @@ public class ServiceProviderConfigDeployerTest extends PowerMockTestCase {
 
     private static final int TENANT_ID = -1234;
     private static final String USER_NAME = "admin";
-    private static final int ID = 1;
+    private static final String ID = "00000000-0000-0000-0000-d29bed62f7bd";
 
     @BeforeMethod
     public void setUp() {

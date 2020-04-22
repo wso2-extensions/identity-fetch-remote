@@ -28,6 +28,8 @@ import java.util.List;
  */
 public class ValidationReport {
 
+    //TODO:UUID
+
     /**
      * Status of validation report
      */
@@ -35,6 +37,7 @@ public class ValidationReport {
         PASSED, FAILED
     }
 
+    private String id;
     private ValidationStatus validationStatus;
     private List<String> validationMessages = new ArrayList<>();
 
@@ -129,6 +132,22 @@ public class ValidationReport {
     public void setValidationStatus(ValidationStatus validationStatus) {
 
         this.validationStatus = validationStatus;
+    }
+
+    /**
+     * get id
+     * @return id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * set id of processed remote fetch configuration.
+     * @param id UUID of remote fetch configuration.
+     */
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override

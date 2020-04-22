@@ -37,7 +37,7 @@ import static org.testng.Assert.assertTrue;
  * Unit test covering RemoteFetchConfigurationParser
  */
 @PrepareForTest(IdentityUtil.class)
-public class RemoteFetchConfigurationParserTest extends PowerMockTestCase {
+public class RemoteFetchConfigurationUtilsTest extends PowerMockTestCase {
 
     @ObjectFactory
     public IObjectFactory getObjectFactory() {
@@ -50,16 +50,16 @@ public class RemoteFetchConfigurationParserTest extends PowerMockTestCase {
 
         mockStatic(IdentityUtil.class);
         when(IdentityUtil.getProperty("RemoteFetch.FetchEnabled")).thenReturn("true");
-        RemoteFetchConfigurationParser.parseConfiguration();
-        assertNotNull(RemoteFetchConfigurationParser.parseConfiguration());
-        assertTrue(RemoteFetchConfigurationParser.parseConfiguration().isEnableCore());
+        RemoteFetchConfigurationUtils.parseConfiguration();
+        assertNotNull(RemoteFetchConfigurationUtils.parseConfiguration());
+        assertTrue(RemoteFetchConfigurationUtils.parseConfiguration().isEnableCore());
     }
 
     @Test
     public void testParseConfigurationForNullValues() throws RemoteFetchCoreException {
 
-        assertNotNull(RemoteFetchConfigurationParser.parseConfiguration());
-        assertFalse(RemoteFetchConfigurationParser.parseConfiguration().isEnableCore());
-        assertNull(RemoteFetchConfigurationParser.parseConfiguration().getWorkingDirectory());
+        assertNotNull(RemoteFetchConfigurationUtils.parseConfiguration());
+        assertFalse(RemoteFetchConfigurationUtils.parseConfiguration().isEnableCore());
+        assertNull(RemoteFetchConfigurationUtils.parseConfiguration().getWorkingDirectory());
     }
 }

@@ -27,6 +27,7 @@ import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreExc
 import org.wso2.carbon.identity.remotefetch.core.dao.RemoteFetchConfigurationDAO;
 import org.wso2.carbon.identity.remotefetch.core.dao.impl.RemoteFetchConfigurationDAOImpl;
 import org.wso2.carbon.identity.remotefetch.core.internal.RemoteFetchServiceComponentHolder;
+import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationUtils;
 import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationValidator;
 
 import java.util.List;
@@ -52,8 +53,13 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
                         .getRemoteFetchComponentRegistry(), fetchConfiguration);
 
         ValidationReport validationReport = validator.validate();
+//        if (log.isDebugEnabled()) {
+//            log.debug("Remote Configuration ID is  generated: " + remoteConfigurationId);
+//        }
 
         if (validationReport.getValidationStatus() == ValidationReport.ValidationStatus.PASSED) {
+            String remoteConfigurationId = RemoteFetchConfigurationUtils.generateUniqueID();
+            fetchConfiguration.setRemoteFetchConfigurationId(remoteConfigurationId);
             this.fetchConfigurationDAO.createRemoteFetchConfiguration(fetchConfiguration);
         }
 
@@ -88,7 +94,7 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
      * @throws RemoteFetchCoreException
      */
     @Override
-    public RemoteFetchConfiguration getRemoteFetchConfiguration(int fetchConfigurationId)
+    public RemoteFetchConfiguration getRemoteFetchConfiguration(String fetchConfigurationId)
             throws RemoteFetchCoreException {
 
         return this.fetchConfigurationDAO.getRemoteFetchConfiguration(fetchConfigurationId);
@@ -122,7 +128,7 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
      * @throws RemoteFetchCoreException
      */
     @Override
-    public void deleteRemoteFetchConfiguration(int fetchConfigurationId) throws RemoteFetchCoreException {
+    public void deleteRemoteFetchConfiguration(String fetchConfigurationId) throws RemoteFetchCoreException {
 
         this.fetchConfigurationDAO.deleteRemoteFetchConfiguration(fetchConfigurationId);
     }

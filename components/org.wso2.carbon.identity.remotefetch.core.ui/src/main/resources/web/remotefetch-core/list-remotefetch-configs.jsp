@@ -135,7 +135,7 @@
                                 </td>
                                 <td style="width: 100px; white-space: normal;">
                                     <a title="Edit Configuration"
-                                       href="add-remotefetch-config.jsp?id=<e:forUri value="<%=Integer.toString(configuration.getId())%>"/>"
+                                       href="add-remotefetch-config.jsp?id=<e:forUri value="<%=configuration.getId()%>"/>"
                                        class="icon-link"
                                        style="background-image: url(images/edit.gif)"> Edit
                                     </a>

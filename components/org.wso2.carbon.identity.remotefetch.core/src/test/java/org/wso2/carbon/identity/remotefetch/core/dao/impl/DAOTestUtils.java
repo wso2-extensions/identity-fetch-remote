@@ -88,14 +88,14 @@ public class DAOTestUtils {
         throw new IllegalArgumentException("DB Script file name cannot be empty.");
     }
 
-    public static void createFetchConfig(String databaseName, int id, int tenantId, boolean isEnabled,
+    public static void createFetchConfig(String databaseName, String id, int tenantId, boolean isEnabled,
                                          String userName, String repoManagerType, String actionListenerType,
                                          String configDeployerType, JSONObject attributes, String remoteFetchName)
             throws Exception {
 
         try (Connection connection = getConnection(databaseName);
              PreparedStatement preparedStatement = connection.prepareStatement(CREATE_CONFIG)) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, id);
             preparedStatement.setInt(2, tenantId);
             preparedStatement.setString(3, isEnabled ? "1" : "0");
             preparedStatement.setString(4, userName);

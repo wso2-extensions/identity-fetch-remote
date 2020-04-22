@@ -31,7 +31,7 @@
   --%>
 
 <%
-    int id = Integer.parseInt(request.getParameter("id"));
+    String id = request.getParameter("id");
     RemoteFetchConfiguration fetchConfiguration = null;
     Map<String, String> repoAttributes;
     

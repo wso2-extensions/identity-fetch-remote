@@ -25,7 +25,7 @@ import java.util.Date;
  */
 public class RemoteFetchConfigurationRowDTO {
 
-    private int id;
+    private String id;
     private boolean isEnabled;
     private String remoteFetchName;
     private String repositoryType;
@@ -35,7 +35,7 @@ public class RemoteFetchConfigurationRowDTO {
     private int failedDeployments;
     private Date lastDeployed;
 
-    public RemoteFetchConfigurationRowDTO(int id, boolean isEnabled, String repositoryType,
+    public RemoteFetchConfigurationRowDTO(String id, boolean isEnabled, String repositoryType,
                                           String actionListenerType, String configarationDeployerType,
                                           String remoteFetchName, int successfulDeployments, int failedDeployments,
                                           Date lastDeployed) {
@@ -56,7 +56,7 @@ public class RemoteFetchConfigurationRowDTO {
 
     }
 
-    public int getId() {
+    public String getId() {
 
         return id;
     }

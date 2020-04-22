@@ -42,6 +42,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationUtils.generateUniqueID;
+
 /**
  * ActionListener that polls repository with frequency for changes to be deployed.
  */
@@ -55,12 +57,12 @@ public class PollingActionListener implements ActionListener {
     private ConfigDeployer configDeployer;
     private DeploymentRevisionDAO deploymentRevisionDAO;
     private Map<String, DeploymentRevision> deploymentRevisionMap = new HashMap<>();
-    private int remoteFetchConfigurationId;
+    private String remoteFetchConfigurationId;
     private int tenantId;
     private String userName;
 
     public PollingActionListener(RepositoryManager repo, ConfigDeployer configDeployer,
-                                 int frequency, int remoteFetchConfigurationId, int tenantId, String userName) {
+                                 int frequency, String remoteFetchConfigurationId, int tenantId, String userName) {
 
         this.repo = repo;
         this.configDeployer = configDeployer;
@@ -146,12 +148,15 @@ public class PollingActionListener implements ActionListener {
     private void createRevision(String resolvedName, File configPath) {
 
         try {
+            String deploymentRevisionId = generateUniqueID();
+            if (log.isDebugEnabled()) {
+                log.debug("Deployment Revision ID is  generated: " + deploymentRevisionId);
+            }
             DeploymentRevision deploymentRevision = new DeploymentRevision(this.remoteFetchConfigurationId, configPath);
             deploymentRevision.setFileHash("");
             deploymentRevision.setItemName(resolvedName);
-
-            int id = this.deploymentRevisionDAO.createDeploymentRevision(deploymentRevision);
-            deploymentRevision.setDeploymentRevisionId(id);
+            deploymentRevision.setDeploymentRevisionId(deploymentRevisionId);
+            this.deploymentRevisionDAO.createDeploymentRevision(deploymentRevision);
             this.deploymentRevisionMap.put(deploymentRevision.getItemName(), deploymentRevision);
         } catch (RemoteFetchCoreException e) {
             log.error("Unable to add a new DeploymentRevision for " + sanitize(resolvedName), e);
