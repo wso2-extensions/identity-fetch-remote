@@ -20,9 +20,9 @@
   --%>
 
 <%
-    
-    if (request.getParameter("id") != null) {
-        String id = request.getParameter("id");
+    String id = request.getParameter("id");
+    if (id != null) {
+
         try {
             RemoteFetchConfigurationClient.deleteRemoteFetchComponent(id);
             CarbonUIMessage.sendCarbonUIMessage("Configuration successfully deleted!", CarbonUIMessage.INFO, request);

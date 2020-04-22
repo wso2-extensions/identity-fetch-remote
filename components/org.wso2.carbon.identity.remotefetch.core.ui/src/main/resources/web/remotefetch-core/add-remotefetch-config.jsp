@@ -33,9 +33,9 @@
     RemoteFetchConfiguration fetchConfiguration = null;
     String componentUIFields = gson.toJson(RemoteFetchRegistryClient.getAllComponentUIFields());
     pageContext.setAttribute("fetchConfigurationJs", null);
-    
-    if (request.getParameter("id") != null) {
-        String editId = request.getParameter("id");
+
+    String editId = request.getParameter("id");
+    if (editId != null) {
         
 
         try {
