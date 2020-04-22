@@ -80,7 +80,7 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * get remoteFetchName
+     * Get remoteFetchName.
      *
      * @return remoteFetchName
      */
@@ -163,7 +163,7 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * set RepositoryManagerType
+     * Set RepositoryManagerType.
      * @param repositoryManagerType repositoryManagerType
      */
     public void setRepositoryManagerType(String repositoryManagerType) {
@@ -182,7 +182,7 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * set ActionListenerType
+     * Set ActionListenerType.
      * @param actionListenerType actionListenerType
      */
     public void setActionListenerType(String actionListenerType) {
@@ -200,7 +200,7 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * set ConfigurationDeployerType
+     * Set ConfigurationDeployerType.
      * @param configurationDeployerType configurationDeployerType
      */
     public void setConfigurationDeployerType(String configurationDeployerType) {

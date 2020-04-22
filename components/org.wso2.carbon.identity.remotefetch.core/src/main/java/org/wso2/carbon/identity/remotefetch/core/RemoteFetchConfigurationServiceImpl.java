@@ -18,6 +18,8 @@
 
 package org.wso2.carbon.identity.remotefetch.core;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.context.CarbonContext;
 import org.wso2.carbon.identity.remotefetch.common.BasicRemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
@@ -37,6 +39,8 @@ import java.util.List;
  */
 public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigurationService {
 
+    private static final Log log = LogFactory.getLog(RemoteFetchConfigurationServiceImpl.class);
+
     private RemoteFetchConfigurationDAO fetchConfigurationDAO = new RemoteFetchConfigurationDAOImpl();
 
     /**
@@ -53,12 +57,12 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
                         .getRemoteFetchComponentRegistry(), fetchConfiguration);
 
         ValidationReport validationReport = validator.validate();
-//        if (log.isDebugEnabled()) {
-//            log.debug("Remote Configuration ID is  generated: " + remoteConfigurationId);
-//        }
 
         if (validationReport.getValidationStatus() == ValidationReport.ValidationStatus.PASSED) {
             String remoteConfigurationId = RemoteFetchConfigurationUtils.generateUniqueID();
+            if (log.isDebugEnabled()) {
+                log.debug("Remote Configuration ID is  generated: " + remoteConfigurationId);
+            }
             fetchConfiguration.setRemoteFetchConfigurationId(remoteConfigurationId);
             this.fetchConfigurationDAO.createRemoteFetchConfiguration(fetchConfiguration);
         }

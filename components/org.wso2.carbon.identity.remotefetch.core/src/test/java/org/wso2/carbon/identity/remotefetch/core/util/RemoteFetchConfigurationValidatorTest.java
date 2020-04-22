@@ -32,7 +32,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 /**
- * Unit test covering RemoteFetchConfigurationValidator
+ * Unit test covering RemoteFetchConfigurationValidator.
  */
 @PrepareForTest(RemoteFetchConfigurationValidator.class)
 public class RemoteFetchConfigurationValidatorTest extends PowerMockTestCase {

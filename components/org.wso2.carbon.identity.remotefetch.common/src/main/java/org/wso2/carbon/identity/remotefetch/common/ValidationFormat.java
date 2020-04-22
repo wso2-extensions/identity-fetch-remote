@@ -19,7 +19,7 @@
 package org.wso2.carbon.identity.remotefetch.common;
 
 /**
- * Holds validation Format
+ * Holds validation Format.
  */
 public class ValidationFormat {
     public static final String MANDATORY_VALUE = "%s is a mandatory value";

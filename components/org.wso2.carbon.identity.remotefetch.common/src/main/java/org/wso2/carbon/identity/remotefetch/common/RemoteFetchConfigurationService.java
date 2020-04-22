@@ -27,7 +27,7 @@ import java.util.List;
  */
 public interface RemoteFetchConfigurationService {
 
-    //TODO:staus
+    //TODO:method to show status and do trigger.
 
     /**
      * This method is used to call by clients to add RemoteFetchConfiguration into database.

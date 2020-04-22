@@ -21,7 +21,7 @@ package org.wso2.carbon.identity.remotefetch.core.ui.dto;
 import java.util.Date;
 
 /**
- * DTO of remote fetch configuration
+ * DTO of remote fetch configuration.
  */
 public class RemoteFetchConfigurationRowDTO {
 

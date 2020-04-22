@@ -40,7 +40,7 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 /**
- * Unit test covering for RemoteFetchConfigurationClient
+ * Unit test covering for RemoteFetchConfigurationClient.
  */
 public class RemoteFetchConfigurationClientTest extends PowerMockTestCase {
 

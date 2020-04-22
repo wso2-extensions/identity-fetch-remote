@@ -29,6 +29,12 @@ import java.util.UUID;
  *Parser for core configuration from deployment.toml file.
  */
 public class RemoteFetchConfigurationUtils {
+
+    /**
+     * Parse configuration from deployment toml file.
+     * @return RemoteFetchCoreConfiguration
+     * @throws RemoteFetchCoreException
+     */
     public static RemoteFetchCoreConfiguration parseConfiguration() throws RemoteFetchCoreException {
 
         boolean isEnabled = false;
@@ -58,7 +64,7 @@ public class RemoteFetchConfigurationUtils {
     }
 
     /**
-     * generate UUID
+     * Generate UUID.
      * @return UUID
      */
     public static String generateUniqueID() {

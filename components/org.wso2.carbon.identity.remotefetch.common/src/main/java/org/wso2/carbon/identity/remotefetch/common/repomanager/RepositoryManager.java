@@ -65,7 +65,7 @@ public interface RepositoryManager {
     String getRevisionHash(File location) throws RemoteFetchCoreException;
 
     /**
-     * list files from local repository.
+     * List files from local repository.
      * @return
      * @throws RemoteFetchCoreException
      */

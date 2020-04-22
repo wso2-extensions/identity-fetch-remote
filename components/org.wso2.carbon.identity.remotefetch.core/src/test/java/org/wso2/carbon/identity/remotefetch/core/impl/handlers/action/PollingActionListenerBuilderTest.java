@@ -52,7 +52,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 import static org.testng.AssertJUnit.assertNotNull;
 
 /**
- * Unit test covering PollingActionListenerBuilder
+ * Unit test covering PollingActionListenerBuilder.
  */
 @PrepareForTest({DeploymentRevisionDAOImpl.class, JdbcUtils.class})
 public class PollingActionListenerBuilderTest extends PowerMockTestCase {

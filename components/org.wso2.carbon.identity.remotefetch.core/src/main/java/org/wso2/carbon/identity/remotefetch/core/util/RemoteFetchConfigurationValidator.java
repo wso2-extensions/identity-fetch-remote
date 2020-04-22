@@ -97,6 +97,7 @@ public class RemoteFetchConfigurationValidator {
     }
 
     private boolean isBasicFields() {
+
         if (StringUtils.isEmpty(this.fetchConfiguration.getUserName())) {
             this.validationReport.addMessage("username field is empty");
             return true;
@@ -106,6 +107,7 @@ public class RemoteFetchConfigurationValidator {
     }
 
     private boolean isEmpty() {
+
         boolean isValid = true;
         if (this.fetchConfiguration.getActionListenerType().isEmpty()) {
             this.validationReport.addMessage("Empty field provided for Action Listener Type");

@@ -42,7 +42,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Retrieves RemoteFetchConfigurations and builds ActionListeners to be executed
+ * Retrieves RemoteFetchConfigurations and builds ActionListeners to be executed.
  */
 public class RemoteFetchCore implements Runnable {
 
@@ -61,7 +61,7 @@ public class RemoteFetchCore implements Runnable {
     }
 
     /**
-     * Builds ActionListener object from RemoteFetchConfiguration
+     * Builds ActionListener object from RemoteFetchConfiguration.
      *
      * @param fetchConfig
      * @return

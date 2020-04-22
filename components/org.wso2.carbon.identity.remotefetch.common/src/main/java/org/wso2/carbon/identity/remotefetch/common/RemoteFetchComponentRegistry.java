@@ -40,7 +40,7 @@ public interface RemoteFetchComponentRegistry {
     void registerRepositoryManager(RepositoryManagerComponent repositoryManagerComponent);
 
     /**
-     * Register ConfigDeployer Component into registry
+     * Register ConfigDeployer Component into registry.
      * @param configDeployerComponent configDeployerComponent
      */
     void registerConfigDeployer(ConfigDeployerComponent configDeployerComponent);

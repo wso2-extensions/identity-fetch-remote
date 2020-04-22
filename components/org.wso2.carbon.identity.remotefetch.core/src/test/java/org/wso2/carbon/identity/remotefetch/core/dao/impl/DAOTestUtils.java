@@ -33,7 +33,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.spy;
 
 /**
- * DB Utils
+ * DB Utils.
  */
 public class DAOTestUtils {
 

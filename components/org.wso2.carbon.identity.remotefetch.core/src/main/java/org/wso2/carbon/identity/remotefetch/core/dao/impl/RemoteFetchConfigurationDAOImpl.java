@@ -45,7 +45,7 @@ import static org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants.ATT
 import static org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants.FACTOR_INDENT;
 
 /**
- * this class accesses IDN_REMOTE_FETCH_CONFIG table to store/update and delete Remote Fetch configurations.
+ * This class accesses IDN_REMOTE_FETCH_CONFIG table to store/update and delete Remote Fetch configurations.
  * TODO : Implement Name preparedstatement
  */
 public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfigurationDAO {
@@ -263,8 +263,6 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
     private void configurationToPreparedStatement(PreparedStatement preparedStatement,
                                                   RemoteFetchConfiguration configuration) throws SQLException {
 
-
-        // TODO : configuration is enabled as boolean. seperate PR.
         preparedStatement.setInt(1, configuration.getTenantId());
         preparedStatement.setString(2, (configuration.isEnabled() ? "1" : "0"));
         preparedStatement.setString(3, configuration.getUserName());

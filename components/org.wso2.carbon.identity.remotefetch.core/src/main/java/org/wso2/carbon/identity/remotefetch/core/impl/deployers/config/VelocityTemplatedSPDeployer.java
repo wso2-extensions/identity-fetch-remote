@@ -56,7 +56,7 @@ public class VelocityTemplatedSPDeployer extends ServiceProviderConfigDeployer {
     }
 
     /**
-     * Parameter replacement
+     * Parameter replacement.
      *
      * @param configurationFileStream
      * @throws RemoteFetchCoreException

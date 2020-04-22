@@ -30,7 +30,7 @@ public class ValidationReport {
 
 
     /**
-     * Status of validation report
+     * Status of validation report.
      */
     public static enum ValidationStatus {
         PASSED, FAILED
@@ -50,7 +50,7 @@ public class ValidationReport {
     }
 
     /**
-     * add MessageForMandatoryValidation
+     * Add MessageForMandatoryValidation.
      * @param field field
      */
     public void addMessageForMandatoryValidation(String field) {
@@ -59,7 +59,7 @@ public class ValidationReport {
     }
 
     /**
-     * add MessageForPatternValidation
+     * Add MessageForPatternValidation.
      * @param field field
      */
     public void addMessageForPatternValidation(String field) {
@@ -68,7 +68,7 @@ public class ValidationReport {
     }
 
     /**
-     * add MessageForActionListenerValidation
+     * Add MessageForActionListenerValidation.
      * @param actionListenerType actionListenerType
      */
     public void addMessageForActionListenerValidation(String actionListenerType) {
@@ -78,7 +78,7 @@ public class ValidationReport {
     }
 
     /**
-     * add MessageForRepoManagerValidation
+     * Add MessageForRepoManagerValidation.
      * @param repoManagerType repoManagerType
      */
     public void addMessageForRepoManagerValidation(String repoManagerType) {
@@ -87,7 +87,7 @@ public class ValidationReport {
     }
 
     /**
-     * add MessageForConfigDeployerValidation
+     * Add MessageForConfigDeployerValidation.
      * @param configDeployerType configDeployerType
      */
     public void addMessageForConfigDeployerValidation(String configDeployerType) {
@@ -97,7 +97,7 @@ public class ValidationReport {
     }
 
     /**
-     * add MessageForComponentValidation
+     * Add MessageForComponentValidation.
      * @param validationReport validationReport
      * @param componentName componentName
      */
@@ -107,7 +107,7 @@ public class ValidationReport {
     }
 
     /**
-     * get Messages
+     * Get Messages.
      * @return validationMessages
      */
     public List<String> getMessages() {
@@ -116,7 +116,7 @@ public class ValidationReport {
     }
 
     /**
-     * get status of the report.
+     * Get status of the report.
      * @return validationStatus
      */
     public ValidationStatus getValidationStatus() {
@@ -125,7 +125,7 @@ public class ValidationReport {
     }
 
     /**
-     * set ValidationStatus.
+     * Set ValidationStatus.
      * @param validationStatus validationStatus
      */
     public void setValidationStatus(ValidationStatus validationStatus) {
@@ -134,7 +134,7 @@ public class ValidationReport {
     }
 
     /**
-     * get id
+     * Get id.
      * @return id
      */
     public String getId() {
@@ -142,7 +142,7 @@ public class ValidationReport {
     }
 
     /**
-     * set id of processed remote fetch configuration.
+     * Set id of processed remote fetch configuration.
      * @param id UUID of remote fetch configuration.
      */
     public void setId(String id) {

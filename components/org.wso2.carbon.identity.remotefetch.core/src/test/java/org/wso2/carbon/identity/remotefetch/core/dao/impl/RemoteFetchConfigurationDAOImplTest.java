@@ -42,7 +42,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 /**
- * Unit test covering RemoteFetchConfigurationDAOImpl
+ * Unit test covering RemoteFetchConfigurationDAOImpl.
  */
 @PrepareForTest(JdbcUtils.class)
 public class RemoteFetchConfigurationDAOImplTest extends PowerMockTestCase {

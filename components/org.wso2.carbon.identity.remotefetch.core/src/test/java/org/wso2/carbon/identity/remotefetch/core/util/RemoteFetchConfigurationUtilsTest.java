@@ -34,7 +34,7 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 /**
- * Unit test covering RemoteFetchConfigurationParser
+ * Unit test covering RemoteFetchConfigurationParser.
  */
 @PrepareForTest(IdentityUtil.class)
 public class RemoteFetchConfigurationUtilsTest extends PowerMockTestCase {

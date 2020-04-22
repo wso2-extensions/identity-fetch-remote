@@ -45,7 +45,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 /**
- * Unit test covering DeploymentRevisionDAOImpl
+ * Unit test covering DeploymentRevisionDAOImpl.
  */
 @PrepareForTest(JdbcUtils.class)
 public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
