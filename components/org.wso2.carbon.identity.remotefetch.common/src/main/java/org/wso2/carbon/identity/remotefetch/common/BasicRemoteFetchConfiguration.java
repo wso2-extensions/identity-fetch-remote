@@ -26,8 +26,6 @@ import java.util.Date;
  */
 public class BasicRemoteFetchConfiguration {
 
-    //TODO:UUID
-
     private String id;
     private boolean isEnabled;
     private String remoteFetchName;

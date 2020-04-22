@@ -28,7 +28,6 @@ import java.util.List;
  */
 public class ValidationReport {
 
-    //TODO:UUID
 
     /**
      * Status of validation report

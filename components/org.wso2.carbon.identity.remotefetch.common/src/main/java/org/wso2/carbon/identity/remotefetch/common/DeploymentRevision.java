@@ -27,7 +27,6 @@ import java.util.Date;
  */
 public class DeploymentRevision {
 
-    //TODO:UUID
     private String fileRevisionId;
     private String configId;
     private File file;

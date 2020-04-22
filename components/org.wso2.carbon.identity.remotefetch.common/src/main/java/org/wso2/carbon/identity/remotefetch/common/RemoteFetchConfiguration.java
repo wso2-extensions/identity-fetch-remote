@@ -29,7 +29,6 @@ import java.util.Objects;
  * Used auto pull schedulers at runtime.
  */
 public class RemoteFetchConfiguration {
-    //TODO:UUID
 
     private String remoteFetchConfigurationId;
     private int tenantId = 0;
