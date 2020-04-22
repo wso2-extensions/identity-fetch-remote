@@ -138,6 +138,7 @@ public class ValidationReport {
      * @return id
      */
     public String getId() {
+
         return id;
     }
 
@@ -146,6 +147,7 @@ public class ValidationReport {
      * @param id UUID of remote fetch configuration.
      */
     public void setId(String id) {
+
         this.id = id;
     }
 

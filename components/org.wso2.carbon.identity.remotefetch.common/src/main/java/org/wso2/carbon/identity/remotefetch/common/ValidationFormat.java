@@ -22,6 +22,7 @@ package org.wso2.carbon.identity.remotefetch.common;
  * Holds validation Format.
  */
 public class ValidationFormat {
+
     public static final String MANDATORY_VALUE = "%s is a mandatory value";
     public static final String DOES_NOT_MATCH_PATTERN = "%s does not match pattern";
     public static final String NOT_A_VALID_ACTION_LISTENER = "%s is not a valid Action Listener";
