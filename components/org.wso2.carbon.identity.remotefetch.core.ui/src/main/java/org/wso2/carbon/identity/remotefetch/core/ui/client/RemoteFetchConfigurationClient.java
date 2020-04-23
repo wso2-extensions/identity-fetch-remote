@@ -100,7 +100,7 @@ public class RemoteFetchConfigurationClient {
         );
     }
 
-    public static RemoteFetchConfiguration getRemoteFetchConfiguration(int id) throws RemoteFetchCoreException {
+    public static RemoteFetchConfiguration getRemoteFetchConfiguration(String id) throws RemoteFetchCoreException {
 
         return RemotefetchCoreUIComponentDataHolder.getInstance().getRemoteFetchConfigurationService()
                 .getRemoteFetchConfiguration(id);
@@ -122,12 +122,14 @@ public class RemoteFetchConfigurationClient {
                 .addRemoteFetchConfiguration(fetchConfiguration);
     }
 
-    public static ValidationReport updateFetchConfiguration(String jsonObject, String currentUser)
+    public static ValidationReport updateFetchConfiguration(String remoteConfigurationId,
+                                                            String jsonObject, String currentUser)
             throws RemoteFetchCoreException {
 
         RemoteFetchConfiguration fetchConfiguration =
                 RemoteFetchConfigurationClient.parseJsonToConfiguration(jsonObject);
 
+        fetchConfiguration.setRemoteFetchConfigurationId(remoteConfigurationId);
         fetchConfiguration.setUserName(currentUser);
         fetchConfiguration.setActionListenerType(TYPE_ACTION_LISTENER);
         fetchConfiguration.setConfigurationDeployerType(TYPE_CONFIG_DEPLOYER);
@@ -138,7 +140,7 @@ public class RemoteFetchConfigurationClient {
                 .updateRemoteFetchConfiguration(fetchConfiguration);
     }
 
-    public static void deleteRemoteFetchComponent(int id) throws RemoteFetchCoreException {
+    public static void deleteRemoteFetchComponent(String id) throws RemoteFetchCoreException {
 
         RemotefetchCoreUIComponentDataHolder.getInstance().getRemoteFetchConfigurationService()
                 .deleteRemoteFetchConfiguration(id);

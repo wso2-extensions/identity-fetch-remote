@@ -41,7 +41,7 @@ import org.wso2.carbon.identity.remotefetch.core.RemoteFetchCore;
 import org.wso2.carbon.identity.remotefetch.core.impl.deployers.config.ServiceProviderConfigDeployerComponent;
 import org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.PollingActionListenerComponent;
 import org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository.GitRepositoryManagerComponent;
-import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationParser;
+import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationUtils;
 import org.wso2.carbon.user.core.service.RealmService;
 
 import java.util.concurrent.Executors;
@@ -167,7 +167,7 @@ public class RemoteFetchServiceComponent {
 
     private RemoteFetchCoreConfiguration parseRemoteFetchCoreConfiguration() {
         try {
-            return RemoteFetchConfigurationParser.parseConfiguration();
+            return RemoteFetchConfigurationUtils.parseConfiguration();
         } catch (RemoteFetchCoreException e) {
             log.error("Error parsing RemoteFetchCoreConfiguration, Core disabled", e);
             return new RemoteFetchCoreConfiguration(null, false);

@@ -29,8 +29,8 @@ public class SQLConstants {
     private static final String REVISION_DEPLOYMENT_FAIL = DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING.name();
 
     // Revision Management SQL
-    public static final String CREATE_REVISION = "INSERT INTO IDN_REMOTE_FETCH_REVISIONS (CONFIG_ID, FILE_PATH, " +
-            " FILE_HASH, ITEM_NAME) VALUES(?,?,?,?)";
+    public static final String CREATE_REVISION = "INSERT INTO IDN_REMOTE_FETCH_REVISIONS (ID, CONFIG_ID, FILE_PATH, " +
+            " FILE_HASH, ITEM_NAME) VALUES(?,?,?,?,?)";
 
     public static final String UPDATE_REVISION = "UPDATE IDN_REMOTE_FETCH_REVISIONS SET CONFIG_ID = ?, FILE_PATH = ?," +
             " FILE_HASH = ?, DEPLOYED_DATE = ?, DEPLOYMENT_STATUS = ?, ITEM_NAME = ? WHERE ID = ?";
@@ -44,9 +44,9 @@ public class SQLConstants {
             " DEPLOYMENT_STATUS, ITEM_NAME FROM IDN_REMOTE_FETCH_REVISIONS WHERE CONFIG_ID = ? AND ITEM_NAME = ?";
 
     // Configuration Management SQL
-    public static final String CREATE_CONFIG = "INSERT INTO IDN_REMOTE_FETCH_CONFIG (TENANT_ID, IS_ENABLED, " +
+    public static final String CREATE_CONFIG = "INSERT INTO IDN_REMOTE_FETCH_CONFIG (ID, TENANT_ID, IS_ENABLED, " +
             " USER_NAME, REPO_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE, ATTRIBUTES_JSON," +
-            " REMOTE_FETCH_NAME) VALUES (?,?,?,?,?,?,?,?)";
+            " REMOTE_FETCH_NAME) VALUES (?,?,?,?,?,?,?,?,?)";
 
     public static final String LIST_CONFIGS = "SELECT ID,TENANT_ID, IS_ENABLED, USER_NAME, " +
             " REPO_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE, REMOTE_FETCH_NAME, ATTRIBUTES_JSON FROM " +

@@ -29,7 +29,8 @@
         response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         return;
     }
-    
+
+    String id = request.getParameter("id");
     String payload = request.getParameter("payload");
     String action = request.getParameter("action");
     
@@ -42,7 +43,7 @@
                 validationReport = RemoteFetchConfigurationClient.addFetchConfiguration(payload, currentUser);
                 CarbonUIMessage.sendCarbonUIMessage("Configuration successfully added!", CarbonUIMessage.INFO, request);
             } else if (action.equalsIgnoreCase("update")) {
-                validationReport = RemoteFetchConfigurationClient.updateFetchConfiguration(payload, currentUser);
+                validationReport = RemoteFetchConfigurationClient.updateFetchConfiguration(id,payload, currentUser);
                 CarbonUIMessage.sendCarbonUIMessage("Configuration successfully updated!", CarbonUIMessage.INFO,
                         request);
             }

@@ -42,7 +42,7 @@ public class ConfigurationFileStream {
     }
 
     /**
-     * get input stream to read file.
+     * Get input stream to read file.
      * @return contentStream
      */
     public InputStream getContentStream() {
@@ -51,7 +51,7 @@ public class ConfigurationFileStream {
     }
 
     /**
-     * get file path.
+     * Get file path.
      * @return path.
      */
     public File getPath() {

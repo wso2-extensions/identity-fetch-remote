@@ -46,9 +46,9 @@ public class ServiceProviderConfigDeployer implements ConfigDeployer {
     private ApplicationManagementService applicationManagementService;
     private int tenantId;
     private String userName;
-    private int id;
+    private String id;
 
-    public ServiceProviderConfigDeployer(int tenantId, String userName, int id) {
+    public ServiceProviderConfigDeployer(int tenantId, String userName, String id) {
 
         this.applicationManagementService = RemoteFetchServiceComponentHolder.getInstance()
                 .getApplicationManagementService();
@@ -57,7 +57,7 @@ public class ServiceProviderConfigDeployer implements ConfigDeployer {
         this.id = id;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

@@ -47,16 +47,16 @@ public class VelocityTemplatedSPDeployer extends ServiceProviderConfigDeployer {
 
     private static final Log log = LogFactory.getLog(VelocityTemplatedSPDeployer.class);
 
-    private int id;
+    private String id;
 
-    public VelocityTemplatedSPDeployer(int tenantId, String userName, int id) {
+    public VelocityTemplatedSPDeployer(int tenantId, String userName, String id) {
 
         super(tenantId, userName, id);
         this.id = id;
     }
 
     /**
-     * Parameter replacement
+     * Parameter replacement.
      *
      * @param configurationFileStream
      * @throws RemoteFetchCoreException

@@ -42,7 +42,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Retrieves RemoteFetchConfigurations and builds ActionListeners to be executed
+ * Retrieves RemoteFetchConfigurations and builds ActionListeners to be executed.
  */
 public class RemoteFetchCore implements Runnable {
 
@@ -51,8 +51,8 @@ public class RemoteFetchCore implements Runnable {
     private RemoteFetchConfigurationService fetchConfigurationService =
             RemoteFetchServiceComponentHolder.getInstance().getRemoteFetchConfigurationService();
 
-    private Map<Integer, RemoteFetchConfiguration> remoteFetchConfigurationMap = new HashMap<>();
-    private Map<Integer, ActionListener> actionListenerMap = new HashMap<>();
+    private Map<String, RemoteFetchConfiguration> remoteFetchConfigurationMap = new HashMap<>();
+    private Map<String, ActionListener> actionListenerMap = new HashMap<>();
     private RemoteFetchComponentRegistry componentRegistry;
 
     public RemoteFetchCore() {
@@ -61,7 +61,7 @@ public class RemoteFetchCore implements Runnable {
     }
 
     /**
-     * Builds ActionListener object from RemoteFetchConfiguration
+     * Builds ActionListener object from RemoteFetchConfiguration.
      *
      * @param fetchConfig
      * @return
@@ -148,7 +148,7 @@ public class RemoteFetchCore implements Runnable {
         try {
             this.fetchConfigurationService.getEnabledRemoteFetchConfigurationList()
                     .forEach((RemoteFetchConfiguration config) -> {
-                int configurationId = config.getRemoteFetchConfigurationId();
+                String configurationId = config.getRemoteFetchConfigurationId();
                 // Check if RemoteFetchConfig already exists in Map.
                 if (this.remoteFetchConfigurationMap.containsKey(configurationId)) {
                     // Update RemoteFetchConfiguration if local and new config is different.

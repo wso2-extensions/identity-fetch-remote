@@ -30,7 +30,7 @@ import java.util.Objects;
  */
 public class RemoteFetchConfiguration {
 
-    private int remoteFetchConfigurationId = -1;
+    private String remoteFetchConfigurationId;
     private int tenantId = 0;
     private String remoteFetchName = "";
     private boolean isEnabled;
@@ -42,7 +42,7 @@ public class RemoteFetchConfiguration {
     private Map<String, String> actionListenerAttributes = new HashMap<>();
     private Map<String, String> configurationDeployerAttributes = new HashMap<>();
 
-    public RemoteFetchConfiguration(int remoteFetchConfigurationId, int tenantId,
+    public RemoteFetchConfiguration(String remoteFetchConfigurationId, int tenantId,
                                     boolean isEnabled, String userName,
                                     String repositoryManagerType, String actionListenerType,
                                     String configurationDeployerType, String remoteFetchName) {
@@ -80,7 +80,7 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * get remoteFetchName
+     * Get remoteFetchName.
      *
      * @return remoteFetchName
      */
@@ -138,7 +138,7 @@ public class RemoteFetchConfiguration {
      * unique ID to represent this configuration.
      * @return
      */
-    public int getRemoteFetchConfigurationId() {
+    public String getRemoteFetchConfigurationId() {
 
         return remoteFetchConfigurationId;
     }
@@ -147,7 +147,7 @@ public class RemoteFetchConfiguration {
      * set RemoteFetchConfigurationId.
      * @param remoteFetchConfigurationId remoteFetchConfigurationId
      */
-    public void setRemoteFetchConfigurationId(int remoteFetchConfigurationId) {
+    public void setRemoteFetchConfigurationId(String remoteFetchConfigurationId) {
 
         this.remoteFetchConfigurationId = remoteFetchConfigurationId;
     }
@@ -163,7 +163,7 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * set RepositoryManagerType
+     * Set RepositoryManagerType.
      * @param repositoryManagerType repositoryManagerType
      */
     public void setRepositoryManagerType(String repositoryManagerType) {
@@ -182,7 +182,7 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * set ActionListenerType
+     * Set ActionListenerType.
      * @param actionListenerType actionListenerType
      */
     public void setActionListenerType(String actionListenerType) {
@@ -200,7 +200,7 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * set ConfigurationDeployerType
+     * Set ConfigurationDeployerType.
      * @param configurationDeployerType configurationDeployerType
      */
     public void setConfigurationDeployerType(String configurationDeployerType) {
@@ -277,7 +277,7 @@ public class RemoteFetchConfiguration {
             return false;
         }
         RemoteFetchConfiguration that = (RemoteFetchConfiguration) o;
-        return remoteFetchConfigurationId == that.remoteFetchConfigurationId &&
+        return Objects.equals(remoteFetchConfigurationId, that.remoteFetchConfigurationId) &&
                 tenantId == that.tenantId &&
                 Objects.equals(remoteFetchName, that.remoteFetchName) &&
                 isEnabled == that.isEnabled &&

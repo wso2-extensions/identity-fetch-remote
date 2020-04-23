@@ -27,9 +27,10 @@ import java.util.List;
 public class UIField {
 
     /**
-     * Types of UI Field
+     * Types of UI Field.
      */
     public enum FieldTypes {
+
         TEXT_BOX,
     }
     private String id;

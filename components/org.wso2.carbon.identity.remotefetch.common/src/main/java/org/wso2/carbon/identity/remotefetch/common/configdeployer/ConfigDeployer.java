@@ -37,7 +37,7 @@ public interface ConfigDeployer {
     void deploy(ConfigurationFileStream configurationFileStream) throws RemoteFetchCoreException, IOException;
 
     /**
-     * resolve the unique identifier for the configuration.
+     * Resolve the unique identifier for the configuration.
      *
      * @return
      * @throws RemoteFetchCoreException

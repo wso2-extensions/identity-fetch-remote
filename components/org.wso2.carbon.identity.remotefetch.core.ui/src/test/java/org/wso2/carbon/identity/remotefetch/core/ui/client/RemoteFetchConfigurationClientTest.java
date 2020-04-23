@@ -40,7 +40,7 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 /**
- * Unit test covering for RemoteFetchConfigurationClient
+ * Unit test covering for RemoteFetchConfigurationClient.
  */
 public class RemoteFetchConfigurationClientTest extends PowerMockTestCase {
 
@@ -53,7 +53,8 @@ public class RemoteFetchConfigurationClientTest extends PowerMockTestCase {
     @Test
     public void testFetchConfigurationToDTO() {
 
-        BasicRemoteFetchConfiguration basicRemoteFetchConfiguration = new BasicRemoteFetchConfiguration(1, true,
+        BasicRemoteFetchConfiguration basicRemoteFetchConfiguration = new BasicRemoteFetchConfiguration
+                ("00000000-0000-0000-0000-d29bed62f7bd", true,
                 "GIT", "POLLING", "SP", "Test",
                 1, 0);
         RemoteFetchComponentRegistry remoteFetchComponentRegistry = new RemoteFetchComponentRegistryImpl();
@@ -77,7 +78,8 @@ public class RemoteFetchConfigurationClientTest extends PowerMockTestCase {
     @Test
     public void testFetchConfigurationToDTOForNullValues() {
 
-        BasicRemoteFetchConfiguration basicRemoteFetchConfiguration = new BasicRemoteFetchConfiguration(1, true,
+        BasicRemoteFetchConfiguration basicRemoteFetchConfiguration = new BasicRemoteFetchConfiguration
+                ("00000000-0000-0000-0000-d29bed62f7bd", true,
                 "GIT", "POLLING", "SP", "Test",
                 1, 0);
         RemoteFetchComponentRegistry remoteFetchComponentRegistry = new RemoteFetchComponentRegistryImpl();

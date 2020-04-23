@@ -32,7 +32,7 @@ public class JdbcUtils {
     }
 
     /**
-     * Get a new Jdbc Template
+     * Get a new Jdbc Template.
      *
      * @return a new JdbcTemplate
      */

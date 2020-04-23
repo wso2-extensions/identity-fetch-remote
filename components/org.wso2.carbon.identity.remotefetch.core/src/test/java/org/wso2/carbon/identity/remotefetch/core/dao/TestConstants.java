@@ -38,7 +38,7 @@ public class TestConstants {
 
     public static JSONObject getAttributesJson() {
 
-        int remoteFetchConfigurationId = -1;
+        String remoteFetchConfigurationId = "00000000-0000-0000-0000-d29bed62f7bd";
         RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration(remoteFetchConfigurationId,
                 TENANT_ID, false, USER_NAME, null, null,
                 null,

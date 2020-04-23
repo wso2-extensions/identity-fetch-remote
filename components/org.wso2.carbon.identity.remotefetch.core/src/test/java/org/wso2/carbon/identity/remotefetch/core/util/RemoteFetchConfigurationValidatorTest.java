@@ -32,12 +32,12 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 /**
- * Unit test covering RemoteFetchConfigurationValidator
+ * Unit test covering RemoteFetchConfigurationValidator.
  */
 @PrepareForTest(RemoteFetchConfigurationValidator.class)
 public class RemoteFetchConfigurationValidatorTest extends PowerMockTestCase {
 
-    private static final int ID = 1;
+    private static final String ID = "00000000-0000-0000-0000-d29bed62f7bd";
     private static final int TENANT_ID = -1234;
     private static final boolean IS_ENABLED = true;
     private static final String USER_NAME = "admin";

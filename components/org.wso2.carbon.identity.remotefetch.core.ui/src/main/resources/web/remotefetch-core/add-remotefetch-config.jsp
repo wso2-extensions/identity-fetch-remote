@@ -33,22 +33,16 @@
     RemoteFetchConfiguration fetchConfiguration = null;
     String componentUIFields = gson.toJson(RemoteFetchRegistryClient.getAllComponentUIFields());
     pageContext.setAttribute("fetchConfigurationJs", null);
-    
-    if (request.getParameter("id") != null) {
-        int editId = -1;
-        try {
-            editId = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException e) {
-            CarbonUIMessage.sendCarbonUIMessage("ID is invalid", CarbonUIMessage.ERROR, request, e);
-        }
+
+    String editId = request.getParameter("id");
+    if (editId != null) {
         
-        if (editId != -1) {
-            try {
-                fetchConfiguration = RemoteFetchConfigurationClient.getRemoteFetchConfiguration(editId);
-                pageContext.setAttribute("fetchConfigurationJs", gson.toJson(fetchConfiguration));
-            } catch (RemoteFetchCoreException e) {
-                CarbonUIMessage.sendCarbonUIMessage("Invalid Config for id", CarbonUIMessage.ERROR, request, e);
-            }
+
+        try {
+            fetchConfiguration = RemoteFetchConfigurationClient.getRemoteFetchConfiguration(editId);
+            pageContext.setAttribute("fetchConfigurationJs", gson.toJson(fetchConfiguration));
+        } catch (RemoteFetchCoreException e) {
+            CarbonUIMessage.sendCarbonUIMessage("Invalid Config for id", CarbonUIMessage.ERROR, request, e);
         }
     }
 %>
@@ -131,6 +125,7 @@
             </div>
             
             <form id="hiddenForm" action="add-remotefetch-config-insert.jsp" method="post">
+                <input id="id" type="hidden" name="id" value=<%=(fetchConfiguration != null) ? fetchConfiguration.getRemoteFetchConfigurationId() : null %>>
                 <input id="jsonPayload" type="hidden" name="payload">
                 <input id="hiddenFormAction" type="hidden" name="action" value="insert">
             </form>

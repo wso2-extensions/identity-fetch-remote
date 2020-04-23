@@ -34,14 +34,14 @@ public interface RemoteFetchConfigurationDAO {
      * @return
      * @throws RemoteFetchCoreException
      */
-    int createRemoteFetchConfiguration(RemoteFetchConfiguration configuration) throws RemoteFetchCoreException;
+    void createRemoteFetchConfiguration(RemoteFetchConfiguration configuration) throws RemoteFetchCoreException;
 
     /**
      * @param configurationId
      * @return
      * @throws RemoteFetchCoreException
      */
-    RemoteFetchConfiguration getRemoteFetchConfiguration(int configurationId) throws RemoteFetchCoreException;
+    RemoteFetchConfiguration getRemoteFetchConfiguration(String configurationId) throws RemoteFetchCoreException;
 
     /**
      * @param configuration
@@ -53,7 +53,7 @@ public interface RemoteFetchConfigurationDAO {
      * @param configurationId
      * @throws RemoteFetchCoreException
      */
-    void deleteRemoteFetchConfiguration(int configurationId) throws RemoteFetchCoreException;
+    void deleteRemoteFetchConfiguration(String configurationId) throws RemoteFetchCoreException;
 
     /**
      * @return

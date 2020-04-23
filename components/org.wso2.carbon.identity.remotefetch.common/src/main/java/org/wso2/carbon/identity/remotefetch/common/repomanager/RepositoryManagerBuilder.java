@@ -57,11 +57,21 @@ public abstract class RepositoryManagerBuilder {
         return this;
     }
 
+    /**
+     * Get FetchConfiguration.
+     * @return
+     */
     public RemoteFetchConfiguration getFetchConfig() {
+
         return fetchConfig;
     }
 
+    /**
+     * Get FetchCoreConfiguration.
+     * @return
+     */
     public RemoteFetchCoreConfiguration getFetchCoreConfiguration() {
+
         return fetchCoreConfiguration;
     }
 

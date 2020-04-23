@@ -26,7 +26,7 @@ import java.util.Date;
  */
 public class BasicRemoteFetchConfiguration {
 
-    private int id;
+    private String id;
     private boolean isEnabled;
     private String remoteFetchName;
     private String repositoryManagerType;
@@ -36,7 +36,7 @@ public class BasicRemoteFetchConfiguration {
     private int failedDeployments;
     private Date lastDeployed = null;
 
-    public BasicRemoteFetchConfiguration(int id, boolean isEnabled,
+    public BasicRemoteFetchConfiguration(String id, boolean isEnabled,
                                          String repositoryManagerType,
                                          String actionListenerType, String configurationDeployerType,
                                          String remoteFetchName,
@@ -53,16 +53,16 @@ public class BasicRemoteFetchConfiguration {
     }
 
     /**
-     * get id.
+     * Get id.
      * @return Id
      */
-    public int getId() {
+    public String getId() {
 
         return id;
     }
 
     /**
-     *get remoteFetchName.
+     *Get remoteFetchName.
      * @return remoteFetName.
      */
     public String getRemoteFetchName() {
@@ -71,7 +71,7 @@ public class BasicRemoteFetchConfiguration {
     }
 
     /**
-     * get isEnabled which is used to point particular remoteFetchConfig is enabled or not.
+     * Get isEnabled which is used to point particular remoteFetchConfig is enabled or not.
      * @return isEnabled.
      */
     public boolean isEnabled() {
@@ -110,7 +110,7 @@ public class BasicRemoteFetchConfiguration {
     }
 
     /**
-     * get number of successful deployments for list view.
+     * Get number of successful deployments for list view.
      * @return successfulDeployments
      */
     public int getSuccessfulDeployments() {
@@ -119,7 +119,7 @@ public class BasicRemoteFetchConfiguration {
     }
 
     /**
-     * get number of failed deployments for listview.
+     * Get number of failed deployments for listview.
      * @return failedDeployments
      */
     public int getFailedDeployments() {
@@ -128,10 +128,11 @@ public class BasicRemoteFetchConfiguration {
     }
 
     /**
-     * get last deployed time for listview.
+     * Get last deployed time for listview.
      * @return lastDeployed
      */
     public Date getLastDeployed() {
+
         if (lastDeployed == null) {
             return null;
         } else {
@@ -140,10 +141,11 @@ public class BasicRemoteFetchConfiguration {
     }
 
     /**
-     * set last deployed time after successful trigger.
+     * Set last deployed time after successful trigger.
      * @param lastDeployed
      */
     public void setLastDeployed(Date lastDeployed) {
+
         if (lastDeployed == null) {
             this.lastDeployed = null;
         } else {

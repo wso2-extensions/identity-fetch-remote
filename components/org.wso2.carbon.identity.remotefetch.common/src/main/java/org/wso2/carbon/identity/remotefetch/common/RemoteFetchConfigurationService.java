@@ -27,6 +27,8 @@ import java.util.List;
  */
 public interface RemoteFetchConfigurationService {
 
+    //TODO:method to show status and do trigger.
+
     /**
      * This method is used to call by clients to add RemoteFetchConfiguration into database.
      * This method called by clients when user add new RemoteFetchConfiguration via carbon console.
@@ -54,7 +56,7 @@ public interface RemoteFetchConfigurationService {
      * @return Remote Fetch Configuration for id.
      * @throws RemoteFetchCoreException
      */
-    RemoteFetchConfiguration getRemoteFetchConfiguration(int fetchConfigurationId)
+    RemoteFetchConfiguration getRemoteFetchConfiguration(String fetchConfigurationId)
             throws RemoteFetchCoreException;
 
     /**
@@ -78,5 +80,5 @@ public interface RemoteFetchConfigurationService {
      * @param fetchConfigurationId
      * @throws RemoteFetchCoreException
      */
-    void deleteRemoteFetchConfiguration(int fetchConfigurationId) throws RemoteFetchCoreException;
+    void deleteRemoteFetchConfiguration(String fetchConfigurationId) throws RemoteFetchCoreException;
 }
