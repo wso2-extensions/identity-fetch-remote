@@ -30,38 +30,48 @@ import java.util.List;
 public interface RemoteFetchConfigurationDAO {
 
     /**
-     * @param configuration
+     * Insert new remote fetch configuration data row into database.
+     * @param configuration remote fetch configuration.
      * @return
      * @throws RemoteFetchCoreException
      */
     void createRemoteFetchConfiguration(RemoteFetchConfiguration configuration) throws RemoteFetchCoreException;
 
     /**
+     * Get remote fetch configuration by given resource id and tenant id.
      * @param configurationId
+     * @param tenantId
      * @return
      * @throws RemoteFetchCoreException
      */
-    RemoteFetchConfiguration getRemoteFetchConfiguration(String configurationId) throws RemoteFetchCoreException;
+    RemoteFetchConfiguration getRemoteFetchConfiguration(String configurationId, int tenantId)
+            throws RemoteFetchCoreException;
 
     /**
+     * Update given remote fetch configuration.
      * @param configuration
      * @throws RemoteFetchCoreException
      */
     void updateRemoteFetchConfiguration(RemoteFetchConfiguration configuration) throws RemoteFetchCoreException;
 
     /**
+     * Delete given remote fetch configuration from database.
      * @param configurationId
+     * @param tenantId TenantDomain.
      * @throws RemoteFetchCoreException
      */
-    void deleteRemoteFetchConfiguration(String configurationId) throws RemoteFetchCoreException;
+    void deleteRemoteFetchConfiguration(String configurationId, int tenantId) throws RemoteFetchCoreException;
 
     /**
+     * Get all enabled remote fetch configurations regardless tenant.
+     * This implementation was used by auto sync mechanism.
      * @return
      * @throws RemoteFetchCoreException
      */
     List<RemoteFetchConfiguration> getAllEnabledRemoteFetchConfigurations() throws RemoteFetchCoreException;
 
     /**
+     * Get all remote fetch configuration for particular tenant.
      * @param tenantId
      * @return
      * @throws RemoteFetchCoreException
@@ -70,6 +80,7 @@ public interface RemoteFetchConfigurationDAO {
             throws RemoteFetchCoreException;
 
     /**
+     * Get all basic remote fetch configuration for particular tenant.
      * @param tenantDomain
      * @return
      * @throws RemoteFetchCoreException

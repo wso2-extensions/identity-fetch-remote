@@ -96,7 +96,8 @@ public class RemoteFetchConfigurationDAOImplTest extends PowerMockTestCase {
             Connection spy = DAOTestUtils.spyConnection(connection);
             when(dataSource.getConnection()).thenReturn(spy);
             RemoteFetchConfiguration getRemoteFetchConfiguration =
-                    remoteFetchConfigurationDAO.getRemoteFetchConfiguration(remoteFetchConfigurationId);
+                    remoteFetchConfigurationDAO.getRemoteFetchConfiguration(remoteFetchConfigurationId,
+                            TestConstants.TENANT_ID);
             assertNotNull(getRemoteFetchConfiguration);
             assertEquals(getRemoteFetchConfiguration.getRemoteFetchName(), "RemoteFetchDemoApp");
         }
@@ -156,7 +157,8 @@ public class RemoteFetchConfigurationDAOImplTest extends PowerMockTestCase {
         try (Connection connection = DAOTestUtils.getConnection(DB_NAME)) {
             Connection spy = DAOTestUtils.spyConnection(connection);
             when(dataSource.getConnection()).thenReturn(spy);
-            remoteFetchConfigurationDAO.deleteRemoteFetchConfiguration(remoteFetchConfigurationId);
+            remoteFetchConfigurationDAO.deleteRemoteFetchConfiguration(remoteFetchConfigurationId,
+                    TestConstants.TENANT_ID);
         }
     }
 

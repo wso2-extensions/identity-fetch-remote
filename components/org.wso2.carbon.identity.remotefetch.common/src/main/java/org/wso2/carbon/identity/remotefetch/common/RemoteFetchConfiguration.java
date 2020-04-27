@@ -28,8 +28,9 @@ import java.util.Objects;
  * Used by DAO to map configuration Db row data.
  * Used auto pull schedulers at runtime.
  */
-public class RemoteFetchConfiguration {
+public class RemoteFetchConfiguration implements java.io.Serializable {
 
+    private static final long serialVersionUID = -439590042296691707L;
     private String remoteFetchConfigurationId;
     private int tenantId = 0;
     private String remoteFetchName = "";
@@ -41,6 +42,9 @@ public class RemoteFetchConfiguration {
     private Map<String, String> repositoryManagerAttributes = new HashMap<>();
     private Map<String, String> actionListenerAttributes = new HashMap<>();
     private Map<String, String> configurationDeployerAttributes = new HashMap<>();
+
+    public RemoteFetchConfiguration() {
+    }
 
     public RemoteFetchConfiguration(String remoteFetchConfigurationId, int tenantId,
                                     boolean isEnabled, String userName,

@@ -51,7 +51,8 @@ public class RemoteFetchConfigurationClient {
 
 
         List<BasicRemoteFetchConfiguration> fetchConfigurations = RemotefetchCoreUIComponentDataHolder
-                .getInstance().getRemoteFetchConfigurationService().getBasicRemoteFetchConfigurationList();
+                .getInstance().getRemoteFetchConfigurationService()
+                .getBasicRemoteFetchConfigurationList(CarbonContext.getThreadLocalCarbonContext().getTenantDomain());
 
         return fetchConfigurations.stream().map((basicFetchConfiguration ->
                 RemoteFetchConfigurationClient.fetchConfigurationToDTO(basicFetchConfiguration)
@@ -103,7 +104,7 @@ public class RemoteFetchConfigurationClient {
     public static RemoteFetchConfiguration getRemoteFetchConfiguration(String id) throws RemoteFetchCoreException {
 
         return RemotefetchCoreUIComponentDataHolder.getInstance().getRemoteFetchConfigurationService()
-                .getRemoteFetchConfiguration(id);
+                .getRemoteFetchConfiguration(id, CarbonContext.getThreadLocalCarbonContext().getTenantDomain());
     }
 
     public static ValidationReport addFetchConfiguration(String jsonObject, String currentUser)
@@ -143,7 +144,7 @@ public class RemoteFetchConfigurationClient {
     public static void deleteRemoteFetchComponent(String id) throws RemoteFetchCoreException {
 
         RemotefetchCoreUIComponentDataHolder.getInstance().getRemoteFetchConfigurationService()
-                .deleteRemoteFetchConfiguration(id);
+                .deleteRemoteFetchConfiguration(id, CarbonContext.getThreadLocalCarbonContext().getTenantDomain());
     }
 
     private static RemoteFetchConfiguration parseJsonToConfiguration(String jsonObject) {
@@ -152,6 +153,13 @@ public class RemoteFetchConfigurationClient {
         RemoteFetchConfiguration fetchConfiguration = gson.fromJson(jsonObject, RemoteFetchConfiguration.class);
         fetchConfiguration.setTenantId(CarbonContext.getThreadLocalCarbonContext().getTenantId());
         return fetchConfiguration;
+    }
+
+    public static void triggerRemoteFetchComponent(String id) throws RemoteFetchCoreException {
+
+        RemotefetchCoreUIComponentDataHolder.getInstance().getRemoteFetchConfigurationService()
+                .triggerRemoteFetchConfiguration(id, CarbonContext.getThreadLocalCarbonContext().getTenantDomain());
+
     }
 
 }
