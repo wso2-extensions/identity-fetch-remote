@@ -92,7 +92,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
      * @throws RemoteFetchCoreException
      */
     @Override
-    public RemoteFetchConfiguration getRemoteFetchConfiguration(String configurationId)
+    public RemoteFetchConfiguration getRemoteFetchConfiguration(String configurationId, int tenantId)
             throws RemoteFetchCoreException {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
@@ -100,7 +100,10 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
             return jdbcTemplate.withTransaction(template ->
                     jdbcTemplate.fetchSingleRecord(SQLConstants.GET_CONFIG,
                             (resultSet, i) -> this.resultSetToConfiguration(resultSet),
-                            preparedStatement -> preparedStatement.setString(1, configurationId))
+                            preparedStatement -> {
+                        preparedStatement.setString(1, configurationId);
+                        preparedStatement.setInt(2, tenantId);
+                            })
             );
         } catch (TransactionException e) {
             throw new RemoteFetchCoreException("Error reading RemoteFetchConfiguration of id " +
@@ -137,17 +140,22 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
 
     /**
      * @param configurationId
+     * @param tenantId TenantId.
      * @throws RemoteFetchCoreException
      */
     @Override
-    public void deleteRemoteFetchConfiguration(String configurationId) throws RemoteFetchCoreException {
+    public void deleteRemoteFetchConfiguration(String configurationId, int tenantId)
+            throws RemoteFetchCoreException {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
 
         try {
             jdbcTemplate.withTransaction(template -> {
-                template.executeUpdate(SQLConstants.DELETE_CONFIG, preparedStatement ->
-                        preparedStatement.setString(1, configurationId)
+                template.executeUpdate(SQLConstants.DELETE_CONFIG,
+                        preparedStatement -> {
+                            preparedStatement.setString(1, configurationId);
+                            preparedStatement.setInt(2, tenantId);
+                        }
                 );
                 return null;
             });
@@ -248,7 +256,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
         RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration(
                 resultSet.getString(1),
                 resultSet.getInt(2),
-                resultSet.getString(2).equals("1"),
+                resultSet.getString(3).equals("1"),
                 resultSet.getString(4),
                 resultSet.getString(5),
                 resultSet.getString(6),

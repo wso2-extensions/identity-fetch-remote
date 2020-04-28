@@ -51,7 +51,8 @@ public class RemoteFetchConfigurationClient {
 
 
         List<BasicRemoteFetchConfiguration> fetchConfigurations = RemotefetchCoreUIComponentDataHolder
-                .getInstance().getRemoteFetchConfigurationService().getBasicRemoteFetchConfigurationList();
+                .getInstance().getRemoteFetchConfigurationService()
+                .getBasicRemoteFetchConfigurationList();
 
         return fetchConfigurations.stream().map((basicFetchConfiguration ->
                 RemoteFetchConfigurationClient.fetchConfigurationToDTO(basicFetchConfiguration)
@@ -153,5 +154,6 @@ public class RemoteFetchConfigurationClient {
         fetchConfiguration.setTenantId(CarbonContext.getThreadLocalCarbonContext().getTenantId());
         return fetchConfiguration;
     }
+
 
 }

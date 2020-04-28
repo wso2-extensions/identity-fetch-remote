@@ -27,7 +27,7 @@ import java.util.List;
  */
 public interface RemoteFetchConfigurationService {
 
-    //TODO:method to show status and do trigger.
+    //TODO:method to show status.
 
     /**
      * This method is used to call by clients to add RemoteFetchConfiguration into database.
@@ -52,7 +52,7 @@ public interface RemoteFetchConfigurationService {
     /**
      * This method is used to call by clients to get existing RemoteFetchConfiguration by Id.
      * This method is called by clients while triggering or edit existing RemoteFetchConfiguration.
-     * @param fetchConfigurationId ID
+     * @param fetchConfigurationId ID.
      * @return Remote Fetch Configuration for id.
      * @throws RemoteFetchCoreException
      */
@@ -77,8 +77,10 @@ public interface RemoteFetchConfigurationService {
 
     /**
      * This method is used to call by clients to delete BasicRemoteFetchConfiguration by ID.
-     * @param fetchConfigurationId
+     * @param fetchConfigurationId Id.
      * @throws RemoteFetchCoreException
      */
-    void deleteRemoteFetchConfiguration(String fetchConfigurationId) throws RemoteFetchCoreException;
+    void deleteRemoteFetchConfiguration(String fetchConfigurationId)
+            throws RemoteFetchCoreException;
+
 }

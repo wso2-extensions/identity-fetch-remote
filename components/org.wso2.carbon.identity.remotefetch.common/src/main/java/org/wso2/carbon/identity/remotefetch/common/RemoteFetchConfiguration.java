@@ -42,6 +42,9 @@ public class RemoteFetchConfiguration {
     private Map<String, String> actionListenerAttributes = new HashMap<>();
     private Map<String, String> configurationDeployerAttributes = new HashMap<>();
 
+    public RemoteFetchConfiguration() {
+    }
+
     public RemoteFetchConfiguration(String remoteFetchConfigurationId, int tenantId,
                                     boolean isEnabled, String userName,
                                     String repositoryManagerType, String actionListenerType,
