@@ -86,12 +86,4 @@ public interface RemoteFetchConfigurationService {
     void deleteRemoteFetchConfiguration(String fetchConfigurationId, String tenantDomain)
             throws RemoteFetchCoreException;
 
-    /**
-     * This method is used to trigger given RemoteFetchConfiguration by ID.
-     * @param id remoteFetchConfiguration Id.
-     * @param tenantDomain Tenant Domain.
-     * @return triggered remote fetch configuration id.
-     * @throws RemoteFetchCoreException
-     */
-    String triggerRemoteFetchConfiguration(String id, String tenantDomain) throws RemoteFetchCoreException;
 }

@@ -32,12 +32,34 @@
 
 <%
     String id = request.getParameter("id");
+    RemoteFetchConfiguration fetchConfiguration = null;
+    Map<String, String> repoAttributes;
     if (id != null) {
-        try {
-            RemoteFetchConfigurationClient.triggerRemoteFetchComponent(id);
-        } catch (RemoteFetchCoreException e) {
-            CarbonUIMessage.sendCarbonUIMessage("Invalid Config for id", CarbonUIMessage.ERROR, request, e);
-        }
+    try {
+        fetchConfiguration = RemoteFetchConfigurationClient.getRemoteFetchConfiguration(id);
+    } catch (RemoteFetchCoreException e) {
+        CarbonUIMessage.sendCarbonUIMessage("Invalid Config for id", CarbonUIMessage.ERROR, request, e);
+    }
+
+    repoAttributes = fetchConfiguration.getRepositoryManagerAttributes();
+
+    RepositoryManager repositoryManager = new
+            GitRepositoryManager("repo-" + id,
+            repoAttributes.get("uri"),
+            repoAttributes.get("branch"),
+            new File(repoAttributes.get("directory")),
+            new File("/tmp"),
+            new UsernamePasswordCredentialsProvider(repoAttributes.get("userName"), repoAttributes.get("accessToken")));
+
+    ConfigDeployer configDeployer = new
+            VelocityTemplatedSPDeployer(fetchConfiguration.getTenantId(),
+            fetchConfiguration.getUserName(),
+            fetchConfiguration.getRemoteFetchConfigurationId());
+
+    PollingActionListener pollingActionListener = new PollingActionListener(repositoryManager, configDeployer, 0,
+            fetchConfiguration.getRemoteFetchConfigurationId(), fetchConfiguration.getTenantId(), fetchConfiguration.getUserName());
+
+    pollingActionListener.iteration();
     }
 %>
 

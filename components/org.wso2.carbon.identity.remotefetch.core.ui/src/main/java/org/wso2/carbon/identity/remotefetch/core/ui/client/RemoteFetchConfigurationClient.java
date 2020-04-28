@@ -155,11 +155,5 @@ public class RemoteFetchConfigurationClient {
         return fetchConfiguration;
     }
 
-    public static void triggerRemoteFetchComponent(String id) throws RemoteFetchCoreException {
-
-        RemotefetchCoreUIComponentDataHolder.getInstance().getRemoteFetchConfigurationService()
-                .triggerRemoteFetchConfiguration(id, CarbonContext.getThreadLocalCarbonContext().getTenantDomain());
-
-    }
 
 }
