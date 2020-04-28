@@ -52,7 +52,7 @@ public class RemoteFetchConfigurationClient {
 
         List<BasicRemoteFetchConfiguration> fetchConfigurations = RemotefetchCoreUIComponentDataHolder
                 .getInstance().getRemoteFetchConfigurationService()
-                .getBasicRemoteFetchConfigurationList(CarbonContext.getThreadLocalCarbonContext().getTenantDomain());
+                .getBasicRemoteFetchConfigurationList();
 
         return fetchConfigurations.stream().map((basicFetchConfiguration ->
                 RemoteFetchConfigurationClient.fetchConfigurationToDTO(basicFetchConfiguration)
@@ -104,7 +104,7 @@ public class RemoteFetchConfigurationClient {
     public static RemoteFetchConfiguration getRemoteFetchConfiguration(String id) throws RemoteFetchCoreException {
 
         return RemotefetchCoreUIComponentDataHolder.getInstance().getRemoteFetchConfigurationService()
-                .getRemoteFetchConfiguration(id, CarbonContext.getThreadLocalCarbonContext().getTenantDomain());
+                .getRemoteFetchConfiguration(id);
     }
 
     public static ValidationReport addFetchConfiguration(String jsonObject, String currentUser)
@@ -144,7 +144,7 @@ public class RemoteFetchConfigurationClient {
     public static void deleteRemoteFetchComponent(String id) throws RemoteFetchCoreException {
 
         RemotefetchCoreUIComponentDataHolder.getInstance().getRemoteFetchConfigurationService()
-                .deleteRemoteFetchConfiguration(id, CarbonContext.getThreadLocalCarbonContext().getTenantDomain());
+                .deleteRemoteFetchConfiguration(id);
     }
 
     private static RemoteFetchConfiguration parseJsonToConfiguration(String jsonObject) {

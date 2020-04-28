@@ -53,21 +53,19 @@ public interface RemoteFetchConfigurationService {
      * This method is used to call by clients to get existing RemoteFetchConfiguration by Id.
      * This method is called by clients while triggering or edit existing RemoteFetchConfiguration.
      * @param fetchConfigurationId ID.
-     * @param tenantDomain Tenant Domain.
      * @return Remote Fetch Configuration for id.
      * @throws RemoteFetchCoreException
      */
-    RemoteFetchConfiguration getRemoteFetchConfiguration(String fetchConfigurationId, String tenantDomain)
+    RemoteFetchConfiguration getRemoteFetchConfiguration(String fetchConfigurationId)
             throws RemoteFetchCoreException;
 
     /**
      * This method is used to call by clients to get list of BasicRemoteFetchConfiguration by tenantID.
      * This method is called by clients in list view.
-     * @param tenantDomain TenantDomain.
      * @return List of BasicRemoteFetchConfiguration
      * @throws RemoteFetchCoreException
      */
-    List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList(String tenantDomain)
+    List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList()
             throws RemoteFetchCoreException;
 
     /**
@@ -79,11 +77,10 @@ public interface RemoteFetchConfigurationService {
 
     /**
      * This method is used to call by clients to delete BasicRemoteFetchConfiguration by ID.
-     * @param tenantDomain TenantDomain.
      * @param fetchConfigurationId Id.
      * @throws RemoteFetchCoreException
      */
-    void deleteRemoteFetchConfiguration(String fetchConfigurationId, String tenantDomain)
+    void deleteRemoteFetchConfiguration(String fetchConfigurationId)
             throws RemoteFetchCoreException;
 
 }

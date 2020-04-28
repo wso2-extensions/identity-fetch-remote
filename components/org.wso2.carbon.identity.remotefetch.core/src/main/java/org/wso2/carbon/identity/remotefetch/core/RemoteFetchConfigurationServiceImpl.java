@@ -20,6 +20,7 @@ package org.wso2.carbon.identity.remotefetch.core;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.wso2.carbon.context.CarbonContext;
 import org.wso2.carbon.identity.core.util.IdentityTenantUtil;
 import org.wso2.carbon.identity.remotefetch.common.BasicRemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
@@ -100,23 +101,23 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
      * @throws RemoteFetchCoreException
      */
     @Override
-    public RemoteFetchConfiguration getRemoteFetchConfiguration(String fetchConfigurationId, String tenantDomain)
+    public RemoteFetchConfiguration getRemoteFetchConfiguration(String fetchConfigurationId)
             throws RemoteFetchCoreException {
 
-        int tenantId = IdentityTenantUtil.getTenantId(tenantDomain);
+        int tenantId = IdentityTenantUtil.getTenantId(CarbonContext.getThreadLocalCarbonContext().getTenantDomain());
         return this.fetchConfigurationDAO.getRemoteFetchConfiguration(fetchConfigurationId, tenantId);
     }
 
     /**
-     * @param tenantDomain TenantDomain.
      * @return
      * @throws RemoteFetchCoreException
      */
     @Override
-    public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList(String tenantDomain)
+    public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList()
             throws RemoteFetchCoreException {
 
-        return this.fetchConfigurationDAO.getBasicRemoteFetchConfigurationsByTenant(tenantDomain);
+        return this.fetchConfigurationDAO.getBasicRemoteFetchConfigurationsByTenant
+                (CarbonContext.getThreadLocalCarbonContext().getTenantDomain());
     }
 
     /**
@@ -134,10 +135,10 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
      * @throws RemoteFetchCoreException
      */
     @Override
-    public void deleteRemoteFetchConfiguration(String fetchConfigurationId, String tenantDomain)
+    public void deleteRemoteFetchConfiguration(String fetchConfigurationId)
             throws RemoteFetchCoreException {
 
-        int tenantId = IdentityTenantUtil.getTenantId(tenantDomain);
+        int tenantId = IdentityTenantUtil.getTenantId(CarbonContext.getThreadLocalCarbonContext().getTenantDomain());
         this.fetchConfigurationDAO.deleteRemoteFetchConfiguration(fetchConfigurationId, tenantId);
     }
 
