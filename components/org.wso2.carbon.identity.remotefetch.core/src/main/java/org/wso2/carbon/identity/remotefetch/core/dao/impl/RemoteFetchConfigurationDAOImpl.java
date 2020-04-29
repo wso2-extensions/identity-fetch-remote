@@ -67,22 +67,21 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                                 preparedStatement.setString(1, configuration.getRemoteFetchConfigurationId());
                                 preparedStatement.setInt(2, configuration.getTenantId());
                                 preparedStatement.setString(3, (configuration.isEnabled() ? "1" : "0"));
-                                preparedStatement.setString(4, configuration.getUserName());
-                                preparedStatement.setString(5, configuration.getRepositoryManagerType());
-                                preparedStatement.setString(6, configuration.getActionListenerType());
-                                preparedStatement.setString(7, configuration.getConfigurationDeployerType());
+                                preparedStatement.setString(4, configuration.getRepositoryManagerType());
+                                preparedStatement.setString(5, configuration.getActionListenerType());
+                                preparedStatement.setString(6, configuration.getConfigurationDeployerType());
 
                                 //Encode object attributes to JSON
                                 JSONObject attributesBundle = this.makeAttributeBundle(configuration);
 
-                                preparedStatement.setString(8, attributesBundle.toString(FACTOR_INDENT));
-                                preparedStatement.setString(9, configuration.getRemoteFetchName());
+                                preparedStatement.setString(7, attributesBundle.toString(FACTOR_INDENT));
+                                preparedStatement.setString(8, configuration.getRemoteFetchName());
                                 }
                             , configuration, false)
             ;
         } catch (DataAccessException e) {
             throw new RemoteFetchCoreException("Error creating new RemoteFetchConfiguration, caused by "
-                    + e.getMessage() + " for user " + configuration.getUserName(), e);
+                    + e.getMessage(), e);
         }
     }
 
@@ -125,7 +124,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                 jdbcTemplate.executeUpdate(SQLConstants.UPDATE_CONFIG,
                         preparedStatement -> {
                             this.configurationToPreparedStatement(preparedStatement, configuration);
-                            preparedStatement.setString(9, configuration.getRemoteFetchConfigurationId());
+                            preparedStatement.setString(8, configuration.getRemoteFetchConfigurationId());
 
                         }
 
@@ -260,10 +259,9 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                 resultSet.getString(4),
                 resultSet.getString(5),
                 resultSet.getString(6),
-                resultSet.getString(7),
-                resultSet.getString(8)
+                resultSet.getString(7)
         );
-        JSONObject attributesBundle = new JSONObject(resultSet.getString(9));
+        JSONObject attributesBundle = new JSONObject(resultSet.getString(8));
         this.mapAttributes(remoteFetchConfiguration, attributesBundle);
         return remoteFetchConfiguration;
     }
@@ -273,16 +271,15 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
 
         preparedStatement.setInt(1, configuration.getTenantId());
         preparedStatement.setString(2, (configuration.isEnabled() ? "1" : "0"));
-        preparedStatement.setString(3, configuration.getUserName());
-        preparedStatement.setString(4, configuration.getRepositoryManagerType());
-        preparedStatement.setString(5, configuration.getActionListenerType());
-        preparedStatement.setString(6, configuration.getConfigurationDeployerType());
+        preparedStatement.setString(3, configuration.getRepositoryManagerType());
+        preparedStatement.setString(4, configuration.getActionListenerType());
+        preparedStatement.setString(5, configuration.getConfigurationDeployerType());
 
         //Encode object attributes to JSON
         JSONObject attributesBundle = this.makeAttributeBundle(configuration);
 
-        preparedStatement.setString(7, attributesBundle.toString(FACTOR_INDENT));
-        preparedStatement.setString(8, configuration.getRemoteFetchName());
+        preparedStatement.setString(6, attributesBundle.toString(FACTOR_INDENT));
+        preparedStatement.setString(7, configuration.getRemoteFetchName());
 
     }
 

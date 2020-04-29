@@ -28,6 +28,7 @@ import org.testng.annotations.Test;
 import org.wso2.carbon.identity.remotefetch.common.ConfigurationFileStream;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 import org.wso2.carbon.identity.remotefetch.core.internal.RemoteFetchServiceComponentHolder;
+import org.wso2.carbon.user.api.Tenant;
 import org.wso2.carbon.user.api.UserStoreException;
 import org.wso2.carbon.user.core.service.RealmService;
 import org.wso2.carbon.user.core.tenant.TenantManager;
@@ -52,6 +53,9 @@ public class ServiceProviderConfigDeployerTest extends PowerMockTestCase {
     @Mock
     TenantManager tenantManager;
 
+    @Mock
+    Tenant tenant;
+
     private static final int TENANT_ID = -1234;
     private static final String USER_NAME = "admin";
     private static final String ID = "00000000-0000-0000-0000-d29bed62f7bd";
@@ -75,7 +79,7 @@ public class ServiceProviderConfigDeployerTest extends PowerMockTestCase {
         File filePath = new File(absolutePath);
 
         VelocityTemplatedSPDeployer velocityTemplatedSPDeployer =
-                new VelocityTemplatedSPDeployer(TENANT_ID, USER_NAME, ID);
+                new VelocityTemplatedSPDeployer(TENANT_ID, ID);
         InputStream inputStream = new FileInputStream(absolutePath);
         ConfigurationFileStream configurationFileStream = new ConfigurationFileStream(inputStream, filePath);
 
@@ -87,7 +91,7 @@ public class ServiceProviderConfigDeployerTest extends PowerMockTestCase {
         when(RemoteFetchServiceComponentHolder.getInstance().getRealmService().getTenantManager())
                 .thenReturn(tenantManager);
         when(RemoteFetchServiceComponentHolder.getInstance().getRealmService().getTenantManager()
-                .getDomain(-1234)).thenReturn("carbon.super");
+                .getTenant(-1234)).thenReturn(tenant);
         assertEquals(velocityTemplatedSPDeployer.resolveConfigName(configurationFileStream), "tester");
     }
 
@@ -99,7 +103,7 @@ public class ServiceProviderConfigDeployerTest extends PowerMockTestCase {
         File filePath = new File(absolutePath);
 
         VelocityTemplatedSPDeployer velocityTemplatedSPDeployer =
-                new VelocityTemplatedSPDeployer(TENANT_ID, USER_NAME, ID);
+                new VelocityTemplatedSPDeployer(TENANT_ID, ID);
         InputStream inputStream = new FileInputStream(absolutePath);
         ConfigurationFileStream configurationFileStream = new ConfigurationFileStream(inputStream, filePath);
         velocityTemplatedSPDeployer.resolveConfigName(configurationFileStream);

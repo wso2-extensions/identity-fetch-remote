@@ -63,7 +63,7 @@ public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
     public void setUp() throws Exception {
 
         DAOTestUtils.initiateH2Base(DB_NAME, DAOTestUtils.getFilePath("permission.sql"));
-        DAOTestUtils.createFetchConfig(DB_NAME, configId, TestConstants.TENANT_ID, true, TestConstants.USER_NAME,
+        DAOTestUtils.createFetchConfig(DB_NAME, configId, TestConstants.TENANT_ID, true,
                 TestConstants.REPO_MANAGER_TYPE, TestConstants.ACTION_LISTENER_TYPE, TestConstants.CONFIG_DEPLOYER_TYPE
                 , TestConstants.getAttributesJson(), "RemoteFetchTest");
     }

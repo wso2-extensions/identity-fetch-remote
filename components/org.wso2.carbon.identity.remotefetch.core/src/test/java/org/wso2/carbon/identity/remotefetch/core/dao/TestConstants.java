@@ -26,7 +26,6 @@ import java.util.Map;
 
 public class TestConstants {
 
-    public static final String USER_NAME = "admin";
     public static final String REPO_MANAGER_TYPE = "GIT";
     public static final String ACTION_LISTENER_TYPE = "POLLING";
     public static final String CONFIG_DEPLOYER_TYPE = "SP";
@@ -40,7 +39,7 @@ public class TestConstants {
 
         String remoteFetchConfigurationId = "00000000-0000-0000-0000-d29bed62f7bd";
         RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration(remoteFetchConfigurationId,
-                TENANT_ID, false, USER_NAME, null, null,
+                TENANT_ID, false, null, null,
                 null,
                 null);
 

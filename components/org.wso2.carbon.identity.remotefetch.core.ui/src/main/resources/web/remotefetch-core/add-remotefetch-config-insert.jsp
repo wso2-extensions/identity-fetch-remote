@@ -37,13 +37,12 @@
     if (payload != null && !payload.isEmpty() && action != null && !action.isEmpty()) {
         ValidationReport validationReport = null;
         try {
-            String currentUser = (String) session.getAttribute("logged-user");
-            
+
             if (action.equalsIgnoreCase("insert")) {
-                validationReport = RemoteFetchConfigurationClient.addFetchConfiguration(payload, currentUser);
+                validationReport = RemoteFetchConfigurationClient.addFetchConfiguration(payload);
                 CarbonUIMessage.sendCarbonUIMessage("Configuration successfully added!", CarbonUIMessage.INFO, request);
             } else if (action.equalsIgnoreCase("update")) {
-                validationReport = RemoteFetchConfigurationClient.updateFetchConfiguration(id,payload, currentUser);
+                validationReport = RemoteFetchConfigurationClient.updateFetchConfiguration(id,payload);
                 CarbonUIMessage.sendCarbonUIMessage("Configuration successfully updated!", CarbonUIMessage.INFO,
                         request);
             }

@@ -27,6 +27,12 @@ import org.testng.annotations.Test;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchComponentRegistry;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.core.RemoteFetchComponentRegistryImpl;
+import org.wso2.carbon.identity.remotefetch.core.impl.deployers.config.ServiceProviderConfigDeployerComponent;
+import org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.PollingActionListenerComponent;
+import org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository.GitRepositoryManagerComponent;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
@@ -40,21 +46,40 @@ public class RemoteFetchConfigurationValidatorTest extends PowerMockTestCase {
     private static final String ID = "00000000-0000-0000-0000-d29bed62f7bd";
     private static final int TENANT_ID = -1234;
     private static final boolean IS_ENABLED = true;
-    private static final String USER_NAME = "admin";
     private static final String REPO_MANAGER_TYPE = "GIT";
     private static final String ACTION_LISTENER_TYPE = "POLLING";
     private static final String CONFIG_DEPLOYER_TYPE = "SP";
     private static final String REMOTE_FETCH_NAME = "RemoteFetchTest";
 
+
+
     RemoteFetchConfiguration remoteFetchConfiguration =
-            new RemoteFetchConfiguration(ID, TENANT_ID, IS_ENABLED, USER_NAME,
+            new RemoteFetchConfiguration(ID, TENANT_ID, IS_ENABLED,
             REPO_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE, REMOTE_FETCH_NAME);
+
+    Map<String, String> repositoryManagerAttributes = new HashMap<>();
+    Map<String, String> actionListenerAttributes = new HashMap<>();
+    Map<String, String> configurationDeployerAttributes = new HashMap<>();
 
     RemoteFetchComponentRegistry remoteFetchComponentRegistry = new RemoteFetchComponentRegistryImpl();
 
     @BeforeMethod
     public void setUp() {
 
+        remoteFetchComponentRegistry.registerRepositoryManager(new GitRepositoryManagerComponent());
+        remoteFetchComponentRegistry.registerConfigDeployer(new ServiceProviderConfigDeployerComponent());
+        remoteFetchComponentRegistry.registerActionListener(new PollingActionListenerComponent());
+        repositoryManagerAttributes.put("accessToken", "1234");
+        repositoryManagerAttributes.put("userName", "IS");
+        repositoryManagerAttributes.put("uri", "https://github.com/IS/Test2.git");
+        repositoryManagerAttributes.put("branch", "master");
+        repositoryManagerAttributes.put("directory", "sp/");
+        actionListenerAttributes.put("frequency", "60");
+        configurationDeployerAttributes.put("", "");
+
+        remoteFetchConfiguration.setRepositoryManagerAttributes(repositoryManagerAttributes);
+        remoteFetchConfiguration.setConfigurationDeployerAttributes(configurationDeployerAttributes);
+        remoteFetchConfiguration.setActionListenerAttributes(actionListenerAttributes);
     }
 
     @ObjectFactory
@@ -73,14 +98,5 @@ public class RemoteFetchConfigurationValidatorTest extends PowerMockTestCase {
         assertEquals(remoteFetchConfigurationValidator.validate().getValidationStatus().toString(), "PASSED");
     }
 
-    @Test
-    public void testValidateForNullUserName() {
-
-        remoteFetchConfiguration.setUserName(null);
-        RemoteFetchConfigurationValidator remoteFetchConfigurationValidator =
-                new RemoteFetchConfigurationValidator(remoteFetchComponentRegistry, remoteFetchConfiguration);
-
-        assertEquals(remoteFetchConfigurationValidator.validate().getValidationStatus().toString(), "FAILED");
-    }
 
 }

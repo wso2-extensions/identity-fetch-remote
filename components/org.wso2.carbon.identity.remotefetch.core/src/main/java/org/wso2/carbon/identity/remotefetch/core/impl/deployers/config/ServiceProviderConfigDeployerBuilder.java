@@ -36,6 +36,6 @@ public class ServiceProviderConfigDeployerBuilder extends ConfigDeployerBuilder 
     public ServiceProviderConfigDeployer build() throws ConfigDeployerBuilderException {
 
         return new ServiceProviderConfigDeployer(this.getFetchConfig().getTenantId(),
-                this.getFetchConfig().getUserName(), this.getFetchConfig().getRemoteFetchConfigurationId());
+                this.getFetchConfig().getRemoteFetchConfigurationId());
     }
 }
