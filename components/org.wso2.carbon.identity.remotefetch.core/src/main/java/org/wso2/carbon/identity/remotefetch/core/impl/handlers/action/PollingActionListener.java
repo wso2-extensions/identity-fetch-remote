@@ -59,10 +59,9 @@ public class PollingActionListener implements ActionListener {
     private Map<String, DeploymentRevision> deploymentRevisionMap = new HashMap<>();
     private String remoteFetchConfigurationId;
     private int tenantId;
-    private String userName;
 
     public PollingActionListener(RepositoryManager repo, ConfigDeployer configDeployer,
-                                 int frequency, String remoteFetchConfigurationId, int tenantId, String userName) {
+                                 int frequency, String remoteFetchConfigurationId, int tenantId) {
 
         this.repo = repo;
         this.configDeployer = configDeployer;
@@ -70,7 +69,6 @@ public class PollingActionListener implements ActionListener {
         this.remoteFetchConfigurationId = remoteFetchConfigurationId;
         this.deploymentRevisionDAO = new DeploymentRevisionDAOImpl();
         this.tenantId = tenantId;
-        this.userName = userName;
         this.seedRevisions();
     }
 
@@ -215,7 +213,7 @@ public class PollingActionListener implements ActionListener {
                     ConfigurationFileStream configurationFileStream = repo.getFile(deploymentRevision.getFile());
 
                     VelocityTemplatedSPDeployer velocityTemplatedSPDeployer =
-                            new VelocityTemplatedSPDeployer(this.tenantId, this.userName,
+                            new VelocityTemplatedSPDeployer(this.tenantId,
                                     this.remoteFetchConfigurationId);
                     velocityTemplatedSPDeployer.deploy(configurationFileStream);
 

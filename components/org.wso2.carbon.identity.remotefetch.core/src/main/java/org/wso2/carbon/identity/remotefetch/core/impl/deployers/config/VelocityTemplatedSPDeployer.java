@@ -49,9 +49,9 @@ public class VelocityTemplatedSPDeployer extends ServiceProviderConfigDeployer {
 
     private String id;
 
-    public VelocityTemplatedSPDeployer(int tenantId, String userName, String id) {
+    public VelocityTemplatedSPDeployer(int tenantId, String id) {
 
-        super(tenantId, userName, id);
+        super(tenantId, id);
         this.id = id;
     }
 

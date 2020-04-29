@@ -37,7 +37,6 @@ public class RemoteFetchConfiguration {
     private String repositoryManagerType = "";
     private String actionListenerType = "";
     private String configurationDeployerType = "";
-    private String userName = "";
     private Map<String, String> repositoryManagerAttributes = new HashMap<>();
     private Map<String, String> actionListenerAttributes = new HashMap<>();
     private Map<String, String> configurationDeployerAttributes = new HashMap<>();
@@ -46,7 +45,7 @@ public class RemoteFetchConfiguration {
     }
 
     public RemoteFetchConfiguration(String remoteFetchConfigurationId, int tenantId,
-                                    boolean isEnabled, String userName,
+                                    boolean isEnabled,
                                     String repositoryManagerType, String actionListenerType,
                                     String configurationDeployerType, String remoteFetchName) {
 
@@ -57,7 +56,6 @@ public class RemoteFetchConfiguration {
         this.repositoryManagerType = repositoryManagerType;
         this.actionListenerType = actionListenerType;
         this.configurationDeployerType = configurationDeployerType;
-        this.userName = userName;
     }
 
     /**
@@ -117,24 +115,6 @@ public class RemoteFetchConfiguration {
     public void setEnabled(boolean isEnabled) {
 
         this.isEnabled = isEnabled;
-    }
-
-    /**
-     * This represents the user who created this remoteFetch configuration, set from session.
-     * @return userName
-     */
-    public String getUserName() {
-
-        return userName;
-    }
-
-    /**
-     * set username.
-     * @param userName userName
-     */
-    public void setUserName(String userName) {
-
-        this.userName = userName;
     }
 
     /**
@@ -287,7 +267,6 @@ public class RemoteFetchConfiguration {
                 Objects.equals(repositoryManagerType, that.repositoryManagerType) &&
                 Objects.equals(actionListenerType, that.actionListenerType) &&
                 Objects.equals(configurationDeployerType, that.configurationDeployerType) &&
-                Objects.equals(userName, that.userName) &&
                 Objects.equals(repositoryManagerAttributes, that.repositoryManagerAttributes) &&
                 Objects.equals(actionListenerAttributes, that.actionListenerAttributes) &&
                 Objects.equals(configurationDeployerAttributes, that.configurationDeployerAttributes);
@@ -301,7 +280,7 @@ public class RemoteFetchConfiguration {
     public int hashCode() {
 
         return Objects.hash(remoteFetchConfigurationId, tenantId, isEnabled, repositoryManagerType, actionListenerType,
-                configurationDeployerType, userName, remoteFetchName, repositoryManagerAttributes,
+                configurationDeployerType, remoteFetchName, repositoryManagerAttributes,
                 actionListenerAttributes, configurationDeployerAttributes);
     }
 
@@ -320,7 +299,6 @@ public class RemoteFetchConfiguration {
                 ", repositoryManagerType='" + repositoryManagerType + '\'' +
                 ", actionListenerType='" + actionListenerType + '\'' +
                 ", configurationDeployerType='" + configurationDeployerType + '\'' +
-                ", userName='" + userName + '\'' +
                 ", repositoryManagerAttributes=" + repositoryManagerAttributes +
                 ", actionListenerAttributes=" + actionListenerAttributes +
                 ", configurationDeployerAttributes=" + configurationDeployerAttributes +

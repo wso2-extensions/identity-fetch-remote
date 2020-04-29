@@ -107,13 +107,12 @@ public class RemoteFetchConfigurationClient {
                 .getRemoteFetchConfiguration(id);
     }
 
-    public static ValidationReport addFetchConfiguration(String jsonObject, String currentUser)
+    public static ValidationReport addFetchConfiguration(String jsonObject)
             throws RemoteFetchCoreException {
 
         RemoteFetchConfiguration fetchConfiguration =
                 RemoteFetchConfigurationClient.parseJsonToConfiguration(jsonObject);
 
-        fetchConfiguration.setUserName(currentUser);
         fetchConfiguration.setActionListenerType(TYPE_ACTION_LISTENER);
         fetchConfiguration.setConfigurationDeployerType(TYPE_CONFIG_DEPLOYER);
         fetchConfiguration.setRepositoryManagerType(TYPE_REPOSITORY_MANAGER);
@@ -124,14 +123,13 @@ public class RemoteFetchConfigurationClient {
     }
 
     public static ValidationReport updateFetchConfiguration(String remoteConfigurationId,
-                                                            String jsonObject, String currentUser)
+                                                            String jsonObject)
             throws RemoteFetchCoreException {
 
         RemoteFetchConfiguration fetchConfiguration =
                 RemoteFetchConfigurationClient.parseJsonToConfiguration(jsonObject);
 
         fetchConfiguration.setRemoteFetchConfigurationId(remoteConfigurationId);
-        fetchConfiguration.setUserName(currentUser);
         fetchConfiguration.setActionListenerType(TYPE_ACTION_LISTENER);
         fetchConfiguration.setConfigurationDeployerType(TYPE_CONFIG_DEPLOYER);
         fetchConfiguration.setRepositoryManagerType(TYPE_REPOSITORY_MANAGER);

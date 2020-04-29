@@ -18,7 +18,6 @@
 
 package org.wso2.carbon.identity.remotefetch.core.util;
 
-import org.apache.commons.lang3.StringUtils;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchComponentRegistry;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.ValidationReport;
@@ -64,9 +63,6 @@ public class RemoteFetchConfigurationValidator {
 
     public ValidationReport validate() {
 
-        if (!this.isBasicFields()) {
-            return this.returnReport();
-        }
         if (!this.isEmpty()) {
             return this.returnReport();
         }
@@ -96,15 +92,6 @@ public class RemoteFetchConfigurationValidator {
 
     }
 
-    private boolean isBasicFields() {
-
-        if (StringUtils.isEmpty(this.fetchConfiguration.getUserName())) {
-            this.validationReport.addMessage("username field is empty");
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     private boolean isEmpty() {
 

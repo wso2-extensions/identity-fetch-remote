@@ -53,11 +53,10 @@
 
     ConfigDeployer configDeployer = new
             VelocityTemplatedSPDeployer(fetchConfiguration.getTenantId(),
-            fetchConfiguration.getUserName(),
             fetchConfiguration.getRemoteFetchConfigurationId());
 
     PollingActionListener pollingActionListener = new PollingActionListener(repositoryManager, configDeployer, 0,
-            fetchConfiguration.getRemoteFetchConfigurationId(), fetchConfiguration.getTenantId(), fetchConfiguration.getUserName());
+            fetchConfiguration.getRemoteFetchConfigurationId(), fetchConfiguration.getTenantId());
 
     pollingActionListener.iteration();
     }

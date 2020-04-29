@@ -72,7 +72,7 @@ public class PollingActionListenerBuilderTest extends PowerMockTestCase {
     RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration
             ("00000000-0000-0000-0000-d29bed62f7bd",
             -1234,
-            true, "admin", "GIT", "POLLING",
+            true, "GIT", "POLLING",
             "SP", "RemoteFetchTest");
 
     @ObjectFactory
