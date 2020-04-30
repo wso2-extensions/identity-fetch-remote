@@ -158,7 +158,6 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
             RemoteFetchTaskExecutor.getInstance().startImmediateTaskExecution(remoteFetchConfiguration);
         }
 
-
     }
 
 }
