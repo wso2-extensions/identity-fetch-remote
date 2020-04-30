@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -16,13 +16,12 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.remotefetch.core;
+package org.wso2.carbon.identity.remotefetch.core.executers.tasks;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchComponentRegistry;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
-import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfigurationService;
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListener;
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListenerBuilder;
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListenerBuilderException;
@@ -38,36 +37,33 @@ import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManagerComponent;
 import org.wso2.carbon.identity.remotefetch.core.internal.RemoteFetchServiceComponentHolder;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
- * Retrieves RemoteFetchConfigurations and builds ActionListeners to be executed.
+ * This class provide immediate task to be executed for trigger call of given remote fetch configuration.
+ * It retrieves relevant action lister component, deployer component and repository manager component using given
+ * remote fetch configuration object from componant registry.
+ * It builds action listener, deployer and repository manager using relevant builders
+ * It runs corresponding action listener iteration. *
  */
-public class RemoteFetchCore implements Runnable {
+public class RemoteFetchConfigurationImmediateTask implements Runnable {
 
-    private static final Log log = LogFactory.getLog(RemoteFetchCore.class);
+    private static final Log log = LogFactory.getLog(RemoteFetchConfigurationImmediateTask.class);
 
-    private RemoteFetchConfigurationService fetchConfigurationService =
-            RemoteFetchServiceComponentHolder.getInstance().getRemoteFetchConfigurationService();
+    private RemoteFetchComponentRegistry componentRegistry = RemoteFetchServiceComponentHolder.getInstance()
+            .getRemoteFetchComponentRegistry();
 
-    private Map<String, RemoteFetchConfiguration> remoteFetchConfigurationMap = new HashMap<>();
-    private Map<String, ActionListener> actionListenerMap = new HashMap<>();
-    private RemoteFetchComponentRegistry componentRegistry;
+    private RemoteFetchConfiguration remoteFetchConfiguration;
 
-    public RemoteFetchCore() {
+    public RemoteFetchConfigurationImmediateTask(RemoteFetchConfiguration remoteFetchConfiguration) {
 
-        this.componentRegistry = RemoteFetchServiceComponentHolder.getInstance().getRemoteFetchComponentRegistry();
+        this.remoteFetchConfiguration = remoteFetchConfiguration;
     }
 
     /**
-     * Builds ActionListener object from RemoteFetchConfiguration.
-     *
-     * @param fetchConfig
-     * @return
+     * This method is used to retrieve relevant components and build lister using given remote fetch configuration.
+     * @return ActionListener
      * @throws RemoteFetchCoreException
      */
-    private ActionListener buildListener(RemoteFetchConfiguration fetchConfig) throws RemoteFetchCoreException {
+    private ActionListener buildListener() throws RemoteFetchCoreException {
 
         RepositoryManager repositoryManager;
         ActionListener actionListener;
@@ -75,110 +71,85 @@ public class RemoteFetchCore implements Runnable {
 
         // Get an instance of RepositoryManager from registry.
         RepositoryManagerComponent repositoryManagerComponent = this.componentRegistry
-                .getRepositoryManagerComponent(fetchConfig.getRepositoryManagerType());
+                .getRepositoryManagerComponent(this.remoteFetchConfiguration.getRepositoryManagerType());
 
         if (repositoryManagerComponent != null) {
             try {
                 RepositoryManagerBuilder repositoryManagerBuilder = repositoryManagerComponent
                         .getRepositoryManagerBuilder();
 
-                repositoryManager = repositoryManagerBuilder.addRemoteFetchConfig(fetchConfig)
+                repositoryManager = repositoryManagerBuilder.addRemoteFetchConfig(this.remoteFetchConfiguration)
                         .addRemoteFetchCoreConfig(RemoteFetchServiceComponentHolder.getInstance()
                                 .getFetchCoreConfiguration())
                         .build();
 
             } catch (RepositoryManagerBuilderException e) {
-                throw new RemoteFetchCoreException("Unable to build " + fetchConfig.getRepositoryManagerType()
+                throw new RemoteFetchCoreException("Unable to build " + this.remoteFetchConfiguration
+                        .getRepositoryManagerType()
                         + " RepositoryManager", e);
             }
         } else {
-            throw new RemoteFetchCoreException("RepositoryManager " + fetchConfig.getRepositoryManagerType()
+            throw new RemoteFetchCoreException("RepositoryManager " + this.remoteFetchConfiguration
+                    .getRepositoryManagerType()
                     + " is not registered in RemoteFetchComponentRegistry");
 
         }
 
         // Get an instance of ConfigDeployer from registry.
         ConfigDeployerComponent configDeployerComponent = this.componentRegistry
-                .getConfigDeployerComponent(fetchConfig.getConfigurationDeployerType());
+                .getConfigDeployerComponent(this.remoteFetchConfiguration.getConfigurationDeployerType());
 
         if (configDeployerComponent != null) {
             try {
                 ConfigDeployerBuilder configDeployerBuilder = configDeployerComponent.getConfigDeployerBuilder();
-                configDeployer = configDeployerBuilder.addRemoteFetchConfig(fetchConfig).build();
+                configDeployer = configDeployerBuilder.addRemoteFetchConfig(this.remoteFetchConfiguration).build();
 
             } catch (ConfigDeployerBuilderException e) {
-                throw new RemoteFetchCoreException("Unable to build " + fetchConfig.getConfigurationDeployerType()
+                throw new RemoteFetchCoreException("Unable to build " + this.remoteFetchConfiguration
+                        .getConfigurationDeployerType()
                         + " ConfigDeployer object", e);
             }
         } else {
-            throw new RemoteFetchCoreException("ConfigurationDeployer " + fetchConfig.getConfigurationDeployerType()
+            throw new RemoteFetchCoreException("ConfigurationDeployer " + this.remoteFetchConfiguration
+                    .getConfigurationDeployerType()
                     + " is not registered in RemoteFetchComponentRegistry");
         }
 
         // Get an instance of ActionListener from registry.
         ActionListenerComponent actionListenerComponent = this.componentRegistry
-                .getActionListenerComponent(fetchConfig.getActionListenerType());
+                .getActionListenerComponent(this.remoteFetchConfiguration
+                        .getActionListenerType());
 
         if (actionListenerComponent != null) {
             try {
                 ActionListenerBuilder actionListenerBuilder = this.componentRegistry
-                        .getActionListenerComponent(fetchConfig.getActionListenerType())
+                        .getActionListenerComponent(this.remoteFetchConfiguration.getActionListenerType())
                         .getActionListenerBuilder();
 
-                actionListener = actionListenerBuilder.addRemoteFetchConfig(fetchConfig)
+                actionListener = actionListenerBuilder.addRemoteFetchConfig(this.remoteFetchConfiguration)
                         .addConfigDeployer(configDeployer).addRepositoryConnector(repositoryManager).build();
 
             } catch (ActionListenerBuilderException e) {
-                throw new RemoteFetchCoreException("Unable to build " + fetchConfig.getActionListenerType()
+                throw new RemoteFetchCoreException("Unable to build " + this.remoteFetchConfiguration
+                        .getActionListenerType()
                         + " ActionListener object", e);
             }
         } else {
-            throw new RemoteFetchCoreException("ActionListener " + fetchConfig.getActionListenerType()
+            throw new RemoteFetchCoreException("ActionListener " + this.remoteFetchConfiguration
+                    .getActionListenerType()
                     + " is not registered in RemoteFetchComponentRegistry");
         }
 
         return actionListener;
     }
-
-    /**
-     * Load RemoteFetch Configurations from database and builds ActionListeners or re-builds if updated.
-     */
-    private void loadListeners() {
-
-        try {
-            this.fetchConfigurationService.getEnabledRemoteFetchConfigurationList()
-                    .forEach((RemoteFetchConfiguration config) -> {
-                String configurationId = config.getRemoteFetchConfigurationId();
-                // Check if RemoteFetchConfig already exists in Map.
-                if (this.remoteFetchConfigurationMap.containsKey(configurationId)) {
-                    // Update RemoteFetchConfiguration if local and new config is different.
-                    if (!remoteFetchConfigurationMap.get(configurationId).equals(config)) {
-                        try {
-                            this.actionListenerMap.put(configurationId, this.buildListener(config));
-                        } catch (RemoteFetchCoreException e) {
-                            log.error("Exception re-building ActionListener " + config.getActionListenerType(), e);
-                        }
-                    }
-                } else {
-                    this.remoteFetchConfigurationMap.put(configurationId, config);
-                    try {
-                        this.actionListenerMap.put(configurationId, this.buildListener(config));
-                    } catch (RemoteFetchCoreException e) {
-                        log.error("Exception building ActionListener " + config.getActionListenerType(), e);
-                    }
-                }
-            });
-        } catch (RemoteFetchCoreException e) {
-            log.error("Unable to list RemoteFetchConfigurations", e);
-        }
-    }
-
     @Override
     public void run() {
 
-        loadListeners();
-        for (ActionListener actionListener : this.actionListenerMap.values()) {
-            actionListener.iteration();
+        try {
+            this.buildListener().iteration();
+        } catch (RemoteFetchCoreException e) {
+            log.error("Unable to trigger RemoteFetchConfigurations", e);
+
         }
     }
 }

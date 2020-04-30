@@ -83,4 +83,12 @@ public interface RemoteFetchConfigurationService {
     void deleteRemoteFetchConfiguration(String fetchConfigurationId)
             throws RemoteFetchCoreException;
 
+    /**
+     * This method is used to trigger remote fetch configuration by ID.
+     * This method schedule immediate trigger task.
+     * @param fetchConfigurationId
+     * @throws RemoteFetchCoreException
+     */
+    void triggerRemoteFetchConfiguration(String fetchConfigurationId) throws RemoteFetchCoreException;
+
 }

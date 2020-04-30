@@ -153,5 +153,10 @@ public class RemoteFetchConfigurationClient {
         return fetchConfiguration;
     }
 
+    public static void triggerRemoteFetchConfiguration(String remoteConfigurationId) throws RemoteFetchCoreException {
+
+        RemotefetchCoreUIComponentDataHolder.getInstance().getRemoteFetchConfigurationService()
+                .triggerRemoteFetchConfiguration(remoteConfigurationId);
+    }
 
 }
