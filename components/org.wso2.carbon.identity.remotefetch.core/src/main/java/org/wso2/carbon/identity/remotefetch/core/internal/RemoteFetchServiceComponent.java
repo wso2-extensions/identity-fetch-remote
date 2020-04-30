@@ -37,16 +37,13 @@ import org.wso2.carbon.identity.remotefetch.common.RemoteFetchCoreConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 import org.wso2.carbon.identity.remotefetch.core.RemoteFetchComponentRegistryImpl;
 import org.wso2.carbon.identity.remotefetch.core.RemoteFetchConfigurationServiceImpl;
-import org.wso2.carbon.identity.remotefetch.core.RemoteFetchCore;
+import org.wso2.carbon.identity.remotefetch.core.executers.RemoteFetchTaskExecutor;
 import org.wso2.carbon.identity.remotefetch.core.impl.deployers.config.ServiceProviderConfigDeployerComponent;
 import org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.PollingActionListenerComponent;
 import org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository.GitRepositoryManagerComponent;
 import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationUtils;
 import org.wso2.carbon.user.core.service.RealmService;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import javax.sql.DataSource;
 
 /**
@@ -59,14 +56,17 @@ import javax.sql.DataSource;
 public class RemoteFetchServiceComponent {
 
     private static final Log log = LogFactory.getLog(RemoteFetchServiceComponent.class);
+    private RemoteFetchTaskExecutor remoteFetchTaskExecutor;
 
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     @Activate
     protected void activate(ComponentContext context) {
 
         RemoteFetchComponentRegistry remoteFetchComponentRegistry = new RemoteFetchComponentRegistryImpl();
-        RemoteFetchConfigurationService remoteFetchConfigurationService = new RemoteFetchConfigurationServiceImpl();
+        remoteFetchTaskExecutor = new RemoteFetchTaskExecutor();
+        remoteFetchTaskExecutor.createScheduler();
+        RemoteFetchConfigurationService remoteFetchConfigurationService =
+                            new RemoteFetchConfigurationServiceImpl(remoteFetchTaskExecutor);
         RemoteFetchCoreConfiguration fetchCoreConfiguration = this.parseRemoteFetchCoreConfiguration();
 
         remoteFetchComponentRegistry.registerRepositoryManager(new GitRepositoryManagerComponent());
@@ -89,21 +89,19 @@ public class RemoteFetchServiceComponent {
                 RemoteFetchServiceComponentHolder.getInstance().getRemoteFetchConfigurationService(), null);
 
         if (fetchCoreConfiguration.isEnableCore()) {
-            RemoteFetchCore core = new RemoteFetchCore();
-            try {
-                scheduler.scheduleAtFixedRate(core, 0, (60 * 1), TimeUnit.SECONDS);
-                log.info("Identity RemoteFetchServiceComponent bundle is activated");
-            } catch (Exception e) {
-                log.error("Error while activating RemoteFetchServiceComponent bundle", e);
-            }
+
+            remoteFetchTaskExecutor.startBatchTaskExecution();
         }
+        if (log.isDebugEnabled()) {
+            log.debug("Identity RemoteFetchServiceComponent bundle is activated");
+        }
+
     }
 
     @Deactivate
     protected void deactivate(ComponentContext context) {
 
-        scheduler.shutdownNow();
-
+        remoteFetchTaskExecutor.shutdownScheduler();
         if (log.isDebugEnabled()) {
             log.debug("Identity RemoteFetchServiceComponent bundle is deactivated");
         }

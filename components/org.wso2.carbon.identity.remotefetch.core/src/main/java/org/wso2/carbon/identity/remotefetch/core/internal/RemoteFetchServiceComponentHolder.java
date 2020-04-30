@@ -103,4 +103,5 @@ public class RemoteFetchServiceComponentHolder {
 
         this.fetchCoreConfiguration = fetchCoreConfiguration;
     }
+
 }

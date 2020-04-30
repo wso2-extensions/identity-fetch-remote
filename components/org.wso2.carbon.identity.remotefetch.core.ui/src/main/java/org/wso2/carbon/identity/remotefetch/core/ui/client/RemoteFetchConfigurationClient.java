@@ -153,5 +153,18 @@ public class RemoteFetchConfigurationClient {
         return fetchConfiguration;
     }
 
+    public static void triggerRemoteFetch(String remoteConfigurationId) throws RemoteFetchCoreException {
 
+        RemoteFetchConfiguration remoteFetchConfiguration =
+                RemotefetchCoreUIComponentDataHolder.getInstance().getRemoteFetchConfigurationService()
+                .getRemoteFetchConfiguration(remoteConfigurationId);
+
+        if (remoteFetchConfiguration == null) {
+            throw new RemoteFetchCoreException("No remote fetch configuration was found for id : "
+                    + remoteConfigurationId);
+        } else {
+            RemotefetchCoreUIComponentDataHolder.getInstance().getRemoteFetchConfigurationService()
+                    .triggerRemoteFetch(remoteFetchConfiguration);
+        }
+    }
 }

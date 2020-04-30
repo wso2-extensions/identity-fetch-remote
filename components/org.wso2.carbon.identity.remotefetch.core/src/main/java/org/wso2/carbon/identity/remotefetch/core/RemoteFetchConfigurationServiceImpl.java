@@ -29,6 +29,7 @@ import org.wso2.carbon.identity.remotefetch.common.ValidationReport;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 import org.wso2.carbon.identity.remotefetch.core.dao.RemoteFetchConfigurationDAO;
 import org.wso2.carbon.identity.remotefetch.core.dao.impl.RemoteFetchConfigurationDAOImpl;
+import org.wso2.carbon.identity.remotefetch.core.executers.RemoteFetchTaskExecutor;
 import org.wso2.carbon.identity.remotefetch.core.internal.RemoteFetchServiceComponentHolder;
 import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationUtils;
 import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationValidator;
@@ -43,6 +44,12 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
     private static final Log log = LogFactory.getLog(RemoteFetchConfigurationServiceImpl.class);
 
     private RemoteFetchConfigurationDAO fetchConfigurationDAO = new RemoteFetchConfigurationDAOImpl();
+    private RemoteFetchTaskExecutor remoteFetchTaskExecutor;
+
+
+    public RemoteFetchConfigurationServiceImpl(RemoteFetchTaskExecutor remoteFetchTaskExecutor) {
+        this.remoteFetchTaskExecutor = remoteFetchTaskExecutor;
+    }
 
     /**
      * @param fetchConfiguration
@@ -138,8 +145,25 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
     public void deleteRemoteFetchConfiguration(String fetchConfigurationId)
             throws RemoteFetchCoreException {
 
+        this.remoteFetchTaskExecutor.deleteRemoteFetchConfigurationFromBatchTask(fetchConfigurationId);
+
         int tenantId = IdentityTenantUtil.getTenantId(CarbonContext.getThreadLocalCarbonContext().getTenantDomain());
         this.fetchConfigurationDAO.deleteRemoteFetchConfiguration(fetchConfigurationId, tenantId);
     }
 
+    /**
+     * This method used to get remote fetch configuration for given id and start an Immediate task execution.
+     * @param fetchConfiguration
+     * @throws RemoteFetchCoreException
+     */
+    @Override
+    public void triggerRemoteFetch(RemoteFetchConfiguration fetchConfiguration) throws RemoteFetchCoreException {
+
+        this.remoteFetchTaskExecutor.startImmediateTaskExecution(fetchConfiguration);
+
+        if (log.isDebugEnabled()) {
+            log.debug("Immediate Task was created and executed for : " +
+                    fetchConfiguration.getRemoteFetchConfigurationId());
+        }
+    }
 }
