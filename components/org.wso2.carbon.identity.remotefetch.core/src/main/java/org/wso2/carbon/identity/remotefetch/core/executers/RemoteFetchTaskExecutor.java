@@ -21,6 +21,7 @@ package org.wso2.carbon.identity.remotefetch.core.executers;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
+import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 import org.wso2.carbon.identity.remotefetch.core.executers.tasks.RemoteFetchConfigurationBatchTask;
 import org.wso2.carbon.identity.remotefetch.core.executers.tasks.RemoteFetchConfigurationImmediateTask;
 
@@ -45,6 +46,10 @@ public class RemoteFetchTaskExecutor {
     private RemoteFetchConfigurationBatchTask remoteFetchConfigurationBatchTask;
 
     public RemoteFetchTaskExecutor() {
+
+    }
+
+    public void createScheduler() {
 
         scheduler = Executors.newScheduledThreadPool(1);
     }
@@ -75,8 +80,10 @@ public class RemoteFetchTaskExecutor {
     /**
      * Schedule immediate task execution when OSGi trigger service called.
      * @param remoteFetchConfiguration
+     * @throws RemoteFetchCoreException
      */
-    public void startImmediateTaskExecution(RemoteFetchConfiguration remoteFetchConfiguration) {
+    public void startImmediateTaskExecution(RemoteFetchConfiguration remoteFetchConfiguration)
+            throws RemoteFetchCoreException {
 
         RemoteFetchConfigurationImmediateTask remoteFetchConfigurationImmediateTask =
                 new RemoteFetchConfigurationImmediateTask(remoteFetchConfiguration);
@@ -89,8 +96,8 @@ public class RemoteFetchTaskExecutor {
                         + remoteFetchConfiguration.getRemoteFetchConfigurationId());
             }
         } catch (Exception e) {
-            log.error("Error while scheduling immediate task for remote fetch configuration "
-                            + remoteFetchConfiguration.getRemoteFetchConfigurationId(), e);
+            throw new RemoteFetchCoreException("Error while scheduling immediate task for remote fetch configuration "
+                    + remoteFetchConfiguration.getRemoteFetchConfigurationId(), e);
         }
 
     }

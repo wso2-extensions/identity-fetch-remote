@@ -56,13 +56,17 @@ import javax.sql.DataSource;
 public class RemoteFetchServiceComponent {
 
     private static final Log log = LogFactory.getLog(RemoteFetchServiceComponent.class);
+    private RemoteFetchTaskExecutor remoteFetchTaskExecutor;
 
 
     @Activate
     protected void activate(ComponentContext context) {
 
         RemoteFetchComponentRegistry remoteFetchComponentRegistry = new RemoteFetchComponentRegistryImpl();
-        RemoteFetchConfigurationService remoteFetchConfigurationService = new RemoteFetchConfigurationServiceImpl();
+        remoteFetchTaskExecutor = new RemoteFetchTaskExecutor();
+        remoteFetchTaskExecutor.createScheduler();
+        RemoteFetchConfigurationService remoteFetchConfigurationService =
+                            new RemoteFetchConfigurationServiceImpl(remoteFetchTaskExecutor);
         RemoteFetchCoreConfiguration fetchCoreConfiguration = this.parseRemoteFetchCoreConfiguration();
 
         remoteFetchComponentRegistry.registerRepositoryManager(new GitRepositoryManagerComponent());
@@ -84,12 +88,9 @@ public class RemoteFetchServiceComponent {
 
                 RemoteFetchServiceComponentHolder.getInstance().getRemoteFetchConfigurationService(), null);
 
-        RemoteFetchServiceComponentHolder.getInstance().setRemoteFetchTaskExecutor(new RemoteFetchTaskExecutor());
-
         if (fetchCoreConfiguration.isEnableCore()) {
 
-            RemoteFetchServiceComponentHolder.getInstance().getRemoteFetchTaskExecutor()
-                    .startBatchTaskExecution();
+            remoteFetchTaskExecutor.startBatchTaskExecution();
         }
 
         if (log.isDebugEnabled()) {
@@ -101,8 +102,7 @@ public class RemoteFetchServiceComponent {
     @Deactivate
     protected void deactivate(ComponentContext context) {
 
-        RemoteFetchServiceComponentHolder.getInstance().getRemoteFetchTaskExecutor().shutdownScheduler();
-
+        remoteFetchTaskExecutor.shutdownScheduler();
         if (log.isDebugEnabled()) {
             log.debug("Identity RemoteFetchServiceComponent bundle is deactivated");
         }

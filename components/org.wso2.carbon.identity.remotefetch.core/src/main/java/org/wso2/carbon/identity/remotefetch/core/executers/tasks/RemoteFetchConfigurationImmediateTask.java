@@ -48,100 +48,198 @@ public class RemoteFetchConfigurationImmediateTask implements Runnable {
 
     private static final Log log = LogFactory.getLog(RemoteFetchConfigurationImmediateTask.class);
 
-    private RemoteFetchComponentRegistry componentRegistry = RemoteFetchServiceComponentHolder.getInstance()
-            .getRemoteFetchComponentRegistry();
+    private RemoteFetchComponentRegistry componentRegistry;
 
     private RemoteFetchConfiguration remoteFetchConfiguration;
 
     public RemoteFetchConfigurationImmediateTask(RemoteFetchConfiguration remoteFetchConfiguration) {
 
         this.remoteFetchConfiguration = remoteFetchConfiguration;
+        this.componentRegistry = RemoteFetchServiceComponentHolder.getInstance()
+                .getRemoteFetchComponentRegistry();
     }
 
     /**
-     * This method is used to retrieve relevant components and build lister using given remote fetch configuration.
+     * This method is used create action listener for particular remote fetch configuration.
      * @return ActionListener
      * @throws RemoteFetchCoreException
      */
     private ActionListener buildListener() throws RemoteFetchCoreException {
 
-        RepositoryManager repositoryManager;
-        ActionListener actionListener;
-        ConfigDeployer configDeployer;
+        RepositoryManager repositoryManager = buildRepositoryManager();
+        ConfigDeployer configDeployer = buildConfigDeployer();
 
-        // Get an instance of RepositoryManager from registry.
-        RepositoryManagerComponent repositoryManagerComponent = this.componentRegistry
-                .getRepositoryManagerComponent(this.remoteFetchConfiguration.getRepositoryManagerType());
+        return buildActionListener(configDeployer, repositoryManager);
+    }
 
+    /**
+     * This method is used to build repository manager for particular remote fetch configuration.
+     * @return
+     * @throws RemoteFetchCoreException
+     */
+    private RepositoryManager buildRepositoryManager() throws RemoteFetchCoreException {
+
+        RepositoryManagerComponent repositoryManagerComponent = getRepositoryManagerComponentFromRegistry();
         if (repositoryManagerComponent != null) {
-            try {
-                RepositoryManagerBuilder repositoryManagerBuilder = repositoryManagerComponent
-                        .getRepositoryManagerBuilder();
 
-                repositoryManager = repositoryManagerBuilder.addRemoteFetchConfig(this.remoteFetchConfiguration)
-                        .addRemoteFetchCoreConfig(RemoteFetchServiceComponentHolder.getInstance()
-                                .getFetchCoreConfiguration())
-                        .build();
+            return buildRepositoryManagerFromComponent(repositoryManagerComponent);
 
-            } catch (RepositoryManagerBuilderException e) {
-                throw new RemoteFetchCoreException("Unable to build " + this.remoteFetchConfiguration
-                        .getRepositoryManagerType()
-                        + " RepositoryManager", e);
-            }
         } else {
             throw new RemoteFetchCoreException("RepositoryManager " + this.remoteFetchConfiguration
                     .getRepositoryManagerType()
                     + " is not registered in RemoteFetchComponentRegistry");
-
         }
+    }
+
+    /**
+     * This method is used to retrieve RepositoryManagerComponent from registry for particular remoteFetchConfiguration.
+     * @return
+     */
+    private RepositoryManagerComponent getRepositoryManagerComponentFromRegistry() {
+
+        return this.componentRegistry
+                .getRepositoryManagerComponent(this.remoteFetchConfiguration.getRepositoryManagerType());
+    }
+
+    /**
+     * This method is used to build repository manager from RepositoryManagerBuilder.
+     * @param repositoryManagerComponent
+     * @return
+     * @throws RemoteFetchCoreException
+     */
+    private RepositoryManager buildRepositoryManagerFromComponent(RepositoryManagerComponent repositoryManagerComponent)
+            throws RemoteFetchCoreException {
+
+        try {
+            RepositoryManagerBuilder repositoryManagerBuilder = repositoryManagerComponent
+                    .getRepositoryManagerBuilder();
+
+            return repositoryManagerBuilder.addRemoteFetchConfig(this.remoteFetchConfiguration)
+                    .addRemoteFetchCoreConfig(RemoteFetchServiceComponentHolder.getInstance()
+                            .getFetchCoreConfiguration())
+                    .build();
+
+        } catch (RepositoryManagerBuilderException e) {
+            throw new RemoteFetchCoreException("Unable to build " + this.remoteFetchConfiguration
+                    .getRepositoryManagerType()
+                    + " RepositoryManager", e);
+        }
+    }
+
+    /**
+     * This method is used to build ConfigDeployer for particular remote fetch configuration.
+     * @return
+     * @throws RemoteFetchCoreException
+     */
+    private ConfigDeployer buildConfigDeployer() throws RemoteFetchCoreException {
 
         // Get an instance of ConfigDeployer from registry.
-        ConfigDeployerComponent configDeployerComponent = this.componentRegistry
-                .getConfigDeployerComponent(this.remoteFetchConfiguration.getConfigurationDeployerType());
+        ConfigDeployerComponent configDeployerComponent = getConfigDeployerComponentFromRegistry();
 
         if (configDeployerComponent != null) {
-            try {
-                ConfigDeployerBuilder configDeployerBuilder = configDeployerComponent.getConfigDeployerBuilder();
-                configDeployer = configDeployerBuilder.addRemoteFetchConfig(this.remoteFetchConfiguration).build();
 
-            } catch (ConfigDeployerBuilderException e) {
-                throw new RemoteFetchCoreException("Unable to build " + this.remoteFetchConfiguration
-                        .getConfigurationDeployerType()
-                        + " ConfigDeployer object", e);
-            }
+            return buildConfigDeployerFromComponent(configDeployerComponent);
+
         } else {
             throw new RemoteFetchCoreException("ConfigurationDeployer " + this.remoteFetchConfiguration
                     .getConfigurationDeployerType()
                     + " is not registered in RemoteFetchComponentRegistry");
         }
 
-        // Get an instance of ActionListener from registry.
-        ActionListenerComponent actionListenerComponent = this.componentRegistry
-                .getActionListenerComponent(this.remoteFetchConfiguration
-                        .getActionListenerType());
+    }
 
+    /**
+     * This method is used to retrieve ConfigDeployerComponent from registry for particular remoteFetchConfiguration.
+     * @return
+     */
+    private ConfigDeployerComponent getConfigDeployerComponentFromRegistry() {
+
+        return this.componentRegistry
+                .getConfigDeployerComponent(this.remoteFetchConfiguration.getConfigurationDeployerType());
+
+    }
+
+    /**
+     * This method is used to build ConfigDeployer from ConfigDeployerBuilder.
+     * @param configDeployerComponent
+     * @return
+     * @throws RemoteFetchCoreException
+     */
+    private ConfigDeployer buildConfigDeployerFromComponent(ConfigDeployerComponent configDeployerComponent)
+            throws RemoteFetchCoreException {
+
+        try {
+            ConfigDeployerBuilder configDeployerBuilder = configDeployerComponent.getConfigDeployerBuilder();
+            return configDeployerBuilder.addRemoteFetchConfig(this.remoteFetchConfiguration).build();
+
+        } catch (ConfigDeployerBuilderException e) {
+            throw new RemoteFetchCoreException("Unable to build " + this.remoteFetchConfiguration
+                    .getConfigurationDeployerType()
+                    + " ConfigDeployer object", e);
+        }
+
+    }
+
+    /**
+     * This method is used create action listener from given ConfigDeployer and RepositoryManager.
+     * @param configDeployer
+     * @param repositoryManager
+     * @return
+     * @throws RemoteFetchCoreException
+     */
+    private ActionListener buildActionListener(ConfigDeployer configDeployer, RepositoryManager repositoryManager)
+                                               throws RemoteFetchCoreException {
+
+        ActionListenerComponent actionListenerComponent = getActionListenerComponentFromRegistry();
         if (actionListenerComponent != null) {
-            try {
-                ActionListenerBuilder actionListenerBuilder = this.componentRegistry
-                        .getActionListenerComponent(this.remoteFetchConfiguration.getActionListenerType())
-                        .getActionListenerBuilder();
 
-                actionListener = actionListenerBuilder.addRemoteFetchConfig(this.remoteFetchConfiguration)
-                        .addConfigDeployer(configDeployer).addRepositoryConnector(repositoryManager).build();
+            return buildActionListenerFromComponent(actionListenerComponent,
+                    configDeployer, repositoryManager);
 
-            } catch (ActionListenerBuilderException e) {
-                throw new RemoteFetchCoreException("Unable to build " + this.remoteFetchConfiguration
-                        .getActionListenerType()
-                        + " ActionListener object", e);
-            }
         } else {
             throw new RemoteFetchCoreException("ActionListener " + this.remoteFetchConfiguration
                     .getActionListenerType()
                     + " is not registered in RemoteFetchComponentRegistry");
         }
-
-        return actionListener;
     }
+
+    /**
+     * This method is used to retrieve ActionListenerComponent from registry for particular remoteFetchConfiguration.
+     * @return
+     */
+    private ActionListenerComponent getActionListenerComponentFromRegistry() {
+
+        return this.componentRegistry.getActionListenerComponent(this.remoteFetchConfiguration
+                        .getActionListenerType());
+
+    }
+
+    /**
+     * This method is used to build ActionListener from ActionListenerFromComponent.
+     * @param actionListenerComponent
+     * @param configDeployer
+     * @param repositoryManager
+     * @return
+     * @throws RemoteFetchCoreException
+     */
+    private ActionListener buildActionListenerFromComponent(ActionListenerComponent actionListenerComponent,
+                                                            ConfigDeployer configDeployer,
+                                                            RepositoryManager repositoryManager)
+                                                throws RemoteFetchCoreException {
+
+        try {
+            ActionListenerBuilder actionListenerBuilder = actionListenerComponent.getActionListenerBuilder();
+
+            return actionListenerBuilder.addRemoteFetchConfig(this.remoteFetchConfiguration)
+                    .addConfigDeployer(configDeployer).addRepositoryConnector(repositoryManager).build();
+
+        } catch (ActionListenerBuilderException e) {
+            throw new RemoteFetchCoreException("Unable to build " + this.remoteFetchConfiguration
+                    .getActionListenerType()
+                    + " ActionListener object", e);
+        }
+    }
+
     @Override
     public void run() {
 

@@ -36,7 +36,7 @@
     Map<String, String> repoAttributes;
     if (id != null) {
         try {
-            RemoteFetchConfigurationClient.triggerRemoteFetchConfiguration(id);
+            RemoteFetchConfigurationClient.triggerRemoteFetch(id);
         } catch (RemoteFetchCoreException e) {
             CarbonUIMessage.sendCarbonUIMessage("Invalid Config for id", CarbonUIMessage.ERROR, request, e);
         }
