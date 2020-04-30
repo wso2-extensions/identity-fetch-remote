@@ -84,8 +84,13 @@ public class RemoteFetchServiceComponent {
 
                 RemoteFetchServiceComponentHolder.getInstance().getRemoteFetchConfigurationService(), null);
 
-        RemoteFetchTaskExecutor.getInstance().createScheduler();
-        RemoteFetchTaskExecutor.getInstance().startBatchTaskExecution(fetchCoreConfiguration);
+        RemoteFetchServiceComponentHolder.getInstance().setRemoteFetchTaskExecutor(new RemoteFetchTaskExecutor());
+
+        if (fetchCoreConfiguration.isEnableCore()) {
+
+            RemoteFetchServiceComponentHolder.getInstance().getRemoteFetchTaskExecutor()
+                    .startBatchTaskExecution();
+        }
 
         if (log.isDebugEnabled()) {
             log.debug("Identity RemoteFetchServiceComponent bundle is activated");
@@ -96,7 +101,7 @@ public class RemoteFetchServiceComponent {
     @Deactivate
     protected void deactivate(ComponentContext context) {
 
-        RemoteFetchTaskExecutor.getInstance().shutdownScheduler();
+        RemoteFetchServiceComponentHolder.getInstance().getRemoteFetchTaskExecutor().shutdownScheduler();
 
         if (log.isDebugEnabled()) {
             log.debug("Identity RemoteFetchServiceComponent bundle is deactivated");

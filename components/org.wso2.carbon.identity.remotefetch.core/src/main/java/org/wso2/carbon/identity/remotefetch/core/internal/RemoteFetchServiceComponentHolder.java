@@ -22,6 +22,7 @@ import org.wso2.carbon.identity.application.mgt.ApplicationManagementService;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchComponentRegistry;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfigurationService;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchCoreConfiguration;
+import org.wso2.carbon.identity.remotefetch.core.executers.RemoteFetchTaskExecutor;
 import org.wso2.carbon.user.core.service.RealmService;
 
 import javax.sql.DataSource;
@@ -38,6 +39,7 @@ public class RemoteFetchServiceComponentHolder {
     private RealmService realmService;
     private DataSource dataSource;
     private RemoteFetchCoreConfiguration fetchCoreConfiguration;
+    private RemoteFetchTaskExecutor remoteFetchTaskExecutor;
 
     public static RemoteFetchServiceComponentHolder getInstance() {
 
@@ -102,5 +104,15 @@ public class RemoteFetchServiceComponentHolder {
     public void setFetchCoreConfiguration(RemoteFetchCoreConfiguration fetchCoreConfiguration) {
 
         this.fetchCoreConfiguration = fetchCoreConfiguration;
+    }
+
+    public RemoteFetchTaskExecutor getRemoteFetchTaskExecutor() {
+
+        return remoteFetchTaskExecutor;
+    }
+
+    public void setRemoteFetchTaskExecutor(RemoteFetchTaskExecutor remoteFetchTaskExecutor) {
+
+        this.remoteFetchTaskExecutor = remoteFetchTaskExecutor;
     }
 }

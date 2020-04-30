@@ -21,7 +21,6 @@ package org.wso2.carbon.identity.remotefetch.core.executers;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
-import org.wso2.carbon.identity.remotefetch.common.RemoteFetchCoreConfiguration;
 import org.wso2.carbon.identity.remotefetch.core.executers.tasks.RemoteFetchConfigurationBatchTask;
 import org.wso2.carbon.identity.remotefetch.core.executers.tasks.RemoteFetchConfigurationImmediateTask;
 
@@ -30,7 +29,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * This class is a execution engine for trigger actions.
+ * The execution engine for Fetching the artifacts from remote repository and loads it to the system.
  * This execution engine has functions to start batch task and immediate task.
  * This execution engine starts batch task at component activation and schedule at fixed rate.
  * {@link RemoteFetchConfigurationBatchTask}
@@ -42,23 +41,10 @@ public class RemoteFetchTaskExecutor {
 
     private static final Log log = LogFactory.getLog(RemoteFetchTaskExecutor.class);
 
-    private static RemoteFetchTaskExecutor instance = new RemoteFetchTaskExecutor();
     private ScheduledExecutorService scheduler;
-    RemoteFetchConfigurationBatchTask remoteFetchConfigurationBatchTask;
+    private RemoteFetchConfigurationBatchTask remoteFetchConfigurationBatchTask;
 
     public RemoteFetchTaskExecutor() {
-
-    }
-
-    public static RemoteFetchTaskExecutor getInstance() {
-
-        return instance;
-    }
-
-    /**
-     * Create new thread pool for scheduler.
-     */
-    public void createScheduler() {
 
         scheduler = Executors.newScheduledThreadPool(1);
     }
@@ -73,18 +59,15 @@ public class RemoteFetchTaskExecutor {
 
     /**
      * Schedule Batch execution after checking whether enabled or not.
-     * @param remoteFetchCoreConfiguration
      */
-    public void startBatchTaskExecution(RemoteFetchCoreConfiguration remoteFetchCoreConfiguration) {
+    public void startBatchTaskExecution() {
 
-        if (remoteFetchCoreConfiguration.isEnableCore()) {
-             remoteFetchConfigurationBatchTask = new RemoteFetchConfigurationBatchTask();
-            try {
-                scheduler.scheduleAtFixedRate(remoteFetchConfigurationBatchTask, 0, (60 * 1), TimeUnit.SECONDS);
-                log.info("Batch Task is scheduled.");
-            } catch (Exception e) {
-                log.error("Error while scheduling batch task", e);
-            }
+        remoteFetchConfigurationBatchTask = new RemoteFetchConfigurationBatchTask();
+        try {
+            scheduler.scheduleAtFixedRate(remoteFetchConfigurationBatchTask, 0, (60 * 1), TimeUnit.SECONDS);
+            log.info("Batch Task is scheduled.");
+        } catch (Exception e) {
+            log.error("Error while scheduling batch task", e);
         }
 
     }
@@ -100,8 +83,11 @@ public class RemoteFetchTaskExecutor {
 
         try {
             scheduler.schedule(remoteFetchConfigurationImmediateTask, 0, TimeUnit.SECONDS);
-            log.info("Immediate Task is scheduled for remote fetch configuration "
-                                                + remoteFetchConfiguration.getRemoteFetchConfigurationId());
+
+            if (log.isDebugEnabled()) {
+                log.debug("Immediate Task is scheduled for remote fetch configuration "
+                        + remoteFetchConfiguration.getRemoteFetchConfigurationId());
+            }
         } catch (Exception e) {
             log.error("Error while scheduling immediate task for remote fetch configuration "
                             + remoteFetchConfiguration.getRemoteFetchConfigurationId(), e);

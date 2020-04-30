@@ -89,6 +89,6 @@ public interface RemoteFetchConfigurationService {
      * @param fetchConfigurationId
      * @throws RemoteFetchCoreException
      */
-    void triggerRemoteFetchConfiguration(String fetchConfigurationId) throws RemoteFetchCoreException;
+    void triggerRemoteFetch(String fetchConfigurationId) throws RemoteFetchCoreException;
 
 }

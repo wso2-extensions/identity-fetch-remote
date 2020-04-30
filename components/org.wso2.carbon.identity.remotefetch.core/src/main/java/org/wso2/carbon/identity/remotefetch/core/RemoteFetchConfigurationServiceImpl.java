@@ -29,7 +29,6 @@ import org.wso2.carbon.identity.remotefetch.common.ValidationReport;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 import org.wso2.carbon.identity.remotefetch.core.dao.RemoteFetchConfigurationDAO;
 import org.wso2.carbon.identity.remotefetch.core.dao.impl.RemoteFetchConfigurationDAOImpl;
-import org.wso2.carbon.identity.remotefetch.core.executers.RemoteFetchTaskExecutor;
 import org.wso2.carbon.identity.remotefetch.core.internal.RemoteFetchServiceComponentHolder;
 import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationUtils;
 import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationValidator;
@@ -139,7 +138,8 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
     public void deleteRemoteFetchConfiguration(String fetchConfigurationId)
             throws RemoteFetchCoreException {
 
-        RemoteFetchTaskExecutor.getInstance().deleteRemoteFetchConfigurationFromBatchTask(fetchConfigurationId);
+        RemoteFetchServiceComponentHolder.getInstance().getRemoteFetchTaskExecutor()
+                .deleteRemoteFetchConfigurationFromBatchTask(fetchConfigurationId);
 
         int tenantId = IdentityTenantUtil.getTenantId(CarbonContext.getThreadLocalCarbonContext().getTenantDomain());
         this.fetchConfigurationDAO.deleteRemoteFetchConfiguration(fetchConfigurationId, tenantId);
@@ -151,11 +151,16 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
      * @throws RemoteFetchCoreException
      */
     @Override
-    public void triggerRemoteFetchConfiguration(String fetchConfigurationId) throws RemoteFetchCoreException {
+    public void triggerRemoteFetch(String fetchConfigurationId) throws RemoteFetchCoreException {
 
         RemoteFetchConfiguration remoteFetchConfiguration = this.getRemoteFetchConfiguration(fetchConfigurationId);
         if (remoteFetchConfiguration != null) {
-            RemoteFetchTaskExecutor.getInstance().startImmediateTaskExecution(remoteFetchConfiguration);
+            RemoteFetchServiceComponentHolder.getInstance().getRemoteFetchTaskExecutor()
+                    .startImmediateTaskExecution(remoteFetchConfiguration);
+
+            if (log.isDebugEnabled()) {
+                log.debug("Immediate Task was created and executed for : " + fetchConfigurationId);
+            }
         }
 
     }
