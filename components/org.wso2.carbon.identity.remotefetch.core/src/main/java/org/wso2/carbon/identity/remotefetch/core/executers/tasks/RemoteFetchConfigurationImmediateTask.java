@@ -145,7 +145,6 @@ public class RemoteFetchConfigurationImmediateTask implements Runnable {
                     .getConfigurationDeployerType()
                     + " is not registered in RemoteFetchComponentRegistry");
         }
-
     }
 
     /**
@@ -156,7 +155,6 @@ public class RemoteFetchConfigurationImmediateTask implements Runnable {
 
         return this.componentRegistry
                 .getConfigDeployerComponent(this.remoteFetchConfiguration.getConfigurationDeployerType());
-
     }
 
     /**
@@ -177,7 +175,6 @@ public class RemoteFetchConfigurationImmediateTask implements Runnable {
                     .getConfigurationDeployerType()
                     + " ConfigDeployer object", e);
         }
-
     }
 
     /**
@@ -211,7 +208,6 @@ public class RemoteFetchConfigurationImmediateTask implements Runnable {
 
         return this.componentRegistry.getActionListenerComponent(this.remoteFetchConfiguration
                         .getActionListenerType());
-
     }
 
     /**
@@ -247,7 +243,6 @@ public class RemoteFetchConfigurationImmediateTask implements Runnable {
             this.buildListener().iteration();
         } catch (RemoteFetchCoreException e) {
             log.error("Unable to trigger RemoteFetchConfigurations", e);
-
         }
     }
 }

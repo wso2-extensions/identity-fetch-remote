@@ -74,7 +74,6 @@ public class RemoteFetchTaskExecutor {
         } catch (Exception e) {
             log.error("Error while scheduling batch task", e);
         }
-
     }
 
     /**
@@ -99,7 +98,6 @@ public class RemoteFetchTaskExecutor {
             throw new RemoteFetchCoreException("Error while scheduling immediate task for remote fetch configuration "
                     + remoteFetchConfiguration.getRemoteFetchConfigurationId(), e);
         }
-
     }
 
     /**
@@ -110,7 +108,4 @@ public class RemoteFetchTaskExecutor {
 
         remoteFetchConfigurationBatchTask.deleteRemoteFetchConfiguration(id);
     }
-
-
-
 }

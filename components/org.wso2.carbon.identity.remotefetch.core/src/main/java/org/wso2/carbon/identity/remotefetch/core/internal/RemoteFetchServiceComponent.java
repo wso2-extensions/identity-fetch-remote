@@ -92,7 +92,6 @@ public class RemoteFetchServiceComponent {
 
             remoteFetchTaskExecutor.startBatchTaskExecution();
         }
-
         if (log.isDebugEnabled()) {
             log.debug("Identity RemoteFetchServiceComponent bundle is activated");
         }

@@ -166,5 +166,4 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
                     fetchConfiguration.getRemoteFetchConfigurationId());
         }
     }
-
 }

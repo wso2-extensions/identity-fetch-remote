@@ -59,7 +59,6 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
         this.componentRegistry = RemoteFetchServiceComponentHolder.getInstance().getRemoteFetchComponentRegistry();
         this.fetchConfigurationService = RemoteFetchServiceComponentHolder.getInstance()
                 .getRemoteFetchConfigurationService();
-
     }
 
     /**
@@ -161,7 +160,6 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
                     .getConfigurationDeployerType()
                     + " is not registered in RemoteFetchComponentRegistry");
         }
-
     }
 
     /**
@@ -197,7 +195,6 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
                     .getConfigurationDeployerType()
                     + " ConfigDeployer object", e);
         }
-
     }
 
     /**
@@ -236,7 +233,6 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
 
         return this.componentRegistry.getActionListenerComponent(remoteFetchConfiguration
                 .getActionListenerType());
-
     }
 
     /**
@@ -266,7 +262,6 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
                     + " ActionListener object", e);
         }
     }
-
 
     /**
      * Load RemoteFetch Configurations from database and builds ActionListeners or re-builds if updated.
