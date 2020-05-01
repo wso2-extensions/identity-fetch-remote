@@ -120,11 +120,13 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
      * @throws RemoteFetchCoreException
      */
     @Override
-    public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList()
+    public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList(Integer limit, Integer offset)
             throws RemoteFetchCoreException {
 
         return this.fetchConfigurationDAO.getBasicRemoteFetchConfigurationsByTenant
-                (CarbonContext.getThreadLocalCarbonContext().getTenantDomain());
+                (CarbonContext.getThreadLocalCarbonContext().getTenantDomain(),
+                        validateLimit(limit),
+                        validateOffset(offset));
     }
 
     /**
@@ -165,5 +167,60 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
             log.debug("Immediate Task was created and executed for : " +
                     fetchConfiguration.getRemoteFetchConfigurationId());
         }
+    }
+
+    /**
+     * Validate limit.
+     *
+     * @param limit given limit value.
+     * @return validated limit and offset value.
+     */
+    private int validateLimit(Integer limit) throws RemoteFetchCoreException {
+
+        if (limit == null) {
+            if (log.isDebugEnabled()) {
+                log.debug("Given limit is null. Therefore we get the default limit from " +
+                        "identity.xml.");
+            }
+            limit = RemoteFetchConfigurationUtils.getDefaultItemsPerPage();
+        }
+        if (limit < 0) {
+            String message = "Given limit: " + limit + " is a negative value.";
+            throw new RemoteFetchCoreException("Unable to retrieve remote fetch configuration list " +
+                    message);
+        }
+
+        int maximumItemsPerPage = RemoteFetchConfigurationUtils.getMaximumItemPerPage();
+        if (limit > maximumItemsPerPage) {
+            if (log.isDebugEnabled()) {
+                log.debug("Given limit exceed the maximum limit. Therefore we get the default limit from " +
+                        "identity.xml. limit: " + maximumItemsPerPage);
+            }
+            limit = maximumItemsPerPage;
+        }
+        return limit;
+    }
+
+    /**
+     * Validate offset.
+     *
+     * @param offset given offset value.
+     * @return validated limit and offset value.
+     * @throws RemoteFetchCoreException Error while set offset
+     */
+    private int validateOffset(Integer offset) throws RemoteFetchCoreException {
+
+        if (offset == null) {
+            // Return first page offset.
+            offset = 0;
+        }
+
+        if (offset < 0) {
+            String message = "Invalid offset applied. Offset should not negative. offSet: " +
+                    offset;
+            throw new RemoteFetchCoreException("Unable to retrieve remote fetch configuration list " +
+                    message);
+        }
+        return offset;
     }
 }

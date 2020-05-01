@@ -62,10 +62,12 @@ public interface RemoteFetchConfigurationService {
     /**
      * This method is used to call by clients to get list of BasicRemoteFetchConfiguration by tenantID.
      * This method is called by clients in list view.
+     * @param limit
+     * @param offset
      * @return List of BasicRemoteFetchConfiguration
      * @throws RemoteFetchCoreException
      */
-    List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList()
+    List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList(Integer limit, Integer offset)
             throws RemoteFetchCoreException;
 
     /**

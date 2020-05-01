@@ -82,10 +82,13 @@ public interface RemoteFetchConfigurationDAO {
     /**
      * Get all basic remote fetch configuration for particular tenant.
      * @param tenantDomain
+     * @param limit
+     * @param offset
      * @return
      * @throws RemoteFetchCoreException
      */
-    List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationsByTenant(String tenantDomain)
+    List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationsByTenant(String tenantDomain, Integer limit,
+                                                                                  Integer offset)
             throws RemoteFetchCoreException;
 
 }

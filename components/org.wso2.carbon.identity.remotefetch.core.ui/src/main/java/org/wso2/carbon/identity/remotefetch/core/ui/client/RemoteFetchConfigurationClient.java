@@ -44,6 +44,8 @@ public class RemoteFetchConfigurationClient {
     private static final String TYPE_REPOSITORY_MANAGER = "GIT";
     private static final String TYPE_ACTION_LISTENER = "POLLING";
     private static final String TYPE_CONFIG_DEPLOYER = "SP";
+    private static final Integer DEFAULT_LIMIT = 10;
+    private static final Integer DEFAULT_OFFSET = 0;
 
     private static final Log log = LogFactory.getLog(RemoteFetchConfigurationClient.class);
 
@@ -52,7 +54,7 @@ public class RemoteFetchConfigurationClient {
 
         List<BasicRemoteFetchConfiguration> fetchConfigurations = RemotefetchCoreUIComponentDataHolder
                 .getInstance().getRemoteFetchConfigurationService()
-                .getBasicRemoteFetchConfigurationList();
+                .getBasicRemoteFetchConfigurationList(DEFAULT_LIMIT, DEFAULT_OFFSET);
 
         return fetchConfigurations.stream().map((basicFetchConfiguration ->
                 RemoteFetchConfigurationClient.fetchConfigurationToDTO(basicFetchConfiguration)

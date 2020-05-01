@@ -18,10 +18,13 @@
 
 package org.wso2.carbon.identity.remotefetch.core.dao.impl;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.json.JSONObject;
 import org.wso2.carbon.database.utils.jdbc.JdbcTemplate;
 import org.wso2.carbon.database.utils.jdbc.exceptions.DataAccessException;
 import org.wso2.carbon.database.utils.jdbc.exceptions.TransactionException;
+import org.wso2.carbon.identity.core.util.IdentityDatabaseUtil;
 import org.wso2.carbon.identity.core.util.IdentityTenantUtil;
 import org.wso2.carbon.identity.remotefetch.common.BasicRemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
@@ -30,6 +33,7 @@ import org.wso2.carbon.identity.remotefetch.core.constants.SQLConstants;
 import org.wso2.carbon.identity.remotefetch.core.dao.RemoteFetchConfigurationDAO;
 import org.wso2.carbon.identity.remotefetch.core.util.JdbcUtils;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -49,6 +53,8 @@ import static org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants.FAC
  * TODO : Implement Name preparedstatement
  */
 public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfigurationDAO {
+
+    private static final Log log = LogFactory.getLog(RemoteFetchConfigurationDAOImpl.class);
 
     /**
      * @param configuration
@@ -208,33 +214,50 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
      * @throws RemoteFetchCoreException
      */
     @Override
-    public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationsByTenant(String tenantDomain)
+    public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationsByTenant(String tenantDomain,
+                                                                                         Integer limit,
+                                                                                         Integer offset)
             throws RemoteFetchCoreException {
 
         int tenantId = IdentityTenantUtil.getTenantId(tenantDomain);
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
-        try {
-            return jdbcTemplate.withTransaction(template ->
-                    template.executeQuery(SQLConstants.LIST_BASIC_CONFIGS_BY_TENANT,
-                            ((resultSet, i) -> {
-                                BasicRemoteFetchConfiguration obj = new BasicRemoteFetchConfiguration(
-                                        resultSet.getString(1),
-                                        resultSet.getString(2).equals("1"),
-                                        resultSet.getString(3),
-                                        resultSet.getString(4),
-                                        resultSet.getString(5),
-                                        resultSet.getString(6),
-                                        resultSet.getInt(7),
-                                        resultSet.getInt(8));
-                                Timestamp lastDeployed = resultSet.getTimestamp(9);
-                                if (lastDeployed != null) {
-                                    obj.setLastDeployed(new Date(lastDeployed.getTime()));
-                                }
-                                return obj;
-                            })
-                            , preparedStatement -> preparedStatement.setInt(1, tenantId))
-            );
-        } catch (TransactionException e) {
+
+        try (Connection dbConnection = IdentityDatabaseUtil.getDBConnection(false)) {
+            String databaseProductName = dbConnection.getMetaData().getDatabaseProductName();
+            if (databaseProductName.contains("MySQL") || databaseProductName.contains("H2")) {
+
+                return jdbcTemplate.withTransaction(template ->
+                        template.executeQuery(SQLConstants.LIST_BASIC_CONFIGS_BY_TENANT_MYSQL,
+                                ((resultSet, i) -> {
+                                    BasicRemoteFetchConfiguration obj = new BasicRemoteFetchConfiguration(
+                                            resultSet.getString(1),
+                                            resultSet.getString(2).equals("1"),
+                                            resultSet.getString(3),
+                                            resultSet.getString(4),
+                                            resultSet.getString(5),
+                                            resultSet.getString(6),
+                                            resultSet.getInt(7),
+                                            resultSet.getInt(8));
+                                    Timestamp lastDeployed = resultSet.getTimestamp(9);
+                                    if (lastDeployed != null) {
+                                        obj.setLastDeployed(new Date(lastDeployed.getTime()));
+                                    }
+                                    return obj;
+                                })
+                                , preparedStatement -> {
+                                    preparedStatement.setInt(1, tenantId);
+                                    preparedStatement.setInt(2, offset);
+                                    preparedStatement.setInt(3, limit);
+                                })
+                );
+            } else {
+                log.error("Error while loading Identity Provider from DB: Database driver could not be identified or "
+                        + "not supported.");
+                String message = "Error while loading Identity Provider from DB: Database driver " +
+                        "could not be identified or not supported.";
+                throw new RemoteFetchCoreException("Unable to get Database Product Name. " + message);
+            }
+        } catch (TransactionException | SQLException e) {
             throw new RemoteFetchCoreException("Error listing BasicRemoteFetchConfigurations from database", e);
         }
     }
