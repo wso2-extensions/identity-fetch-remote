@@ -250,10 +250,67 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                                     preparedStatement.setInt(3, limit);
                                 })
                 );
+            } else if (databaseProductName.contains("Oracle")) {
+                String sql = SQLConstants.LIST_BASIC_CONFIGS_BY_TENANT_ORACLE_LIMIT_HEAD +
+                        SQLConstants.LIST_BASIC_CONFIGS_BY_TENANT_ORACLE +
+                        SQLConstants.LIST_BASIC_CONFIGS_BY_TENANT_ORACLE_LIMIT_TAIL;
+
+                return jdbcTemplate.withTransaction(template ->
+                        template.executeQuery(sql,
+                                ((resultSet, i) -> {
+                                    BasicRemoteFetchConfiguration obj = new BasicRemoteFetchConfiguration(
+                                            resultSet.getString(1),
+                                            resultSet.getString(2).equals("1"),
+                                            resultSet.getString(3),
+                                            resultSet.getString(4),
+                                            resultSet.getString(5),
+                                            resultSet.getString(6),
+                                            resultSet.getInt(7),
+                                            resultSet.getInt(8));
+                                    Timestamp lastDeployed = resultSet.getTimestamp(9);
+                                    if (lastDeployed != null) {
+                                        obj.setLastDeployed(new Date(lastDeployed.getTime()));
+                                    }
+                                    return obj;
+                                })
+                                , preparedStatement -> {
+                                    preparedStatement.setInt(1, tenantId);
+                                    preparedStatement.setInt(2, offset + limit);
+                                    preparedStatement.setInt(3, offset);
+                                })
+                );
+
+            } else if (databaseProductName.contains("Microsoft")) {
+
+                return jdbcTemplate.withTransaction(template ->
+                        template.executeQuery(SQLConstants.LIST_BASIC_CONFIGS_BY_TENANT_MSSQL,
+                                ((resultSet, i) -> {
+                                    BasicRemoteFetchConfiguration obj = new BasicRemoteFetchConfiguration(
+                                            resultSet.getString(1),
+                                            resultSet.getString(2).equals("1"),
+                                            resultSet.getString(3),
+                                            resultSet.getString(4),
+                                            resultSet.getString(5),
+                                            resultSet.getString(6),
+                                            resultSet.getInt(7),
+                                            resultSet.getInt(8));
+                                    Timestamp lastDeployed = resultSet.getTimestamp(9);
+                                    if (lastDeployed != null) {
+                                        obj.setLastDeployed(new Date(lastDeployed.getTime()));
+                                    }
+                                    return obj;
+                                })
+                                , preparedStatement -> {
+                                    preparedStatement.setInt(1, tenantId);
+                                    preparedStatement.setInt(2, offset);
+                                    preparedStatement.setInt(3, limit);
+                                })
+                );
+
             } else {
-                log.error("Error while loading Identity Provider from DB: Database driver could not be identified or "
-                        + "not supported.");
-                String message = "Error while loading Identity Provider from DB: Database driver " +
+                log.error("Error while loading Remote fetch configuration from DB: Database driver could not " +
+                        "be identified or not supported.");
+                String message = "Error while loading Remote fetch configuration from DB: Database driver " +
                         "could not be identified or not supported.";
                 throw new RemoteFetchCoreException("Unable to get Database Product Name. " + message);
             }
