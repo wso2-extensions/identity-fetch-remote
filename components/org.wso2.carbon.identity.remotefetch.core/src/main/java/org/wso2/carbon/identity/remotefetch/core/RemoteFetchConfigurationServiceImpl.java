@@ -216,10 +216,8 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
         }
 
         if (offset < 0) {
-            String message = "Invalid offset applied. Offset should not negative. offSet: " +
-                    offset;
-            throw new RemoteFetchCoreException("Unable to retrieve remote fetch configuration list " +
-                    message);
+            String message = "Invalid offset applied. Offset should not negative. offSet: " + offset;
+            throw new RemoteFetchCoreException("Unable to retrieve remote fetch configuration list " + message);
         }
         return offset;
     }

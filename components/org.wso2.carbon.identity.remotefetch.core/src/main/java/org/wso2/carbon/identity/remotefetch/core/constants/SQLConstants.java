@@ -28,6 +28,13 @@ public class SQLConstants {
     private static final String REVISION_DEPLOYMENT_OK = DeploymentRevision.DeploymentStatus.DEPLOYED.name();
     private static final String REVISION_DEPLOYMENT_FAIL = DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING.name();
 
+    public static final String DB_H2 = "H2";
+    public static final String DB_MYSQL = "MySQL";
+    public static final String DB_MSSQL = "Microsoft";
+    public static final String DB_POSTGRESQL = "PostgreSQL";
+    public static final String DB_DB2 = "DB2";
+    public static final String DB_ORACLE = "Oracle";
+
     // Revision Management SQL
     public static final String CREATE_REVISION = "INSERT INTO IDN_REMOTE_FETCH_REVISIONS (ID, CONFIG_ID, FILE_PATH, " +
             " FILE_HASH, ITEM_NAME) VALUES(?,?,?,?,?)";
@@ -155,5 +162,22 @@ public class SQLConstants {
                     " FROM IDN_REMOTE_FETCH_CONFIG" +
                     " WHERE IDN_REMOTE_FETCH_CONFIG.TENANT_ID = ? order by IDN_REMOTE_FETCH_CONFIG.TENANT_ID " +
                     "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY",
+            SQLConstants.REVISION_DEPLOYMENT_OK, SQLConstants.REVISION_DEPLOYMENT_FAIL);
+
+    public static final String LIST_BASIC_CONFIGS_BY_TENANT_POSTGRES_DB2 = String.format(
+            "SELECT IDN_REMOTE_FETCH_CONFIG.ID," +
+                    " IDN_REMOTE_FETCH_CONFIG.IS_ENABLED," +
+                    " IDN_REMOTE_FETCH_CONFIG.REPO_MANAGER_TYPE, IDN_REMOTE_FETCH_CONFIG.ACTION_LISTENER_TYPE," +
+                    " IDN_REMOTE_FETCH_CONFIG.CONFIG_DEPLOYER_TYPE ,IDN_REMOTE_FETCH_CONFIG.REMOTE_FETCH_NAME," +
+                    " (SELECT COUNT(IDN_REMOTE_FETCH_REVISIONS.ID) FROM IDN_REMOTE_FETCH_REVISIONS" +
+                    " WHERE IDN_REMOTE_FETCH_REVISIONS.CONFIG_ID = IDN_REMOTE_FETCH_CONFIG.ID AND" +
+                    " IDN_REMOTE_FETCH_REVISIONS.DEPLOYMENT_STATUS = '%s')," +
+                    " (SELECT COUNT(IDN_REMOTE_FETCH_REVISIONS.ID) FROM IDN_REMOTE_FETCH_REVISIONS" +
+                    " WHERE IDN_REMOTE_FETCH_REVISIONS.CONFIG_ID = IDN_REMOTE_FETCH_CONFIG.ID AND" +
+                    " IDN_REMOTE_FETCH_REVISIONS.DEPLOYMENT_STATUS = '%s')," +
+                    " (SELECT MAX(IDN_REMOTE_FETCH_REVISIONS.DEPLOYED_DATE) FROM IDN_REMOTE_FETCH_REVISIONS" +
+                    " WHERE IDN_REMOTE_FETCH_REVISIONS.CONFIG_ID = IDN_REMOTE_FETCH_CONFIG.ID)" +
+                    " FROM IDN_REMOTE_FETCH_CONFIG" +
+                    " WHERE IDN_REMOTE_FETCH_CONFIG.TENANT_ID = ? LIMIT ? OFFSET ?",
             SQLConstants.REVISION_DEPLOYMENT_OK, SQLConstants.REVISION_DEPLOYMENT_FAIL);
 }
