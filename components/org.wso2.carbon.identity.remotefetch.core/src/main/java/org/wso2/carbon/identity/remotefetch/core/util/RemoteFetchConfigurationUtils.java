@@ -86,7 +86,7 @@ public class RemoteFetchConfigurationUtils {
      *
      * @return defaultItemsPerPage
      */
-    public static int parseDefaultItemsPerPage() {
+    public static int getDefaultItemsPerPage() {
 
         int defaultItemsPerPage = RemoteFetchConstants.DEFAULT_ITEMS_PRE_PAGE;
         try {
@@ -108,7 +108,7 @@ public class RemoteFetchConfigurationUtils {
      * Get the Maximum Items per Page needed to display.
      * @return maximumItemsPerPage
      */
-    public static int parseMaximumItemPerPage() {
+    public static int getMaximumItemPerPage() {
 
         int maximumItemsPerPage = RemoteFetchConstants.DEFAULT_MAXIMUM_ITEMS_PRE_PAGE;
         String maximumItemsPerPagePropertyValue =

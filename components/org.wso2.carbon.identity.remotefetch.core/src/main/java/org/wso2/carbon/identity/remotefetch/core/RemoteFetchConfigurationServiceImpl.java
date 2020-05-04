@@ -50,12 +50,11 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
     private int defaultItemsPerPage;
     private int maximumItemsPerPage;
 
-    public RemoteFetchConfigurationServiceImpl(RemoteFetchTaskExecutor remoteFetchTaskExecutor,
-                                               int defaultItemsPerPage,
-                                               int maximumItemsPerPage) {
+    public RemoteFetchConfigurationServiceImpl(RemoteFetchTaskExecutor remoteFetchTaskExecutor) {
+
         this.remoteFetchTaskExecutor = remoteFetchTaskExecutor;
-        this.defaultItemsPerPage = defaultItemsPerPage;
-        this.maximumItemsPerPage = maximumItemsPerPage;
+        this.defaultItemsPerPage = RemoteFetchConfigurationUtils.getDefaultItemsPerPage();
+        this.maximumItemsPerPage = RemoteFetchConfigurationUtils.getMaximumItemPerPage();
     }
 
     /**

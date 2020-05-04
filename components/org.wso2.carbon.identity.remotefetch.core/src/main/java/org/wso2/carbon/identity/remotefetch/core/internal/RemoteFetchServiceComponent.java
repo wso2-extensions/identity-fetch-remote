@@ -66,9 +66,7 @@ public class RemoteFetchServiceComponent {
         remoteFetchTaskExecutor = new RemoteFetchTaskExecutor();
         remoteFetchTaskExecutor.createScheduler();
         RemoteFetchConfigurationService remoteFetchConfigurationService =
-                            new RemoteFetchConfigurationServiceImpl(remoteFetchTaskExecutor,
-                                    RemoteFetchConfigurationUtils.parseDefaultItemsPerPage(),
-                            RemoteFetchConfigurationUtils.parseMaximumItemPerPage());
+                            new RemoteFetchConfigurationServiceImpl(remoteFetchTaskExecutor);
         RemoteFetchCoreConfiguration fetchCoreConfiguration = this.parseRemoteFetchCoreConfiguration();
 
         remoteFetchComponentRegistry.registerRepositoryManager(new GitRepositoryManagerComponent());
