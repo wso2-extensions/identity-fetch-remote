@@ -47,9 +47,15 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
     private RemoteFetchConfigurationDAO fetchConfigurationDAO = new RemoteFetchConfigurationDAOImpl();
     private RemoteFetchTaskExecutor remoteFetchTaskExecutor;
 
+    private int defaultItemsPerPage;
+    private int maximumItemsPerPage;
 
-    public RemoteFetchConfigurationServiceImpl(RemoteFetchTaskExecutor remoteFetchTaskExecutor) {
+    public RemoteFetchConfigurationServiceImpl(RemoteFetchTaskExecutor remoteFetchTaskExecutor,
+                                               int defaultItemsPerPage,
+                                               int maximumItemsPerPage) {
         this.remoteFetchTaskExecutor = remoteFetchTaskExecutor;
+        this.defaultItemsPerPage = defaultItemsPerPage;
+        this.maximumItemsPerPage = maximumItemsPerPage;
     }
 
     /**
@@ -179,13 +185,13 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
      */
     private int validateLimit(OptionalInt optionalLimit) throws RemoteFetchCoreException {
 
-        int limit = optionalLimit.orElse(RemoteFetchConfigurationUtils.getDefaultItemsPerPage());
         if (log.isDebugEnabled()) {
             if (!(optionalLimit.isPresent())) {
-                log.debug("Given limit is null. Therefore we get the default limit: " + limit +
+                log.debug("Given limit is null. Therefore we get the default limit " +
                         " from identity.xml.");
             }
         }
+        int limit = optionalLimit.orElse(this.defaultItemsPerPage);
 
         if (limit < 0) {
             String message = "Given limit: " + limit + " is a negative value.";
@@ -193,7 +199,7 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
                     message);
         }
 
-        int maximumItemsPerPage = RemoteFetchConfigurationUtils.getMaximumItemsPerPage();
+        int maximumItemsPerPage = this.maximumItemsPerPage;
         if (limit > maximumItemsPerPage) {
             if (log.isDebugEnabled()) {
                 log.debug("Given limit exceed the maximum limit. Therefore we get the max limit from " +
