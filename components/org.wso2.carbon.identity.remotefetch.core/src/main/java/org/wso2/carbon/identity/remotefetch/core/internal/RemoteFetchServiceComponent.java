@@ -68,6 +68,7 @@ public class RemoteFetchServiceComponent {
         RemoteFetchConfigurationService remoteFetchConfigurationService =
                             new RemoteFetchConfigurationServiceImpl(remoteFetchTaskExecutor);
         RemoteFetchCoreConfiguration fetchCoreConfiguration = this.parseRemoteFetchCoreConfiguration();
+        this.parseItemsPerPage();
 
         remoteFetchComponentRegistry.registerRepositoryManager(new GitRepositoryManagerComponent());
         remoteFetchComponentRegistry.registerConfigDeployer(new ServiceProviderConfigDeployerComponent());
@@ -170,5 +171,10 @@ public class RemoteFetchServiceComponent {
             log.error("Error parsing RemoteFetchCoreConfiguration, Core disabled", e);
             return new RemoteFetchCoreConfiguration(null, false);
         }
+    }
+
+    private void parseItemsPerPage() {
+        RemoteFetchConfigurationUtils.parseDefaultItemsPerPage();
+        RemoteFetchConfigurationUtils.parseMaximumItemPerPage();
     }
 }

@@ -36,6 +36,25 @@ public class RemoteFetchConfigurationUtils {
 
     private static final Log log = LogFactory.getLog(RemoteFetchConfigurationUtils.class);
 
+    private static int defaultItemsPerPage;
+    private static int maximumItemsPerPage;
+
+    public static int getDefaultItemsPerPage() {
+        return defaultItemsPerPage;
+    }
+
+    public static void setDefaultItemsPerPage(int defaultItemsPerPage) {
+        RemoteFetchConfigurationUtils.defaultItemsPerPage = defaultItemsPerPage;
+    }
+
+    public static int getMaximumItemsPerPage() {
+        return maximumItemsPerPage;
+    }
+
+    public static void setMaximumItemsPerPage(int maximumItemsPerPage) {
+        RemoteFetchConfigurationUtils.maximumItemsPerPage = maximumItemsPerPage;
+    }
+
     /**
      * Parse configuration from deployment toml file.
      * @return RemoteFetchCoreConfiguration
@@ -79,46 +98,41 @@ public class RemoteFetchConfigurationUtils {
     }
 
     /**
-     * Get the Default Items per Page needed to display.
+     * Parse the Default Items per Page needed to display.
      *
-     * @return defaultItemsPerPage need to display.
      */
-    public static int getDefaultItemsPerPage() {
+    public static void parseDefaultItemsPerPage() {
 
-        int defaultItemsPerPage = RemoteFetchConstants.DEFAULT_ITEMS_PRE_PAGE;
+        setDefaultItemsPerPage(RemoteFetchConstants.DEFAULT_ITEMS_PRE_PAGE);
         try {
             String defaultItemsPerPageProperty = IdentityUtil.getProperty(RemoteFetchConstants
                     .DEFAULT_ITEMS_PRE_PAGE_PROPERTY);
             if (StringUtils.isNotBlank(defaultItemsPerPageProperty)) {
                 int defaultItemsPerPageConfig = Integer.parseInt(defaultItemsPerPageProperty);
                 if (defaultItemsPerPageConfig > 0) {
-                    defaultItemsPerPage = defaultItemsPerPageConfig;
+                    setDefaultItemsPerPage(defaultItemsPerPageConfig);
                 }
             }
         } catch (NumberFormatException e) {
             log.warn("Error occurred while parsing the 'DefaultItemsPerPage' property value in identity.xml.", e);
         }
-        return defaultItemsPerPage;
     }
 
     /**
      * Get the Maximum Items per Page needed to display.
      *
-     * @return maximumItemsPerPage need to display.
      */
-    public static int getMaximumItemPerPage() {
+    public static void parseMaximumItemPerPage() {
 
-        int maximumItemsPerPage = RemoteFetchConstants.DEFAULT_MAXIMUM_ITEMS_PRE_PAGE;
+        setMaximumItemsPerPage(RemoteFetchConstants.DEFAULT_MAXIMUM_ITEMS_PRE_PAGE);
         String maximumItemsPerPagePropertyValue =
                 IdentityUtil.getProperty(RemoteFetchConstants.MAXIMUM_ITEMS_PRE_PAGE_PROPERTY);
         if (StringUtils.isNotBlank(maximumItemsPerPagePropertyValue)) {
             try {
-                maximumItemsPerPage = Integer.parseInt(maximumItemsPerPagePropertyValue);
+                setMaximumItemsPerPage(Integer.parseInt(maximumItemsPerPagePropertyValue));
             } catch (NumberFormatException e) {
-                maximumItemsPerPage = RemoteFetchConstants.DEFAULT_MAXIMUM_ITEMS_PRE_PAGE;
                 log.warn("Error occurred while parsing the 'MaximumItemsPerPage' property value in identity.xml.", e);
             }
         }
-        return maximumItemsPerPage;
     }
 }

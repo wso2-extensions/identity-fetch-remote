@@ -179,13 +179,13 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
      */
     private int validateLimit(OptionalInt optionalLimit) throws RemoteFetchCoreException {
 
-        if (!(optionalLimit.isPresent())) {
-            if (log.isDebugEnabled()) {
-                log.debug("Given limit is null. Therefore we get the default limit from " +
-                        "identity.xml.");
+        int limit = optionalLimit.orElse(RemoteFetchConfigurationUtils.getDefaultItemsPerPage());
+        if (log.isDebugEnabled()) {
+            if (!(optionalLimit.isPresent())) {
+                log.debug("Given limit is null. Therefore we get the default limit: " + limit +
+                        " from identity.xml.");
             }
         }
-        int limit = optionalLimit.orElse(RemoteFetchConfigurationUtils.getDefaultItemsPerPage());
 
         if (limit < 0) {
             String message = "Given limit: " + limit + " is a negative value.";
@@ -193,7 +193,7 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
                     message);
         }
 
-        int maximumItemsPerPage = RemoteFetchConfigurationUtils.getMaximumItemPerPage();
+        int maximumItemsPerPage = RemoteFetchConfigurationUtils.getMaximumItemsPerPage();
         if (limit > maximumItemsPerPage) {
             if (log.isDebugEnabled()) {
                 log.debug("Given limit exceed the maximum limit. Therefore we get the default limit from " +
