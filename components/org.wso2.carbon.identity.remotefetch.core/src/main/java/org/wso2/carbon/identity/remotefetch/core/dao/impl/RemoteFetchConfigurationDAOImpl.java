@@ -215,8 +215,8 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
      */
     @Override
     public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationsByTenant(String tenantDomain,
-                                                                                         Integer limit,
-                                                                                         Integer offset)
+                                                                                         int limit,
+                                                                                         int offset)
             throws RemoteFetchCoreException {
 
         int tenantId = IdentityTenantUtil.getTenantId(tenantDomain);

@@ -87,8 +87,8 @@ public interface RemoteFetchConfigurationDAO {
      * @return
      * @throws RemoteFetchCoreException
      */
-    List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationsByTenant(String tenantDomain, Integer limit,
-                                                                                  Integer offset)
+    List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationsByTenant(String tenantDomain, int limit,
+                                                                                  int offset)
             throws RemoteFetchCoreException;
 
 }
