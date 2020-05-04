@@ -229,23 +229,8 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
 
                 return jdbcTemplate.withTransaction(template ->
                         template.executeQuery(SQLConstants.LIST_BASIC_CONFIGS_BY_TENANT_MYSQL,
-                                ((resultSet, i) -> {
-                                    BasicRemoteFetchConfiguration obj = new BasicRemoteFetchConfiguration(
-                                            resultSet.getString(1),
-                                            resultSet.getString(2).equals("1"),
-                                            resultSet.getString(3),
-                                            resultSet.getString(4),
-                                            resultSet.getString(5),
-                                            resultSet.getString(6),
-                                            resultSet.getInt(7),
-                                            resultSet.getInt(8));
-                                    Timestamp lastDeployed = resultSet.getTimestamp(9);
-                                    if (lastDeployed != null) {
-                                        obj.setLastDeployed(new Date(lastDeployed.getTime()));
-                                    }
-                                    return obj;
-                                })
-                                , preparedStatement -> {
+                                (resultSet, i) -> this.resultSetToBasicConfiguration(resultSet),
+                                preparedStatement -> {
                                     preparedStatement.setInt(1, tenantId);
                                     preparedStatement.setInt(2, offset);
                                     preparedStatement.setInt(3, limit);
@@ -258,23 +243,8 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
 
                 return jdbcTemplate.withTransaction(template ->
                         template.executeQuery(sql,
-                                ((resultSet, i) -> {
-                                    BasicRemoteFetchConfiguration obj = new BasicRemoteFetchConfiguration(
-                                            resultSet.getString(1),
-                                            resultSet.getString(2).equals("1"),
-                                            resultSet.getString(3),
-                                            resultSet.getString(4),
-                                            resultSet.getString(5),
-                                            resultSet.getString(6),
-                                            resultSet.getInt(7),
-                                            resultSet.getInt(8));
-                                    Timestamp lastDeployed = resultSet.getTimestamp(9);
-                                    if (lastDeployed != null) {
-                                        obj.setLastDeployed(new Date(lastDeployed.getTime()));
-                                    }
-                                    return obj;
-                                })
-                                , preparedStatement -> {
+                                (resultSet, i) -> this.resultSetToBasicConfiguration(resultSet),
+                                preparedStatement -> {
                                     preparedStatement.setInt(1, tenantId);
                                     preparedStatement.setInt(2, offset + limit);
                                     preparedStatement.setInt(3, offset);
@@ -285,23 +255,8 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
 
                 return jdbcTemplate.withTransaction(template ->
                         template.executeQuery(SQLConstants.LIST_BASIC_CONFIGS_BY_TENANT_MSSQL,
-                                ((resultSet, i) -> {
-                                    BasicRemoteFetchConfiguration obj = new BasicRemoteFetchConfiguration(
-                                            resultSet.getString(1),
-                                            resultSet.getString(2).equals("1"),
-                                            resultSet.getString(3),
-                                            resultSet.getString(4),
-                                            resultSet.getString(5),
-                                            resultSet.getString(6),
-                                            resultSet.getInt(7),
-                                            resultSet.getInt(8));
-                                    Timestamp lastDeployed = resultSet.getTimestamp(9);
-                                    if (lastDeployed != null) {
-                                        obj.setLastDeployed(new Date(lastDeployed.getTime()));
-                                    }
-                                    return obj;
-                                })
-                                , preparedStatement -> {
+                                (resultSet, i) -> this.resultSetToBasicConfiguration(resultSet),
+                                preparedStatement -> {
                                     preparedStatement.setInt(1, tenantId);
                                     preparedStatement.setInt(2, offset);
                                     preparedStatement.setInt(3, limit);
@@ -313,23 +268,8 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
 
                 return jdbcTemplate.withTransaction(template ->
                         template.executeQuery(SQLConstants.LIST_BASIC_CONFIGS_BY_TENANT_POSTGRES_DB2,
-                                ((resultSet, i) -> {
-                                    BasicRemoteFetchConfiguration obj = new BasicRemoteFetchConfiguration(
-                                            resultSet.getString(1),
-                                            resultSet.getString(2).equals("1"),
-                                            resultSet.getString(3),
-                                            resultSet.getString(4),
-                                            resultSet.getString(5),
-                                            resultSet.getString(6),
-                                            resultSet.getInt(7),
-                                            resultSet.getInt(8));
-                                    Timestamp lastDeployed = resultSet.getTimestamp(9);
-                                    if (lastDeployed != null) {
-                                        obj.setLastDeployed(new Date(lastDeployed.getTime()));
-                                    }
-                                    return obj;
-                                })
-                                , preparedStatement -> {
+                                (resultSet, i) -> this.resultSetToBasicConfiguration(resultSet),
+                                preparedStatement -> {
                                     preparedStatement.setInt(1, tenantId);
                                     preparedStatement.setInt(2, limit);
                                     preparedStatement.setInt(3, offset);
@@ -372,6 +312,24 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
         JSONObject attributesBundle = new JSONObject(resultSet.getString(8));
         this.mapAttributes(remoteFetchConfiguration, attributesBundle);
         return remoteFetchConfiguration;
+    }
+
+    private BasicRemoteFetchConfiguration resultSetToBasicConfiguration(ResultSet resultSet) throws SQLException {
+
+        BasicRemoteFetchConfiguration basicRemoteFetchConfiguration = new BasicRemoteFetchConfiguration(
+                resultSet.getString(1),
+                resultSet.getString(2).equals("1"),
+                resultSet.getString(3),
+                resultSet.getString(4),
+                resultSet.getString(5),
+                resultSet.getString(6),
+                resultSet.getInt(7),
+                resultSet.getInt(8));
+        Timestamp lastDeployed = resultSet.getTimestamp(9);
+        if (lastDeployed != null) {
+            basicRemoteFetchConfiguration.setLastDeployed(new Date(lastDeployed.getTime()));
+        }
+        return basicRemoteFetchConfiguration;
     }
 
     private void configurationToPreparedStatement(PreparedStatement preparedStatement,
