@@ -196,7 +196,7 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
         int maximumItemsPerPage = RemoteFetchConfigurationUtils.getMaximumItemsPerPage();
         if (limit > maximumItemsPerPage) {
             if (log.isDebugEnabled()) {
-                log.debug("Given limit exceed the maximum limit. Therefore we get the default limit from " +
+                log.debug("Given limit exceed the maximum limit. Therefore we get the max limit from " +
                         "identity.xml. limit: " + maximumItemsPerPage);
             }
             limit = maximumItemsPerPage;
