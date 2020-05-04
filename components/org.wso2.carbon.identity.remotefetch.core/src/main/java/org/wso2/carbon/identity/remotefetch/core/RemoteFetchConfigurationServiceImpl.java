@@ -35,6 +35,7 @@ import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationUt
 import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationValidator;
 
 import java.util.List;
+import java.util.OptionalInt;
 
 /**
  * Service to manage RemoteFetchConfigurations.
@@ -120,7 +121,8 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
      * @throws RemoteFetchCoreException
      */
     @Override
-    public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList(Integer limit, Integer offset)
+    public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList(OptionalInt limit,
+                                                                                    OptionalInt offset)
             throws RemoteFetchCoreException {
 
         return this.fetchConfigurationDAO.getBasicRemoteFetchConfigurationsByTenant
@@ -171,19 +173,20 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
 
     /**
      * Validate limit.
-     *
-     * @param limit given limit value.
+     * Check optionalLimit has a value, or else set to default value.
+     * @param optionalLimit given limit value.
      * @return validated limit and offset value.
      */
-    private int validateLimit(Integer limit) throws RemoteFetchCoreException {
+    private int validateLimit(OptionalInt optionalLimit) throws RemoteFetchCoreException {
 
-        if (limit == null) {
+        if (!(optionalLimit.isPresent())) {
             if (log.isDebugEnabled()) {
                 log.debug("Given limit is null. Therefore we get the default limit from " +
                         "identity.xml.");
             }
-            limit = RemoteFetchConfigurationUtils.getDefaultItemsPerPage();
         }
+        int limit = optionalLimit.orElse(RemoteFetchConfigurationUtils.getDefaultItemsPerPage());
+
         if (limit < 0) {
             String message = "Given limit: " + limit + " is a negative value.";
             throw new RemoteFetchCoreException("Unable to retrieve remote fetch configuration list " +
@@ -204,16 +207,13 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
     /**
      * Validate offset.
      *
-     * @param offset given offset value.
+     * @param optionalOffset given offset value.
      * @return validated limit and offset value.
      * @throws RemoteFetchCoreException Error while set offset
      */
-    private int validateOffset(Integer offset) throws RemoteFetchCoreException {
+    private int validateOffset(OptionalInt optionalOffset) throws RemoteFetchCoreException {
 
-        if (offset == null) {
-            // Return first page offset.
-            offset = 0;
-        }
+        int offset = optionalOffset.orElse(0);
 
         if (offset < 0) {
             String message = "Invalid offset applied. Offset should not negative. offSet: " + offset;
