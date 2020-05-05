@@ -80,6 +80,9 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
             fetchConfiguration.setRemoteFetchConfigurationId(remoteConfigurationId);
             this.fetchConfigurationDAO.createRemoteFetchConfiguration(fetchConfiguration);
             validationReport.setId(remoteConfigurationId);
+        } else {
+            throw RemoteFetchConfigurationUtils.handleClientException(RemoteFetchConstants.ErrorMessage.
+                    ERROR_CODE_RF_CONFIG_ADD_REQUEST_INVALID, validationReport.getMessages());
         }
 
         return validationReport;
@@ -103,6 +106,9 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
         if (validationReport.getValidationStatus() == ValidationReport.ValidationStatus.PASSED) {
             this.fetchConfigurationDAO.updateRemoteFetchConfiguration(fetchConfiguration);
             validationReport.setId(fetchConfiguration.getRemoteFetchConfigurationId());
+        } else {
+            throw RemoteFetchConfigurationUtils.handleClientException(RemoteFetchConstants.ErrorMessage.
+                    ERROR_CODE_RF_CONFIG_UPDATE_REQUEST_INVALID, validationReport.getMessages());
         }
 
         return validationReport;
@@ -194,8 +200,8 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
 
         if (limit < 0) {
             String message = "Given limit: " + limit + " is a negative value.";
-            throw new RemoteFetchCoreException("Unable to retrieve remote fetch configuration list " +
-                    message);
+            throw RemoteFetchConfigurationUtils.handleClientException(RemoteFetchConstants.ErrorMessage.
+                    ERROR_CODE_RF_CONFIG_GET_REQUEST_INVALID, message);
         }
 
         int maximumItemsPerPage = this.maximumItemsPerPage;
@@ -222,7 +228,8 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
 
         if (offset < 0) {
             String message = "Invalid offset applied. Offset should not negative. offSet: " + offset;
-            throw new RemoteFetchCoreException("Unable to retrieve remote fetch configuration list " + message);
+            throw RemoteFetchConfigurationUtils.handleClientException(RemoteFetchConstants.ErrorMessage.
+                    ERROR_CODE_RF_CONFIG_GET_REQUEST_INVALID, message);
         }
         return offset;
     }

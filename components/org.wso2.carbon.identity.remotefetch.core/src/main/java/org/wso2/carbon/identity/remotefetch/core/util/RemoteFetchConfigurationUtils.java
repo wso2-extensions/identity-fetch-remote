@@ -18,15 +18,20 @@
 
 package org.wso2.carbon.identity.remotefetch.core.util;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.identity.core.util.IdentityUtil;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchCoreConfiguration;
+import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchClientException;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
+import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchServerException;
 import org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants;
 
 import java.io.File;
+import java.util.Formatter;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -121,5 +126,103 @@ public class RemoteFetchConfigurationUtils {
             }
         }
         return maximumItemsPerPage;
+    }
+
+
+    /**
+     * This method is used to generate RemoteFetchClientException from RemoteFetchConstants.ErrorMessage
+     * when no exception is thrown.
+     * @param error RemoteFetchConstants.ErrorMessage
+     * @param data data to replace if message needs to be replaced.
+     * @return RemoteFetchClientException
+     */
+    public static RemoteFetchClientException handleClientException(RemoteFetchConstants.ErrorMessage error,
+                                                                   String data) {
+
+        String message = includeData(error, data);
+        return new RemoteFetchClientException(error.getCode(), message);
+
+    }
+
+    /**
+     * This method is used to generate RemoteFetchClientException from RemoteFetchConstants.ErrorMessage
+     * when no exception is thrown.
+     * @param error RemoteFetchConstants.ErrorMessage
+     * @param data data to replace if message needs to be replaced.
+     * @return RemoteFetchClientException
+     */
+    public static RemoteFetchClientException handleClientException(RemoteFetchConstants.ErrorMessage error,
+                                                                   List<String> data) {
+
+
+        StringBuilder exceptionStringBuilder = new StringBuilder();
+        if (CollectionUtils.isNotEmpty(data)) {
+            for (String exceptionString : data) {
+                exceptionStringBuilder.append(exceptionString);
+                exceptionStringBuilder.append(System.lineSeparator());
+            }
+        }
+        String message = includeData(error, exceptionStringBuilder.toString());
+        return new RemoteFetchClientException(error.getCode(), message);
+
+    }
+
+
+    /**
+     * This method is used to generate RemoteFetchServerException from RemoteFetchConstants.ErrorMessage
+     * when no exception is thrown.
+     * @param error RemoteFetchConstants.ErrorMessage
+     * @param data data to replace if message needs to be replaced.
+     * @return RemoteFetchServerException
+     */
+    public static RemoteFetchServerException handleServerException(RemoteFetchConstants.ErrorMessage error,
+                                                                   String data) {
+
+        String message = includeData(error, data);
+        return new RemoteFetchServerException(error.getCode(), message);
+
+    }
+
+    /**
+     * This method is used to generate RemoteFetchServerException from RemoteFetchConstants.ErrorMessage
+     * when no exception is thrown.
+     * @param error RemoteFetchConstants.ErrorMessage
+     * @param data data to replace if message needs to be replaced.
+     * @param e Throwable
+     * @return RemoteFetchServerException
+     */
+    public static RemoteFetchServerException handleServerException(RemoteFetchConstants.ErrorMessage error,
+                                                                   String data,
+                                                                   Throwable e) {
+
+        String message = includeData(error, data);
+        return new RemoteFetchServerException(error.getCode(), message, e);
+
+    }
+
+    /**
+     * This method is used to generate RemoteFetchServerException from RemoteFetchConstants.ErrorMessage
+     * when no exception is thrown.
+     * @param error RemoteFetchConstants.ErrorMessage
+     * @param e Throwable
+     * @return RemoteFetchServerException
+     */
+    public static RemoteFetchServerException handleServerException(RemoteFetchConstants.ErrorMessage error,
+                                                                   Throwable e) {
+
+        String message = error.getMessage();
+        return new RemoteFetchServerException(error.getCode(), message, e);
+
+    }
+
+    private static String includeData(RemoteFetchConstants.ErrorMessage error, String data) {
+
+        String message;
+        if (StringUtils.isNotBlank(data)) {
+            message = new Formatter().format(error.getMessage(), data).toString();
+        } else {
+            message = error.getMessage();
+        }
+        return message;
     }
 }

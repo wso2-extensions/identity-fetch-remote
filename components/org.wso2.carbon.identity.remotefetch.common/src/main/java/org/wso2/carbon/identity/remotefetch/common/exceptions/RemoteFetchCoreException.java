@@ -23,6 +23,8 @@ package org.wso2.carbon.identity.remotefetch.common.exceptions;
  */
 public class RemoteFetchCoreException extends Exception {
 
+    private String errorCode;
+
     public RemoteFetchCoreException(String message) {
 
         super(message);
@@ -31,6 +33,41 @@ public class RemoteFetchCoreException extends Exception {
     public RemoteFetchCoreException(String message, Throwable cause) {
 
         super(message, cause);
+    }
+
+    /**
+     * Constructs a new exception with the specified error code and cause.
+     *
+     * @param errorCode Error code
+     * @param message   Detailed message
+     */
+    public RemoteFetchCoreException(String errorCode, String message) {
+
+        super(message);
+        this.errorCode = errorCode;
+    }
+
+    /**
+     * Constructs a new exception with the specified error code, message and cause.
+     *
+     * @param errorCode Error code
+     * @param message   Detailed message
+     * @param cause     Cause as {@link Throwable}
+     */
+    public RemoteFetchCoreException(String errorCode, String message, Throwable cause) {
+
+        super(message, cause);
+        this.errorCode = errorCode;
+    }
+
+    /**
+     * Retuns the error code.
+     *
+     * @return Error code
+     */
+    public String getErrorCode() {
+
+        return errorCode;
     }
 
 }

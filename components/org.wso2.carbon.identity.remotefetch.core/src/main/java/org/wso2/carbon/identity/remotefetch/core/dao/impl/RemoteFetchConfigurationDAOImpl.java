@@ -29,9 +29,11 @@ import org.wso2.carbon.identity.core.util.IdentityTenantUtil;
 import org.wso2.carbon.identity.remotefetch.common.BasicRemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
+import org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants;
 import org.wso2.carbon.identity.remotefetch.core.constants.SQLConstants;
 import org.wso2.carbon.identity.remotefetch.core.dao.RemoteFetchConfigurationDAO;
 import org.wso2.carbon.identity.remotefetch.core.util.JdbcUtils;
+import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -86,8 +88,8 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                             , configuration, false)
             ;
         } catch (DataAccessException e) {
-            throw new RemoteFetchCoreException("Error creating new RemoteFetchConfiguration, caused by "
-                    + e.getMessage(), e);
+            throw RemoteFetchConfigurationUtils.handleServerException(RemoteFetchConstants.ErrorMessage.
+                    ERROR_CODE_ADD_RF_CONFIG, configuration.getRemoteFetchName(), e);
         }
     }
 
@@ -111,8 +113,8 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                             })
             );
         } catch (TransactionException e) {
-            throw new RemoteFetchCoreException("Error reading RemoteFetchConfiguration of id " +
-                    configurationId + " from database", e);
+            throw RemoteFetchConfigurationUtils.handleServerException(RemoteFetchConstants.ErrorMessage
+                    .ERROR_CODE_RETRIEVE_RF_CONFIG, configurationId, e);
         }
     }
 
@@ -138,8 +140,8 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                 return null;
             });
         } catch (TransactionException e) {
-            throw new RemoteFetchCoreException("Error updating RemoteFetchConfiguration of id "
-                    + configuration.getRemoteFetchConfigurationId(), e);
+            throw RemoteFetchConfigurationUtils.handleServerException(RemoteFetchConstants.ErrorMessage
+                    .ERROR_CODE_UPDATE_RF_CONFIG, configuration.getRemoteFetchName(), e);
         }
     }
 
@@ -165,7 +167,8 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                 return null;
             });
         } catch (TransactionException e) {
-            throw new RemoteFetchCoreException("Error Deleting DeploymentRevision of id " + configurationId, e);
+            throw RemoteFetchConfigurationUtils.handleServerException(RemoteFetchConstants.ErrorMessage.
+                    ERROR_CODE_DELETE_RF_CONFIG, configurationId, e);
         }
     }
 
@@ -204,7 +207,8 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                             preparedStatement -> preparedStatement.setInt(1, tenantId))
             );
         } catch (TransactionException e) {
-            throw new RemoteFetchCoreException("Error listing RemoteFetchConfigurations from database", e);
+            throw RemoteFetchConfigurationUtils.handleServerException(RemoteFetchConstants.ErrorMessage.
+                    ERROR_CODE_RETRIEVE_RF_CONFIGS, e);
         }
     }
 
@@ -280,10 +284,14 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                         "be identified or not supported.");
                 String message = "Error while loading Remote fetch configuration from DB: Database driver " +
                         "could not be identified or not supported.";
-                throw new RemoteFetchCoreException("Unable to get Database Product Name. " + message);
+                throw RemoteFetchConfigurationUtils.handleServerException(RemoteFetchConstants.ErrorMessage
+                        .ERROR_CODE_CONNECTING_DATABASE, message);
             }
         } catch (TransactionException | SQLException e) {
-            throw new RemoteFetchCoreException("Error listing BasicRemoteFetchConfigurations from database", e);
+            String message = "Error occurred while retrieving Remote Fetch Configuration for tenant: " +
+                    tenantDomain;
+            throw RemoteFetchConfigurationUtils.handleServerException(RemoteFetchConstants.ErrorMessage.
+                    ERROR_CODE_RETRIEVE_RF_CONFIGS, message, e);
         }
     }
 
