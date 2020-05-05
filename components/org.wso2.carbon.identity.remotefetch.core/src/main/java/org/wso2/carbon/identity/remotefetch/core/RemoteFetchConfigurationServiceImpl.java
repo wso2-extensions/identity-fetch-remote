@@ -35,6 +35,7 @@ import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationUt
 import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationValidator;
 
 import java.util.List;
+import java.util.OptionalInt;
 
 /**
  * Service to manage RemoteFetchConfigurations.
@@ -46,9 +47,14 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
     private RemoteFetchConfigurationDAO fetchConfigurationDAO = new RemoteFetchConfigurationDAOImpl();
     private RemoteFetchTaskExecutor remoteFetchTaskExecutor;
 
+    private int defaultItemsPerPage;
+    private int maximumItemsPerPage;
 
     public RemoteFetchConfigurationServiceImpl(RemoteFetchTaskExecutor remoteFetchTaskExecutor) {
+
         this.remoteFetchTaskExecutor = remoteFetchTaskExecutor;
+        this.defaultItemsPerPage = RemoteFetchConfigurationUtils.getDefaultItemsPerPage();
+        this.maximumItemsPerPage = RemoteFetchConfigurationUtils.getMaximumItemPerPage();
     }
 
     /**
@@ -120,11 +126,14 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
      * @throws RemoteFetchCoreException
      */
     @Override
-    public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList()
+    public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList(OptionalInt limit,
+                                                                                    OptionalInt offset)
             throws RemoteFetchCoreException {
 
         return this.fetchConfigurationDAO.getBasicRemoteFetchConfigurationsByTenant
-                (CarbonContext.getThreadLocalCarbonContext().getTenantDomain());
+                (CarbonContext.getThreadLocalCarbonContext().getTenantDomain(),
+                        validateLimit(limit),
+                        validateOffset(offset));
     }
 
     /**
@@ -165,5 +174,56 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
             log.debug("Immediate Task was created and executed for : " +
                     fetchConfiguration.getRemoteFetchConfigurationId());
         }
+    }
+
+    /**
+     * Validate limit.
+     * Check optionalLimit has a value, or else set to default value.
+     * @param optionalLimit given limit value.
+     * @return validated limit and offset value.
+     */
+    private int validateLimit(OptionalInt optionalLimit) throws RemoteFetchCoreException {
+
+        if (log.isDebugEnabled()) {
+            if (!(optionalLimit.isPresent())) {
+                log.debug("Given limit is null. Therefore we get the default limit " +
+                        " from identity.xml.");
+            }
+        }
+        int limit = optionalLimit.orElse(this.defaultItemsPerPage);
+
+        if (limit < 0) {
+            String message = "Given limit: " + limit + " is a negative value.";
+            throw new RemoteFetchCoreException("Unable to retrieve remote fetch configuration list " +
+                    message);
+        }
+
+        int maximumItemsPerPage = this.maximumItemsPerPage;
+        if (limit > maximumItemsPerPage) {
+            if (log.isDebugEnabled()) {
+                log.debug("Given limit exceed the maximum limit. Therefore we get the max limit from " +
+                        "identity.xml. limit: " + maximumItemsPerPage);
+            }
+            limit = maximumItemsPerPage;
+        }
+        return limit;
+    }
+
+    /**
+     * Validate offset.
+     *
+     * @param optionalOffset given offset value.
+     * @return validated limit and offset value.
+     * @throws RemoteFetchCoreException Error while set offset
+     */
+    private int validateOffset(OptionalInt optionalOffset) throws RemoteFetchCoreException {
+
+        int offset = optionalOffset.orElse(0);
+
+        if (offset < 0) {
+            String message = "Invalid offset applied. Offset should not negative. offSet: " + offset;
+            throw new RemoteFetchCoreException("Unable to retrieve remote fetch configuration list " + message);
+        }
+        return offset;
     }
 }

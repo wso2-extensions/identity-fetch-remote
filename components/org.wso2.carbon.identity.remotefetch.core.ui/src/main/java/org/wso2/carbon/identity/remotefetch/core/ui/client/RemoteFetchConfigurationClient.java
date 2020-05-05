@@ -34,6 +34,7 @@ import org.wso2.carbon.identity.remotefetch.core.ui.dto.RemoteFetchConfiguration
 import org.wso2.carbon.identity.remotefetch.core.ui.internal.RemotefetchCoreUIComponentDataHolder;
 
 import java.util.List;
+import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
 /**
@@ -44,15 +45,18 @@ public class RemoteFetchConfigurationClient {
     private static final String TYPE_REPOSITORY_MANAGER = "GIT";
     private static final String TYPE_ACTION_LISTENER = "POLLING";
     private static final String TYPE_CONFIG_DEPLOYER = "SP";
+    private static final int DEFAULT_LIMIT = 10;
+    private static final int DEFAULT_OFFSET = 0;
 
     private static final Log log = LogFactory.getLog(RemoteFetchConfigurationClient.class);
 
     public static List<RemoteFetchConfigurationRowDTO> getConfigurations() throws RemoteFetchCoreException {
 
-
+        OptionalInt optionalLimit = OptionalInt.of(DEFAULT_LIMIT);
+        OptionalInt optionalOffset = OptionalInt.of(DEFAULT_OFFSET);
         List<BasicRemoteFetchConfiguration> fetchConfigurations = RemotefetchCoreUIComponentDataHolder
                 .getInstance().getRemoteFetchConfigurationService()
-                .getBasicRemoteFetchConfigurationList();
+                .getBasicRemoteFetchConfigurationList(optionalLimit, optionalOffset);
 
         return fetchConfigurations.stream().map((basicFetchConfiguration ->
                 RemoteFetchConfigurationClient.fetchConfigurationToDTO(basicFetchConfiguration)

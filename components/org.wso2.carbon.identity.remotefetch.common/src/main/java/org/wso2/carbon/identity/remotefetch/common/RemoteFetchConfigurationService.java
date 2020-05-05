@@ -21,6 +21,7 @@ package org.wso2.carbon.identity.remotefetch.common;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 
 import java.util.List;
+import java.util.OptionalInt;
 
 /**
  * Interface for service that allows management of remote fetch configurations.
@@ -62,10 +63,12 @@ public interface RemoteFetchConfigurationService {
     /**
      * This method is used to call by clients to get list of BasicRemoteFetchConfiguration by tenantID.
      * This method is called by clients in list view.
+     * @param limit
+     * @param offset
      * @return List of BasicRemoteFetchConfiguration
      * @throws RemoteFetchCoreException
      */
-    List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList()
+    List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList(OptionalInt limit, OptionalInt offset)
             throws RemoteFetchCoreException;
 
     /**

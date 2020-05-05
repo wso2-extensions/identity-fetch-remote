@@ -44,7 +44,7 @@ public class GitRepositoryManagerBuilder extends RepositoryManagerBuilder {
         File directory;
         String token;
         String userName;
-        CredentialsProvider credentials;
+        CredentialsProvider credentials = null;
 
         if (repoAttributes.containsKey("uri")) {
             uri = repoAttributes.get("uri");
@@ -64,21 +64,12 @@ public class GitRepositoryManagerBuilder extends RepositoryManagerBuilder {
             throw new RepositoryManagerBuilderException("Directory not available in configuration");
         }
 
-        if (repoAttributes.containsKey("accessToken")) {
+        if (repoAttributes.containsKey("accessToken") && (repoAttributes.containsKey("userName"))) {
+
             token = repoAttributes.get("accessToken");
-        } else {
-            throw new RepositoryManagerBuilderException("Access token is not specified in" +
-                    " RemoteFetchConfiguration Repository");
-        }
-
-        if (repoAttributes.containsKey("userName")) {
             userName = repoAttributes.get("userName");
-        } else {
-            throw new RepositoryManagerBuilderException("User name is not specified in" +
-                    " RemoteFetchConfiguration Repository");
+            credentials = new UsernamePasswordCredentialsProvider(userName, token);
         }
-
-        credentials = new UsernamePasswordCredentialsProvider(userName, token);
 
         return new GitRepositoryManager("repo-" + this.getFetchConfig().getRemoteFetchConfigurationId()
                 , uri, branch, directory, this.getFetchCoreConfiguration().getWorkingDirectory(), credentials);
