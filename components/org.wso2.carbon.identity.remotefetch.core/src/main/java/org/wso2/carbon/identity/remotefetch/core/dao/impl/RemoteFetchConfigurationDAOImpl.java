@@ -133,7 +133,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                 jdbcTemplate.executeUpdate(SQLConstants.UPDATE_CONFIG,
                         preparedStatement -> {
                             this.configurationToPreparedStatement(preparedStatement, configuration);
-                            preparedStatement.setString(8, configuration.getRemoteFetchConfigurationId());
+                            preparedStatement.setString(9, configuration.getRemoteFetchConfigurationId());
 
                         }
 
@@ -319,7 +319,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                 resultSet.getString(7),
                 resultSet.getString(8)
         );
-        JSONObject attributesBundle = new JSONObject(resultSet.getString(8));
+        JSONObject attributesBundle = new JSONObject(resultSet.getString(9));
         this.mapAttributes(remoteFetchConfiguration, attributesBundle);
         return remoteFetchConfiguration;
     }

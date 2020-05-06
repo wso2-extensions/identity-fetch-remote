@@ -41,7 +41,7 @@ public class DAOTestUtils {
 
     private static final String CREATE_CONFIG = "INSERT INTO IDN_REMOTE_FETCH_CONFIG (ID, TENANT_ID, IS_ENABLED, " +
             "REPO_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE, " +
-            " ATTRIBUTES_JSON, REMOTE_FETCH_NAME  ) VALUES (?,?,?,?,?,?,?,?)";
+            " ATTRIBUTES_JSON, REMOTE_FETCH_NAME,REMOTE_RESOURCE_URI  ) VALUES (?,?,?,?,?,?,?,?,?)";
 
     public static void initiateH2Base(String databaseName, String scriptPath) throws Exception {
 
@@ -90,7 +90,8 @@ public class DAOTestUtils {
 
     public static void createFetchConfig(String databaseName, String id, int tenantId, boolean isEnabled,
                                          String repoManagerType, String actionListenerType,
-                                         String configDeployerType, JSONObject attributes, String remoteFetchName)
+                                         String configDeployerType, JSONObject attributes, String remoteFetchName,
+                                         String remoteResourceUri)
             throws Exception {
 
         try (Connection connection = getConnection(databaseName);
@@ -103,6 +104,7 @@ public class DAOTestUtils {
             preparedStatement.setString(6, configDeployerType);
             preparedStatement.setString(7, attributes.toString());
             preparedStatement.setString(8, remoteFetchName);
+            preparedStatement.setString(9, remoteResourceUri);
             preparedStatement.execute();
         }
     }

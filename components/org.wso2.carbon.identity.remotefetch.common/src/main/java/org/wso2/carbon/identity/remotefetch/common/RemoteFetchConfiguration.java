@@ -281,7 +281,7 @@ public class RemoteFetchConfiguration {
      */
     public void deriveRemoteResourceURI() {
 
-        if ("GIT".equals(repositoryManagerType)) {
+        if ("GIT".equals(this.repositoryManagerType)) {
             String repoURI = this.repositoryManagerAttributes.get("uri");
             String branch = this.repositoryManagerAttributes.get("branch");
             String directory = this.repositoryManagerAttributes.get("directory");

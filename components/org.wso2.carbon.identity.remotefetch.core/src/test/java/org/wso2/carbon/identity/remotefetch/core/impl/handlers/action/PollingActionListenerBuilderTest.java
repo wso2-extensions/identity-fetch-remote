@@ -73,7 +73,8 @@ public class PollingActionListenerBuilderTest extends PowerMockTestCase {
             ("00000000-0000-0000-0000-d29bed62f7bd",
             -1234,
             true, "GIT", "POLLING",
-            "SP", "RemoteFetchTest");
+            "SP", "RemoteFetchTest",
+                    "https://github.com/IS/Test2.git/tree/master/sp");
 
     @ObjectFactory
     public IObjectFactory getObjectFactory() {

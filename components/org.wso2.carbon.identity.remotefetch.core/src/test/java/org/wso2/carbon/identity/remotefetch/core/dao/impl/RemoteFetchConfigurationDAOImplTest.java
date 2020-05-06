@@ -53,7 +53,7 @@ public class RemoteFetchConfigurationDAOImplTest extends PowerMockTestCase {
     RemoteFetchConfigurationDAOImpl remoteFetchConfigurationDAO = new RemoteFetchConfigurationDAOImpl();
     RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration(remoteFetchConfigurationId,
             TestConstants.TENANT_ID, false, null, null,
-            null, null);
+            null, null, null);
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -174,6 +174,7 @@ public class RemoteFetchConfigurationDAOImplTest extends PowerMockTestCase {
         remoteFetchConfiguration.setActionListenerAttributes(TestConstants.actionListenerAttributes);
         remoteFetchConfiguration.setConfigurationDeployerAttributes(TestConstants.configurationDeployerAttributes);
         remoteFetchConfiguration.setRepositoryManagerAttributes(TestConstants.repositoryManagerAttributes);
+        remoteFetchConfiguration.deriveRemoteResourceURI();
         return remoteFetchConfiguration;
     }
 
