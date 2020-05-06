@@ -34,6 +34,8 @@ public class DeploymentRevision {
     private Date deployedDate;
     private DeploymentStatus deploymentStatus;
     private String itemName;
+    private String errorType;
+    private String errorMessage;
 
     /**
      * Status pf Deployment.
@@ -188,5 +190,25 @@ public class DeploymentRevision {
     public void setItemName(String itemName) {
 
         this.itemName = itemName;
+    }
+
+    public String getErrorType() {
+
+        return errorType;
+    }
+
+    public void setErrorType(String errorType) {
+
+        this.errorType = errorType;
+    }
+
+    public String getErrorMessage() {
+
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+
+        this.errorMessage = errorMessage;
     }
 }

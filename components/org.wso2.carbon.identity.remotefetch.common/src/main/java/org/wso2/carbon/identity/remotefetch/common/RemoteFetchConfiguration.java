@@ -37,6 +37,7 @@ public class RemoteFetchConfiguration {
     private String repositoryManagerType = "";
     private String actionListenerType = "";
     private String configurationDeployerType = "";
+    private String remoteResourceURI = "";
     private Map<String, String> repositoryManagerAttributes = new HashMap<>();
     private Map<String, String> actionListenerAttributes = new HashMap<>();
     private Map<String, String> configurationDeployerAttributes = new HashMap<>();
@@ -47,7 +48,8 @@ public class RemoteFetchConfiguration {
     public RemoteFetchConfiguration(String remoteFetchConfigurationId, int tenantId,
                                     boolean isEnabled,
                                     String repositoryManagerType, String actionListenerType,
-                                    String configurationDeployerType, String remoteFetchName) {
+                                    String configurationDeployerType, String remoteFetchName,
+                                    String remoteResourceURI) {
 
         this.remoteFetchConfigurationId = remoteFetchConfigurationId;
         this.tenantId = tenantId;
@@ -56,12 +58,14 @@ public class RemoteFetchConfiguration {
         this.repositoryManagerType = repositoryManagerType;
         this.actionListenerType = actionListenerType;
         this.configurationDeployerType = configurationDeployerType;
+        this.remoteResourceURI = remoteResourceURI;
     }
 
     /**
      * Tenant Id is used derived from carbon context while creation.
      * removing this tenant Id attribute  from this class produce malfunction because auto pull threads may not
      * have carbon context but it needs to deploy configuration.
+     *
      * @return tenantId
      */
     public int getTenantId() {
@@ -92,6 +96,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * set tenantId using carbon context.
+     *
      * @param tenantId
      */
     public void setTenantId(int tenantId) {
@@ -101,6 +106,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * boolean parameter used to represent that auto pull is enabled for this remoteFetchConfiguration or not.
+     *
      * @return isEnabled
      */
     public boolean isEnabled() {
@@ -110,6 +116,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * set isEnabled.
+     *
      * @param isEnabled isEnabled
      */
     public void setEnabled(boolean isEnabled) {
@@ -119,6 +126,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * unique ID to represent this configuration.
+     *
      * @return
      */
     public String getRemoteFetchConfigurationId() {
@@ -128,6 +136,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * set RemoteFetchConfigurationId.
+     *
      * @param remoteFetchConfigurationId remoteFetchConfigurationId
      */
     public void setRemoteFetchConfigurationId(String remoteFetchConfigurationId) {
@@ -138,6 +147,7 @@ public class RemoteFetchConfiguration {
     /**
      * This string refers the type of remote repository manager eg : "GIT".
      * {@link org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager}
+     *
      * @return repositoryManagerType
      */
     public String getRepositoryManagerType() {
@@ -147,6 +157,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * Set RepositoryManagerType.
+     *
      * @param repositoryManagerType repositoryManagerType
      */
     public void setRepositoryManagerType(String repositoryManagerType) {
@@ -157,6 +168,7 @@ public class RemoteFetchConfiguration {
     /**
      * This string refers the type of actionListener eg: "POLLING".
      * {@link org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListener}
+     *
      * @return actionListenerType
      */
     public String getActionListenerType() {
@@ -166,6 +178,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * Set ActionListenerType.
+     *
      * @param actionListenerType actionListenerType
      */
     public void setActionListenerType(String actionListenerType) {
@@ -184,6 +197,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * Set ConfigurationDeployerType.
+     *
      * @param configurationDeployerType configurationDeployerType
      */
     public void setConfigurationDeployerType(String configurationDeployerType) {
@@ -193,6 +207,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * RepositoryManagerAttributes Holds Configurations regarding RepositoryManager.
+     *
      * @return repositoryManagerAttributes
      */
     public Map<String, String> getRepositoryManagerAttributes() {
@@ -202,6 +217,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * set RepositoryManagerAttributes.
+     *
      * @param repositoryManagerAttributes repositoryManagerAttributes
      */
     public void setRepositoryManagerAttributes(Map<String, String> repositoryManagerAttributes) {
@@ -211,6 +227,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * ActionListenerAttributes holds configurations regarding Action Listener.
+     *
      * @return actionListenerAttributes
      */
     public Map<String, String> getActionListenerAttributes() {
@@ -220,6 +237,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * set ActionListenerAttributes.
+     *
      * @param actionListenerAttributes actionListenerAttributes
      */
     public void setActionListenerAttributes(Map<String, String> actionListenerAttributes) {
@@ -229,6 +247,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * ConfigurationDeployerAttributes holds configuration regarding ConfigurationDeployer.
+     *
      * @return configurationDeployerAttributes
      */
     public Map<String, String> getConfigurationDeployerAttributes() {
@@ -238,6 +257,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * set ConfigurationDeployerAttributes.
+     *
      * @param configurationDeployerAttributes configurationDeployerAttributes
      */
     public void setConfigurationDeployerAttributes(Map<String, String> configurationDeployerAttributes) {
@@ -246,7 +266,36 @@ public class RemoteFetchConfiguration {
     }
 
     /**
+     * Remote URI is combination of repo url, repo branch and directory path.
+     * This attribute is to avoid duplicate entry for same remoteResourceURI
+     *
+     * @return
+     */
+    public String getRemoteResourceURI() {
+
+        return remoteResourceURI;
+    }
+
+    /**
+     * derive RemoteResourceURI from RepositoryManagerAttributes.
+     */
+    public void deriveRemoteResourceURI() {
+
+        if ("GIT".equals(repositoryManagerType)) {
+            String repoURI = this.repositoryManagerAttributes.get("uri");
+            String branch = this.repositoryManagerAttributes.get("branch");
+            String directory = this.repositoryManagerAttributes.get("directory");
+
+            this.remoteResourceURI = repoURI + "/" +
+                    "tree" + "/" + branch +
+                    "/" + directory;
+        }
+
+    }
+
+    /**
      * Compare calling remotefetchConfiguration with given parameter.
+     *
      * @param o object.
      * @return equals or not.
      */
@@ -274,6 +323,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * return hashCOde of the object.
+     *
      * @return hashCode
      */
     @Override
@@ -286,6 +336,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * To string method.
+     *
      * @return toString
      */
     @Override

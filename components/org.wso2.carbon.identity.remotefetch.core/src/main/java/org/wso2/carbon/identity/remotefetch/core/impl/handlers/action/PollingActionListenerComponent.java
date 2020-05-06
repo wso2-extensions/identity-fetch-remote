@@ -21,6 +21,7 @@ package org.wso2.carbon.identity.remotefetch.core.impl.handlers.action;
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListenerBuilder;
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListenerComponent;
 import org.wso2.carbon.identity.remotefetch.common.ui.UIField;
+import org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants;
 
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class PollingActionListenerComponent implements ActionListenerComponent {
     @Override
     public String getIdentifier() {
 
-        return "POLLING";
+        return RemoteFetchConstants.IDENTIFIER_POLLING_ACTION_LISTENER_COMPONENT;
     }
 
     @Override

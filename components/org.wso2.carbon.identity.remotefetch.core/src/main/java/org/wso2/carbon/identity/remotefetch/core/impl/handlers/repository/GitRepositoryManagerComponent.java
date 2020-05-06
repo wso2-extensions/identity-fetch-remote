@@ -21,9 +21,11 @@ package org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository;
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManagerBuilder;
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManagerComponent;
 import org.wso2.carbon.identity.remotefetch.common.ui.UIField;
+import org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Holds functions git repo for UI elements.
@@ -39,7 +41,7 @@ public class GitRepositoryManagerComponent implements RepositoryManagerComponent
     @Override
     public String getIdentifier() {
 
-        return "GIT";
+        return RemoteFetchConstants.IDENTIFIER_GIT_REPOSITORY_MANAGER_COMPONENT;
     }
 
     @Override

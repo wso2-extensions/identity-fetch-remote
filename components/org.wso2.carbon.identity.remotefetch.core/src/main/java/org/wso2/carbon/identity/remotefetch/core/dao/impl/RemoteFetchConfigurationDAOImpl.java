@@ -84,6 +84,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
 
                                 preparedStatement.setString(7, attributesBundle.toString(FACTOR_INDENT));
                                 preparedStatement.setString(8, configuration.getRemoteFetchName());
+                                preparedStatement.setString(9, configuration.getRemoteResourceURI());
                                 }
                             , configuration, false)
             ;
@@ -315,7 +316,8 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                 resultSet.getString(4),
                 resultSet.getString(5),
                 resultSet.getString(6),
-                resultSet.getString(7)
+                resultSet.getString(7),
+                resultSet.getString(8)
         );
         JSONObject attributesBundle = new JSONObject(resultSet.getString(8));
         this.mapAttributes(remoteFetchConfiguration, attributesBundle);
@@ -354,6 +356,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
 
         preparedStatement.setString(6, attributesBundle.toString(FACTOR_INDENT));
         preparedStatement.setString(7, configuration.getRemoteFetchName());
+        preparedStatement.setString(8, configuration.getRemoteResourceURI());
 
     }
 

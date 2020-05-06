@@ -21,6 +21,7 @@ package org.wso2.carbon.identity.remotefetch.core.impl.deployers.config;
 import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployerBuilder;
 import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployerComponent;
 import org.wso2.carbon.identity.remotefetch.common.ui.UIField;
+import org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants;
 
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class ServiceProviderConfigDeployerComponent implements ConfigDeployerCom
     @Override
     public String getIdentifier() {
 
-        return "SP";
+        return RemoteFetchConstants.IDENTIFIER_SERVICE_PROVIDER_CONFIG_DEPLOYER_COMPONENT;
     }
 
     @Override

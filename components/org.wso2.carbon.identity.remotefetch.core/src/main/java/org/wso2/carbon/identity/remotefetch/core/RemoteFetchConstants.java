@@ -38,6 +38,14 @@ public class RemoteFetchConstants {
     public static final String MAXIMUM_ITEMS_PRE_PAGE_PROPERTY = "MaximumItemsPerPage";
     public static final String DEFAULT_ITEMS_PRE_PAGE_PROPERTY = "DefaultItemsPerPage";
 
+    public static final String IDENTIFIER_GIT_REPOSITORY_MANAGER_COMPONENT = "GIT";
+    public static final String IDENTIFIER_POLLING_ACTION_LISTENER_COMPONENT = "POLLING";
+    public static final String IDENTIFIER_SERVICE_PROVIDER_CONFIG_DEPLOYER_COMPONENT = "SP";
+    public static final String URL_DELIMITER = "/";
+    public static final String TREE = "tree";
+
+
+
     /**
      * Grouping of constants related to database table names.
      */
