@@ -64,4 +64,59 @@ public class RemoteFetchConstants {
         public static final String ITEM_NAME = "ITEM_NAME";
 
     }
+
+
+    /**
+     * Error message for client and server exceptions.
+     */
+    public enum ErrorMessage {
+
+        ERROR_CODE_UNEXPECTED("RFE-65001", "Unexpected Error"),
+        ERROR_CODE_ADD_RF_CONFIG("RFE-65002", "Error while adding the Remote Fetch Configuration: %s."),
+        ERROR_CODE_RETRIEVE_RF_CONFIG("RFE-65003",
+                "Error while getting the Remote Fetch Configuration: %s."),
+        ERROR_CODE_DELETE_RF_CONFIG("RFE-65004", "Error while deleting Remote Fetch Configuration: %s."),
+        ERROR_CODE_UPDATE_RF_CONFIG("RFE-65005", "Error while updating Remote Fetch Configuration: %s."),
+        ERROR_CODE_CONNECTING_DATABASE("RFE-65006", "Error while connecting database. %s"),
+        ERROR_CODE_RETRIEVE_RF_CONFIGS("RFE-65007", "Error while retrieving " +
+                "Remote Fetch Configurations."),
+
+        ERROR_CODE_RF_CONFIG_ALREADY_EXISTS("RFE-60001",
+                "Remote Fetch Configuration with the name: %s already exists."),
+        ERROR_CODE_RF_CONFIG_DOES_NOT_EXIST("RFE-60002",
+                "Remote Fetch Configuration with resource ID: %s does not exists."),
+        ERROR_CODE_RF_CONFIG_ADD_REQUEST_INVALID("RFE-60003",
+                "Remote Fetch Configuration add request validation failed. %s"),
+        ERROR_CODE_RF_CONFIG_GET_REQUEST_INVALID("RFE-60004",
+                "Remote Fetch Configuration get request validation failed. %s"),
+        ERROR_CODE_RF_CONFIG_DELETE_REQUEST_INVALID("RFE-60005",
+                "Remote Fetch Configuration delete request validation failed. %s"),
+        ERROR_CODE_RF_CONFIG_UPDATE_REQUEST_INVALID("RFE-60006",
+                "Remote Fetch Configuration update request validation failed. %s");
+
+        private final String code;
+        private final String message;
+
+        ErrorMessage(String code, String message) {
+
+            this.code = code;
+            this.message = message;
+        }
+
+        public String getCode() {
+
+            return code;
+        }
+
+        public String getMessage() {
+
+            return message;
+        }
+
+        @Override
+        public String toString() {
+
+            return code + ":" + message;
+        }
+    }
 }

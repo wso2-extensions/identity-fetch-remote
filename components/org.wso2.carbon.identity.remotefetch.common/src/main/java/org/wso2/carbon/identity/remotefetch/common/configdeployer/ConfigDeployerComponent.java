@@ -18,14 +18,12 @@
 
 package org.wso2.carbon.identity.remotefetch.common.configdeployer;
 
-import org.wso2.carbon.identity.remotefetch.common.ui.UIField;
-
-import java.util.List;
+import org.wso2.carbon.identity.remotefetch.common.RemoteFetchComponent;
 
 /**
  * Interface to implement a reference to the builder of the component.
  */
-public interface ConfigDeployerComponent {
+public interface ConfigDeployerComponent extends RemoteFetchComponent {
 
     /**
      * Returns a new builder object for the component.
@@ -34,24 +32,4 @@ public interface ConfigDeployerComponent {
      */
     ConfigDeployerBuilder getConfigDeployerBuilder();
 
-    /**
-     * Returns a string of the unique identifier of the component.
-     *
-     * @return
-     */
-    String getIdentifier();
-
-    /**
-     * Returns screen name of the component.
-     *
-     * @return
-     */
-    String getName();
-
-    /**
-     * Returns list of UIFields to configure UI.
-     *
-     * @return
-     */
-    List<UIField> getUIFields();
 }

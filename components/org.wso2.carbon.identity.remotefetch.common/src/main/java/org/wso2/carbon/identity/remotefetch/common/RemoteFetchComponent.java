@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -16,20 +16,35 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.remotefetch.common.repomanager;
+package org.wso2.carbon.identity.remotefetch.common;
 
-import org.wso2.carbon.identity.remotefetch.common.RemoteFetchComponent;
+import org.wso2.carbon.identity.remotefetch.common.ui.UIField;
+
+import java.util.List;
 
 /**
- * Interface to implement a reference to the builder of the component.
+ * Interface to implement to common gunctionalities of the component.
  */
-public interface RepositoryManagerComponent extends RemoteFetchComponent {
+public interface RemoteFetchComponent {
 
     /**
-     * Returns a new builder object for the component.
+     * Returns a string of the unique identifier of the component.
      *
      * @return
      */
-    RepositoryManagerBuilder getRepositoryManagerBuilder();
+    String getIdentifier();
 
+    /**
+     * Returns screen name of the component.
+     *
+     * @return
+     */
+    String getName();
+
+    /**
+     * Returns list of UIFields to configure UI.
+     *
+     * @return
+     */
+    List<UIField> getUIFields();
 }

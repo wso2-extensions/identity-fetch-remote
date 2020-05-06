@@ -14,4 +14,9 @@
     <Match>
         <Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" />
     </Match>
+    <!--    Cause : This bug warning raised because of include data in client/server exception. -->
+    <!--    Reason : Defined static final error messages are used to get format-->
+    <Match>
+        <Bug pattern="FORMAT_STRING_MANIPULATION" />
+    </Match>
 </FindBugsFilter>
