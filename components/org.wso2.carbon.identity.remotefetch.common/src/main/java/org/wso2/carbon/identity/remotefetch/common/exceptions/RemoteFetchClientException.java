@@ -24,18 +24,22 @@ package org.wso2.carbon.identity.remotefetch.common.exceptions;
 public class RemoteFetchClientException extends RemoteFetchCoreException {
 
     public RemoteFetchClientException(String message) {
+
         super(message);
     }
 
     public RemoteFetchClientException(String message, Throwable cause) {
+
         super(message, cause);
     }
 
     public RemoteFetchClientException(String errorCode, String message) {
+
         super(errorCode, message);
     }
 
     public RemoteFetchClientException(String errorCode, String message, Throwable cause) {
+
         super(errorCode, message, cause);
     }
 }

@@ -94,7 +94,6 @@ public class RemoteFetchConstants {
         ERROR_CODE_RF_CONFIG_UPDATE_REQUEST_INVALID("RFE-60006",
                 "Remote Fetch Configuration update request validation failed. %s");
 
-
         private final String code;
         private final String message;
 

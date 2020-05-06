@@ -141,7 +141,6 @@ public class RemoteFetchConfigurationUtils {
 
         String message = includeData(error, data);
         return new RemoteFetchClientException(error.getCode(), message);
-
     }
 
     /**
@@ -154,7 +153,6 @@ public class RemoteFetchConfigurationUtils {
     public static RemoteFetchClientException handleClientException(RemoteFetchConstants.ErrorMessage error,
                                                                    List<String> data) {
 
-
         StringBuilder exceptionStringBuilder = new StringBuilder();
         if (CollectionUtils.isNotEmpty(data)) {
             for (String exceptionString : data) {
@@ -164,7 +162,6 @@ public class RemoteFetchConfigurationUtils {
         }
         String message = includeData(error, exceptionStringBuilder.toString());
         return new RemoteFetchClientException(error.getCode(), message);
-
     }
 
 
@@ -180,7 +177,6 @@ public class RemoteFetchConfigurationUtils {
 
         String message = includeData(error, data);
         return new RemoteFetchServerException(error.getCode(), message);
-
     }
 
     /**
@@ -197,7 +193,6 @@ public class RemoteFetchConfigurationUtils {
 
         String message = includeData(error, data);
         return new RemoteFetchServerException(error.getCode(), message, e);
-
     }
 
     /**
@@ -212,7 +207,6 @@ public class RemoteFetchConfigurationUtils {
 
         String message = error.getMessage();
         return new RemoteFetchServerException(error.getCode(), message, e);
-
     }
 
     private static String includeData(RemoteFetchConstants.ErrorMessage error, String data) {
