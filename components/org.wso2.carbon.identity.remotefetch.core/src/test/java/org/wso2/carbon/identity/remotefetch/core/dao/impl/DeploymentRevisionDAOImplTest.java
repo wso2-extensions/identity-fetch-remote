@@ -177,6 +177,7 @@ public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
         deploymentRevision.setConfigId(configId);
         deploymentRevision.setDeployedDate(date);
         deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.DEPLOYED);
+        deploymentRevision.setErrorMessage("Test Error Message");
         return deploymentRevision;
     }
 

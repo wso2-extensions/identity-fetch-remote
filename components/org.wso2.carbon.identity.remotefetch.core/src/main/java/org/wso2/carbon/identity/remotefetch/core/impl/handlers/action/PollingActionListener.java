@@ -31,6 +31,7 @@ import org.wso2.carbon.identity.remotefetch.core.dao.DeploymentRevisionDAO;
 import org.wso2.carbon.identity.remotefetch.core.dao.impl.DeploymentRevisionDAOImpl;
 import org.wso2.carbon.identity.remotefetch.core.impl.deployers.config.VelocityTemplatedSPDeployer;
 import org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository.GitRepositoryManager;
+import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -218,10 +219,12 @@ public class PollingActionListener implements ActionListener {
                     velocityTemplatedSPDeployer.deploy(configurationFileStream);
 
                     deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.DEPLOYED);
+                    deploymentRevision.setErrorMessage(null);
 
                 } catch (RemoteFetchCoreException | IOException e) {
                     log.error("Error Deploying " + sanitize(deploymentRevision.getFile().getName()), e);
                     deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING);
+                    deploymentRevision.setErrorMessage(RemoteFetchConfigurationUtils.trimErrorMessage(e.getMessage()));
                 }
 
                 // Set new deployment Date

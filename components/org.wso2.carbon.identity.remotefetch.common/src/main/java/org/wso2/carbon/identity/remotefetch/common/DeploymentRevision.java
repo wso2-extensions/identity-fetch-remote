@@ -34,7 +34,6 @@ public class DeploymentRevision {
     private Date deployedDate;
     private DeploymentStatus deploymentStatus;
     private String itemName;
-    private String errorType;
     private String errorMessage;
 
     /**
@@ -190,16 +189,6 @@ public class DeploymentRevision {
     public void setItemName(String itemName) {
 
         this.itemName = itemName;
-    }
-
-    public String getErrorType() {
-
-        return errorType;
-    }
-
-    public void setErrorType(String errorType) {
-
-        this.errorType = errorType;
     }
 
     public String getErrorMessage() {

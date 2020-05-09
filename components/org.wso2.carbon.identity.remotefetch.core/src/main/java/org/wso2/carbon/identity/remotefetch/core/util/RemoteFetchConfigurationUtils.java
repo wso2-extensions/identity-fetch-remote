@@ -219,4 +219,9 @@ public class RemoteFetchConfigurationUtils {
         }
         return message;
     }
+
+    public static String trimErrorMessage(String message) {
+
+        return message;
+    }
 }
