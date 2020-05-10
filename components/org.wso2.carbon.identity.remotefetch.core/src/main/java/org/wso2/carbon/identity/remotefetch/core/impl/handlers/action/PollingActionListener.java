@@ -134,7 +134,13 @@ public class PollingActionListener implements ActionListener {
         });
     }
 
-    private void updateRevisionBeforeDeploy(String fileName, File configPath, Throwable exception) {
+    /**
+     * Update revision if error occurred while resolving the application name.
+     * @param fileName File name.
+     * @param configPath Service provider file.
+     * @param exception
+     */
+    private void updateRevisionBeforeDeploy(String fileName, File configPath, RemoteFetchCoreException exception) {
 
         StringBuilder exceptionStringBuilder = new StringBuilder();
 
@@ -145,6 +151,8 @@ public class PollingActionListener implements ActionListener {
         currentDeploymentRevision.setErrorMessage(
                 RemoteFetchConfigurationUtils.trimErrorMessage(exceptionStringBuilder.toString(),
                         exception));
+        currentDeploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING);
+        currentDeploymentRevision.setDeployedDate(new Date());
         if (!currentDeploymentRevision.getFile().equals(configPath)) {
             currentDeploymentRevision.setFile(configPath);
         }
@@ -156,13 +164,18 @@ public class PollingActionListener implements ActionListener {
 
     }
 
+    /**
+     * Create revision if error occurred while resolving the application name.
+     * @param fileName Filename.
+     * @param configPath Service Provider Path.
+     * @param exception
+     */
     private void createRevisionBeforeDeploy(String fileName, File configPath,
-                                            Throwable exception) {
+                                            RemoteFetchCoreException exception) {
 
         StringBuilder exceptionStringBuilder = new StringBuilder();
 
-        exceptionStringBuilder.append("Unable to resolve configuration name for file " +
-                fileName);
+        exceptionStringBuilder.append("Unable to resolve configuration name for file ").append(fileName);
         exceptionStringBuilder.append(exception.getMessage());
 
         try {
@@ -174,9 +187,11 @@ public class PollingActionListener implements ActionListener {
             deploymentRevision.setFileHash("");
             deploymentRevision.setItemName(fileName);
             deploymentRevision.setDeploymentRevisionId(deploymentRevisionId);
+            deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING);
             deploymentRevision.setErrorMessage(
                     RemoteFetchConfigurationUtils.trimErrorMessage(exceptionStringBuilder.toString(),
                             exception));
+            deploymentRevision.setDeployedDate(new Date());
             this.deploymentRevisionDAO.createDeploymentRevision(deploymentRevision);
             this.deploymentRevisionMapNotResolved.put(deploymentRevision.getItemName(), deploymentRevision);
         } catch (RemoteFetchCoreException e) {

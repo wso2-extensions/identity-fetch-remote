@@ -55,6 +55,17 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
                         preparedStatement.setString(4, deploymentRevision.getFileHash());
                         preparedStatement.setString(5, deploymentRevision.getItemName());
                         preparedStatement.setString(6, deploymentRevision.getErrorMessage());
+                        if (deploymentRevision.getDeployedDate() != null) {
+                            preparedStatement.setTimestamp(7,
+                                    new Timestamp(deploymentRevision.getDeployedDate().getTime()));
+                        } else {
+                            preparedStatement.setTimestamp(7, null);
+                        }
+                        if (deploymentRevision.getDeploymentStatus() != null) {
+                            preparedStatement.setString(8, deploymentRevision.getDeploymentStatus().name());
+                        } else {
+                            preparedStatement.setTimestamp(8, null);
+                        }
                     }, deploymentRevision, false)
             );
         } catch (TransactionException e) {
