@@ -31,7 +31,6 @@ import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager
 import org.wso2.carbon.identity.remotefetch.core.dao.DeploymentRevisionDAO;
 import org.wso2.carbon.identity.remotefetch.core.dao.impl.DeploymentRevisionDAOImpl;
 import org.wso2.carbon.identity.remotefetch.core.impl.deployers.config.VelocityTemplatedSPDeployer;
-import org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository.GitRepositoryManager;
 import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationUtils;
 
 import java.io.File;
@@ -51,7 +50,7 @@ import static org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigur
  */
 public class PollingActionListener implements ActionListener {
 
-    private static final Log log = LogFactory.getLog(GitRepositoryManager.class);
+    private static final Log log = LogFactory.getLog(PollingActionListener.class);
 
     private RepositoryManager repo;
     private Integer frequency;

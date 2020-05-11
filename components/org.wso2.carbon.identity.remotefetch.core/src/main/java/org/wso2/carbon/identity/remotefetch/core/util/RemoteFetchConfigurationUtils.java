@@ -24,11 +24,11 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.identity.core.util.IdentityUtil;
+import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchCoreConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchClientException;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchServerException;
-import org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants;
 
 import java.io.File;
 import java.util.Formatter;

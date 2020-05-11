@@ -28,8 +28,8 @@ import org.wso2.carbon.identity.core.util.IdentityDatabaseUtil;
 import org.wso2.carbon.identity.core.util.IdentityTenantUtil;
 import org.wso2.carbon.identity.remotefetch.common.BasicRemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
+import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
-import org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants;
 import org.wso2.carbon.identity.remotefetch.core.constants.SQLConstants;
 import org.wso2.carbon.identity.remotefetch.core.dao.RemoteFetchConfigurationDAO;
 import org.wso2.carbon.identity.remotefetch.core.util.JdbcUtils;
@@ -45,10 +45,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants.ATTRIBUTE_ACTION_LISTENER;
-import static org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants.ATTRIBUTE_CONFIG_DEPLOYER;
-import static org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants.ATTRIBUTE_REPOSITORY_MANAGER;
-import static org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants.FACTOR_INDENT;
+import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.ATTRIBUTE_ACTION_LISTENER;
+import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.ATTRIBUTE_CONFIG_DEPLOYER;
+import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.ATTRIBUTE_REPOSITORY_MANAGER;
+import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.FACTOR_INDENT;
 
 /**
  * This class accesses IDN_REMOTE_FETCH_CONFIG table to store/update and delete Remote Fetch configurations.

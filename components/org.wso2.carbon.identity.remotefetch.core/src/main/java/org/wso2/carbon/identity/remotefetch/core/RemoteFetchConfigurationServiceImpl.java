@@ -26,6 +26,7 @@ import org.wso2.carbon.identity.remotefetch.common.BasicRemoteFetchConfiguration
 import org.wso2.carbon.identity.remotefetch.common.DeploymentRevision;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfigurationService;
+import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants;
 import org.wso2.carbon.identity.remotefetch.common.ValidationReport;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 import org.wso2.carbon.identity.remotefetch.core.dao.RemoteFetchConfigurationDAO;

@@ -18,6 +18,9 @@
 
 package org.wso2.carbon.identity.remotefetch.common;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -29,6 +32,8 @@ import java.util.Objects;
  * Used auto pull schedulers at runtime.
  */
 public class RemoteFetchConfiguration {
+
+    private static final Log log = LogFactory.getLog(RemoteFetchConfiguration.class);
 
     private String remoteFetchConfigurationId;
     private int tenantId = 0;
@@ -277,18 +282,27 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * Set RemoteResourceURI from RepositoryManagerAttributes.
+     * Generate RemoteResourceURI from RepositoryManagerAttributes.
      */
-    public void setRemoteResourceURI(String repositoryManagerType) {
+    public void generateResourceURIFromRepoManager() {
 
-        if (this.repositoryManagerType.equals(repositoryManagerType)) {
-            String repoURI = this.repositoryManagerAttributes.get("uri");
-            String branch = this.repositoryManagerAttributes.get("branch");
-            String directory = this.repositoryManagerAttributes.get("directory");
+        if (this.repositoryManagerAttributes != null) {
+            if (this.repositoryManagerType.equals(RemoteFetchConstants.IDENTIFIER_GIT_REPOSITORY_MANAGER_COMPONENT)) {
+                String repoURI = this.repositoryManagerAttributes.get(RemoteFetchConstants.ID_UI_FIELD_URI);
+                String branch = this.repositoryManagerAttributes.get(RemoteFetchConstants.ID_UI_FIELD_BRANCH);
+                String directory = this.repositoryManagerAttributes.get(RemoteFetchConstants.ID_UI_FIELD_DIRECTORY);
 
-            this.remoteResourceURI = repoURI + "/" +
-                    "tree" + "/" + branch +
-                    "/" + directory;
+                this.remoteResourceURI = repoURI + RemoteFetchConstants.URL_DELIMITER +
+                        RemoteFetchConstants.TREE + RemoteFetchConstants.URL_DELIMITER + branch +
+                        RemoteFetchConstants.URL_DELIMITER + directory;
+                if (log.isDebugEnabled()) {
+                    log.debug("Remote resource URI is generated from Repo Manager Attributes.");
+                }
+            }
+        } else {
+            if (log.isDebugEnabled()) {
+                log.debug("Repository Manager Attribute is null. Unable to generate Remote resource URI.");
+            }
         }
 
     }

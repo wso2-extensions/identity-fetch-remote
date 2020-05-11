@@ -137,6 +137,7 @@ public class RemoteFetchConfigurationClient {
         fetchConfiguration.setActionListenerType(TYPE_ACTION_LISTENER);
         fetchConfiguration.setConfigurationDeployerType(TYPE_CONFIG_DEPLOYER);
         fetchConfiguration.setRepositoryManagerType(TYPE_REPOSITORY_MANAGER);
+        fetchConfiguration.generateResourceURIFromRepoManager();
 
         return RemotefetchCoreUIComponentDataHolder.getInstance()
                 .getRemoteFetchConfigurationService()
@@ -153,7 +154,6 @@ public class RemoteFetchConfigurationClient {
 
         Gson gson = new Gson();
         RemoteFetchConfiguration fetchConfiguration = gson.fromJson(jsonObject, RemoteFetchConfiguration.class);
-        fetchConfiguration.setRemoteResourceURI(fetchConfiguration.getRepositoryManagerType());
         fetchConfiguration.setTenantId(CarbonContext.getThreadLocalCarbonContext().getTenantId());
         return fetchConfiguration;
     }

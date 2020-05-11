@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.remotefetch.core;
+package org.wso2.carbon.identity.remotefetch.common;
 
 /**
  * Definitions of few constants shared across with other components from this component.
@@ -43,6 +43,10 @@ public class RemoteFetchConstants {
     public static final String IDENTIFIER_SERVICE_PROVIDER_CONFIG_DEPLOYER_COMPONENT = "SP";
     public static final String URL_DELIMITER = "/";
     public static final String TREE = "tree";
+
+    public static final String ID_UI_FIELD_URI = "uri";
+    public static final String ID_UI_FIELD_BRANCH = "branch";
+    public static final String ID_UI_FIELD_DIRECTORY = "directory";
 
 
 

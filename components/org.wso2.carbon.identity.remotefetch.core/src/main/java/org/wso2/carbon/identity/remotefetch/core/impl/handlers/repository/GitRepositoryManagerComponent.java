@@ -18,10 +18,10 @@
 
 package org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository;
 
+import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants;
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManagerBuilder;
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManagerComponent;
 import org.wso2.carbon.identity.remotefetch.common.ui.UIField;
-import org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,20 +56,21 @@ public class GitRepositoryManagerComponent implements RepositoryManagerComponent
         ArrayList<UIField> fieldList = new ArrayList();
 
         fieldList.add(new UIField(
-                "uri", UIField.FieldTypes.TEXT_BOX, "Git Repository URI",
+                RemoteFetchConstants.ID_UI_FIELD_URI, UIField.FieldTypes.TEXT_BOX, "Git Repository URI",
                 "Https url of the repo",
                 "((\\w+:\\/\\/)[-a-zA-Z0-9:@;?&=\\/%\\+\\.\\*!'\\(\\),\\$_\\{\\}\\^~\\[\\]`#|]+)",
                 "", true, false, false
 
         ));
         fieldList.add(new UIField(
-                "branch", UIField.FieldTypes.TEXT_BOX, "Branch", "Branch to be pulled",
+                RemoteFetchConstants.ID_UI_FIELD_BRANCH, UIField.FieldTypes.TEXT_BOX,
+                "Branch", "Branch to be pulled",
                 "",
                 "master", true, false, false
 
         ));
         fieldList.add(new UIField(
-                "directory", UIField.FieldTypes.TEXT_BOX, "Directory",
+                RemoteFetchConstants.ID_UI_FIELD_DIRECTORY, UIField.FieldTypes.TEXT_BOX, "Directory",
                 "Directory of target files",
                 "^(((\\/)|(\\.)\\/|(\\.\\.)\\/))*(((\\w+)|(\\.\\.)|(\\.))*\\/)*(\\w*)$",
                 "", true, false, false
