@@ -64,7 +64,7 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
                         if (deploymentRevision.getDeploymentStatus() != null) {
                             preparedStatement.setString(8, deploymentRevision.getDeploymentStatus().name());
                         } else {
-                            preparedStatement.setTimestamp(8, null);
+                            preparedStatement.setString(8, null);
                         }
                     }, deploymentRevision, false)
             );

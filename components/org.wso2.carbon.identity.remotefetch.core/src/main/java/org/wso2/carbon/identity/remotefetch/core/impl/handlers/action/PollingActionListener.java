@@ -114,9 +114,9 @@ public class PollingActionListener implements ActionListener {
                     this.deploymentRevisionMapNotResolved.put(fileName, deploymentRevisionMap.remove(fileName));
                 }
                 if (this.deploymentRevisionMapNotResolved.containsKey(fileName)) {
-                    updateRevisionBeforeDeploy(fileName, configPath, e);
+                    updateRevisionNotResolved(fileName, configPath, e);
                 } else {
-                    createRevisionBeforeDeploy(fileName, configPath, e);
+                    createRevisionNotResolved(fileName, configPath, e);
                 }
             }
 
@@ -139,7 +139,7 @@ public class PollingActionListener implements ActionListener {
      * @param configPath Service provider file.
      * @param exception
      */
-    private void updateRevisionBeforeDeploy(String fileName, File configPath, RemoteFetchCoreException exception) {
+    private void updateRevisionNotResolved(String fileName, File configPath, RemoteFetchCoreException exception) {
 
         StringBuilder exceptionStringBuilder = new StringBuilder();
 
@@ -169,8 +169,8 @@ public class PollingActionListener implements ActionListener {
      * @param configPath Service Provider Path.
      * @param exception
      */
-    private void createRevisionBeforeDeploy(String fileName, File configPath,
-                                            RemoteFetchCoreException exception) {
+    private void createRevisionNotResolved(String fileName, File configPath,
+                                           RemoteFetchCoreException exception) {
 
         StringBuilder exceptionStringBuilder = new StringBuilder();
 
