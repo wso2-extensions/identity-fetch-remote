@@ -137,7 +137,6 @@ public class RemoteFetchConfigurationClient {
         fetchConfiguration.setActionListenerType(TYPE_ACTION_LISTENER);
         fetchConfiguration.setConfigurationDeployerType(TYPE_CONFIG_DEPLOYER);
         fetchConfiguration.setRepositoryManagerType(TYPE_REPOSITORY_MANAGER);
-        fetchConfiguration.generateResourceURIFromRepoManager();
 
         return RemotefetchCoreUIComponentDataHolder.getInstance()
                 .getRemoteFetchConfigurationService()

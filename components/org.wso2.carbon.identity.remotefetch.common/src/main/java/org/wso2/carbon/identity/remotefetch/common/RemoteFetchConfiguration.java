@@ -278,13 +278,19 @@ public class RemoteFetchConfiguration {
      */
     public String getRemoteResourceURI() {
 
+        if (remoteResourceURI != null) {
+            return remoteResourceURI;
+        } else {
+
+            this.generateResourceURIFromRepoManager();
+        }
         return remoteResourceURI;
     }
 
     /**
      * Generate RemoteResourceURI from RepositoryManagerAttributes.
      */
-    public void generateResourceURIFromRepoManager() {
+    private void generateResourceURIFromRepoManager() {
 
         if (this.repositoryManagerAttributes != null) {
             if (this.repositoryManagerType.equals(RemoteFetchConstants.IDENTIFIER_GIT_REPOSITORY_MANAGER_COMPONENT)) {
