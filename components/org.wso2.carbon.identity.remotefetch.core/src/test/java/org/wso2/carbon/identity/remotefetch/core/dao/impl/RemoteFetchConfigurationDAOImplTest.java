@@ -174,7 +174,7 @@ public class RemoteFetchConfigurationDAOImplTest extends PowerMockTestCase {
         remoteFetchConfiguration.setActionListenerAttributes(TestConstants.actionListenerAttributes);
         remoteFetchConfiguration.setConfigurationDeployerAttributes(TestConstants.configurationDeployerAttributes);
         remoteFetchConfiguration.setRepositoryManagerAttributes(TestConstants.repositoryManagerAttributes);
-        remoteFetchConfiguration.deriveRemoteResourceURI();
+        remoteFetchConfiguration.setRemoteResourceURI(TestConstants.REPO_MANAGER_TYPE);
         return remoteFetchConfiguration;
     }
 
