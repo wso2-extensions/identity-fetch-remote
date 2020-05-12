@@ -21,7 +21,7 @@
     <parent>
         <artifactId>identity-fetch-remote</artifactId>
         <groupId>org.wso2.carbon.identity.fetch.remote</groupId>
-        <version>0.7.7-SNAPSHOT</version>
+        <version>0.7.7</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
