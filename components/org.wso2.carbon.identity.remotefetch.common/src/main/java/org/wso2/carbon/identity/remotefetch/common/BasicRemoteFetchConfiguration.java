@@ -36,6 +36,23 @@ public class BasicRemoteFetchConfiguration {
     private int failedDeployments;
     private Date lastDeployed = null;
 
+    /**
+     * Default Constructor used by DAO.
+     */
+    public BasicRemoteFetchConfiguration() {
+    }
+
+    /**
+     * Following constructor is used only by Test classes.
+     * @param id
+     * @param isEnabled
+     * @param repositoryManagerType
+     * @param actionListenerType
+     * @param configurationDeployerType
+     * @param remoteFetchName
+     * @param successfulDeployments
+     * @param failedDeployments
+     */
     public BasicRemoteFetchConfiguration(String id, boolean isEnabled,
                                          String repositoryManagerType,
                                          String actionListenerType, String configurationDeployerType,
@@ -153,4 +170,79 @@ public class BasicRemoteFetchConfiguration {
         }
     }
 
+    /**
+     * Set Unique Id for basic remote fetch configuration.
+     * @param id
+     */
+    public void setId(String id) {
+
+        this.id = id;
+    }
+
+    /**
+     * Set enabled attribute for basic remote fetch configuration.
+     * This attribute eligible corresponding fettch configuration to trigger periodically.
+     * @param enabled
+     */
+    public void setEnabled(boolean enabled) {
+
+        isEnabled = enabled;
+    }
+
+    /**
+     * Set readable name for remote fetch configuration.
+     * @param remoteFetchName
+     */
+    public void setRemoteFetchName(String remoteFetchName) {
+
+        this.remoteFetchName = remoteFetchName;
+    }
+
+    /**
+     * Set Repository Manager Type.
+     * @see org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager
+     * @param repositoryManagerType
+     */
+    public void setRepositoryManagerType(String repositoryManagerType) {
+
+        this.repositoryManagerType = repositoryManagerType;
+    }
+
+    /**
+     * Set Action Listener Type.
+     * @see org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListener
+     * @param actionListenerType
+     */
+    public void setActionListenerType(String actionListenerType) {
+
+        this.actionListenerType = actionListenerType;
+    }
+
+    /**
+     * Set Config Deployer type.
+     * @see org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployer
+     * @param configurationDeployerType
+     */
+    public void setConfigurationDeployerType(String configurationDeployerType) {
+
+        this.configurationDeployerType = configurationDeployerType;
+    }
+
+    /**
+     * Set number of successful deployment deployed in last trigger.
+     * @param successfulDeployments
+     */
+    public void setSuccessfulDeployments(int successfulDeployments) {
+
+        this.successfulDeployments = successfulDeployments;
+    }
+
+    /**
+     * Set number of failed deployment deployed in last trigger.
+     * @param failedDeployments
+     */
+    public void setFailedDeployments(int failedDeployments) {
+
+        this.failedDeployments = failedDeployments;
+    }
 }

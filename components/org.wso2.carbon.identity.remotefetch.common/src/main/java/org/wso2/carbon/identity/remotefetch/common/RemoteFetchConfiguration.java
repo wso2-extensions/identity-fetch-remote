@@ -47,9 +47,23 @@ public class RemoteFetchConfiguration {
     private Map<String, String> actionListenerAttributes = new HashMap<>();
     private Map<String, String> configurationDeployerAttributes = new HashMap<>();
 
+    /**
+     * Default Constructor used by DAOs and clients.
+     */
     public RemoteFetchConfiguration() {
     }
 
+    /**
+     * Following constructor is used only by Test classes.
+     * @param remoteFetchConfigurationId
+     * @param tenantId
+     * @param isEnabled
+     * @param repositoryManagerType
+     * @param actionListenerType
+     * @param configurationDeployerType
+     * @param remoteFetchName
+     * @param remoteResourceURI
+     */
     public RemoteFetchConfiguration(String remoteFetchConfigurationId, int tenantId,
                                     boolean isEnabled,
                                     String repositoryManagerType, String actionListenerType,
@@ -310,7 +324,15 @@ public class RemoteFetchConfiguration {
                 log.debug("Repository Manager Attribute is null. Unable to generate Remote resource URI.");
             }
         }
+    }
 
+    /**
+     * Set Remote resource URI.
+     * @param remoteResourceURI
+     */
+    public void setRemoteResourceURI(String remoteResourceURI) {
+
+        this.remoteResourceURI = remoteResourceURI;
     }
 
     /**
