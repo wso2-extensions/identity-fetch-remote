@@ -28,8 +28,8 @@ import org.wso2.carbon.identity.core.util.IdentityDatabaseUtil;
 import org.wso2.carbon.identity.core.util.IdentityTenantUtil;
 import org.wso2.carbon.identity.remotefetch.common.BasicRemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
+import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
-import org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants;
 import org.wso2.carbon.identity.remotefetch.core.constants.SQLConstants;
 import org.wso2.carbon.identity.remotefetch.core.dao.RemoteFetchConfigurationDAO;
 import org.wso2.carbon.identity.remotefetch.core.util.JdbcUtils;
@@ -45,10 +45,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants.ATTRIBUTE_ACTION_LISTENER;
-import static org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants.ATTRIBUTE_CONFIG_DEPLOYER;
-import static org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants.ATTRIBUTE_REPOSITORY_MANAGER;
-import static org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants.FACTOR_INDENT;
+import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.ATTRIBUTE_ACTION_LISTENER;
+import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.ATTRIBUTE_CONFIG_DEPLOYER;
+import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.ATTRIBUTE_REPOSITORY_MANAGER;
+import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.FACTOR_INDENT;
 
 /**
  * This class accesses IDN_REMOTE_FETCH_CONFIG table to store/update and delete Remote Fetch configurations.
@@ -84,6 +84,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
 
                                 preparedStatement.setString(7, attributesBundle.toString(FACTOR_INDENT));
                                 preparedStatement.setString(8, configuration.getRemoteFetchName());
+                                preparedStatement.setString(9, configuration.getRemoteResourceURI());
                                 }
                             , configuration, false)
             ;
@@ -132,7 +133,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                 jdbcTemplate.executeUpdate(SQLConstants.UPDATE_CONFIG,
                         preparedStatement -> {
                             this.configurationToPreparedStatement(preparedStatement, configuration);
-                            preparedStatement.setString(8, configuration.getRemoteFetchConfigurationId());
+                            preparedStatement.setString(9, configuration.getRemoteFetchConfigurationId());
 
                         }
 
@@ -308,31 +309,31 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
 
     private RemoteFetchConfiguration resultSetToConfiguration(ResultSet resultSet) throws SQLException {
 
-        RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration(
-                resultSet.getString(1),
-                resultSet.getInt(2),
-                resultSet.getString(3).equals("1"),
-                resultSet.getString(4),
-                resultSet.getString(5),
-                resultSet.getString(6),
-                resultSet.getString(7)
-        );
-        JSONObject attributesBundle = new JSONObject(resultSet.getString(8));
+        RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration();
+        remoteFetchConfiguration.setRemoteFetchConfigurationId(resultSet.getString(1));
+        remoteFetchConfiguration.setTenantId(resultSet.getInt(2));
+        remoteFetchConfiguration.setEnabled(resultSet.getString(3).equals("1"));
+        remoteFetchConfiguration.setRepositoryManagerType(resultSet.getString(4));
+        remoteFetchConfiguration.setActionListenerType(resultSet.getString(5));
+        remoteFetchConfiguration.setConfigurationDeployerType(resultSet.getString(6));
+        remoteFetchConfiguration.setRemoteFetchName(resultSet.getString(7));
+        remoteFetchConfiguration.setRemoteResourceURI(resultSet.getString(8));
+        JSONObject attributesBundle = new JSONObject(resultSet.getString(9));
         this.mapAttributes(remoteFetchConfiguration, attributesBundle);
         return remoteFetchConfiguration;
     }
 
     private BasicRemoteFetchConfiguration resultSetToBasicConfiguration(ResultSet resultSet) throws SQLException {
 
-        BasicRemoteFetchConfiguration basicRemoteFetchConfiguration = new BasicRemoteFetchConfiguration(
-                resultSet.getString(1),
-                resultSet.getString(2).equals("1"),
-                resultSet.getString(3),
-                resultSet.getString(4),
-                resultSet.getString(5),
-                resultSet.getString(6),
-                resultSet.getInt(7),
-                resultSet.getInt(8));
+        BasicRemoteFetchConfiguration basicRemoteFetchConfiguration = new BasicRemoteFetchConfiguration();
+        basicRemoteFetchConfiguration.setId(resultSet.getString(1));
+        basicRemoteFetchConfiguration.setEnabled(resultSet.getString(2).equals("1"));
+        basicRemoteFetchConfiguration.setRepositoryManagerType(resultSet.getString(3));
+        basicRemoteFetchConfiguration.setActionListenerType(resultSet.getString(4));
+        basicRemoteFetchConfiguration.setConfigurationDeployerType(resultSet.getString(5));
+        basicRemoteFetchConfiguration.setRemoteFetchName(resultSet.getString(6));
+        basicRemoteFetchConfiguration.setSuccessfulDeployments(resultSet.getInt(7));
+        basicRemoteFetchConfiguration.setFailedDeployments(resultSet.getInt(8));
         Timestamp lastDeployed = resultSet.getTimestamp(9);
         if (lastDeployed != null) {
             basicRemoteFetchConfiguration.setLastDeployed(new Date(lastDeployed.getTime()));
@@ -354,6 +355,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
 
         preparedStatement.setString(6, attributesBundle.toString(FACTOR_INDENT));
         preparedStatement.setString(7, configuration.getRemoteFetchName());
+        preparedStatement.setString(8, configuration.getRemoteResourceURI());
 
     }
 

@@ -18,6 +18,7 @@
 
 package org.wso2.carbon.identity.remotefetch.core.impl.handlers.action;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,7 +31,7 @@ import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager
 import org.wso2.carbon.identity.remotefetch.core.dao.DeploymentRevisionDAO;
 import org.wso2.carbon.identity.remotefetch.core.dao.impl.DeploymentRevisionDAOImpl;
 import org.wso2.carbon.identity.remotefetch.core.impl.deployers.config.VelocityTemplatedSPDeployer;
-import org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository.GitRepositoryManager;
+import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,13 +50,14 @@ import static org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigur
  */
 public class PollingActionListener implements ActionListener {
 
-    private static final Log log = LogFactory.getLog(GitRepositoryManager.class);
+    private static final Log log = LogFactory.getLog(PollingActionListener.class);
 
     private RepositoryManager repo;
     private Integer frequency;
     private Date lastIteration;
     private ConfigDeployer configDeployer;
     private DeploymentRevisionDAO deploymentRevisionDAO;
+    private Map<String, DeploymentRevision> deploymentRevisionMapNotResolved = new HashMap<>();
     private Map<String, DeploymentRevision> deploymentRevisionMap = new HashMap<>();
     private String remoteFetchConfigurationId;
     private int tenantId;
@@ -101,14 +103,27 @@ public class PollingActionListener implements ActionListener {
         configPaths.forEach((File configPath) -> {
 
             String resolvedName = "";
+            String fileName = FilenameUtils.removeExtension(configPath.getName());
 
             try {
                 resolvedName = this.configDeployer.resolveConfigName(this.repo.getFile(configPath));
             } catch (RemoteFetchCoreException e) {
                 log.error("Unable to resolve configuration name for file " + configPath.getAbsolutePath(), e);
+
+                if (deploymentRevisionMap.containsKey(fileName)) {
+                    this.deploymentRevisionMapNotResolved.put(fileName, deploymentRevisionMap.remove(fileName));
+                }
+                if (this.deploymentRevisionMapNotResolved.containsKey(fileName)) {
+                    updateRevisionNotResolved(fileName, configPath, e);
+                } else {
+                    createRevisionNotResolved(fileName, configPath, e);
+                }
             }
 
             if (!(resolvedName.isEmpty())) {
+                if (this.deploymentRevisionMapNotResolved.containsKey(fileName)) {
+                    this.deploymentRevisionMap.put(resolvedName, deploymentRevisionMapNotResolved.remove(fileName));
+                }
                 if (this.deploymentRevisionMap.containsKey(resolvedName)) {
                     updateRevision(resolvedName, configPath);
                 } else {
@@ -116,6 +131,71 @@ public class PollingActionListener implements ActionListener {
                 }
             }
         });
+    }
+
+    /**
+     * Update revision if error occurred while resolving the application name.
+     * @param fileName File name.
+     * @param configPath Service provider file.
+     * @param exception
+     */
+    private void updateRevisionNotResolved(String fileName, File configPath, RemoteFetchCoreException exception) {
+
+        StringBuilder exceptionStringBuilder = new StringBuilder();
+
+        exceptionStringBuilder.append("Unable to resolve configuration name for file ").append(fileName);
+        exceptionStringBuilder.append(exception.getMessage());
+
+        DeploymentRevision currentDeploymentRevision = this.deploymentRevisionMapNotResolved.get(fileName);
+        currentDeploymentRevision.setErrorMessage(
+                RemoteFetchConfigurationUtils.trimErrorMessage(exceptionStringBuilder.toString(),
+                        exception));
+        currentDeploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING);
+        currentDeploymentRevision.setDeployedDate(new Date());
+        if (!currentDeploymentRevision.getFile().equals(configPath)) {
+            currentDeploymentRevision.setFile(configPath);
+        }
+        try {
+            this.deploymentRevisionDAO.updateDeploymentRevision(currentDeploymentRevision);
+        } catch (RemoteFetchCoreException e) {
+            log.error("Unable to update DeploymentRevision for " + sanitize(fileName), e);
+        }
+
+    }
+
+    /**
+     * Create revision if error occurred while resolving the application name.
+     * @param fileName Filename.
+     * @param configPath Service Provider Path.
+     * @param exception
+     */
+    private void createRevisionNotResolved(String fileName, File configPath,
+                                           RemoteFetchCoreException exception) {
+
+        StringBuilder exceptionStringBuilder = new StringBuilder();
+
+        exceptionStringBuilder.append("Unable to resolve configuration name for file ").append(fileName);
+        exceptionStringBuilder.append(exception.getMessage());
+
+        try {
+            String deploymentRevisionId = generateUniqueID();
+            if (log.isDebugEnabled()) {
+                log.debug("Deployment Revision ID is  generated: " + deploymentRevisionId);
+            }
+            DeploymentRevision deploymentRevision = new DeploymentRevision(this.remoteFetchConfigurationId, configPath);
+            deploymentRevision.setFileHash("");
+            deploymentRevision.setItemName(fileName);
+            deploymentRevision.setDeploymentRevisionId(deploymentRevisionId);
+            deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING);
+            deploymentRevision.setErrorMessage(
+                    RemoteFetchConfigurationUtils.trimErrorMessage(exceptionStringBuilder.toString(),
+                            exception));
+            deploymentRevision.setDeployedDate(new Date());
+            this.deploymentRevisionDAO.createDeploymentRevision(deploymentRevision);
+            this.deploymentRevisionMapNotResolved.put(deploymentRevision.getItemName(), deploymentRevision);
+        } catch (RemoteFetchCoreException e) {
+            log.error("Unable to add a new DeploymentRevision for " + sanitize(fileName), e);
+        }
     }
 
     /**
@@ -218,10 +298,13 @@ public class PollingActionListener implements ActionListener {
                     velocityTemplatedSPDeployer.deploy(configurationFileStream);
 
                     deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.DEPLOYED);
+                    deploymentRevision.setErrorMessage(null);
 
                 } catch (RemoteFetchCoreException | IOException e) {
                     log.error("Error Deploying " + sanitize(deploymentRevision.getFile().getName()), e);
                     deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING);
+                    deploymentRevision.setErrorMessage(RemoteFetchConfigurationUtils.trimErrorMessage(e.getMessage(),
+                            e));
                 }
 
                 // Set new deployment Date

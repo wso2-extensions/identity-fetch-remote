@@ -106,6 +106,8 @@ public class RemoteFetchTaskExecutor {
      */
     public void deleteRemoteFetchConfigurationFromBatchTask(String id) {
 
-        remoteFetchConfigurationBatchTask.deleteRemoteFetchConfiguration(id);
+        if (remoteFetchConfigurationBatchTask != null) {
+            remoteFetchConfigurationBatchTask.deleteRemoteFetchConfiguration(id);
+        }
     }
 }

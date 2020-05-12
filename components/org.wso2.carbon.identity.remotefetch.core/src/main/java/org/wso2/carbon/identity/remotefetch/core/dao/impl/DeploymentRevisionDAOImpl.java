@@ -54,6 +54,18 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
                         preparedStatement.setString(3, deploymentRevision.getFile().getPath());
                         preparedStatement.setString(4, deploymentRevision.getFileHash());
                         preparedStatement.setString(5, deploymentRevision.getItemName());
+                        preparedStatement.setString(6, deploymentRevision.getErrorMessage());
+                        if (deploymentRevision.getDeployedDate() != null) {
+                            preparedStatement.setTimestamp(7,
+                                    new Timestamp(deploymentRevision.getDeployedDate().getTime()));
+                        } else {
+                            preparedStatement.setTimestamp(7, null);
+                        }
+                        if (deploymentRevision.getDeploymentStatus() != null) {
+                            preparedStatement.setString(8, deploymentRevision.getDeploymentStatus().name());
+                        } else {
+                            preparedStatement.setString(8, null);
+                        }
                     }, deploymentRevision, false)
             );
         } catch (TransactionException e) {
@@ -89,6 +101,7 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
                             revisionObj.setDeploymentStatus(DeploymentRevision.
                                     DeploymentStatus.valueOf(resultSet.getString(6)));
                             revisionObj.setItemName(resultSet.getString(7));
+                            revisionObj.setErrorMessage(resultSet.getString(8));
 
                             return revisionObj;
 
@@ -128,7 +141,8 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
                     }
                     preparedStatement.setString(5, deploymentRevision.getDeploymentStatus().name());
                     preparedStatement.setString(6, deploymentRevision.getItemName());
-                    preparedStatement.setString(7, deploymentRevision.getDeploymentRevisionId());
+                    preparedStatement.setString(7, deploymentRevision.getErrorMessage());
+                    preparedStatement.setString(8, deploymentRevision.getDeploymentRevisionId());
                 });
                 return null;
             });
@@ -183,6 +197,7 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
                         deploymentRevision.setDeploymentStatus(DeploymentRevision.
                                 DeploymentStatus.valueOf(resultSet.getString(6)));
                         deploymentRevision.setItemName(resultSet.getString(7));
+                        deploymentRevision.setErrorMessage(resultSet.getString(8));
 
                         return deploymentRevision;
                     }), preparedStatement -> {

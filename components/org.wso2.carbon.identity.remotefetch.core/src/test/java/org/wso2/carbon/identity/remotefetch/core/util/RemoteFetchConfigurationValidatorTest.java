@@ -50,12 +50,13 @@ public class RemoteFetchConfigurationValidatorTest extends PowerMockTestCase {
     private static final String ACTION_LISTENER_TYPE = "POLLING";
     private static final String CONFIG_DEPLOYER_TYPE = "SP";
     private static final String REMOTE_FETCH_NAME = "RemoteFetchTest";
+    private static final String REMOTE_RESOURCE_URI = "https://github.com/IS/Test2.git/tree/master/sp";
 
 
 
     RemoteFetchConfiguration remoteFetchConfiguration =
             new RemoteFetchConfiguration(ID, TENANT_ID, IS_ENABLED,
-            REPO_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE, REMOTE_FETCH_NAME);
+            REPO_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE, REMOTE_FETCH_NAME, REMOTE_RESOURCE_URI);
 
     Map<String, String> repositoryManagerAttributes = new HashMap<>();
     Map<String, String> actionListenerAttributes = new HashMap<>();

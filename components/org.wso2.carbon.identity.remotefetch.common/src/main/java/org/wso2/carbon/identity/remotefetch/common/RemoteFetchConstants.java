@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.remotefetch.core;
+package org.wso2.carbon.identity.remotefetch.common;
 
 /**
  * Definitions of few constants shared across with other components from this component.
@@ -37,6 +37,18 @@ public class RemoteFetchConstants {
     public static final int DEFAULT_ITEMS_PRE_PAGE = 15;
     public static final String MAXIMUM_ITEMS_PRE_PAGE_PROPERTY = "MaximumItemsPerPage";
     public static final String DEFAULT_ITEMS_PRE_PAGE_PROPERTY = "DefaultItemsPerPage";
+
+    public static final String IDENTIFIER_GIT_REPOSITORY_MANAGER_COMPONENT = "GIT";
+    public static final String IDENTIFIER_POLLING_ACTION_LISTENER_COMPONENT = "POLLING";
+    public static final String IDENTIFIER_SERVICE_PROVIDER_CONFIG_DEPLOYER_COMPONENT = "SP";
+    public static final String URL_DELIMITER = "/";
+    public static final String TREE = "tree";
+
+    public static final String ID_UI_FIELD_URI = "uri";
+    public static final String ID_UI_FIELD_BRANCH = "branch";
+    public static final String ID_UI_FIELD_DIRECTORY = "directory";
+
+
 
     /**
      * Grouping of constants related to database table names.

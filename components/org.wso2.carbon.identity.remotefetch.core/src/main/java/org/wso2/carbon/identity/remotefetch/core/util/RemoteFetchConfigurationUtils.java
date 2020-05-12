@@ -20,14 +20,15 @@ package org.wso2.carbon.identity.remotefetch.core.util;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.identity.core.util.IdentityUtil;
+import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchCoreConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchClientException;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchServerException;
-import org.wso2.carbon.identity.remotefetch.core.RemoteFetchConstants;
 
 import java.io.File;
 import java.util.Formatter;
@@ -111,6 +112,7 @@ public class RemoteFetchConfigurationUtils {
 
     /**
      * Get the Maximum Items per Page needed to display.
+     *
      * @return maximumItemsPerPage
      */
     public static int getMaximumItemPerPage() {
@@ -132,8 +134,9 @@ public class RemoteFetchConfigurationUtils {
     /**
      * This method is used to generate RemoteFetchClientException from RemoteFetchConstants.ErrorMessage
      * when no exception is thrown.
+     *
      * @param error RemoteFetchConstants.ErrorMessage
-     * @param data data to replace if message needs to be replaced.
+     * @param data  data to replace if message needs to be replaced.
      * @return RemoteFetchClientException
      */
     public static RemoteFetchClientException handleClientException(RemoteFetchConstants.ErrorMessage error,
@@ -146,8 +149,9 @@ public class RemoteFetchConfigurationUtils {
     /**
      * This method is used to generate RemoteFetchClientException from RemoteFetchConstants.ErrorMessage
      * when no exception is thrown.
+     *
      * @param error RemoteFetchConstants.ErrorMessage
-     * @param data data to replace if message needs to be replaced.
+     * @param data  data to replace if message needs to be replaced.
      * @return RemoteFetchClientException
      */
     public static RemoteFetchClientException handleClientException(RemoteFetchConstants.ErrorMessage error,
@@ -168,8 +172,9 @@ public class RemoteFetchConfigurationUtils {
     /**
      * This method is used to generate RemoteFetchServerException from RemoteFetchConstants.ErrorMessage
      * when no exception is thrown.
+     *
      * @param error RemoteFetchConstants.ErrorMessage
-     * @param data data to replace if message needs to be replaced.
+     * @param data  data to replace if message needs to be replaced.
      * @return RemoteFetchServerException
      */
     public static RemoteFetchServerException handleServerException(RemoteFetchConstants.ErrorMessage error,
@@ -182,9 +187,10 @@ public class RemoteFetchConfigurationUtils {
     /**
      * This method is used to generate RemoteFetchServerException from RemoteFetchConstants.ErrorMessage
      * when no exception is thrown.
+     *
      * @param error RemoteFetchConstants.ErrorMessage
-     * @param data data to replace if message needs to be replaced.
-     * @param e Throwable
+     * @param data  data to replace if message needs to be replaced.
+     * @param e     Throwable
      * @return RemoteFetchServerException
      */
     public static RemoteFetchServerException handleServerException(RemoteFetchConstants.ErrorMessage error,
@@ -198,8 +204,9 @@ public class RemoteFetchConfigurationUtils {
     /**
      * This method is used to generate RemoteFetchServerException from RemoteFetchConstants.ErrorMessage
      * when no exception is thrown.
+     *
      * @param error RemoteFetchConstants.ErrorMessage
-     * @param e Throwable
+     * @param e     Throwable
      * @return RemoteFetchServerException
      */
     public static RemoteFetchServerException handleServerException(RemoteFetchConstants.ErrorMessage error,
@@ -218,5 +225,21 @@ public class RemoteFetchConfigurationUtils {
             message = error.getMessage();
         }
         return message;
+    }
+
+    public static String trimErrorMessage(String message, Throwable inspectThrowable) {
+
+        StringBuilder errorStringBuilder = new StringBuilder();
+        errorStringBuilder.append(message);
+
+        String fullMessage = ExceptionUtils.getFullStackTrace(inspectThrowable);
+
+        errorStringBuilder.append(fullMessage);
+
+        String errorMessage = errorStringBuilder.toString();
+        if (errorMessage.length() >= Integer.MAX_VALUE) {
+            return errorMessage.substring(Integer.MAX_VALUE);
+        }
+        return errorMessage;
     }
 }

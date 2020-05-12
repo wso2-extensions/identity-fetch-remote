@@ -94,4 +94,13 @@ public interface RemoteFetchConfigurationService {
      */
     void triggerRemoteFetch(RemoteFetchConfiguration fetchConfiguration) throws RemoteFetchCoreException;
 
+    /**
+     * This method is used to get deployed revisions by remote fetch configuration.
+     * This method is used to provide status of remote fetch configuration.
+     * @param fetchConfigurationId
+     * @return List of deployment revisions.
+     * @throws RemoteFetchCoreException
+     */
+    List<DeploymentRevision> getDeploymentRevisions(String fetchConfigurationId) throws RemoteFetchCoreException;
+
 }

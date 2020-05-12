@@ -41,7 +41,7 @@ public class TestConstants {
         RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration(remoteFetchConfigurationId,
                 TENANT_ID, false, null, null,
                 null,
-                null);
+                null, null);
 
         repositoryManagerAttributes.put("accessToken", "1234");
         repositoryManagerAttributes.put("userName", "IS");

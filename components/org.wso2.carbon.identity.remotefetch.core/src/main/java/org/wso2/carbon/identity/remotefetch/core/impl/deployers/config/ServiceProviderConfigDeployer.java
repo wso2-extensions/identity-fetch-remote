@@ -30,7 +30,6 @@ import org.wso2.carbon.identity.application.mgt.ApplicationMgtUtil;
 import org.wso2.carbon.identity.remotefetch.common.ConfigurationFileStream;
 import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployer;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
-import org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository.GitRepositoryManager;
 import org.wso2.carbon.identity.remotefetch.core.internal.RemoteFetchServiceComponentHolder;
 import org.wso2.carbon.user.api.Tenant;
 import org.wso2.carbon.user.api.UserStoreException;
@@ -42,7 +41,7 @@ import java.io.IOException;
  */
 public class ServiceProviderConfigDeployer implements ConfigDeployer {
 
-    private static final Log log = LogFactory.getLog(GitRepositoryManager.class);
+    private static final Log log = LogFactory.getLog(ServiceProviderConfigDeployer.class);
 
     private ApplicationManagementService applicationManagementService;
     private int tenantId;

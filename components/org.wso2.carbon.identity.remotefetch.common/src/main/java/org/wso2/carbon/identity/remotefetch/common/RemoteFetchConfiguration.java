@@ -18,6 +18,9 @@
 
 package org.wso2.carbon.identity.remotefetch.common;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -30,6 +33,8 @@ import java.util.Objects;
  */
 public class RemoteFetchConfiguration {
 
+    private static final Log log = LogFactory.getLog(RemoteFetchConfiguration.class);
+
     private String remoteFetchConfigurationId;
     private int tenantId = 0;
     private String remoteFetchName = "";
@@ -37,17 +42,33 @@ public class RemoteFetchConfiguration {
     private String repositoryManagerType = "";
     private String actionListenerType = "";
     private String configurationDeployerType = "";
+    private String remoteResourceURI = "";
     private Map<String, String> repositoryManagerAttributes = new HashMap<>();
     private Map<String, String> actionListenerAttributes = new HashMap<>();
     private Map<String, String> configurationDeployerAttributes = new HashMap<>();
 
+    /**
+     * Default Constructor used by DAOs and clients.
+     */
     public RemoteFetchConfiguration() {
     }
 
+    /**
+     * Following constructor is used only by Test classes.
+     * @param remoteFetchConfigurationId
+     * @param tenantId
+     * @param isEnabled
+     * @param repositoryManagerType
+     * @param actionListenerType
+     * @param configurationDeployerType
+     * @param remoteFetchName
+     * @param remoteResourceURI
+     */
     public RemoteFetchConfiguration(String remoteFetchConfigurationId, int tenantId,
                                     boolean isEnabled,
                                     String repositoryManagerType, String actionListenerType,
-                                    String configurationDeployerType, String remoteFetchName) {
+                                    String configurationDeployerType, String remoteFetchName,
+                                    String remoteResourceURI) {
 
         this.remoteFetchConfigurationId = remoteFetchConfigurationId;
         this.tenantId = tenantId;
@@ -56,12 +77,14 @@ public class RemoteFetchConfiguration {
         this.repositoryManagerType = repositoryManagerType;
         this.actionListenerType = actionListenerType;
         this.configurationDeployerType = configurationDeployerType;
+        this.remoteResourceURI = remoteResourceURI;
     }
 
     /**
      * Tenant Id is used derived from carbon context while creation.
      * removing this tenant Id attribute  from this class produce malfunction because auto pull threads may not
      * have carbon context but it needs to deploy configuration.
+     *
      * @return tenantId
      */
     public int getTenantId() {
@@ -92,6 +115,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * set tenantId using carbon context.
+     *
      * @param tenantId
      */
     public void setTenantId(int tenantId) {
@@ -101,6 +125,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * boolean parameter used to represent that auto pull is enabled for this remoteFetchConfiguration or not.
+     *
      * @return isEnabled
      */
     public boolean isEnabled() {
@@ -110,6 +135,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * set isEnabled.
+     *
      * @param isEnabled isEnabled
      */
     public void setEnabled(boolean isEnabled) {
@@ -119,6 +145,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * unique ID to represent this configuration.
+     *
      * @return
      */
     public String getRemoteFetchConfigurationId() {
@@ -128,6 +155,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * set RemoteFetchConfigurationId.
+     *
      * @param remoteFetchConfigurationId remoteFetchConfigurationId
      */
     public void setRemoteFetchConfigurationId(String remoteFetchConfigurationId) {
@@ -138,6 +166,7 @@ public class RemoteFetchConfiguration {
     /**
      * This string refers the type of remote repository manager eg : "GIT".
      * {@link org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager}
+     *
      * @return repositoryManagerType
      */
     public String getRepositoryManagerType() {
@@ -147,6 +176,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * Set RepositoryManagerType.
+     *
      * @param repositoryManagerType repositoryManagerType
      */
     public void setRepositoryManagerType(String repositoryManagerType) {
@@ -157,6 +187,7 @@ public class RemoteFetchConfiguration {
     /**
      * This string refers the type of actionListener eg: "POLLING".
      * {@link org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListener}
+     *
      * @return actionListenerType
      */
     public String getActionListenerType() {
@@ -166,6 +197,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * Set ActionListenerType.
+     *
      * @param actionListenerType actionListenerType
      */
     public void setActionListenerType(String actionListenerType) {
@@ -184,6 +216,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * Set ConfigurationDeployerType.
+     *
      * @param configurationDeployerType configurationDeployerType
      */
     public void setConfigurationDeployerType(String configurationDeployerType) {
@@ -193,6 +226,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * RepositoryManagerAttributes Holds Configurations regarding RepositoryManager.
+     *
      * @return repositoryManagerAttributes
      */
     public Map<String, String> getRepositoryManagerAttributes() {
@@ -202,6 +236,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * set RepositoryManagerAttributes.
+     *
      * @param repositoryManagerAttributes repositoryManagerAttributes
      */
     public void setRepositoryManagerAttributes(Map<String, String> repositoryManagerAttributes) {
@@ -211,6 +246,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * ActionListenerAttributes holds configurations regarding Action Listener.
+     *
      * @return actionListenerAttributes
      */
     public Map<String, String> getActionListenerAttributes() {
@@ -220,6 +256,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * set ActionListenerAttributes.
+     *
      * @param actionListenerAttributes actionListenerAttributes
      */
     public void setActionListenerAttributes(Map<String, String> actionListenerAttributes) {
@@ -229,6 +266,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * ConfigurationDeployerAttributes holds configuration regarding ConfigurationDeployer.
+     *
      * @return configurationDeployerAttributes
      */
     public Map<String, String> getConfigurationDeployerAttributes() {
@@ -238,6 +276,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * set ConfigurationDeployerAttributes.
+     *
      * @param configurationDeployerAttributes configurationDeployerAttributes
      */
     public void setConfigurationDeployerAttributes(Map<String, String> configurationDeployerAttributes) {
@@ -246,7 +285,59 @@ public class RemoteFetchConfiguration {
     }
 
     /**
+     * Remote URI is combination of repo url, repo branch and directory path.
+     * This attribute is to avoid duplicate entry for same remoteResourceURI
+     *
+     * @return
+     */
+    public String getRemoteResourceURI() {
+
+        if (remoteResourceURI != null) {
+            return remoteResourceURI;
+        } else {
+
+            this.generateResourceURIFromRepoManager();
+        }
+        return remoteResourceURI;
+    }
+
+    /**
+     * Generate RemoteResourceURI from RepositoryManagerAttributes.
+     */
+    private void generateResourceURIFromRepoManager() {
+
+        if (this.repositoryManagerAttributes != null) {
+            if (this.repositoryManagerType.equals(RemoteFetchConstants.IDENTIFIER_GIT_REPOSITORY_MANAGER_COMPONENT)) {
+                String repoURI = this.repositoryManagerAttributes.get(RemoteFetchConstants.ID_UI_FIELD_URI);
+                String branch = this.repositoryManagerAttributes.get(RemoteFetchConstants.ID_UI_FIELD_BRANCH);
+                String directory = this.repositoryManagerAttributes.get(RemoteFetchConstants.ID_UI_FIELD_DIRECTORY);
+
+                this.remoteResourceURI = repoURI + RemoteFetchConstants.URL_DELIMITER +
+                        RemoteFetchConstants.TREE + RemoteFetchConstants.URL_DELIMITER + branch +
+                        RemoteFetchConstants.URL_DELIMITER + directory;
+                if (log.isDebugEnabled()) {
+                    log.debug("Remote resource URI is generated from Repo Manager Attributes.");
+                }
+            }
+        } else {
+            if (log.isDebugEnabled()) {
+                log.debug("Repository Manager Attribute is null. Unable to generate Remote resource URI.");
+            }
+        }
+    }
+
+    /**
+     * Set Remote resource URI.
+     * @param remoteResourceURI
+     */
+    public void setRemoteResourceURI(String remoteResourceURI) {
+
+        this.remoteResourceURI = remoteResourceURI;
+    }
+
+    /**
      * Compare calling remotefetchConfiguration with given parameter.
+     *
      * @param o object.
      * @return equals or not.
      */
@@ -274,6 +365,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * return hashCOde of the object.
+     *
      * @return hashCode
      */
     @Override
@@ -286,6 +378,7 @@ public class RemoteFetchConfiguration {
 
     /**
      * To string method.
+     *
      * @return toString
      */
     @Override

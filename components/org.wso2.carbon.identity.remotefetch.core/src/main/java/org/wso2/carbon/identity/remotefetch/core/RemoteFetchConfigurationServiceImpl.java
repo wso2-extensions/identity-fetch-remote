@@ -23,11 +23,14 @@ import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.context.CarbonContext;
 import org.wso2.carbon.identity.core.util.IdentityTenantUtil;
 import org.wso2.carbon.identity.remotefetch.common.BasicRemoteFetchConfiguration;
+import org.wso2.carbon.identity.remotefetch.common.DeploymentRevision;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfigurationService;
+import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants;
 import org.wso2.carbon.identity.remotefetch.common.ValidationReport;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 import org.wso2.carbon.identity.remotefetch.core.dao.RemoteFetchConfigurationDAO;
+import org.wso2.carbon.identity.remotefetch.core.dao.impl.DeploymentRevisionDAOImpl;
 import org.wso2.carbon.identity.remotefetch.core.dao.impl.RemoteFetchConfigurationDAOImpl;
 import org.wso2.carbon.identity.remotefetch.core.executers.RemoteFetchTaskExecutor;
 import org.wso2.carbon.identity.remotefetch.core.internal.RemoteFetchServiceComponentHolder;
@@ -45,6 +48,7 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
     private static final Log log = LogFactory.getLog(RemoteFetchConfigurationServiceImpl.class);
 
     private RemoteFetchConfigurationDAO fetchConfigurationDAO = new RemoteFetchConfigurationDAOImpl();
+    private DeploymentRevisionDAOImpl deploymentRevisionDAO = new DeploymentRevisionDAOImpl();
     private RemoteFetchTaskExecutor remoteFetchTaskExecutor;
 
     private int defaultItemsPerPage;
@@ -180,6 +184,13 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
             log.debug("Immediate Task was created and executed for : " +
                     fetchConfiguration.getRemoteFetchConfigurationId());
         }
+    }
+
+    @Override
+    public List<DeploymentRevision> getDeploymentRevisions(String fetchConfigurationId)
+            throws RemoteFetchCoreException {
+
+        return this.deploymentRevisionDAO.getDeploymentRevisionsByConfigurationId(fetchConfigurationId);
     }
 
     /**
