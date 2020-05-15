@@ -35,7 +35,10 @@ import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManagerBuilder;
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManagerBuilderException;
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManagerComponent;
+import org.wso2.carbon.identity.remotefetch.core.dao.RemoteFetchConfigurationDAO;
+import org.wso2.carbon.identity.remotefetch.core.dao.impl.RemoteFetchConfigurationDAOImpl;
 import org.wso2.carbon.identity.remotefetch.core.internal.RemoteFetchServiceComponentHolder;
+import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationUtils;
 
 /**
  * This class provide immediate task to be executed for trigger call of given remote fetch configuration.
@@ -51,12 +54,25 @@ public class RemoteFetchConfigurationImmediateTask implements Runnable {
     private RemoteFetchComponentRegistry componentRegistry;
 
     private RemoteFetchConfiguration remoteFetchConfiguration;
+    private String id;
+    private RemoteFetchConfigurationDAO remoteFetchConfigurationDAO;
 
     public RemoteFetchConfigurationImmediateTask(RemoteFetchConfiguration remoteFetchConfiguration) {
 
         this.remoteFetchConfiguration = remoteFetchConfiguration;
         this.componentRegistry = RemoteFetchServiceComponentHolder.getInstance()
                 .getRemoteFetchComponentRegistry();
+        this.id = RemoteFetchConfigurationUtils.generateUniqueID();
+        this.remoteFetchConfigurationDAO = new RemoteFetchConfigurationDAOImpl();
+    }
+
+    /**
+     * This method is used to return task id.
+     * @return
+     */
+    public String getId() {
+
+        return id;
     }
 
     /**
@@ -241,6 +257,8 @@ public class RemoteFetchConfigurationImmediateTask implements Runnable {
 
         try {
             this.buildListener().iteration();
+            remoteFetchConfiguration.setTriggerId(this.id);
+            this.remoteFetchConfigurationDAO.updateRemoteFetchConfigurationTriggerId(remoteFetchConfiguration);
         } catch (RemoteFetchCoreException e) {
             log.error("Unable to trigger RemoteFetchConfigurations", e);
         }

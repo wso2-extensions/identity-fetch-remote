@@ -84,7 +84,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
 
                                 preparedStatement.setString(7, attributesBundle.toString(FACTOR_INDENT));
                                 preparedStatement.setString(8, configuration.getRemoteFetchName());
-                                preparedStatement.setString(9, configuration.getRemoteResourceURI());
+                                preparedStatement.setString(9, configuration.getTriggerId());
                                 }
                             , configuration, false)
             ;
@@ -296,6 +296,30 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
         }
     }
 
+    @Override
+    public void updateRemoteFetchConfigurationTriggerId(RemoteFetchConfiguration configuration)
+            throws RemoteFetchCoreException {
+
+        JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
+
+        try {
+            jdbcTemplate.withTransaction(template -> {
+                jdbcTemplate.executeUpdate(SQLConstants.UPDATE_CONFIG_TRIGGER_ID,
+                        preparedStatement -> {
+                            preparedStatement.setString(1, configuration.getTriggerId());
+                            preparedStatement.setString(2, configuration.getRemoteFetchConfigurationId());
+
+                        }
+
+                );
+                return null;
+            });
+        } catch (TransactionException e) {
+            throw RemoteFetchConfigurationUtils.handleServerException(RemoteFetchConstants.ErrorMessage
+                    .ERROR_CODE_UPDATE_RF_CONFIG, configuration.getRemoteFetchName(), e);
+        }
+    }
+
     private Map<String, String> attributeToMap(JSONObject attributes) {
 
         Map<String, String> attrMap = new HashMap<>();
@@ -317,7 +341,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
         remoteFetchConfiguration.setActionListenerType(resultSet.getString(5));
         remoteFetchConfiguration.setConfigurationDeployerType(resultSet.getString(6));
         remoteFetchConfiguration.setRemoteFetchName(resultSet.getString(7));
-        remoteFetchConfiguration.setRemoteResourceURI(resultSet.getString(8));
+        remoteFetchConfiguration.setTriggerId(resultSet.getString(8));
         JSONObject attributesBundle = new JSONObject(resultSet.getString(9));
         this.mapAttributes(remoteFetchConfiguration, attributesBundle);
         return remoteFetchConfiguration;
@@ -355,7 +379,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
 
         preparedStatement.setString(6, attributesBundle.toString(FACTOR_INDENT));
         preparedStatement.setString(7, configuration.getRemoteFetchName());
-        preparedStatement.setString(8, configuration.getRemoteResourceURI());
+        preparedStatement.setString(8, configuration.getTriggerId());
 
     }
 

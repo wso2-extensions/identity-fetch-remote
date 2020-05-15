@@ -90,9 +90,10 @@ public interface RemoteFetchConfigurationService {
      * This method is used to trigger remote fetch configuration by ID.
      * This method schedule immediate trigger task.
      * @param fetchConfiguration
+     * @return Trigger Id. Used to retrieve updated status.
      * @throws RemoteFetchCoreException
      */
-    void triggerRemoteFetch(RemoteFetchConfiguration fetchConfiguration) throws RemoteFetchCoreException;
+    String triggerRemoteFetch(RemoteFetchConfiguration fetchConfiguration) throws RemoteFetchCoreException;
 
     /**
      * This method is used to get deployed revisions by remote fetch configuration.

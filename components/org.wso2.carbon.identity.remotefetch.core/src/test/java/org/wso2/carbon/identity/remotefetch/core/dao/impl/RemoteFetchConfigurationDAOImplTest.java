@@ -149,6 +149,19 @@ public class RemoteFetchConfigurationDAOImplTest extends PowerMockTestCase {
     }
 
     @Test(priority = 5)
+    public void testUpdateRemoteFetchConfigurationTriggerId() throws Exception {
+
+        DataSource dataSource = mock(DataSource.class);
+        mockStatic(JdbcUtils.class);
+        when(JdbcUtils.getNewTemplate()).thenReturn(new JdbcTemplate(dataSource));
+        try (Connection connection = DAOTestUtils.getConnection(DB_NAME)) {
+            Connection spy = DAOTestUtils.spyConnection(connection);
+            when(dataSource.getConnection()).thenReturn(spy);
+            remoteFetchConfigurationDAO.updateRemoteFetchConfigurationTriggerId(updateConfigurationTriggerID());
+        }
+    }
+
+    @Test(priority = 6)
     public void testDeleteRemoteFetchConfiguration() throws Exception {
 
         DataSource dataSource = mock(DataSource.class);
@@ -174,12 +187,18 @@ public class RemoteFetchConfigurationDAOImplTest extends PowerMockTestCase {
         remoteFetchConfiguration.setActionListenerAttributes(TestConstants.actionListenerAttributes);
         remoteFetchConfiguration.setConfigurationDeployerAttributes(TestConstants.configurationDeployerAttributes);
         remoteFetchConfiguration.setRepositoryManagerAttributes(TestConstants.repositoryManagerAttributes);
+        remoteFetchConfiguration.setTriggerId(TestConstants.TRIGGER_ID);
         return remoteFetchConfiguration;
     }
 
     private RemoteFetchConfiguration updateConfiguration() {
 
         remoteFetchConfiguration.setRemoteFetchName("UpdatedRemoteFetchDemoApp");
+        return remoteFetchConfiguration;
+    }
+
+    private RemoteFetchConfiguration updateConfigurationTriggerID() {
+        remoteFetchConfiguration.setTriggerId("11111111-0000-0000-0000-d29bed62f7bd");
         return remoteFetchConfiguration;
     }
 }

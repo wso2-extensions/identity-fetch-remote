@@ -30,6 +30,7 @@ public class TestConstants {
     public static final String ACTION_LISTENER_TYPE = "POLLING";
     public static final String CONFIG_DEPLOYER_TYPE = "SP";
     public static final int TENANT_ID = -1234;
+    public static final String TRIGGER_ID = "00000000-0000-1111-1111-000000000000";
 
     public static Map<String, String> repositoryManagerAttributes = new HashMap<>();
     public static Map<String, String> actionListenerAttributes = new HashMap<>();

@@ -66,7 +66,7 @@ public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
         DAOTestUtils.createFetchConfig(DB_NAME, configId, TestConstants.TENANT_ID, true,
                 TestConstants.REPO_MANAGER_TYPE, TestConstants.ACTION_LISTENER_TYPE, TestConstants.CONFIG_DEPLOYER_TYPE
                 , TestConstants.getAttributesJson(), "RemoteFetchTest",
-                "https://github.com/IS/Test2.git/tree/master/sp");
+                "00000000-0000-1111-1111-000000000000");
     }
 
     @AfterClass
@@ -147,7 +147,7 @@ public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
             DeploymentRevision deploymentRevisionNew =
                     deploymentRevisionDAO.getDeploymentRevision(configId, "NewDemoApp");
             assertNotNull(deploymentRevisionNew);
-            assertEquals(deploymentRevisionNew.getDeploymentStatus(), DeploymentRevision.DeploymentStatus.DEPLOYED);
+            assertEquals(deploymentRevisionNew.getDeploymentStatus(), DeploymentRevision.DeploymentStatus.SUCCEED);
 
         }
     }
@@ -176,7 +176,7 @@ public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
         deploymentRevision.setFile(new File("sp/newFile.xml"));
         deploymentRevision.setConfigId(configId);
         deploymentRevision.setDeployedDate(date);
-        deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.DEPLOYED);
+        deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.SUCCEED);
         deploymentRevision.setErrorMessage("Test Error Message");
         return deploymentRevision;
     }

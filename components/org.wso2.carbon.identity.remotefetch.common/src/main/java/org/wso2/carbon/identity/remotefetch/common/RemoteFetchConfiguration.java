@@ -42,7 +42,7 @@ public class RemoteFetchConfiguration {
     private String repositoryManagerType = "";
     private String actionListenerType = "";
     private String configurationDeployerType = "";
-    private String remoteResourceURI = "";
+    private String triggerId = "";
     private Map<String, String> repositoryManagerAttributes = new HashMap<>();
     private Map<String, String> actionListenerAttributes = new HashMap<>();
     private Map<String, String> configurationDeployerAttributes = new HashMap<>();
@@ -62,13 +62,13 @@ public class RemoteFetchConfiguration {
      * @param actionListenerType
      * @param configurationDeployerType
      * @param remoteFetchName
-     * @param remoteResourceURI
+     * @param triggerId
      */
     public RemoteFetchConfiguration(String remoteFetchConfigurationId, int tenantId,
                                     boolean isEnabled,
                                     String repositoryManagerType, String actionListenerType,
                                     String configurationDeployerType, String remoteFetchName,
-                                    String remoteResourceURI) {
+                                    String triggerId) {
 
         this.remoteFetchConfigurationId = remoteFetchConfigurationId;
         this.tenantId = tenantId;
@@ -77,7 +77,7 @@ public class RemoteFetchConfiguration {
         this.repositoryManagerType = repositoryManagerType;
         this.actionListenerType = actionListenerType;
         this.configurationDeployerType = configurationDeployerType;
-        this.remoteResourceURI = remoteResourceURI;
+        this.triggerId = triggerId;
     }
 
     /**
@@ -285,54 +285,22 @@ public class RemoteFetchConfiguration {
     }
 
     /**
-     * Remote URI is combination of repo url, repo branch and directory path.
-     * This attribute is to avoid duplicate entry for same remoteResourceURI
-     *
+     * Trigger Id is used to represent latest trigger event for this remote fetch configuration.
+     * Trigger Id is used to retrieve updated status for this remote fetch configuration
      * @return
      */
-    public String getRemoteResourceURI() {
+    public String getTriggerId() {
 
-        if (remoteResourceURI != null) {
-            return remoteResourceURI;
-        } else {
-
-            this.generateResourceURIFromRepoManager();
-        }
-        return remoteResourceURI;
-    }
-
-    /**
-     * Generate RemoteResourceURI from RepositoryManagerAttributes.
-     */
-    private void generateResourceURIFromRepoManager() {
-
-        if (this.repositoryManagerAttributes != null) {
-            if (this.repositoryManagerType.equals(RemoteFetchConstants.IDENTIFIER_GIT_REPOSITORY_MANAGER_COMPONENT)) {
-                String repoURI = this.repositoryManagerAttributes.get(RemoteFetchConstants.ID_UI_FIELD_URI);
-                String branch = this.repositoryManagerAttributes.get(RemoteFetchConstants.ID_UI_FIELD_BRANCH);
-                String directory = this.repositoryManagerAttributes.get(RemoteFetchConstants.ID_UI_FIELD_DIRECTORY);
-
-                this.remoteResourceURI = repoURI + RemoteFetchConstants.URL_DELIMITER +
-                        RemoteFetchConstants.TREE + RemoteFetchConstants.URL_DELIMITER + branch +
-                        RemoteFetchConstants.URL_DELIMITER + directory;
-                if (log.isDebugEnabled()) {
-                    log.debug("Remote resource URI is generated from Repo Manager Attributes.");
-                }
-            }
-        } else {
-            if (log.isDebugEnabled()) {
-                log.debug("Repository Manager Attribute is null. Unable to generate Remote resource URI.");
-            }
-        }
+        return triggerId;
     }
 
     /**
      * Set Remote resource URI.
-     * @param remoteResourceURI
+     * @param triggerId
      */
-    public void setRemoteResourceURI(String remoteResourceURI) {
+    public void setTriggerId(String triggerId) {
 
-        this.remoteResourceURI = remoteResourceURI;
+        this.triggerId = triggerId;
     }
 
     /**

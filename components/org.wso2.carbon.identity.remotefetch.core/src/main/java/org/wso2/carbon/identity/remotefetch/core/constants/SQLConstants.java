@@ -25,8 +25,8 @@ import org.wso2.carbon.identity.remotefetch.common.DeploymentRevision;
  */
 public class SQLConstants {
 
-    private static final String REVISION_DEPLOYMENT_OK = DeploymentRevision.DeploymentStatus.DEPLOYED.name();
-    private static final String REVISION_DEPLOYMENT_FAIL = DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING.name();
+    private static final String REVISION_DEPLOYMENT_OK = DeploymentRevision.DeploymentStatus.SUCCEED.name();
+    private static final String REVISION_DEPLOYMENT_FAIL = DeploymentRevision.DeploymentStatus.FAILED.name();
 
     public static final String DB_H2 = "H2";
     public static final String DB_MYSQL = "MySQL";
@@ -54,18 +54,18 @@ public class SQLConstants {
     // Configuration Management SQL
     public static final String CREATE_CONFIG = "INSERT INTO IDN_REMOTE_FETCH_CONFIG (ID, TENANT_ID, IS_ENABLED, " +
             " REPO_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE, ATTRIBUTES_JSON," +
-            " REMOTE_FETCH_NAME, REMOTE_RESOURCE_URI) VALUES (?,?,?,?,?,?,?,?,?)";
+            " REMOTE_FETCH_NAME, TRIGGER_ID) VALUES (?,?,?,?,?,?,?,?,?)";
 
     public static final String LIST_CONFIGS = "SELECT ID,TENANT_ID, IS_ENABLED," +
             " REPO_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE, REMOTE_FETCH_NAME, ATTRIBUTES_JSON," +
-            " REMOTE_RESOURCE_URI FROM IDN_REMOTE_FETCH_CONFIG";
+            " TRIGGER_ID FROM IDN_REMOTE_FETCH_CONFIG";
 
     public static final String LIST_ENABLED_CONFIGS = "SELECT ID, TENANT_ID, IS_ENABLED," +
-            " REPO_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE,REMOTE_FETCH_NAME,REMOTE_RESOURCE_URI, " +
+            " REPO_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE,REMOTE_FETCH_NAME,TRIGGER_ID, " +
             " ATTRIBUTES_JSON FROM IDN_REMOTE_FETCH_CONFIG WHERE IS_ENABLED = '1'";
 
     public static final String LIST_CONFIGS_BY_TENANT = "SELECT ID, TENANT_ID, IS_ENABLED," +
-            " REPO_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE,REMOTE_FETCH_NAME,REMOTE_RESOURCE_URI, " +
+            " REPO_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE,REMOTE_FETCH_NAME,TRIGGER_ID, " +
             " ATTRIBUTES_JSON FROM IDN_REMOTE_FETCH_CONFIG WHERE TENANT_ID = ?";
 
     public static final String LIST_BASIC_CONFIGS_BY_TENANT = String.format("SELECT IDN_REMOTE_FETCH_CONFIG.ID," +
@@ -89,7 +89,7 @@ public class SQLConstants {
             " FROM IDN_REMOTE_FETCH_CONFIG WHERE TENANT_ID = ? AND IS_ENABLED = ?";
 
     public static final String GET_CONFIG = "SELECT ID, TENANT_ID, IS_ENABLED," +
-            " REPO_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE,REMOTE_FETCH_NAME, REMOTE_RESOURCE_URI," +
+            " REPO_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE,REMOTE_FETCH_NAME, TRIGGER_ID," +
             " ATTRIBUTES_JSON FROM IDN_REMOTE_FETCH_CONFIG WHERE ID = ? AND TENANT_ID = ?";
 
     public static final String GET_CONFIG_BY_UNIQUE = "SELECT ID, TENANT_ID, IS_ENABLED," +
@@ -98,7 +98,10 @@ public class SQLConstants {
 
     public static final String UPDATE_CONFIG = "UPDATE IDN_REMOTE_FETCH_CONFIG SET TENANT_ID = ?, IS_ENABLED = ?," +
             " REPO_MANAGER_TYPE = ?, ACTION_LISTENER_TYPE = ?, CONFIG_DEPLOYER_TYPE = ?, " +
-            " ATTRIBUTES_JSON = ? ,REMOTE_FETCH_NAME = ? ,REMOTE_RESOURCE_URI = ? WHERE ID = ?";
+            " ATTRIBUTES_JSON = ? ,REMOTE_FETCH_NAME = ? ,TRIGGER_ID = ? WHERE ID = ?";
+
+    public static final String UPDATE_CONFIG_TRIGGER_ID = "UPDATE IDN_REMOTE_FETCH_CONFIG SET " +
+            "TRIGGER_ID = ? WHERE ID = ?";
 
     public static final String DELETE_CONFIG = "DELETE FROM IDN_REMOTE_FETCH_CONFIG WHERE ID = ? AND TENANT_ID = ?";
 

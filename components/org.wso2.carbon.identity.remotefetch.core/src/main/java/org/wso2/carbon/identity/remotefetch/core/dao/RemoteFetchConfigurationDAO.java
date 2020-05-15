@@ -91,4 +91,12 @@ public interface RemoteFetchConfigurationDAO {
                                                                                   int offset)
             throws RemoteFetchCoreException;
 
+    /**
+     * Update Trigger Id after trigger event occurred.
+     * @param remoteFetchConfiguration
+     * @throws RemoteFetchCoreException
+     */
+    void updateRemoteFetchConfigurationTriggerId(RemoteFetchConfiguration remoteFetchConfiguration)
+        throws RemoteFetchCoreException;
+
 }

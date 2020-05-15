@@ -173,17 +173,13 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
     /**
      * This method used to get remote fetch configuration for given id and start an Immediate task execution.
      * @param fetchConfiguration
+     * @return Trigger Id. Used to retrieve updated status.
      * @throws RemoteFetchCoreException
      */
     @Override
-    public void triggerRemoteFetch(RemoteFetchConfiguration fetchConfiguration) throws RemoteFetchCoreException {
+    public String triggerRemoteFetch(RemoteFetchConfiguration fetchConfiguration) throws RemoteFetchCoreException {
 
-        this.remoteFetchTaskExecutor.startImmediateTaskExecution(fetchConfiguration);
-
-        if (log.isDebugEnabled()) {
-            log.debug("Immediate Task was created and executed for : " +
-                    fetchConfiguration.getRemoteFetchConfigurationId());
-        }
+        return this.remoteFetchTaskExecutor.startImmediateTaskExecution(fetchConfiguration);
     }
 
     @Override

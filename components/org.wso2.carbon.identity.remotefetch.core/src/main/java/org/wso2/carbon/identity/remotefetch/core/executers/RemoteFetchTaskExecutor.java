@@ -79,9 +79,10 @@ public class RemoteFetchTaskExecutor {
     /**
      * Schedule immediate task execution when OSGi trigger service called.
      * @param remoteFetchConfiguration
+     * @return Immediate Task Id. Used to represent trigger id.
      * @throws RemoteFetchCoreException
      */
-    public void startImmediateTaskExecution(RemoteFetchConfiguration remoteFetchConfiguration)
+    public String startImmediateTaskExecution(RemoteFetchConfiguration remoteFetchConfiguration)
             throws RemoteFetchCoreException {
 
         RemoteFetchConfigurationImmediateTask remoteFetchConfigurationImmediateTask =
@@ -98,6 +99,7 @@ public class RemoteFetchTaskExecutor {
             throw new RemoteFetchCoreException("Error while scheduling immediate task for remote fetch configuration "
                     + remoteFetchConfiguration.getRemoteFetchConfigurationId(), e);
         }
+        return remoteFetchConfigurationImmediateTask.getId();
     }
 
     /**
