@@ -41,7 +41,7 @@ public class DeploymentRevision {
      */
     public enum DeploymentStatus {
 
-        DEPLOYED, ERROR_DEPLOYING, FILE_MISSING
+        SUCCEED, FAILED, FILE_MISSING
     }
 
     /**

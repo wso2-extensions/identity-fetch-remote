@@ -150,7 +150,7 @@ public class PollingActionListener implements ActionListener {
         currentDeploymentRevision.setErrorMessage(
                 RemoteFetchConfigurationUtils.trimErrorMessage(exceptionStringBuilder.toString(),
                         exception));
-        currentDeploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING);
+        currentDeploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.FAILED);
         currentDeploymentRevision.setDeployedDate(new Date());
         if (!currentDeploymentRevision.getFile().equals(configPath)) {
             currentDeploymentRevision.setFile(configPath);
@@ -186,7 +186,7 @@ public class PollingActionListener implements ActionListener {
             deploymentRevision.setFileHash("");
             deploymentRevision.setItemName(fileName);
             deploymentRevision.setDeploymentRevisionId(deploymentRevisionId);
-            deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING);
+            deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.FAILED);
             deploymentRevision.setErrorMessage(
                     RemoteFetchConfigurationUtils.trimErrorMessage(exceptionStringBuilder.toString(),
                             exception));
@@ -297,12 +297,12 @@ public class PollingActionListener implements ActionListener {
                                     this.remoteFetchConfigurationId);
                     velocityTemplatedSPDeployer.deploy(configurationFileStream);
 
-                    deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.DEPLOYED);
+                    deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.SUCCEED);
                     deploymentRevision.setErrorMessage(null);
 
                 } catch (RemoteFetchCoreException | IOException e) {
                     log.error("Error Deploying " + sanitize(deploymentRevision.getFile().getName()), e);
-                    deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING);
+                    deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.FAILED);
                     deploymentRevision.setErrorMessage(RemoteFetchConfigurationUtils.trimErrorMessage(e.getMessage(),
                             e));
                 }

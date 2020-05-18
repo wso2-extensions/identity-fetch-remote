@@ -25,8 +25,8 @@ import org.wso2.carbon.identity.remotefetch.common.DeploymentRevision;
  */
 public class SQLConstants {
 
-    private static final String REVISION_DEPLOYMENT_OK = DeploymentRevision.DeploymentStatus.DEPLOYED.name();
-    private static final String REVISION_DEPLOYMENT_FAIL = DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING.name();
+    private static final String REVISION_DEPLOYMENT_OK = DeploymentRevision.DeploymentStatus.SUCCEED.name();
+    private static final String REVISION_DEPLOYMENT_FAIL = DeploymentRevision.DeploymentStatus.FAILED.name();
 
     public static final String DB_H2 = "H2";
     public static final String DB_MYSQL = "MySQL";
