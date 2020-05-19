@@ -152,7 +152,7 @@ public class PollingActionListener implements ActionListener {
                         exception));
         currentDeploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.FAIL);
         currentDeploymentRevision.setDeployedDate(new Date());
-        currentDeploymentRevision.setLastSyncedDate(this.lastIteration);
+        currentDeploymentRevision.setLastSynchronizedDate(this.lastIteration);
         if (!currentDeploymentRevision.getFile().equals(configPath)) {
             currentDeploymentRevision.setFile(configPath);
         }
@@ -192,7 +192,7 @@ public class PollingActionListener implements ActionListener {
                     RemoteFetchConfigurationUtils.trimErrorMessage(exceptionStringBuilder.toString(),
                             exception));
             deploymentRevision.setDeployedDate(new Date());
-            deploymentRevision.setLastSyncedDate(this.lastIteration);
+            deploymentRevision.setLastSynchronizedDate(this.lastIteration);
             this.deploymentRevisionDAO.createDeploymentRevision(deploymentRevision);
             this.deploymentRevisionMapNotResolved.put(deploymentRevision.getItemName(), deploymentRevision);
         } catch (RemoteFetchCoreException e) {
@@ -312,7 +312,7 @@ public class PollingActionListener implements ActionListener {
                 // Set new deployment Date
                 deploymentRevision.setDeployedDate(new Date());
                 // Set last iteration date as synced Date
-                deploymentRevision.setLastSyncedDate(this.lastIteration);
+                deploymentRevision.setLastSynchronizedDate(this.lastIteration);
 
                 try {
                     this.deploymentRevisionDAO.updateDeploymentRevision(deploymentRevision);
@@ -322,7 +322,7 @@ public class PollingActionListener implements ActionListener {
                 }
             } else {
                 // Set last iteration date as synced Date
-                deploymentRevision.setLastSyncedDate(this.lastIteration);
+                deploymentRevision.setLastSynchronizedDate(this.lastIteration);
 
                 try {
                     this.deploymentRevisionDAO.updateDeploymentRevision(deploymentRevision);

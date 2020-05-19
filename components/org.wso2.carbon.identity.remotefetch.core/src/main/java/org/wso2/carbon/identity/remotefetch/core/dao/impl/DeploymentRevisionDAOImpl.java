@@ -66,9 +66,9 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
                         } else {
                             preparedStatement.setString(8, null);
                         }
-                        if (deploymentRevision.getLastSyncedDate() != null) {
+                        if (deploymentRevision.getLastSynchronizedDate() != null) {
                             preparedStatement.setTimestamp(9,
-                                    new Timestamp(deploymentRevision.getLastSyncedDate().getTime()));
+                                    new Timestamp(deploymentRevision.getLastSynchronizedDate().getTime()));
                         } else {
                             preparedStatement.setTimestamp(9, null);
                         }
@@ -109,9 +109,9 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
                             revisionObj.setItemName(resultSet.getString(7));
                             revisionObj.setErrorMessage(resultSet.getString(8));
                             if (resultSet.getTimestamp(9) != null) {
-                                revisionObj.setLastSyncedDate(new Date(resultSet.getTimestamp(9).getTime()));
+                                revisionObj.setLastSynchronizedDate(new Date(resultSet.getTimestamp(9).getTime()));
                             } else {
-                                revisionObj.setLastSyncedDate(null);
+                                revisionObj.setLastSynchronizedDate(null);
                             }
 
                             return revisionObj;
@@ -153,9 +153,9 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
                     preparedStatement.setString(5, deploymentRevision.getDeploymentStatus().name());
                     preparedStatement.setString(6, deploymentRevision.getItemName());
                     preparedStatement.setString(7, deploymentRevision.getErrorMessage());
-                    if (deploymentRevision.getLastSyncedDate() != null) {
+                    if (deploymentRevision.getLastSynchronizedDate() != null) {
                         preparedStatement.setTimestamp(8,
-                                new Timestamp(deploymentRevision.getLastSyncedDate().getTime()));
+                                new Timestamp(deploymentRevision.getLastSynchronizedDate().getTime()));
                     } else {
                         preparedStatement.setTimestamp(8, null);
                     }
@@ -217,9 +217,9 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
                         deploymentRevision.setItemName(resultSet.getString(7));
                         deploymentRevision.setErrorMessage(resultSet.getString(8));
                         if (resultSet.getTimestamp(9) != null) {
-                            deploymentRevision.setLastSyncedDate(new Date(resultSet.getTimestamp(9).getTime()));
+                            deploymentRevision.setLastSynchronizedDate(new Date(resultSet.getTimestamp(9).getTime()));
                         } else {
-                            deploymentRevision.setLastSyncedDate(null);
+                            deploymentRevision.setLastSynchronizedDate(null);
                         }
                         return deploymentRevision;
                     }), preparedStatement -> {
