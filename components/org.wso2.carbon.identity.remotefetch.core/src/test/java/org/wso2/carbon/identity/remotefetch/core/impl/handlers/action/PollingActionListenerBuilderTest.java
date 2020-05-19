@@ -149,7 +149,7 @@ public class PollingActionListenerBuilderTest extends PowerMockTestCase {
         deploymentRevision.setFile(new File("sp/newFile.xml"));
         deploymentRevision.setConfigId(remoteFetchConfiguration.getRemoteFetchConfigurationId());
         deploymentRevision.setDeployedDate(date);
-        deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.DEPLOYED);
+        deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.SUCCESS);
         return deploymentRevision;
     }
 }

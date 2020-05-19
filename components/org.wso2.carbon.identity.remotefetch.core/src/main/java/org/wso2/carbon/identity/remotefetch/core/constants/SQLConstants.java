@@ -25,8 +25,8 @@ import org.wso2.carbon.identity.remotefetch.common.DeploymentRevision;
  */
 public class SQLConstants {
 
-    private static final String REVISION_DEPLOYMENT_OK = DeploymentRevision.DeploymentStatus.DEPLOYED.name();
-    private static final String REVISION_DEPLOYMENT_FAIL = DeploymentRevision.DeploymentStatus.ERROR_DEPLOYING.name();
+    private static final String REVISION_DEPLOYMENT_OK = DeploymentRevision.DeploymentStatus.SUCCESS.name();
+    private static final String REVISION_DEPLOYMENT_FAIL = DeploymentRevision.DeploymentStatus.FAIL.name();
 
     public static final String DB_H2 = "H2";
     public static final String DB_MYSQL = "MySQL";
@@ -37,18 +37,21 @@ public class SQLConstants {
 
     // Revision Management SQL
     public static final String CREATE_REVISION = "INSERT INTO IDN_REMOTE_FETCH_REVISIONS (ID, CONFIG_ID, FILE_PATH, " +
-            " FILE_HASH, ITEM_NAME,DEPLOY_ERR_LOG, DEPLOYED_DATE, DEPLOYMENT_STATUS) VALUES(?,?,?,?,?,?,?,?)";
+            " FILE_HASH, ITEM_NAME,DEPLOY_ERR_LOG, DEPLOYED_DATE, DEPLOYMENT_STATUS, LAST_SYNC_TIME)" +
+            " VALUES(?,?,?,?,?,?,?,?,?)";
 
     public static final String UPDATE_REVISION = "UPDATE IDN_REMOTE_FETCH_REVISIONS SET CONFIG_ID = ?, FILE_PATH = ?," +
-            " FILE_HASH = ?, DEPLOYED_DATE = ?, DEPLOYMENT_STATUS = ?, ITEM_NAME = ?, DEPLOY_ERR_LOG =? WHERE ID = ?";
+            " FILE_HASH = ?, DEPLOYED_DATE = ?, DEPLOYMENT_STATUS = ?, ITEM_NAME = ?, DEPLOY_ERR_LOG = ?," +
+            " LAST_SYNC_TIME = ? WHERE ID = ?";
 
     public static final String DELETE_REVISION = "DELETE FROM IDN_REMOTE_FETCH_REVISIONS WHERE ID = ?";
 
     public static final String GET_REVISIONS_BY_CONFIG = "SELECT ID, CONFIG_ID, FILE_PATH, FILE_HASH, DEPLOYED_DATE," +
-            " DEPLOYMENT_STATUS, ITEM_NAME,DEPLOY_ERR_LOG FROM IDN_REMOTE_FETCH_REVISIONS WHERE CONFIG_ID = ?";
+            " DEPLOYMENT_STATUS, ITEM_NAME,DEPLOY_ERR_LOG, LAST_SYNC_TIME" +
+            " FROM IDN_REMOTE_FETCH_REVISIONS WHERE CONFIG_ID = ?";
 
     public static final String GET_REVISION_BY_UNIQUE = "SELECT ID, CONFIG_ID, FILE_PATH, FILE_HASH, DEPLOYED_DATE," +
-            " DEPLOYMENT_STATUS, ITEM_NAME,DEPLOY_ERR_LOG FROM IDN_REMOTE_FETCH_REVISIONS WHERE " +
+            " DEPLOYMENT_STATUS, ITEM_NAME,DEPLOY_ERR_LOG, LAST_SYNC_TIME FROM IDN_REMOTE_FETCH_REVISIONS WHERE " +
             "CONFIG_ID = ? AND ITEM_NAME = ?";
 
     // Configuration Management SQL

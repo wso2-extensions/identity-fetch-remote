@@ -147,7 +147,7 @@ public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
             DeploymentRevision deploymentRevisionNew =
                     deploymentRevisionDAO.getDeploymentRevision(configId, "NewDemoApp");
             assertNotNull(deploymentRevisionNew);
-            assertEquals(deploymentRevisionNew.getDeploymentStatus(), DeploymentRevision.DeploymentStatus.DEPLOYED);
+            assertEquals(deploymentRevisionNew.getDeploymentStatus(), DeploymentRevision.DeploymentStatus.SUCCESS);
 
         }
     }
@@ -176,8 +176,9 @@ public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
         deploymentRevision.setFile(new File("sp/newFile.xml"));
         deploymentRevision.setConfigId(configId);
         deploymentRevision.setDeployedDate(date);
-        deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.DEPLOYED);
+        deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.SUCCESS);
         deploymentRevision.setErrorMessage("Test Error Message");
+        deploymentRevision.setLastSynchronizedDate(date);
         return deploymentRevision;
     }
 

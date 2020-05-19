@@ -35,13 +35,14 @@ public class DeploymentRevision {
     private DeploymentStatus deploymentStatus;
     private String itemName;
     private String errorMessage;
+    private Date lastSynchronizedDate;
 
     /**
      * Status pf Deployment.
      */
     public enum DeploymentStatus {
 
-        DEPLOYED, ERROR_DEPLOYING, FILE_MISSING
+        SUCCESS, FAIL, FILE_MISSING
     }
 
     /**
@@ -152,6 +153,32 @@ public class DeploymentRevision {
             this.deployedDate = null;
         } else {
             this.deployedDate = new Date(deployedDate.getTime());
+        }
+    }
+
+    /**
+     * Get synced Date to  represent last synced Time.
+     * @return synced Date.
+     */
+    public Date getLastSynchronizedDate() {
+
+        if (lastSynchronizedDate == null) {
+            return null;
+        } else {
+            return new Date(lastSynchronizedDate.getTime());
+        }
+    }
+
+    /**
+     * Set syncedDate.
+     * @param lastSynchronizedDate syncedDate.
+     */
+    public void setLastSynchronizedDate(Date lastSynchronizedDate) {
+
+        if (lastSynchronizedDate == null) {
+            this.lastSynchronizedDate = null;
+        } else {
+            this.lastSynchronizedDate = new Date(lastSynchronizedDate.getTime());
         }
     }
 
