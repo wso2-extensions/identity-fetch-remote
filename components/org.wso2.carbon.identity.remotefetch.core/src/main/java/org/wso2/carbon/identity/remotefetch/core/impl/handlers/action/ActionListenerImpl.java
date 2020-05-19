@@ -37,7 +37,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -46,15 +45,14 @@ import java.util.Map;
 import static org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationUtils.generateUniqueID;
 
 /**
- * ActionListener that polls repository with frequency for changes to be deployed.
+ * Action Listener parent class to create, manage deploy revisions.
  */
-public class PollingActionListener implements ActionListener {
+public class ActionListenerImpl implements ActionListener {
 
-    private static final Log log = LogFactory.getLog(PollingActionListener.class);
+    private static final Log log = LogFactory.getLog(ActionListenerImpl.class);
 
     private RepositoryManager repo;
-    private Integer frequency;
-    private Date lastIteration;
+    protected Date lastIteration;
     private ConfigDeployer configDeployer;
     private DeploymentRevisionDAO deploymentRevisionDAO;
     private Map<String, DeploymentRevision> deploymentRevisionMapNotResolved = new HashMap<>();
@@ -62,16 +60,26 @@ public class PollingActionListener implements ActionListener {
     private String remoteFetchConfigurationId;
     private int tenantId;
 
-    public PollingActionListener(RepositoryManager repo, ConfigDeployer configDeployer,
-                                 int frequency, String remoteFetchConfigurationId, int tenantId) {
+    public ActionListenerImpl(RepositoryManager repo, ConfigDeployer configDeployer,
+                              String remoteFetchConfigurationId, int tenantId) {
 
         this.repo = repo;
         this.configDeployer = configDeployer;
-        this.frequency = frequency;
         this.remoteFetchConfigurationId = remoteFetchConfigurationId;
-        this.deploymentRevisionDAO = new DeploymentRevisionDAOImpl();
         this.tenantId = tenantId;
+        this.deploymentRevisionDAO = new DeploymentRevisionDAOImpl();
         this.seedRevisions();
+    }
+
+    @Override
+    public void iteration() {
+        try {
+            this.repo.fetchRepository();
+        } catch (RemoteFetchCoreException e) {
+            log.error("Error pulling repository", e);
+        }
+        this.lastIteration = new Date();
+        this.pollDirectory(this.configDeployer);
     }
 
     /**
@@ -240,22 +248,6 @@ public class PollingActionListener implements ActionListener {
             this.deploymentRevisionMap.put(deploymentRevision.getItemName(), deploymentRevision);
         } catch (RemoteFetchCoreException e) {
             log.error("Unable to add a new DeploymentRevision for " + sanitize(resolvedName), e);
-        }
-    }
-
-    @Override
-    public void iteration() {
-
-        Calendar nextIteration = Calendar.getInstance();
-        nextIteration.add(Calendar.MINUTE, this.frequency);
-        if ((lastIteration == null) || (lastIteration.before(nextIteration.getTime()))) {
-            try {
-                this.repo.fetchRepository();
-            } catch (RemoteFetchCoreException e) {
-                log.error("Error pulling repository", e);
-            }
-            this.lastIteration = new Date();
-            this.pollDirectory(this.configDeployer);
         }
     }
 

@@ -39,7 +39,8 @@ import org.wso2.carbon.identity.remotefetch.core.RemoteFetchComponentRegistryImp
 import org.wso2.carbon.identity.remotefetch.core.RemoteFetchConfigurationServiceImpl;
 import org.wso2.carbon.identity.remotefetch.core.executers.RemoteFetchTaskExecutor;
 import org.wso2.carbon.identity.remotefetch.core.impl.deployers.config.ServiceProviderConfigDeployerComponent;
-import org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.PollingActionListenerComponent;
+import org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.polling.PollingActionListenerComponent;
+import org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.webhook.WebHookActionListenerComponent;
 import org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository.GitRepositoryManagerComponent;
 import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationUtils;
 import org.wso2.carbon.user.core.service.RealmService;
@@ -72,6 +73,7 @@ public class RemoteFetchServiceComponent {
         remoteFetchComponentRegistry.registerRepositoryManager(new GitRepositoryManagerComponent());
         remoteFetchComponentRegistry.registerConfigDeployer(new ServiceProviderConfigDeployerComponent());
         remoteFetchComponentRegistry.registerActionListener(new PollingActionListenerComponent());
+        remoteFetchComponentRegistry.registerActionListener(new WebHookActionListenerComponent());
 
         RemoteFetchServiceComponentHolder.getInstance().setRemoteFetchComponentRegistry(remoteFetchComponentRegistry);
         RemoteFetchServiceComponentHolder.getInstance()

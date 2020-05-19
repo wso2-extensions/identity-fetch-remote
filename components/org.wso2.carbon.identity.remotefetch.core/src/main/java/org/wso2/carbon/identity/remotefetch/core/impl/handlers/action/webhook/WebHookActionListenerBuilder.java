@@ -16,36 +16,21 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.remotefetch.core.impl.handlers.action;
+package org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.webhook;
 
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListener;
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListenerBuilder;
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListenerBuilderException;
 
-import java.util.Map;
-
 /**
- * Holds builder method to build polling action listener.
+ * Holds builder method to build web hook action listener.
  */
-public class PollingActionListenerBuilder extends ActionListenerBuilder {
+public class WebHookActionListenerBuilder extends ActionListenerBuilder {
 
     @Override
     public ActionListener build() throws ActionListenerBuilderException {
 
-        Map<String, String> actionListenerAttributes = this.getFetchConfig().getActionListenerAttributes();
-        int frequency;
-
-        if (actionListenerAttributes.containsKey("frequency")) {
-            try {
-                frequency = Integer.parseInt(actionListenerAttributes.get("frequency"));
-            } catch (NumberFormatException e) {
-                throw new ActionListenerBuilderException("Frequency not valid in configuration", e);
-            }
-        } else {
-            throw new ActionListenerBuilderException("Frequency not available in configuration");
-        }
-
-        return new PollingActionListener(this.getRepoConnector(), this.getConfigDeployer(), frequency,
+        return new WebHookActionListener(this.getRepoConnector(), this.getConfigDeployer(),
                 this.getFetchConfig().getRemoteFetchConfigurationId(), this.getFetchConfig().getTenantId());
     }
 }

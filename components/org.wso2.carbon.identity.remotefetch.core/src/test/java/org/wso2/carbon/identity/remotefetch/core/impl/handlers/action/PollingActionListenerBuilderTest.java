@@ -34,6 +34,7 @@ import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployer
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager;
 import org.wso2.carbon.identity.remotefetch.core.dao.impl.DAOTestUtils;
 import org.wso2.carbon.identity.remotefetch.core.dao.impl.DeploymentRevisionDAOImpl;
+import org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.polling.PollingActionListenerBuilder;
 import org.wso2.carbon.identity.remotefetch.core.util.JdbcUtils;
 import java.io.File;
 import java.sql.Connection;
