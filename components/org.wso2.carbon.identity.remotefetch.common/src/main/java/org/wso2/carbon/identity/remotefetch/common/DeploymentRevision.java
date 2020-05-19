@@ -35,6 +35,7 @@ public class DeploymentRevision {
     private DeploymentStatus deploymentStatus;
     private String itemName;
     private String errorMessage;
+    private Date syncedDate;
 
     /**
      * Status pf Deployment.
@@ -152,6 +153,32 @@ public class DeploymentRevision {
             this.deployedDate = null;
         } else {
             this.deployedDate = new Date(deployedDate.getTime());
+        }
+    }
+
+    /**
+     * Get synced Date to  represent last synced Time.
+     * @return synced Date.
+     */
+    public Date getSyncedDate() {
+
+        if (syncedDate == null) {
+            return null;
+        } else {
+            return new Date(syncedDate.getTime());
+        }
+    }
+
+    /**
+     * Set syncedDate.
+     * @param syncedDate syncedDate.
+     */
+    public void setSyncedDate(Date syncedDate) {
+
+        if (syncedDate == null) {
+            this.syncedDate = null;
+        } else {
+            this.syncedDate = new Date(syncedDate.getTime());
         }
     }
 
