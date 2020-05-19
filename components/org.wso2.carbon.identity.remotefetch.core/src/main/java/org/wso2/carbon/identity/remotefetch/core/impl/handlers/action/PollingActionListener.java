@@ -150,9 +150,9 @@ public class PollingActionListener implements ActionListener {
         currentDeploymentRevision.setErrorMessage(
                 RemoteFetchConfigurationUtils.trimErrorMessage(exceptionStringBuilder.toString(),
                         exception));
-        currentDeploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.FAILED);
+        currentDeploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.FAIL);
         currentDeploymentRevision.setDeployedDate(new Date());
-        currentDeploymentRevision.setSyncedDate(this.lastIteration);
+        currentDeploymentRevision.setLastSyncedDate(this.lastIteration);
         if (!currentDeploymentRevision.getFile().equals(configPath)) {
             currentDeploymentRevision.setFile(configPath);
         }
@@ -187,12 +187,12 @@ public class PollingActionListener implements ActionListener {
             deploymentRevision.setFileHash("");
             deploymentRevision.setItemName(fileName);
             deploymentRevision.setDeploymentRevisionId(deploymentRevisionId);
-            deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.FAILED);
+            deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.FAIL);
             deploymentRevision.setErrorMessage(
                     RemoteFetchConfigurationUtils.trimErrorMessage(exceptionStringBuilder.toString(),
                             exception));
             deploymentRevision.setDeployedDate(new Date());
-            deploymentRevision.setSyncedDate(this.lastIteration);
+            deploymentRevision.setLastSyncedDate(this.lastIteration);
             this.deploymentRevisionDAO.createDeploymentRevision(deploymentRevision);
             this.deploymentRevisionMapNotResolved.put(deploymentRevision.getItemName(), deploymentRevision);
         } catch (RemoteFetchCoreException e) {
@@ -299,12 +299,12 @@ public class PollingActionListener implements ActionListener {
                                     this.remoteFetchConfigurationId);
                     velocityTemplatedSPDeployer.deploy(configurationFileStream);
 
-                    deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.SUCCEED);
+                    deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.SUCCESS);
                     deploymentRevision.setErrorMessage(null);
 
                 } catch (RemoteFetchCoreException | IOException e) {
                     log.error("Error Deploying " + sanitize(deploymentRevision.getFile().getName()), e);
-                    deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.FAILED);
+                    deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.FAIL);
                     deploymentRevision.setErrorMessage(RemoteFetchConfigurationUtils.trimErrorMessage(e.getMessage(),
                             e));
                 }
@@ -312,22 +312,22 @@ public class PollingActionListener implements ActionListener {
                 // Set new deployment Date
                 deploymentRevision.setDeployedDate(new Date());
                 // Set last iteration date as synced Date
-                deploymentRevision.setSyncedDate(this.lastIteration);
+                deploymentRevision.setLastSyncedDate(this.lastIteration);
 
                 try {
                     this.deploymentRevisionDAO.updateDeploymentRevision(deploymentRevision);
                 } catch (RemoteFetchCoreException e) {
-                    log.error("Error updating DeploymentRevision for " + sanitize(deploymentRevision.getItemName())
+                    log.error("Error updating DeploymentRevision for : " + sanitize(deploymentRevision.getItemName())
                             , e);
                 }
             } else {
                 // Set last iteration date as synced Date
-                deploymentRevision.setSyncedDate(this.lastIteration);
+                deploymentRevision.setLastSyncedDate(this.lastIteration);
 
                 try {
                     this.deploymentRevisionDAO.updateDeploymentRevision(deploymentRevision);
                 } catch (RemoteFetchCoreException e) {
-                    log.error("Error updating DeploymentRevision for " + sanitize(deploymentRevision.getItemName())
+                    log.error("Error updating DeploymentRevision for : " + sanitize(deploymentRevision.getItemName())
                             , e);
                 }
             }
