@@ -142,7 +142,7 @@ public class RemoteFetchConfigurationDAOImplTest extends PowerMockTestCase {
             Connection spy = DAOTestUtils.spyConnection(connection);
             when(dataSource.getConnection()).thenReturn(spy);
             List<RemoteFetchConfiguration> remoteFetchConfigurationArrayList =
-                    remoteFetchConfigurationDAO.getAllEnabledRemoteFetchConfigurations();
+                    remoteFetchConfigurationDAO.getAllEnabledPoolingRemoteFetchConfigurations();
             assertNotNull(remoteFetchConfigurationArrayList);
             assertEquals(remoteFetchConfigurationArrayList.size(), 1);
         }

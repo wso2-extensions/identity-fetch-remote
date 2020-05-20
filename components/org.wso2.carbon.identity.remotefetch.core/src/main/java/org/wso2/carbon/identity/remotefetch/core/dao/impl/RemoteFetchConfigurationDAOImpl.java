@@ -178,7 +178,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
      * @throws RemoteFetchCoreException
      */
     @Override
-    public List<RemoteFetchConfiguration> getAllEnabledRemoteFetchConfigurations() throws RemoteFetchCoreException {
+    public List<RemoteFetchConfiguration> getAllEnabledPoolingRemoteFetchConfigurations() throws RemoteFetchCoreException {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {

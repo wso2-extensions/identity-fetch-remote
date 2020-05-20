@@ -76,7 +76,7 @@ public interface RemoteFetchConfigurationService {
      * @return All Enabled Remote Fetch Configurations.
      * @throws RemoteFetchCoreException
      */
-    List<RemoteFetchConfiguration> getEnabledRemoteFetchConfigurationList() throws RemoteFetchCoreException;
+    List<RemoteFetchConfiguration> getEnabledPollingRemoteFetchConfigurationList() throws RemoteFetchCoreException;
 
     /**
      * This method is used to call by clients to delete BasicRemoteFetchConfiguration by ID.

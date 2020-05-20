@@ -269,7 +269,7 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
     private void loadListeners() {
 
         try {
-            this.fetchConfigurationService.getEnabledRemoteFetchConfigurationList()
+            this.fetchConfigurationService.getEnabledPollingRemoteFetchConfigurationList()
                     .forEach((RemoteFetchConfiguration config) -> {
                 String configurationId = config.getRemoteFetchConfigurationId();
                 // Check if RemoteFetchConfig already exists in Map.

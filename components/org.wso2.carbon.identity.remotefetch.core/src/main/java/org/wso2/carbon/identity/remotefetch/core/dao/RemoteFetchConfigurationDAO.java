@@ -68,7 +68,7 @@ public interface RemoteFetchConfigurationDAO {
      * @return
      * @throws RemoteFetchCoreException
      */
-    List<RemoteFetchConfiguration> getAllEnabledRemoteFetchConfigurations() throws RemoteFetchCoreException;
+    List<RemoteFetchConfiguration> getAllEnabledPoolingRemoteFetchConfigurations() throws RemoteFetchCoreException;
 
     /**
      * Get all remote fetch configuration for particular tenant.
