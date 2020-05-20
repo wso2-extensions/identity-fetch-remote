@@ -240,7 +240,7 @@ public class RemoteFetchConfigurationImmediateTask implements Runnable {
     public void run() {
 
         try {
-            this.buildListener().iteration();
+            this.buildListener().execute();
         } catch (RemoteFetchCoreException e) {
             log.error("Unable to trigger RemoteFetchConfigurations", e);
         }

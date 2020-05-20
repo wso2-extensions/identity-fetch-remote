@@ -16,52 +16,41 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.remotefetch.core.impl.handlers.action;
+package org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.webhook;
 
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants;
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListenerBuilder;
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListenerComponent;
 import org.wso2.carbon.identity.remotefetch.common.ui.UIField;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Holds data for UI elements.
+ *  Action Listener Component class to provide web hook action listener builder,
  */
-public class PollingActionListenerComponent implements ActionListenerComponent {
+public class WebHookActionListenerComponent implements ActionListenerComponent {
 
     @Override
     public ActionListenerBuilder getActionListenerBuilder() {
 
-        return new PollingActionListenerBuilder();
+        return new WebHookActionListenerBuilder();
     }
 
     @Override
     public String getIdentifier() {
 
-        return RemoteFetchConstants.IDENTIFIER_POLLING_ACTION_LISTENER_COMPONENT;
+        return RemoteFetchConstants.IDENTIFIER_WEB_HOOK_ACTION_LISTENER_COMPONENT;
     }
 
     @Override
     public String getName() {
 
-        return "Frequent Polling";
+        return "GitHub Web Hook";
     }
 
     @Override
     public List<UIField> getUIFields() {
 
-        ArrayList<UIField> fieldList = new ArrayList();
-
-        fieldList.add(new UIField(
-                "frequency", UIField.FieldTypes.TEXT_BOX, "Polling Frequency",
-                "Number of seconds polling should occur", "^\\d+$", "60",
-                true, false, false
-
-        ));
-
-        return fieldList;
+        return null;
     }
 }

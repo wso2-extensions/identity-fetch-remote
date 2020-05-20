@@ -28,7 +28,7 @@ import org.wso2.carbon.identity.remotefetch.common.RemoteFetchComponentRegistry;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.core.RemoteFetchComponentRegistryImpl;
 import org.wso2.carbon.identity.remotefetch.core.impl.deployers.config.ServiceProviderConfigDeployerComponent;
-import org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.PollingActionListenerComponent;
+import org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.polling.PollingActionListenerComponent;
 import org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository.GitRepositoryManagerComponent;
 
 import java.util.HashMap;
