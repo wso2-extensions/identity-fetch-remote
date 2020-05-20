@@ -27,5 +27,5 @@ public interface ActionListener {
     /**
      * Contains logic to listen for updates.
      */
-    void iteration();
+    void execute();
 }

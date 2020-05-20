@@ -43,14 +43,14 @@ public class PollingActionListener extends ActionListenerImpl {
     }
 
     @Override
-    public void iteration() {
+    public void execute() {
 
         Calendar nextIteration = Calendar.getInstance();
         nextIteration.add(Calendar.MINUTE, this.frequency);
         if ((lastIteration == null) || (lastIteration.before(nextIteration.getTime()))) {
-            super.iteration();
+            super.execute();
             if (log.isDebugEnabled()) {
-                log.debug("Polling Action Listener iteration is executed`");
+                log.debug("Polling Action Listener is executed`");
             }
         }
     }

@@ -301,7 +301,7 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
 
         loadListeners();
         for (ActionListener actionListener : this.actionListenerMap.values()) {
-            actionListener.iteration();
+            actionListener.execute();
         }
     }
 

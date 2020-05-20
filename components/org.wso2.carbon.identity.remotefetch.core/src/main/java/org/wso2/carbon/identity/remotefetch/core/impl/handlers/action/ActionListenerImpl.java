@@ -72,7 +72,7 @@ public class ActionListenerImpl implements ActionListener {
     }
 
     @Override
-    public void iteration() {
+    public void execute() {
         try {
             this.repo.fetchRepository();
         } catch (RemoteFetchCoreException e) {

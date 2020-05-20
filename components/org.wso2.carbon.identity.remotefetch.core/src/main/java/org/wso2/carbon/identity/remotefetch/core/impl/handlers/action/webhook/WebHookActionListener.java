@@ -18,8 +18,6 @@
 
 package org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.webhook;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployer;
 import org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager;
 import org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.ActionListenerImpl;
@@ -29,20 +27,9 @@ import org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.ActionList
  */
 public class WebHookActionListener  extends ActionListenerImpl {
 
-    private static final Log log = LogFactory.getLog(WebHookActionListener.class);
-
     public WebHookActionListener(RepositoryManager repo, ConfigDeployer configDeployer,
                                  String remoteFetchConfigurationId, int tenantId) {
 
         super(repo, configDeployer, remoteFetchConfigurationId, tenantId);
-    }
-
-    @Override
-    public void iteration() {
-
-        super.iteration();
-        if (log.isDebugEnabled()) {
-            log.debug("Web hook Action Listener iteration is executed");
-        }
     }
 }
