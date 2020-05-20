@@ -42,7 +42,7 @@ public class RemoteFetchConfiguration {
     private String repositoryManagerType = "";
     private String actionListenerType = "";
     private String configurationDeployerType = "";
-    private String remoteResourceURI = "";
+    private String remoteResourceURI;
     private Map<String, String> repositoryManagerAttributes = new HashMap<>();
     private Map<String, String> actionListenerAttributes = new HashMap<>();
     private Map<String, String> configurationDeployerAttributes = new HashMap<>();

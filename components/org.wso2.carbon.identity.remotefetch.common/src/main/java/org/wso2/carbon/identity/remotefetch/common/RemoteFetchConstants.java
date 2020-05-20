@@ -40,7 +40,7 @@ public class RemoteFetchConstants {
 
     public static final String IDENTIFIER_GIT_REPOSITORY_MANAGER_COMPONENT = "GIT";
     public static final String IDENTIFIER_POLLING_ACTION_LISTENER_COMPONENT = "POLLING";
-    public static final String IDENTIFIER_WEB_HOOK_ACTION_LISTENER_COMPONENT = "WEB HOOK";
+    public static final String IDENTIFIER_WEB_HOOK_ACTION_LISTENER_COMPONENT = "WEB_HOOK";
     public static final String IDENTIFIER_SERVICE_PROVIDER_CONFIG_DEPLOYER_COMPONENT = "SP";
     public static final String URL_DELIMITER = "/";
     public static final String TREE = "tree";

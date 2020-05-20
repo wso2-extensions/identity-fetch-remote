@@ -80,6 +80,15 @@ public interface RemoteFetchConfigurationDAO {
             throws RemoteFetchCoreException;
 
     /**
+     * Get all remote fetch configuration which have Web Hook as action listener for particular tenant.
+     * @param tenantId
+     * @return
+     * @throws RemoteFetchCoreException
+     */
+    List<RemoteFetchConfiguration> getWebHookRemoteFetchConfigurationsByTenant(int tenantId)
+            throws RemoteFetchCoreException;
+
+    /**
      * Get all basic remote fetch configuration for particular tenant.
      * @param tenantDomain
      * @param limit

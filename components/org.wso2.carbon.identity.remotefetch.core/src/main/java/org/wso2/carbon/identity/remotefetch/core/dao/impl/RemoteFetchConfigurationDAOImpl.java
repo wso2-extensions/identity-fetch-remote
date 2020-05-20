@@ -178,7 +178,8 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
      * @throws RemoteFetchCoreException
      */
     @Override
-    public List<RemoteFetchConfiguration> getAllEnabledPoolingRemoteFetchConfigurations() throws RemoteFetchCoreException {
+    public List<RemoteFetchConfiguration> getAllEnabledPoolingRemoteFetchConfigurations()
+            throws RemoteFetchCoreException {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {
@@ -204,6 +205,23 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
         try {
             return jdbcTemplate.withTransaction(template ->
                     template.executeQuery(SQLConstants.LIST_CONFIGS_BY_TENANT,
+                            ((resultSet, i) -> this.resultSetToConfiguration(resultSet)),
+                            preparedStatement -> preparedStatement.setInt(1, tenantId))
+            );
+        } catch (TransactionException e) {
+            throw RemoteFetchConfigurationUtils.handleServerException(RemoteFetchConstants.ErrorMessage.
+                    ERROR_CODE_RETRIEVE_RF_CONFIGS, e);
+        }
+    }
+
+    @Override
+    public List<RemoteFetchConfiguration> getWebHookRemoteFetchConfigurationsByTenant(int tenantId)
+            throws RemoteFetchCoreException {
+
+        JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
+        try {
+            return jdbcTemplate.withTransaction(template ->
+                    template.executeQuery(SQLConstants.LIST_WEB_HOOK_FETCH_CONFIGS_BY_TENANT,
                             ((resultSet, i) -> this.resultSetToConfiguration(resultSet)),
                             preparedStatement -> preparedStatement.setInt(1, tenantId))
             );

@@ -103,4 +103,13 @@ public interface RemoteFetchConfigurationService {
      */
     List<DeploymentRevision> getDeploymentRevisions(String fetchConfigurationId) throws RemoteFetchCoreException;
 
+    /**
+     * This method is used to handle web hook by calling web hook handler.
+     * @param url url of remote repository.
+     * @param branch branch of remote repository.
+     * @param modifiedFileNames Files been modified by given push.
+     * @throws RemoteFetchCoreException
+     */
+    void handleWebHook(String url, String branch, List<String> modifiedFileNames) throws RemoteFetchCoreException;
+
 }

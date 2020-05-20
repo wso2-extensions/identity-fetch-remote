@@ -33,6 +33,7 @@ import org.wso2.carbon.identity.remotefetch.core.dao.RemoteFetchConfigurationDAO
 import org.wso2.carbon.identity.remotefetch.core.dao.impl.DeploymentRevisionDAOImpl;
 import org.wso2.carbon.identity.remotefetch.core.dao.impl.RemoteFetchConfigurationDAOImpl;
 import org.wso2.carbon.identity.remotefetch.core.executers.RemoteFetchTaskExecutor;
+import org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.WebHookHandler;
 import org.wso2.carbon.identity.remotefetch.core.internal.RemoteFetchServiceComponentHolder;
 import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationUtils;
 import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationValidator;
@@ -151,7 +152,8 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
      * @throws RemoteFetchCoreException
      */
     @Override
-    public List<RemoteFetchConfiguration> getEnabledPollingRemoteFetchConfigurationList() throws RemoteFetchCoreException {
+    public List<RemoteFetchConfiguration> getEnabledPollingRemoteFetchConfigurationList()
+            throws RemoteFetchCoreException {
 
         return this.fetchConfigurationDAO.getAllEnabledPoolingRemoteFetchConfigurations();
     }
@@ -191,6 +193,16 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
             throws RemoteFetchCoreException {
 
         return this.deploymentRevisionDAO.getDeploymentRevisionsByConfigurationId(fetchConfigurationId);
+    }
+
+    @Override
+    public void handleWebHook(String url, String branch, List<String> modifiedFileNames)
+            throws RemoteFetchCoreException {
+
+        WebHookHandler webHookHandler =
+                new WebHookHandler(url, branch, modifiedFileNames, this.remoteFetchTaskExecutor);
+        webHookHandler.handleWebHook();
+
     }
 
     /**

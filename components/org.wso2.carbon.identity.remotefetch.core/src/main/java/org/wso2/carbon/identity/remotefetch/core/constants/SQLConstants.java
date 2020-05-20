@@ -19,6 +19,7 @@
 package org.wso2.carbon.identity.remotefetch.core.constants;
 
 import org.wso2.carbon.identity.remotefetch.common.DeploymentRevision;
+import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants;
 
 /**
  * Constant Queries for DAOs.
@@ -27,7 +28,6 @@ public class SQLConstants {
 
     private static final String REVISION_DEPLOYMENT_OK = DeploymentRevision.DeploymentStatus.SUCCESS.name();
     private static final String REVISION_DEPLOYMENT_FAIL = DeploymentRevision.DeploymentStatus.FAIL.name();
-    private static final String TYPE_ACTION_LISTENER = "POLLING";
 
     public static final String DB_H2 = "H2";
     public static final String DB_MYSQL = "MySQL";
@@ -64,14 +64,20 @@ public class SQLConstants {
             " REPO_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE, REMOTE_FETCH_NAME, ATTRIBUTES_JSON," +
             " REMOTE_RESOURCE_URI FROM IDN_REMOTE_FETCH_CONFIG";
 
-    public static final String LIST_ENABLED_CONFIGS = "SELECT ID, TENANT_ID, IS_ENABLED," +
+    public static final String LIST_ENABLED_CONFIGS = String.format("SELECT ID, TENANT_ID, IS_ENABLED," +
             " REPO_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE,REMOTE_FETCH_NAME,REMOTE_RESOURCE_URI, " +
-            " ATTRIBUTES_JSON FROM IDN_REMOTE_FETCH_CONFIG WHERE IS_ENABLED = '1' AND ACTION_LISTENER_TYPE = " +
-            TYPE_ACTION_LISTENER;
+            " ATTRIBUTES_JSON FROM IDN_REMOTE_FETCH_CONFIG WHERE IS_ENABLED = '1' AND ACTION_LISTENER_TYPE = '%s'",
+            RemoteFetchConstants.IDENTIFIER_POLLING_ACTION_LISTENER_COMPONENT);
 
     public static final String LIST_CONFIGS_BY_TENANT = "SELECT ID, TENANT_ID, IS_ENABLED," +
             " REPO_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE,REMOTE_FETCH_NAME,REMOTE_RESOURCE_URI, " +
             " ATTRIBUTES_JSON FROM IDN_REMOTE_FETCH_CONFIG WHERE TENANT_ID = ?";
+
+    public static final String LIST_WEB_HOOK_FETCH_CONFIGS_BY_TENANT = String.format("SELECT ID, TENANT_ID," +
+                    " IS_ENABLED, REPO_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE,REMOTE_FETCH_NAME," +
+                    "REMOTE_RESOURCE_URI, ATTRIBUTES_JSON FROM IDN_REMOTE_FETCH_CONFIG WHERE TENANT_ID = ? " +
+                    "AND ACTION_LISTENER_TYPE = '%s'",
+            RemoteFetchConstants.IDENTIFIER_WEB_HOOK_ACTION_LISTENER_COMPONENT);
 
     public static final String LIST_BASIC_CONFIGS_BY_TENANT = String.format("SELECT IDN_REMOTE_FETCH_CONFIG.ID," +
                     " IDN_REMOTE_FETCH_CONFIG.IS_ENABLED," +
