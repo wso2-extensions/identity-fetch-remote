@@ -76,7 +76,7 @@ public interface RemoteFetchConfigurationService {
      * @return All Enabled Remote Fetch Configurations.
      * @throws RemoteFetchCoreException
      */
-    List<RemoteFetchConfiguration> getEnabledRemoteFetchConfigurationList() throws RemoteFetchCoreException;
+    List<RemoteFetchConfiguration> getEnabledPollingRemoteFetchConfigurationList() throws RemoteFetchCoreException;
 
     /**
      * This method is used to call by clients to delete BasicRemoteFetchConfiguration by ID.
@@ -102,5 +102,14 @@ public interface RemoteFetchConfigurationService {
      * @throws RemoteFetchCoreException
      */
     List<DeploymentRevision> getDeploymentRevisions(String fetchConfigurationId) throws RemoteFetchCoreException;
+
+    /**
+     * This method is used to handle web hook by calling web hook handler.
+     * @param url url of remote repository.
+     * @param branch branch of remote repository.
+     * @param modifiedFileNames Files been modified by given push.
+     * @throws RemoteFetchCoreException
+     */
+    void handleWebHook(String url, String branch, List<String> modifiedFileNames) throws RemoteFetchCoreException;
 
 }

@@ -68,7 +68,7 @@ public interface RemoteFetchConfigurationDAO {
      * @return
      * @throws RemoteFetchCoreException
      */
-    List<RemoteFetchConfiguration> getAllEnabledRemoteFetchConfigurations() throws RemoteFetchCoreException;
+    List<RemoteFetchConfiguration> getAllEnabledPollingRemoteFetchConfigurations() throws RemoteFetchCoreException;
 
     /**
      * Get all remote fetch configuration for particular tenant.
@@ -77,6 +77,15 @@ public interface RemoteFetchConfigurationDAO {
      * @throws RemoteFetchCoreException
      */
     List<RemoteFetchConfiguration> getRemoteFetchConfigurationsByTenant(int tenantId)
+            throws RemoteFetchCoreException;
+
+    /**
+     * Get all remote fetch configuration which have Web Hook as action listener for particular tenant.
+     * @param tenantId
+     * @return
+     * @throws RemoteFetchCoreException
+     */
+    List<RemoteFetchConfiguration> getWebHookRemoteFetchConfigurationsByTenant(int tenantId)
             throws RemoteFetchCoreException;
 
     /**
