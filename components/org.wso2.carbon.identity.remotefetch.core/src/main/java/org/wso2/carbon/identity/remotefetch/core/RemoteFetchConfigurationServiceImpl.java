@@ -155,7 +155,7 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
     public List<RemoteFetchConfiguration> getEnabledPollingRemoteFetchConfigurationList()
             throws RemoteFetchCoreException {
 
-        return this.fetchConfigurationDAO.getAllEnabledPoolingRemoteFetchConfigurations();
+        return this.fetchConfigurationDAO.getAllEnabledPollingRemoteFetchConfigurations();
     }
 
     /**
