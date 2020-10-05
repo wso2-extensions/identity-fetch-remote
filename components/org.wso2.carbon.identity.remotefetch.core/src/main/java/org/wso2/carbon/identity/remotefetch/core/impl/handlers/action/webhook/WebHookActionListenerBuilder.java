@@ -27,6 +27,11 @@ import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListener
  */
 public class WebHookActionListenerBuilder extends ActionListenerBuilder {
 
+    /**
+     * Build and return a new ActionListener with the set configuration.
+     * @return ActionListener
+     * @throws ActionListenerBuilderException ActionListenerBuilderException
+     */
     @Override
     public ActionListener build() throws ActionListenerBuilderException {
 

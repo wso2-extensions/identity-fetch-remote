@@ -43,6 +43,9 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.wso2.carbon.identity.remotefetch.core.dao.TestConstants.DB_NAME;
+import static org.wso2.carbon.identity.remotefetch.core.dao.TestConstants.DEPLOYMENT_REVISION_ID;
+import static org.wso2.carbon.identity.remotefetch.core.dao.TestConstants.REMOTE_FETCH_CONFIGURATION_ID;
 
 /**
  * Unit test covering DeploymentRevisionDAOImpl.
@@ -50,20 +53,14 @@ import static org.testng.Assert.assertNotNull;
 @PrepareForTest(JdbcUtils.class)
 public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
 
-    private static final String DB_NAME = "IDN_REMOTE_FETCH_DB";
-    private String configId = "00000000-0000-0000-0000-d29bed62f7bd";
-    private String  deploymentRevisionId = "11111111-0000-0000-0000-d29bed62f7bd";
-
     DeploymentRevisionDAOImpl deploymentRevisionDAO = new DeploymentRevisionDAOImpl();
-    DeploymentRevision deploymentRevision = new DeploymentRevision(configId, null);
-
-
+    DeploymentRevision deploymentRevision = new DeploymentRevision(REMOTE_FETCH_CONFIGURATION_ID, null);
 
     @BeforeClass
     public void setUp() throws Exception {
 
         DAOTestUtils.initiateH2Base(DB_NAME, DAOTestUtils.getFilePath("permission.sql"));
-        DAOTestUtils.createFetchConfig(DB_NAME, configId, TestConstants.TENANT_ID, true,
+        DAOTestUtils.createFetchConfig(DB_NAME, REMOTE_FETCH_CONFIGURATION_ID, TestConstants.TENANT_ID, true,
                 TestConstants.REPO_MANAGER_TYPE, TestConstants.ACTION_LISTENER_TYPE, TestConstants.CONFIG_DEPLOYER_TYPE
                 , TestConstants.getAttributesJson(), "RemoteFetchTest",
                 "https://github.com/IS/Test2.git/tree/master/sp");
@@ -129,7 +126,7 @@ public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
             Connection spy = DAOTestUtils.spyConnection(connection);
             when(dataSource.getConnection()).thenReturn(spy);
             List<DeploymentRevision> deploymentRevisionList =
-                    deploymentRevisionDAO.getDeploymentRevisionsByConfigurationId(configId);
+                    deploymentRevisionDAO.getDeploymentRevisionsByConfigurationId(REMOTE_FETCH_CONFIGURATION_ID);
             assertNotNull(deploymentRevisionList);
             assertEquals(deploymentRevisionList.size(), 1);
         }
@@ -145,7 +142,7 @@ public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
             Connection spy = DAOTestUtils.spyConnection(connection);
             when(dataSource.getConnection()).thenReturn(spy);
             DeploymentRevision deploymentRevisionNew =
-                    deploymentRevisionDAO.getDeploymentRevision(configId, "NewDemoApp");
+                    deploymentRevisionDAO.getDeploymentRevision(REMOTE_FETCH_CONFIGURATION_ID, "NewDemoApp");
             assertNotNull(deploymentRevisionNew);
             assertEquals(deploymentRevisionNew.getDeploymentStatus(), DeploymentRevision.DeploymentStatus.SUCCESS);
 
@@ -161,7 +158,7 @@ public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
         try (Connection connection = DAOTestUtils.getConnection(DB_NAME)) {
             Connection spy = DAOTestUtils.spyConnection(connection);
             when(dataSource.getConnection()).thenReturn(spy);
-            deploymentRevisionDAO.deleteDeploymentRevision(configId);
+            deploymentRevisionDAO.deleteDeploymentRevision(REMOTE_FETCH_CONFIGURATION_ID);
         }
     }
 
@@ -170,11 +167,11 @@ public class DeploymentRevisionDAOImplTest extends PowerMockTestCase {
         long millis = System.currentTimeMillis();
         java.sql.Date date = new java.sql.Date(millis);
 
-        deploymentRevision.setDeploymentRevisionId(deploymentRevisionId);
+        deploymentRevision.setDeploymentRevisionId(DEPLOYMENT_REVISION_ID);
         deploymentRevision.setItemName("NewDemoApp");
         deploymentRevision.setFileHash("12345678");
         deploymentRevision.setFile(new File("sp/newFile.xml"));
-        deploymentRevision.setConfigId(configId);
+        deploymentRevision.setConfigId(REMOTE_FETCH_CONFIGURATION_ID);
         deploymentRevision.setDeployedDate(date);
         deploymentRevision.setDeploymentStatus(DeploymentRevision.DeploymentStatus.SUCCESS);
         deploymentRevision.setErrorMessage("Test Error Message");

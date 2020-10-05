@@ -34,6 +34,10 @@ public class RemoteFetchRegistryClient {
     private static final String FIELD_ACTION_LISTENER = "actionListener";
     private static final String FIELD_CONFIG_DEPLOYER = "configDeployer";
 
+    /**
+     * Get all Component from the registry and map it to provide necessary UI fields.
+     * @return Map of UI fields.
+     */
     public static Map<String, Map<String, List<UIField>>> getAllComponentUIFields() {
 
         Map<String, Map<String, List<UIField>>> allComponentFields = new HashMap<>();

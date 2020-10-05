@@ -36,8 +36,8 @@ public abstract class RepositoryManagerBuilder {
     /**
      * Set RemoteFetchConfiguration attribute.
      *
-     * @param fetchConfig
-     * @return
+     * @param fetchConfig RemoteFetchConfiguration
+     * @return RepositoryManagerBuilder
      */
     public RepositoryManagerBuilder addRemoteFetchConfig(RemoteFetchConfiguration fetchConfig) {
 
@@ -48,8 +48,8 @@ public abstract class RepositoryManagerBuilder {
     /**
      * Set RemoteFetchCoreConfiguration attribute.
      *
-     * @param fetchCoreConfiguration
-     * @return
+     * @param fetchCoreConfiguration RemoteFetchCoreConfiguration
+     * @return RepositoryManagerBuilder
      */
     public RepositoryManagerBuilder addRemoteFetchCoreConfig(RemoteFetchCoreConfiguration fetchCoreConfiguration) {
 
@@ -59,7 +59,7 @@ public abstract class RepositoryManagerBuilder {
 
     /**
      * Get FetchConfiguration.
-     * @return
+     * @return RemoteFetchConfiguration
      */
     public RemoteFetchConfiguration getFetchConfig() {
 
@@ -68,7 +68,7 @@ public abstract class RepositoryManagerBuilder {
 
     /**
      * Get FetchCoreConfiguration.
-     * @return
+     * @return RemoteFetchCoreConfiguration
      */
     public RemoteFetchCoreConfiguration getFetchCoreConfiguration() {
 
@@ -78,8 +78,8 @@ public abstract class RepositoryManagerBuilder {
     /**
      * Build and return a new RepositoryManager with the set configuration.
      *
-     * @return
-     * @throws RepositoryManagerBuilderException
+     * @return RepositoryManagerBuilderException
+     * @throws RepositoryManagerBuilderException throwable RepositoryManagerBuilderException
      */
     public abstract RepositoryManager build() throws RepositoryManagerBuilderException;
 }

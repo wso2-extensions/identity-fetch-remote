@@ -51,6 +51,8 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.wso2.carbon.identity.remotefetch.core.dao.TestConstants.DEPLOYMENT_REVISION_ID;
+import static org.wso2.carbon.identity.remotefetch.core.dao.TestConstants.REMOTE_FETCH_CONFIGURATION_ID;
 
 /**
  * Unit test covering PollingActionListenerBuilder.
@@ -71,7 +73,7 @@ public class PollingActionListenerBuilderTest extends PowerMockTestCase {
 
     Map<String, String> actionListenerAttributesMap = new HashMap<>();
     RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration
-            ("00000000-0000-0000-0000-d29bed62f7bd",
+            (REMOTE_FETCH_CONFIGURATION_ID,
             -1234,
             true, "GIT", "POLLING",
             "SP", "RemoteFetchTest",
@@ -140,11 +142,11 @@ public class PollingActionListenerBuilderTest extends PowerMockTestCase {
     private DeploymentRevision buildDummyDeploymentRevision() {
 
         DeploymentRevision deploymentRevision = new DeploymentRevision
-                ("00000000-0000-0000-0000-d29bed62f7bd", null);
+                (REMOTE_FETCH_CONFIGURATION_ID, null);
         long millis = System.currentTimeMillis();
         java.sql.Date date = new java.sql.Date(millis);
 
-        deploymentRevision.setDeploymentRevisionId("11111111-0000-0000-0000-d29bed62f7bd");
+        deploymentRevision.setDeploymentRevisionId(DEPLOYMENT_REVISION_ID);
         deploymentRevision.setItemName("NewDemoApp");
         deploymentRevision.setFileHash("12345678");
         deploymentRevision.setFile(new File("sp/newFile.xml"));

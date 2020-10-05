@@ -42,6 +42,9 @@ public class PollingActionListener extends ActionListenerImpl {
         this.frequency = frequency;
     }
 
+    /**
+     * Contains logic to listen for updates for polling type.
+     */
     @Override
     public void execute() {
 

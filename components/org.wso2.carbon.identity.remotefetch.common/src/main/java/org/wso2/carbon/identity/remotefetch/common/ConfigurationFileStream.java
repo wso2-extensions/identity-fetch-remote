@@ -32,8 +32,8 @@ public class ConfigurationFileStream {
 
     /**
      * Default constructor.
-     * @param contentStream
-     * @param path
+     * @param contentStream Input contentStream
+     * @param path File path
      */
     public ConfigurationFileStream(InputStream contentStream, File path) {
 

@@ -44,14 +44,14 @@ public class BasicRemoteFetchConfiguration {
 
     /**
      * Following constructor is used only by Test classes.
-     * @param id
-     * @param isEnabled
-     * @param repositoryManagerType
-     * @param actionListenerType
-     * @param configurationDeployerType
-     * @param remoteFetchName
-     * @param successfulDeployments
-     * @param failedDeployments
+     * @param id UUID
+     * @param isEnabled Polling enabled or not
+     * @param repositoryManagerType repositoryManagerType
+     * @param actionListenerType actionListenerType
+     * @param configurationDeployerType configurationDeployerType
+     * @param remoteFetchName remoteFetchName
+     * @param successfulDeployments no. of successfulDeployments
+     * @param failedDeployments no. of failedDeployments
      */
     public BasicRemoteFetchConfiguration(String id, boolean isEnabled,
                                          String repositoryManagerType,
@@ -79,7 +79,7 @@ public class BasicRemoteFetchConfiguration {
     }
 
     /**
-     *Get remoteFetchName.
+     * Get remoteFetchName.
      * @return remoteFetName.
      */
     public String getRemoteFetchName() {
@@ -159,7 +159,7 @@ public class BasicRemoteFetchConfiguration {
 
     /**
      * Set last deployed time after successful trigger.
-     * @param lastDeployed
+     * @param lastDeployed lastDeployed
      */
     public void setLastDeployed(Date lastDeployed) {
 
@@ -172,7 +172,7 @@ public class BasicRemoteFetchConfiguration {
 
     /**
      * Set Unique Id for basic remote fetch configuration.
-     * @param id
+     * @param id id
      */
     public void setId(String id) {
 
@@ -182,7 +182,7 @@ public class BasicRemoteFetchConfiguration {
     /**
      * Set enabled attribute for basic remote fetch configuration.
      * This attribute eligible corresponding fettch configuration to trigger periodically.
-     * @param enabled
+     * @param enabled enabled flag
      */
     public void setEnabled(boolean enabled) {
 
@@ -191,7 +191,7 @@ public class BasicRemoteFetchConfiguration {
 
     /**
      * Set readable name for remote fetch configuration.
-     * @param remoteFetchName
+     * @param remoteFetchName remoteFetchName
      */
     public void setRemoteFetchName(String remoteFetchName) {
 
@@ -201,7 +201,7 @@ public class BasicRemoteFetchConfiguration {
     /**
      * Set Repository Manager Type.
      * @see org.wso2.carbon.identity.remotefetch.common.repomanager.RepositoryManager
-     * @param repositoryManagerType
+     * @param repositoryManagerType repositoryManagerType
      */
     public void setRepositoryManagerType(String repositoryManagerType) {
 
@@ -211,7 +211,7 @@ public class BasicRemoteFetchConfiguration {
     /**
      * Set Action Listener Type.
      * @see org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListener
-     * @param actionListenerType
+     * @param actionListenerType actionListenerType
      */
     public void setActionListenerType(String actionListenerType) {
 
@@ -221,7 +221,7 @@ public class BasicRemoteFetchConfiguration {
     /**
      * Set Config Deployer type.
      * @see org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployer
-     * @param configurationDeployerType
+     * @param configurationDeployerType configurationDeployerType
      */
     public void setConfigurationDeployerType(String configurationDeployerType) {
 
@@ -230,7 +230,7 @@ public class BasicRemoteFetchConfiguration {
 
     /**
      * Set number of successful deployment deployed in last trigger.
-     * @param successfulDeployments
+     * @param successfulDeployments successfulDeployments
      */
     public void setSuccessfulDeployments(int successfulDeployments) {
 
@@ -239,7 +239,7 @@ public class BasicRemoteFetchConfiguration {
 
     /**
      * Set number of failed deployment deployed in last trigger.
-     * @param failedDeployments
+     * @param failedDeployments failedDeployments
      */
     public void setFailedDeployments(int failedDeployments) {
 

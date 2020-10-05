@@ -70,7 +70,7 @@ public class ServiceProviderConfigDeployer implements ConfigDeployer {
      *
      * @param configurationFileStream ConfigurationFileStream of cloned application
      * @throws RemoteFetchCoreException RemoteFetchCoreException
-     * @throws IOException              IOException
+     * @throws IOException IOException
      */
     @Override
     public void deploy(ConfigurationFileStream configurationFileStream) throws RemoteFetchCoreException, IOException {

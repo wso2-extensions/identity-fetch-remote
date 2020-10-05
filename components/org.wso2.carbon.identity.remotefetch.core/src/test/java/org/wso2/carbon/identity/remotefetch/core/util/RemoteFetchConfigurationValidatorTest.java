@@ -36,6 +36,7 @@ import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.wso2.carbon.identity.remotefetch.core.dao.TestConstants.REMOTE_FETCH_CONFIGURATION_ID;
 
 /**
  * Unit test covering RemoteFetchConfigurationValidator.
@@ -43,7 +44,7 @@ import static org.testng.Assert.assertNotNull;
 @PrepareForTest(RemoteFetchConfigurationValidator.class)
 public class RemoteFetchConfigurationValidatorTest extends PowerMockTestCase {
 
-    private static final String ID = "00000000-0000-0000-0000-d29bed62f7bd";
+    private static final String ID = REMOTE_FETCH_CONFIGURATION_ID;
     private static final int TENANT_ID = -1234;
     private static final boolean IS_ENABLED = true;
     private static final String REPO_MANAGER_TYPE = "GIT";

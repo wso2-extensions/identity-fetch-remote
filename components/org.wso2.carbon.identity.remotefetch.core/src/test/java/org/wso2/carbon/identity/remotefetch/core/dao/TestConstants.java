@@ -34,11 +34,13 @@ public class TestConstants {
     public static Map<String, String> repositoryManagerAttributes = new HashMap<>();
     public static Map<String, String> actionListenerAttributes = new HashMap<>();
     public static Map<String, String> configurationDeployerAttributes = new HashMap<>();
+    public static final String DB_NAME = "IDN_REMOTE_FETCH_DB";
+    public static final String REMOTE_FETCH_CONFIGURATION_ID = "00000000-0000-0000-0000-d29bed62f7bd";
+    public static final String DEPLOYMENT_REVISION_ID = "11111111-0000-0000-0000-d29bed62f7bd";
 
     public static JSONObject getAttributesJson() {
 
-        String remoteFetchConfigurationId = "00000000-0000-0000-0000-d29bed62f7bd";
-        RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration(remoteFetchConfigurationId,
+        RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration(REMOTE_FETCH_CONFIGURATION_ID,
                 TENANT_ID, false, null, null,
                 null,
                 null, null);
@@ -58,7 +60,7 @@ public class TestConstants {
         JSONObject attributesBundle = new JSONObject();
         attributesBundle.put("repositoryManagerAttributes",
                 remoteFetchConfiguration.getRepositoryManagerAttributes());
-        attributesBundle.put("confgiurationDeployerAttributes",
+        attributesBundle.put("configurationDeployerAttributes",
                 remoteFetchConfiguration.getConfigurationDeployerAttributes());
         attributesBundle.put("actionListenerAttributes", remoteFetchConfiguration.getActionListenerAttributes());
 

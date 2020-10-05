@@ -33,41 +33,41 @@ public interface RepositoryManager {
     /**
      * Method to Check for updates on the remote repository and fetch to local.
      *
-     * @throws Exception
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     void fetchRepository() throws RemoteFetchCoreException;
 
     /**
      * Returns an InputStream for the specified path from local repository.
      *
-     * @param location
-     * @return
-     * @throws RemoteFetchCoreException
+     * @param location Configuration File location
+     * @return ConfigurationFileStream
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     ConfigurationFileStream getFile(File location) throws RemoteFetchCoreException;
 
     /**
      * Returns the last modified date of the local file.
      *
-     * @param location
-     * @return
-     * @throws RemoteFetchCoreException
+     * @param location Configuration File location
+     * @return Date
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     Date getLastModified(File location) throws RemoteFetchCoreException;
 
     /**
      * Gets an unique identifier for file state.
      *
-     * @param location
-     * @return
-     * @throws RemoteFetchCoreException
+     * @param location Configuration File location
+     * @return File Hash
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     String getRevisionHash(File location) throws RemoteFetchCoreException;
 
     /**
      * List files from local repository.
-     * @return
-     * @throws RemoteFetchCoreException
+     * @return List of configuration files.
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     List<File> listFiles() throws RemoteFetchCoreException;
 }

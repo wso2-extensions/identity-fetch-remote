@@ -47,7 +47,7 @@ public class RemoteFetchConfigurationUtils {
      * Parse configuration from deployment toml file.
      *
      * @return RemoteFetchCoreConfiguration
-     * @throws RemoteFetchCoreException
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     public static RemoteFetchCoreConfiguration parseConfiguration() throws RemoteFetchCoreException {
 
@@ -227,6 +227,12 @@ public class RemoteFetchConfigurationUtils {
         return message;
     }
 
+    /**
+     * Trim Error message inorder to store in db
+     * @param message Error Message
+     * @param inspectThrowable Throwable to get full stack trace
+     * @return full trimmed error message
+     */
     public static String trimErrorMessage(String message, Throwable inspectThrowable) {
 
         StringBuilder errorStringBuilder = new StringBuilder();

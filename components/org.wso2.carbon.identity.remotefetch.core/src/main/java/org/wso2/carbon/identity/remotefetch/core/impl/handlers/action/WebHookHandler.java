@@ -34,7 +34,6 @@ import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.I
 import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.ID_UI_FIELD_DIRECTORY;
 import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.ID_UI_FIELD_URI;
 
-
 /**
  * This class is used to handle web hook.{@see https://developer.github.com/webhooks/}
  *
@@ -66,7 +65,7 @@ public class WebHookHandler {
     /**
      * This method is used to check if web hook matches with any remote fetch configuration for particular tenant.
      * If so schedule a immediate task for matched remote fetch configuration.
-     * @throws RemoteFetchCoreException
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     public void handleWebHook() throws RemoteFetchCoreException {
 
@@ -74,7 +73,6 @@ public class WebHookHandler {
         List<RemoteFetchConfiguration> remoteFetchConfigurations =
                 this.remoteFetchConfigurationDAO.getWebHookRemoteFetchConfigurationsByTenant(tenantId);
         for (RemoteFetchConfiguration remoteFetchConfiguration: remoteFetchConfigurations) {
-
             if (isWebHookMatches(remoteFetchConfiguration)) {
                 remoteFetchTaskExecutor.startImmediateTaskExecution(remoteFetchConfiguration);
             }
@@ -83,8 +81,8 @@ public class WebHookHandler {
 
     /**
      * Check whether given web hook params are matching with remote fetch configuration.
-     * @param remoteFetchConfiguration
-     * @return
+     * @param remoteFetchConfiguration RemoteFetchConfiguration
+     * @return flag used to point whether webhook matches with corresponding remote fetch configuration.
      */
     private boolean isWebHookMatches(RemoteFetchConfiguration remoteFetchConfiguration) {
 
@@ -95,5 +93,4 @@ public class WebHookHandler {
                 modifiedFileNames.stream().anyMatch(modifiedFileName ->
                         (modifiedFileName.startsWith(repositoryManagerAttributes.get(ID_UI_FIELD_DIRECTORY))));
     }
-
 }

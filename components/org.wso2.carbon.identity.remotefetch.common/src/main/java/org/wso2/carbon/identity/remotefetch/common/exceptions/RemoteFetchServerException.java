@@ -23,21 +23,45 @@ package org.wso2.carbon.identity.remotefetch.common.exceptions;
  */
 public class RemoteFetchServerException extends RemoteFetchCoreException {
 
+    /**
+     * Exception occurred while processing Remote Fetch Configuration server related exceptions.
+     * @param message Error Message
+     * @see org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.ErrorMessage
+     */
     public RemoteFetchServerException(String message) {
 
         super(message);
     }
 
+    /**
+     * Exception occurred while processing Remote Fetch Configuration client related exceptions.
+     * @param message Error Message
+     * @param cause Throwable cause
+     * @see org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.ErrorMessage
+     */
     public RemoteFetchServerException(String message, Throwable cause) {
 
         super(message, cause);
     }
 
+    /**
+     * Exception occurred while processing Remote Fetch Configuration client related exceptions.
+     * @param errorCode Error Code
+     * @param message Throwable cause
+     * @see org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.ErrorMessage
+     *
+     */
     public RemoteFetchServerException(String errorCode, String message) {
 
         super(errorCode, message);
     }
 
+    /**
+     * Exception occurred while processing Remote Fetch Configuration client related exceptions.
+     * @param errorCode Error Code
+     * @param message Error Message
+     * @param cause Throwable cause
+     */
     public RemoteFetchServerException(String errorCode, String message, Throwable cause) {
 
         super(errorCode, message, cause);

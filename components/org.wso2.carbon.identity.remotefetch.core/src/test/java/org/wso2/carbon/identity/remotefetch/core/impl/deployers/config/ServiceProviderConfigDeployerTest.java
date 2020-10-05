@@ -40,6 +40,7 @@ import java.io.InputStream;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.testng.Assert.assertEquals;
+import static org.wso2.carbon.identity.remotefetch.core.dao.TestConstants.REMOTE_FETCH_CONFIGURATION_ID;
 
 @PrepareForTest({RemoteFetchServiceComponentHolder.class, RealmService.class, TenantManager.class})
 public class ServiceProviderConfigDeployerTest extends PowerMockTestCase {
@@ -58,7 +59,6 @@ public class ServiceProviderConfigDeployerTest extends PowerMockTestCase {
 
     private static final int TENANT_ID = -1234;
     private static final String USER_NAME = "admin";
-    private static final String ID = "00000000-0000-0000-0000-d29bed62f7bd";
 
     @BeforeMethod
     public void setUp() {
@@ -79,7 +79,7 @@ public class ServiceProviderConfigDeployerTest extends PowerMockTestCase {
         File filePath = new File(absolutePath);
 
         VelocityTemplatedSPDeployer velocityTemplatedSPDeployer =
-                new VelocityTemplatedSPDeployer(TENANT_ID, ID);
+                new VelocityTemplatedSPDeployer(TENANT_ID, REMOTE_FETCH_CONFIGURATION_ID);
         InputStream inputStream = new FileInputStream(absolutePath);
         ConfigurationFileStream configurationFileStream = new ConfigurationFileStream(inputStream, filePath);
 
@@ -103,7 +103,7 @@ public class ServiceProviderConfigDeployerTest extends PowerMockTestCase {
         File filePath = new File(absolutePath);
 
         VelocityTemplatedSPDeployer velocityTemplatedSPDeployer =
-                new VelocityTemplatedSPDeployer(TENANT_ID, ID);
+                new VelocityTemplatedSPDeployer(TENANT_ID, REMOTE_FETCH_CONFIGURATION_ID);
         InputStream inputStream = new FileInputStream(absolutePath);
         ConfigurationFileStream configurationFileStream = new ConfigurationFileStream(inputStream, filePath);
         velocityTemplatedSPDeployer.resolveConfigName(configurationFileStream);

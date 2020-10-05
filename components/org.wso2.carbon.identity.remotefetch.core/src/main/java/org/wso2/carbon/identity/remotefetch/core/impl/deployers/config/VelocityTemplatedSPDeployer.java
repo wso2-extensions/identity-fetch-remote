@@ -58,8 +58,9 @@ public class VelocityTemplatedSPDeployer extends ServiceProviderConfigDeployer {
     /**
      * Parameter replacement.
      *
-     * @param configurationFileStream
-     * @throws RemoteFetchCoreException
+     * @param configurationFileStream ConfigurationFileStream of the application
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
+     * @throws IOException IOException
      */
     @Override
     public void deploy(ConfigurationFileStream configurationFileStream) throws RemoteFetchCoreException, IOException {
@@ -126,4 +127,3 @@ public class VelocityTemplatedSPDeployer extends ServiceProviderConfigDeployer {
         super.deploy(updatedStream);
     }
 }
-

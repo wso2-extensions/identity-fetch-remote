@@ -63,9 +63,11 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
     }
 
     /**
-     * @param fetchConfiguration
-     * @return
-     * @throws RemoteFetchCoreException
+     * This method is used to call by clients to add RemoteFetchConfiguration into database.
+     * This method called by clients when user add new RemoteFetchConfiguration via carbon console.
+     * @param fetchConfiguration RemoteFetchConfiguration Object.
+     * @return ValidationReport ValidationReport says whether params of RemoteFetchConfiguration is valid or not.
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public ValidationReport addRemoteFetchConfiguration(RemoteFetchConfiguration fetchConfiguration)
@@ -94,9 +96,11 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
     }
 
     /**
-     * @param fetchConfiguration
-     * @return
-     * @throws RemoteFetchCoreException
+     * This method is used to call by clients to update existing RemoteFetchConfiguration.
+     * This method called by clients when user edit existing RemoteFetchConfiguration via carbon console.
+     * @param fetchConfiguration  RemoteFetchConfiguration Object.
+     * @return ValidationReport ValidationReport says whether params of RemoteFetchConfiguration is valid or not.
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public ValidationReport updateRemoteFetchConfiguration(RemoteFetchConfiguration fetchConfiguration)
@@ -120,9 +124,11 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
     }
 
     /**
-     * @param fetchConfigurationId
+     * This method is used to call by clients to get existing RemoteFetchConfiguration by Id.
+     * This method is called by clients while triggering or edit existing RemoteFetchConfiguration.
+     * @param fetchConfigurationId ID.
      * @return Remote Fetch Configuration for id.
-     * @throws RemoteFetchCoreException
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public RemoteFetchConfiguration getRemoteFetchConfiguration(String fetchConfigurationId)
@@ -133,8 +139,12 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
     }
 
     /**
-     * @return
-     * @throws RemoteFetchCoreException
+     * This method is used to call by clients to get list of BasicRemoteFetchConfiguration by tenantID.
+     * This method is called by clients in list view.
+     * @param limit limit
+     * @param offset offset
+     * @return List of BasicRemoteFetchConfiguration
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationList(OptionalInt limit,
@@ -148,8 +158,9 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
     }
 
     /**
+     * This method is used to call by internal auto pull method to get list of enabled BasicRemoteFetchConfiguration.
      * @return All Enabled Remote Fetch Configurations.
-     * @throws RemoteFetchCoreException
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public List<RemoteFetchConfiguration> getEnabledPollingRemoteFetchConfigurationList()
@@ -159,8 +170,9 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
     }
 
     /**
-     * @param fetchConfigurationId
-     * @throws RemoteFetchCoreException
+     * This method is used to call by clients to delete BasicRemoteFetchConfiguration by ID.
+     * @param fetchConfigurationId Id.
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public void deleteRemoteFetchConfiguration(String fetchConfigurationId)
@@ -174,11 +186,10 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
 
     /**
      * This method used to get remote fetch configuration for given id and start an Immediate task execution.
-     * @param fetchConfiguration
-     * @throws RemoteFetchCoreException
+     * @param fetchConfiguration RemoteFetchConfiguration
      */
     @Override
-    public void triggerRemoteFetch(RemoteFetchConfiguration fetchConfiguration) throws RemoteFetchCoreException {
+    public void triggerRemoteFetch(RemoteFetchConfiguration fetchConfiguration) {
 
         this.remoteFetchTaskExecutor.startImmediateTaskExecution(fetchConfiguration);
 
@@ -188,6 +199,13 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
         }
     }
 
+    /**
+     * This method is used to get deployed revisions by remote fetch configuration.
+     * This method is used to provide status of remote fetch configuration.
+     * @param fetchConfigurationId fetchConfigurationId
+     * @return List of deployment revisions.
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
+     */
     @Override
     public List<DeploymentRevision> getDeploymentRevisions(String fetchConfigurationId)
             throws RemoteFetchCoreException {
@@ -195,6 +213,13 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
         return this.deploymentRevisionDAO.getDeploymentRevisionsByConfigurationId(fetchConfigurationId);
     }
 
+    /**
+     * This method is used to handle web hook by calling web hook handler.
+     * @param url url of remote repository.
+     * @param branch branch of remote repository.
+     * @param modifiedFileNames Files been modified by given push.
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
+     */
     @Override
     public void handleWebHook(String url, String branch, List<String> modifiedFileNames)
             throws RemoteFetchCoreException {
@@ -202,7 +227,6 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
         WebHookHandler webHookHandler =
                 new WebHookHandler(url, branch, modifiedFileNames, this.remoteFetchTaskExecutor);
         webHookHandler.handleWebHook();
-
     }
 
     /**

@@ -37,9 +37,9 @@ import java.util.List;
 public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
 
     /**
-     * @param deploymentRevision
-     * @return
-     * @throws RemoteFetchCoreException
+     * Create deployment revision data fro the DeploymentRevision Object.
+     * @param deploymentRevision DeploymentRevision
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public void createDeploymentRevision(DeploymentRevision deploymentRevision) throws RemoteFetchCoreException {
@@ -81,10 +81,11 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
     }
 
     /**
-     * @param remoteFetchConfigurationId
-     * @param itemName
-     * @return
-     * @throws RemoteFetchCoreException
+     * Get deployment revision object using remote configuration id and deployment revision name (application name).
+     * @param remoteFetchConfigurationId remoteFetchConfigurationId
+     * @param itemName Application name
+     * @return DeploymentRevision
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public DeploymentRevision getDeploymentRevision(String remoteFetchConfigurationId, String itemName)
@@ -130,8 +131,9 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
     }
 
     /**
-     * @param deploymentRevision
-     * @throws RemoteFetchCoreException
+     * Update deployment revision data fro the DeploymentRevision Object.
+     * @param deploymentRevision DeploymentRevision
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public void updateDeploymentRevision(DeploymentRevision deploymentRevision) throws RemoteFetchCoreException {
@@ -172,8 +174,9 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
     }
 
     /**
-     * @param deploymentRevisionId
-     * @throws RemoteFetchCoreException
+     * Delete deployment revision data corresponding to deploymentRevisionId.
+     * @param deploymentRevisionId deploymentRevisionId
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public void deleteDeploymentRevision(String deploymentRevisionId) throws RemoteFetchCoreException {
@@ -193,9 +196,10 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
     }
 
     /**
-     * @param remoteFetchConfigurationId
-     * @return
-     * @throws RemoteFetchCoreException
+     * Get list of deployment revisions corresponding to remoteFetchConfigurationId.
+     * @param remoteFetchConfigurationId remoteFetchConfigurationId
+     * @return list of deployment revisions
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public List<DeploymentRevision> getDeploymentRevisionsByConfigurationId(

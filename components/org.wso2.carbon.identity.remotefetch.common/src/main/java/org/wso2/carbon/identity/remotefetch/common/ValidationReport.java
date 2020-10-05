@@ -28,11 +28,10 @@ import java.util.List;
  */
 public class ValidationReport {
 
-
     /**
      * Status of validation report.
      */
-    public static enum ValidationStatus {
+    public enum ValidationStatus {
         PASSED, FAILED
     }
 
@@ -102,6 +101,7 @@ public class ValidationReport {
      * @param componentName componentName
      */
     public void addMessageForComponentValidation(String validationReport, String componentName) {
+
         this.addMessage(new Formatter().format(ValidationFormat.COMPONENT_VALIDATION, validationReport, componentName)
                 .toString());
     }
