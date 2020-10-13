@@ -20,6 +20,7 @@ package org.wso2.carbon.identity.remotefetch.core.impl.deployers.config;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.wso2.carbon.base.MultitenantConstants;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.identity.application.common.IdentityApplicationManagementException;
 import org.wso2.carbon.identity.application.common.model.ImportResponse;
@@ -31,7 +32,6 @@ import org.wso2.carbon.identity.remotefetch.common.ConfigurationFileStream;
 import org.wso2.carbon.identity.remotefetch.common.configdeployer.ConfigDeployer;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 import org.wso2.carbon.identity.remotefetch.core.internal.RemoteFetchServiceComponentHolder;
-import org.wso2.carbon.user.api.Tenant;
 import org.wso2.carbon.user.api.UserStoreException;
 
 import java.io.IOException;
@@ -55,37 +55,51 @@ public class ServiceProviderConfigDeployer implements ConfigDeployer {
         this.id = id;
     }
 
+    /**
+     * Used to retrieve Id.
+     *
+     * @return id
+     */
     public String getId() {
+
         return id;
     }
 
     /**
      * Deploy the configuration.
      *
-     * @param configurationFileStream
-     * @throws RemoteFetchCoreException
+     * @param configurationFileStream ConfigurationFileStream of cloned application
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
+     * @throws IOException              IOException
      */
     @Override
     public void deploy(ConfigurationFileStream configurationFileStream) throws RemoteFetchCoreException, IOException {
 
         ServiceProvider previousServiceProvider = null;
-
-        Tenant tenant = this.getTenantDomain();
-        String userName = tenant.getAdminName();
-        startTenantFlow(tenant.getDomain(), userName);
+        String userName = getTenantAdminName();
+        String tenantDomain = getTenantDomain();
+        if (log.isDebugEnabled()) {
+            log.debug("Tenant admin name " + userName + " retrieved for tenant domain " + tenantDomain);
+        }
+        startTenantFlow(tenantDomain, userName);
 
         ServiceProvider serviceProvider = this.getServiceProviderFromStream(configurationFileStream);
         try {
             previousServiceProvider = this.applicationManagementService
-                    .getApplicationExcludingFileBasedSPs(serviceProvider.getApplicationName(), tenant.getDomain());
+                    .getApplicationExcludingFileBasedSPs(serviceProvider.getApplicationName(), tenantDomain);
+            if (log.isDebugEnabled()) {
+                log.debug("Previous Service provider retrieved for" + previousServiceProvider.getApplicationName());
+            }
         } catch (IdentityApplicationManagementException e) {
             throw new RemoteFetchCoreException("Unable to check if Application already exists", e);
         }
 
         try {
             ImportResponse importResponse = this.applicationManagementService.importSPApplication(serviceProvider,
-                    tenant.getDomain(), userName, previousServiceProvider != null);
-
+                    tenantDomain, userName, previousServiceProvider != null);
+            if (log.isDebugEnabled()) {
+                log.debug("Service provider deployed for " + serviceProvider.getApplicationName());
+            }
             if (importResponse.getResponseCode() == ImportResponse.FAILED) {
                 StringBuilder exceptionStringBuilder = new StringBuilder();
 
@@ -109,9 +123,9 @@ public class ServiceProviderConfigDeployer implements ConfigDeployer {
     /**
      * Resolve the unique identifier for the configuration.
      *
-     * @param configurationFileStream
-     * @return
-     * @throws RemoteFetchCoreException
+     * @param configurationFileStream ConfigurationFileStream
+     * @return Application name
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public String resolveConfigName(ConfigurationFileStream configurationFileStream) throws RemoteFetchCoreException {
@@ -125,8 +139,7 @@ public class ServiceProviderConfigDeployer implements ConfigDeployer {
         SpFileStream spFileStream = new SpFileStream(configurationFileStream.getContentStream(),
                 configurationFileStream.getPath().getName());
 
-        String tenantDomain = this.getTenantDomain().getDomain();
-
+        String tenantDomain = getTenantDomain();
         try {
             return ApplicationMgtUtil.getApplicationFromSpFileStream(spFileStream, tenantDomain);
         } catch (IdentityApplicationManagementException e) {
@@ -135,11 +148,16 @@ public class ServiceProviderConfigDeployer implements ConfigDeployer {
         }
     }
 
-    private Tenant getTenantDomain() throws RemoteFetchCoreException {
+    private String getTenantDomain() throws RemoteFetchCoreException {
 
         try {
-            return RemoteFetchServiceComponentHolder.getInstance().getRealmService().getTenantManager()
-                    .getTenant(this.tenantId);
+            if (isSuperTenantFlow()) {
+                return RemoteFetchServiceComponentHolder.getInstance().getRealmService().getTenantManager()
+                        .getSuperTenantDomain();
+            } else {
+                return RemoteFetchServiceComponentHolder.getInstance().getRealmService().getTenantManager()
+                        .getTenant(tenantId).getDomain();
+            }
         } catch (UserStoreException e) {
             throw new RemoteFetchCoreException("Unable to get tenant domain for tenant id " + tenantId, e);
         }
@@ -156,5 +174,20 @@ public class ServiceProviderConfigDeployer implements ConfigDeployer {
     private void endTenantFlow() {
 
         PrivilegedCarbonContext.endTenantFlow();
+    }
+
+    private boolean isSuperTenantFlow() {
+
+        return (tenantId == MultitenantConstants.SUPER_TENANT_ID);
+    }
+
+    private String getTenantAdminName() throws RemoteFetchCoreException {
+
+        try {
+            return RemoteFetchServiceComponentHolder.getInstance().getRealmService()
+                    .getTenantUserRealm(tenantId).getRealmConfiguration().getAdminUserName();
+        } catch (UserStoreException e) {
+            throw new RemoteFetchCoreException("Unable to get tenant admin name for tenant id " + tenantId, e);
+        }
     }
 }
