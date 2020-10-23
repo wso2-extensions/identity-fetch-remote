@@ -23,14 +23,24 @@ package org.wso2.carbon.identity.remotefetch.common.repomanager;
  */
 public class RepositoryManagerBuilderException extends Exception {
 
+    /**
+     * Used to report anomalies while building repository manager.
+     *
+     * @param message Error message
+     */
     public RepositoryManagerBuilderException(String message) {
 
         super(message);
     }
 
+    /**
+     * Used to report anomalies while building repository manager.
+     *
+     * @param message Error message
+     * @param cause   Throwable cause
+     */
     public RepositoryManagerBuilderException(String message, Throwable cause) {
 
         super(message, cause);
     }
-
 }

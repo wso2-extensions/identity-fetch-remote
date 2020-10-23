@@ -30,17 +30,20 @@ public interface ConfigDeployer {
 
     /**
      * Deploy the configuration.
+     * For example: Deploy cloned Service provider from xml File.
      *
-     * @param configurationFileStream
-     * @throws RemoteFetchCoreException
+     * @param configurationFileStream Cloned SP file streamed
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
+     * @throws IOException              IOException
      */
     void deploy(ConfigurationFileStream configurationFileStream) throws RemoteFetchCoreException, IOException;
 
     /**
      * Resolve the unique identifier for the configuration.
+     * Used to get Application name from the configuration.
      *
-     * @return
-     * @throws RemoteFetchCoreException
+     * @return Application name.
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     String resolveConfigName(ConfigurationFileStream configurationFileStream) throws RemoteFetchCoreException;
 }

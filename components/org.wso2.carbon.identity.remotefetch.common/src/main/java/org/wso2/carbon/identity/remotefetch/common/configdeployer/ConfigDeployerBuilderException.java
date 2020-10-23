@@ -23,14 +23,24 @@ package org.wso2.carbon.identity.remotefetch.common.configdeployer;
  */
 public class ConfigDeployerBuilderException extends Exception {
 
+    /**
+     * Exception occurred while process Config Deployer.
+     *
+     * @param message Error Message
+     */
     public ConfigDeployerBuilderException(String message) {
 
         super(message);
     }
 
+    /**
+     * Exception occurred while process Config Deployer.
+     *
+     * @param message Error Message
+     * @param cause   Throwable cause of the exception
+     */
     public ConfigDeployerBuilderException(String message, Throwable cause) {
 
         super(message, cause);
     }
-
 }

@@ -25,11 +25,22 @@ public class RemoteFetchCoreException extends Exception {
 
     private String errorCode;
 
+    /**
+     * Core Exception to throw anomalies in RemoteFetchCore.
+     *
+     * @param message Error message
+     */
     public RemoteFetchCoreException(String message) {
 
         super(message);
     }
 
+    /**
+     * Core Exception to throw anomalies in RemoteFetchCore.
+     *
+     * @param message Error Message
+     * @param cause   Throwable cause
+     */
     public RemoteFetchCoreException(String message, Throwable cause) {
 
         super(message, cause);
