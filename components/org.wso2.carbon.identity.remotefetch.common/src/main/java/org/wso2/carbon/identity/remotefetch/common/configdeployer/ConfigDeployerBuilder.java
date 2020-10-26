@@ -34,8 +34,8 @@ public abstract class ConfigDeployerBuilder {
     /**
      * Set RemoteFetchConfiguration attribute.
      *
-     * @param fetchConfig
-     * @return
+     * @param fetchConfig RemoteFetchConfiguration
+     * @return ConfigDeployerBuilder
      */
     public ConfigDeployerBuilder addRemoteFetchConfig(RemoteFetchConfiguration fetchConfig) {
 
@@ -43,15 +43,21 @@ public abstract class ConfigDeployerBuilder {
         return this;
     }
 
+    /**
+     * Get RemoteFetchConfiguration (getter method).
+     *
+     * @return RemoteFetchConfiguration
+     */
     public RemoteFetchConfiguration getFetchConfig() {
+
         return fetchConfig;
     }
 
     /**
      * Build and return a new ConfigDeployer with the set configuration.
      *
-     * @return
-     * @throws ConfigDeployerBuilderException
+     * @return ConfigDeployer
+     * @throws ConfigDeployerBuilderException ConfigDeployerBuilderException
      */
     public abstract ConfigDeployer build() throws ConfigDeployerBuilderException;
 }

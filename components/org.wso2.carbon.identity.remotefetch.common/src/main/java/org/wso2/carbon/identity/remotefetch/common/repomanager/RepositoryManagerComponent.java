@@ -28,7 +28,7 @@ public interface RepositoryManagerComponent extends RemoteFetchComponent {
     /**
      * Returns a new builder object for the component.
      *
-     * @return
+     * @return RepositoryManagerBuilder
      */
     RepositoryManagerBuilder getRepositoryManagerBuilder();
 

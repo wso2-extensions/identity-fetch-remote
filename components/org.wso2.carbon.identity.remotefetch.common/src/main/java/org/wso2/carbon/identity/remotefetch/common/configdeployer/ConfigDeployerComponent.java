@@ -28,8 +28,7 @@ public interface ConfigDeployerComponent extends RemoteFetchComponent {
     /**
      * Returns a new builder object for the component.
      *
-     * @return
+     * @return ConfigDeployerBuilder
      */
     ConfigDeployerBuilder getConfigDeployerBuilder();
-
 }

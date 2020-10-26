@@ -33,6 +33,7 @@ public class UIField {
 
         TEXT_BOX,
     }
+
     private String id;
     private FieldTypes type;
     private String displayName;
@@ -72,46 +73,91 @@ public class UIField {
         this.isMultiValue = isMultiValue;
     }
 
+    /**
+     * Id used to represent the purpose of the UI object.
+     *
+     * @return Id
+     */
     public String getId() {
 
         return id;
     }
 
+    /**
+     * Type of the UI object.
+     *
+     * @return FieldTypes
+     */
     public FieldTypes getType() {
 
         return type;
     }
 
+    /**
+     * User friendly description.
+     *
+     * @return Display name
+     */
     public String getDisplayName() {
 
         return displayName;
     }
 
+    /**
+     * User friendly help text.
+     *
+     * @return HelpText(
+     */
     public String getHelpText() {
 
         return helpText;
     }
 
+    /**
+     * Validation regex to validate User entry in UI field.
+     *
+     * @return Validation regex
+     */
     public String getValidationRegex() {
 
         return validationRegex;
     }
 
+    /**
+     * List fo default values for UI field.
+     *
+     * @return List of default values
+     */
     public List<String> getDefaultValues() {
 
         return defaultValues;
     }
 
+    /**
+     * Flag to control whether UI filed is mandatory or not to fill the form.
+     *
+     * @return isMandatory flag
+     */
     public boolean isMandatory() {
 
         return isMandatory;
     }
 
+    /**
+     * Flag to control whether UI filed is case sensitive or not to fill the form.
+     *
+     * @return isSensitive flag
+     */
     public boolean isSensitive() {
 
         return isSensitive;
     }
 
+    /**
+     * Flag to control whether UI filed is multi valued or not to fill the form.
+     *
+     * @return isMultiValue flag
+     */
     public boolean isMultiValue() {
 
         return isMultiValue;

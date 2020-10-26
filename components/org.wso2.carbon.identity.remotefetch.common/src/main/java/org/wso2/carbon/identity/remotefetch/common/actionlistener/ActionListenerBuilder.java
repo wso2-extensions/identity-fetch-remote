@@ -34,8 +34,8 @@ public abstract class ActionListenerBuilder {
     /**
      * Set RemoteFetchConfiguration attribute.
      *
-     * @param fetchConfig
-     * @return
+     * @param fetchConfig RemoteFetchConfiguration
+     * @return ActionListenerBuilder Caller itself
      */
     public ActionListenerBuilder addRemoteFetchConfig(RemoteFetchConfiguration fetchConfig) {
 
@@ -44,8 +44,10 @@ public abstract class ActionListenerBuilder {
     }
 
     /**
-     * @param repoConnector
-     * @return
+     * Set Repository Connector which contains repository configurations.
+     *
+     * @param repoConnector RepositoryManager
+     * @return ActionListenerBuilder Caller itself
      */
     public ActionListenerBuilder addRepositoryConnector(RepositoryManager repoConnector) {
 
@@ -54,8 +56,10 @@ public abstract class ActionListenerBuilder {
     }
 
     /**
-     * @param configDeployer
-     * @return
+     * Set Configuration deployer which contains deployment configurations.
+     *
+     * @param configDeployer ConfigDeployer
+     * @return ActionListenerBuilder Caller itself
      */
     public ActionListenerBuilder addConfigDeployer(ConfigDeployer configDeployer) {
 
@@ -63,23 +67,44 @@ public abstract class ActionListenerBuilder {
         return this;
     }
 
+    /**
+     * Get RemoteFetchConfiguration (getter method).
+     *
+     * @return RemoteFetchConfiguration
+     * @see RemoteFetchConfiguration
+     */
     public RemoteFetchConfiguration getFetchConfig() {
+
         return fetchConfig;
     }
 
+    /**
+     * Get RepositoryManager (getter method).
+     *
+     * @return RepositoryManager
+     * @see RepositoryManager
+     */
     public RepositoryManager getRepoConnector() {
+
         return repoConnector;
     }
 
+    /**
+     * Get Configuration deployer (getter method).
+     *
+     * @return ConfigDeployer
+     * @see ConfigDeployer
+     */
     public ConfigDeployer getConfigDeployer() {
+
         return configDeployer;
     }
 
     /**
      * Build and return a new ActionListener with the set configuration.
      *
-     * @return
-     * @throws ActionListenerBuilderException
+     * @return ActionListener
+     * @throws ActionListenerBuilderException ActionListenerBuilderException
      */
     public abstract ActionListener build() throws ActionListenerBuilderException;
 }
