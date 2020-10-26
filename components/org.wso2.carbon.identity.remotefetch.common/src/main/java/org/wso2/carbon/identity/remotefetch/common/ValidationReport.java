@@ -28,11 +28,10 @@ import java.util.List;
  */
 public class ValidationReport {
 
-
     /**
      * Status of validation report.
      */
-    public static enum ValidationStatus {
+    public enum ValidationStatus {
         PASSED, FAILED
     }
 
@@ -42,6 +41,7 @@ public class ValidationReport {
 
     /**
      * Add message into validation report.
+     *
      * @param message message
      */
     public void addMessage(String message) {
@@ -51,6 +51,7 @@ public class ValidationReport {
 
     /**
      * Add MessageForMandatoryValidation.
+     *
      * @param field field
      */
     public void addMessageForMandatoryValidation(String field) {
@@ -60,6 +61,7 @@ public class ValidationReport {
 
     /**
      * Add MessageForPatternValidation.
+     *
      * @param field field
      */
     public void addMessageForPatternValidation(String field) {
@@ -69,6 +71,7 @@ public class ValidationReport {
 
     /**
      * Add MessageForActionListenerValidation.
+     *
      * @param actionListenerType actionListenerType
      */
     public void addMessageForActionListenerValidation(String actionListenerType) {
@@ -79,6 +82,7 @@ public class ValidationReport {
 
     /**
      * Add MessageForRepoManagerValidation.
+     *
      * @param repoManagerType repoManagerType
      */
     public void addMessageForRepoManagerValidation(String repoManagerType) {
@@ -88,6 +92,7 @@ public class ValidationReport {
 
     /**
      * Add MessageForConfigDeployerValidation.
+     *
      * @param configDeployerType configDeployerType
      */
     public void addMessageForConfigDeployerValidation(String configDeployerType) {
@@ -98,16 +103,19 @@ public class ValidationReport {
 
     /**
      * Add MessageForComponentValidation.
+     *
      * @param validationReport validationReport
-     * @param componentName componentName
+     * @param componentName    componentName
      */
     public void addMessageForComponentValidation(String validationReport, String componentName) {
+
         this.addMessage(new Formatter().format(ValidationFormat.COMPONENT_VALIDATION, validationReport, componentName)
                 .toString());
     }
 
     /**
      * Get Messages.
+     *
      * @return validationMessages
      */
     public List<String> getMessages() {
@@ -117,6 +125,7 @@ public class ValidationReport {
 
     /**
      * Get status of the report.
+     *
      * @return validationStatus
      */
     public ValidationStatus getValidationStatus() {
@@ -126,6 +135,7 @@ public class ValidationReport {
 
     /**
      * Set ValidationStatus.
+     *
      * @param validationStatus validationStatus
      */
     public void setValidationStatus(ValidationStatus validationStatus) {
@@ -135,6 +145,7 @@ public class ValidationReport {
 
     /**
      * Get id.
+     *
      * @return id
      */
     public String getId() {
@@ -144,6 +155,7 @@ public class ValidationReport {
 
     /**
      * Set id of processed remote fetch configuration.
+     *
      * @param id UUID of remote fetch configuration.
      */
     public void setId(String id) {

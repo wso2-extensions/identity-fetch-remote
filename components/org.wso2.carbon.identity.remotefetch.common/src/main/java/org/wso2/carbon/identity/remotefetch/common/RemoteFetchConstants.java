@@ -25,6 +25,7 @@ package org.wso2.carbon.identity.remotefetch.common;
 public class RemoteFetchConstants {
 
     private RemoteFetchConstants() {
+
     }
 
     public static final String ATTRIBUTE_REPOSITORY_MANAGER = "repositoryManagerAttributes";
@@ -49,14 +50,13 @@ public class RemoteFetchConstants {
     public static final String ID_UI_FIELD_BRANCH = "branch";
     public static final String ID_UI_FIELD_DIRECTORY = "directory";
 
-
-
     /**
      * Grouping of constants related to database table names.
      */
     public static class RemoteFetchTableConstants {
 
         private RemoteFetchTableConstants() {
+
         }
 
         public static final String ID = "ID";
@@ -77,7 +77,6 @@ public class RemoteFetchConstants {
         public static final String ITEM_NAME = "ITEM_NAME";
 
     }
-
 
     /**
      * Error message for client and server exceptions.
