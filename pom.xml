@@ -22,7 +22,7 @@
     <groupId>org.wso2.carbon.identity.fetch.remote</groupId>
     <artifactId>identity-fetch-remote</artifactId>
     <packaging>pom</packaging>
-    <version>0.7.14</version>
+    <version>0.7.15-SNAPSHOT</version>
 
     <name>WSO2 Identity Server - Remote Repository Configuration Deployer</name>
     <description>
@@ -40,7 +40,7 @@
         <url>https://github.com/wso2-extensions/identity-fetch-remote.git</url>
         <developerConnection>scm:git:https://github.com/wso2-extensions/identity-fetch-remote.git</developerConnection>
         <connection>scm:git:https://github.com/wso2-extensions/identity-fetch-remote.git</connection>
-        <tag>v0.7.14</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <modules>
