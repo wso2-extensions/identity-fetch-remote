@@ -30,8 +30,9 @@ public class RemoteFetchCoreConfiguration {
 
     /**
      * Default Constructor.
+     *
      * @param workingDirectory path of local repository.
-     * @param isEnableCore autoPull enabled or not.
+     * @param isEnableCore     autoPull enabled or not.
      */
     public RemoteFetchCoreConfiguration(File workingDirectory, boolean isEnableCore) {
 
@@ -41,6 +42,7 @@ public class RemoteFetchCoreConfiguration {
 
     /**
      * Get WorkingDirectory.
+     *
      * @return workingDirectory
      */
     public File getWorkingDirectory() {
@@ -50,6 +52,7 @@ public class RemoteFetchCoreConfiguration {
 
     /**
      * Set WorkingDirectory.
+     *
      * @param workingDirectory workingDirectory
      */
     public void setWorkingDirectory(File workingDirectory) {
@@ -59,6 +62,7 @@ public class RemoteFetchCoreConfiguration {
 
     /**
      * Is EnableCore.
+     *
      * @return isEnableCore
      */
     public boolean isEnableCore() {
@@ -68,6 +72,7 @@ public class RemoteFetchCoreConfiguration {
 
     /**
      * Set EnableCore.
+     *
      * @param isEnableCore isEnableCore
      */
     public void setEnableCore(boolean isEnableCore) {

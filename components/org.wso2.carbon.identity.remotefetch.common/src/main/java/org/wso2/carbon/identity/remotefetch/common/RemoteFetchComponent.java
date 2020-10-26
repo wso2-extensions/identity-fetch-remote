@@ -30,21 +30,21 @@ public interface RemoteFetchComponent {
     /**
      * Returns a string of the unique identifier of the component.
      *
-     * @return
+     * @return ID
      */
     String getIdentifier();
 
     /**
      * Returns screen name of the component.
      *
-     * @return
+     * @return Name
      */
     String getName();
 
     /**
      * Returns list of UIFields to configure UI.
      *
-     * @return
+     * @return List of UI fields.
      */
     List<UIField> getUIFields();
 }

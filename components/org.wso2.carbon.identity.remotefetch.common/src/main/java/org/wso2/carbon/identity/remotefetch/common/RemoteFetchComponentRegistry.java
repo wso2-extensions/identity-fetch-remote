@@ -29,48 +29,54 @@ import java.util.List;
  * This registry holds active remoteFetch Components which used to create relevant builders.
  * This registry is used by auto pull threads at runtime to get active component to build listeners.
  * This registry is used by clients to list basic configurations in listView.
- *
  */
 public interface RemoteFetchComponentRegistry {
 
     /**
      * Register repositoryManager Component into registry.
+     *
      * @param repositoryManagerComponent repositoryManagerComponent
      */
     void registerRepositoryManager(RepositoryManagerComponent repositoryManagerComponent);
 
     /**
      * Register ConfigDeployer Component into registry.
+     *
      * @param configDeployerComponent configDeployerComponent
      */
     void registerConfigDeployer(ConfigDeployerComponent configDeployerComponent);
 
     /**
      * Register ActionListener Component into registry.
+     *
      * @param actionListenerComponent
      */
     void registerActionListener(ActionListenerComponent actionListenerComponent);
 
     /**
      * deRegister RepositoryManager by identifier.
+     *
      * @param identifier unique identifier
      */
     void deRegisterRepositoryManager(String identifier);
 
     /**
      * deRegister ConfigDeployer by identifier.
+     *
      * @param identifier unique identifier
      */
     void deRegisterConfigDeployer(String identifier);
 
     /**
      * deRegister ActionListener by identifier.
+     *
      * @param identifier unique identifier
      */
     void deRegisterActionListener(String identifier);
 
     /**
      * get RepositoryManagerComponent by identifier.
+     *
      * @param identifier identifier
      * @return RepositoryManagerComponent
      */
@@ -78,6 +84,7 @@ public interface RemoteFetchComponentRegistry {
 
     /**
      * get ConfigDeployerComponent by identifier.
+     *
      * @param identifier identifier
      * @return ConfigDeployerComponent
      */
@@ -85,6 +92,7 @@ public interface RemoteFetchComponentRegistry {
 
     /**
      * get ActionListenerComponent  by identifier.
+     *
      * @param identifier identifier
      * @return ActionListenerComponent
      */

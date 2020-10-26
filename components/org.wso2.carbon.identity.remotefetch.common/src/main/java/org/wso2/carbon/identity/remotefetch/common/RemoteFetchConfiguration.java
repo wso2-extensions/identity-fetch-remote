@@ -51,18 +51,20 @@ public class RemoteFetchConfiguration {
      * Default Constructor used by DAOs and clients.
      */
     public RemoteFetchConfiguration() {
+
     }
 
     /**
      * Following constructor is used only by Test classes.
-     * @param remoteFetchConfigurationId
-     * @param tenantId
-     * @param isEnabled
-     * @param repositoryManagerType
-     * @param actionListenerType
-     * @param configurationDeployerType
-     * @param remoteFetchName
-     * @param remoteResourceURI
+     *
+     * @param remoteFetchConfigurationId UUID
+     * @param tenantId                   tenant id
+     * @param isEnabled                  polling enabled or not
+     * @param repositoryManagerType      repositoryManagerType
+     * @param actionListenerType         actionListenerType
+     * @param configurationDeployerType  configurationDeployerType
+     * @param remoteFetchName            remoteFetchName
+     * @param remoteResourceURI          remoteResourceURI
      */
     public RemoteFetchConfiguration(String remoteFetchConfigurationId, int tenantId,
                                     boolean isEnabled,
@@ -116,7 +118,7 @@ public class RemoteFetchConfiguration {
     /**
      * set tenantId using carbon context.
      *
-     * @param tenantId
+     * @param tenantId tenant ID
      */
     public void setTenantId(int tenantId) {
 
@@ -146,7 +148,7 @@ public class RemoteFetchConfiguration {
     /**
      * unique ID to represent this configuration.
      *
-     * @return
+     * @return UUID
      */
     public String getRemoteFetchConfigurationId() {
 
@@ -288,7 +290,7 @@ public class RemoteFetchConfiguration {
      * Remote URI is combination of repo url, repo branch and directory path.
      * This attribute is to avoid duplicate entry for same remoteResourceURI
      *
-     * @return
+     * @return resource URI
      */
     public String getRemoteResourceURI() {
 
@@ -328,7 +330,8 @@ public class RemoteFetchConfiguration {
 
     /**
      * Set Remote resource URI.
-     * @param remoteResourceURI
+     *
+     * @param remoteResourceURI resource URI
      */
     public void setRemoteResourceURI(String remoteResourceURI) {
 
