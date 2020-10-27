@@ -26,30 +26,49 @@ import org.wso2.carbon.identity.remotefetch.common.ui.UIField;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Holds functions git repo for UI elements.
  */
 public class GitRepositoryManagerComponent implements RepositoryManagerComponent {
 
+    /**
+     * Returns a new builder object for the component.
+     *
+     * @return RepositoryManagerBuilder
+     */
     @Override
     public RepositoryManagerBuilder getRepositoryManagerBuilder() {
 
         return new GitRepositoryManagerBuilder();
     }
 
+    /**
+     * Returns a string of the unique identifier of the component.
+     *
+     * @return ID
+     */
     @Override
     public String getIdentifier() {
 
         return RemoteFetchConstants.IDENTIFIER_GIT_REPOSITORY_MANAGER_COMPONENT;
     }
 
+    /**
+     * Returns screen name of the component.
+     *
+     * @return Name
+     */
     @Override
     public String getName() {
 
         return "Standard Git Repository";
     }
 
+    /**
+     * Returns list of UIFields to configure UI.
+     *
+     * @return List of UI fields.
+     */
     @Override
     public List<UIField> getUIFields() {
 

@@ -33,7 +33,7 @@ public class ServiceProviderConfigDeployerComponent implements ConfigDeployerCom
     /**
      * Returns a new builder object for the component.
      *
-     * @return
+     * @return ConfigDeployerBuilder
      */
     @Override
     public ConfigDeployerBuilder getConfigDeployerBuilder() {
@@ -44,7 +44,7 @@ public class ServiceProviderConfigDeployerComponent implements ConfigDeployerCom
     /**
      * Returns a string of the unique identifier of the component.
      *
-     * @return
+     * @return Id used to verify deployment artifact
      */
     @Override
     public String getIdentifier() {

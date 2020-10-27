@@ -71,8 +71,12 @@ public class ActionListenerImpl implements ActionListener {
         this.seedRevisions();
     }
 
+    /**
+     * Contains logic to listen for updates.
+     */
     @Override
     public void execute() {
+
         try {
             this.repo.fetchRepository();
         } catch (RemoteFetchCoreException e) {
@@ -104,7 +108,7 @@ public class ActionListenerImpl implements ActionListener {
     /**
      * Resolve and create / update list of revisions.
      *
-     * @param configPaths
+     * @param configPaths list of file paths to be deployed
      */
     private void manageRevisions(List<File> configPaths) {
 
@@ -143,9 +147,10 @@ public class ActionListenerImpl implements ActionListener {
 
     /**
      * Update revision if error occurred while resolving the application name.
-     * @param fileName File name.
+     *
+     * @param fileName   File name.
      * @param configPath Service provider file.
-     * @param exception
+     * @param exception  RemoteFetchCoreException
      */
     private void updateRevisionNotResolved(String fileName, File configPath, RemoteFetchCoreException exception) {
 
@@ -174,9 +179,10 @@ public class ActionListenerImpl implements ActionListener {
 
     /**
      * Create revision if error occurred while resolving the application name.
-     * @param fileName Filename.
+     *
+     * @param fileName   Filename.
      * @param configPath Service Provider Path.
-     * @param exception
+     * @param exception  RemoteFetchCoreException
      */
     private void createRevisionNotResolved(String fileName, File configPath,
                                            RemoteFetchCoreException exception) {
@@ -211,8 +217,8 @@ public class ActionListenerImpl implements ActionListener {
     /**
      * Update DeploymentRevision if file was moved/renamed and store.
      *
-     * @param resolvedName
-     * @param configPath
+     * @param resolvedName Application name
+     * @param configPath   Application config file path
      */
     private void updateRevision(String resolvedName, File configPath) {
 
@@ -230,8 +236,8 @@ public class ActionListenerImpl implements ActionListener {
     /**
      * Create DeploymentRevision and store for resolved name and path.
      *
-     * @param resolvedName
-     * @param configPath
+     * @param resolvedName Application name
+     * @param configPath   Application config file path
      */
     private void createRevision(String resolvedName, File configPath) {
 
@@ -254,7 +260,7 @@ public class ActionListenerImpl implements ActionListener {
     /**
      * Poll directory for new files.
      *
-     * @param deployer
+     * @param deployer ConfigDeployer
      */
     private void pollDirectory(ConfigDeployer deployer) {
 
@@ -329,9 +335,9 @@ public class ActionListenerImpl implements ActionListener {
     /**
      * Returns if the DeploymentRevision hash changed.
      *
-     * @param deploymentRevision
-     * @param newHash
-     * @return
+     * @param deploymentRevision DeploymentRevision
+     * @param newHash            Hashfile of current file
+     * @return flag used to point whether file changed or not
      */
     private boolean isDeploymentRevisionChanged(DeploymentRevision deploymentRevision, String newHash) {
 
@@ -347,13 +353,17 @@ public class ActionListenerImpl implements ActionListener {
         return false;
     }
 
+    /**
+     * Used to sanitize the logs input.
+     *
+     * @param input input sentences
+     * @return sanitized string
+     */
     private String sanitize(String input) {
 
         if (StringUtils.isBlank(input)) {
             return input;
         }
-
         return input.replaceAll("(\\r|\\n|%0D|%0A|%0a|%0d)", "");
     }
-
 }

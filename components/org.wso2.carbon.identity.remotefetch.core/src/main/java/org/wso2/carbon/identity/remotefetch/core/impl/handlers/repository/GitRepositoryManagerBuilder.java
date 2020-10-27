@@ -34,6 +34,12 @@ public class GitRepositoryManagerBuilder extends RepositoryManagerBuilder {
 
     Map<String, String> repoAttributes;
 
+    /**
+     * Build and return a new RepositoryManager with the set configuration.
+     *
+     * @return RepositoryManagerBuilderException
+     * @throws RepositoryManagerBuilderException throwable RepositoryManagerBuilderException
+     */
     @Override
     public RepositoryManager build() throws RepositoryManagerBuilderException {
 
@@ -74,5 +80,4 @@ public class GitRepositoryManagerBuilder extends RepositoryManagerBuilder {
         return new GitRepositoryManager("repo-" + this.getFetchConfig().getRemoteFetchConfigurationId()
                 , uri, branch, directory, this.getFetchCoreConfiguration().getWorkingDirectory(), credentials);
     }
-
 }

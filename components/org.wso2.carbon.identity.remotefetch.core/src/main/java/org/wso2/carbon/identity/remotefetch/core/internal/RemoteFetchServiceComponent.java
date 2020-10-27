@@ -166,6 +166,7 @@ public class RemoteFetchServiceComponent {
     }
 
     private RemoteFetchCoreConfiguration parseRemoteFetchCoreConfiguration() {
+
         try {
             return RemoteFetchConfigurationUtils.parseConfiguration();
         } catch (RemoteFetchCoreException e) {

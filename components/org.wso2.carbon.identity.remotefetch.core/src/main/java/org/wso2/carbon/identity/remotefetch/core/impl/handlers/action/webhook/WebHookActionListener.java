@@ -25,7 +25,7 @@ import org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.ActionList
 /**
  * ActionListener that polls repository on web hook request for changes to be deployed.
  */
-public class WebHookActionListener  extends ActionListenerImpl {
+public class WebHookActionListener extends ActionListenerImpl {
 
     public WebHookActionListener(RepositoryManager repo, ConfigDeployer configDeployer,
                                  String remoteFetchConfigurationId, int tenantId) {

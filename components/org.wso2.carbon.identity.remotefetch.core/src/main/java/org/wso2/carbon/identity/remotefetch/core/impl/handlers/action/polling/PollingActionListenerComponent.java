@@ -23,7 +23,6 @@ import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListener
 import org.wso2.carbon.identity.remotefetch.common.actionlistener.ActionListenerComponent;
 import org.wso2.carbon.identity.remotefetch.common.ui.UIField;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,24 +31,44 @@ import java.util.List;
  */
 public class PollingActionListenerComponent implements ActionListenerComponent {
 
+    /**
+     * Returns a new builder object for the component.
+     *
+     * @return ActionListenerBuilder
+     */
     @Override
     public ActionListenerBuilder getActionListenerBuilder() {
 
         return new PollingActionListenerBuilder();
     }
 
+    /**
+     * Returns a string of the unique identifier of the component.
+     *
+     * @return ID
+     */
     @Override
     public String getIdentifier() {
 
         return RemoteFetchConstants.IDENTIFIER_POLLING_ACTION_LISTENER_COMPONENT;
     }
 
+    /**
+     * Returns screen name of the component.
+     *
+     * @return Name
+     */
     @Override
     public String getName() {
 
         return "Frequent Polling";
     }
 
+    /**
+     * Returns list of UIFields to configure UI.
+     *
+     * @return List of UI fields.
+     */
     @Override
     public List<UIField> getUIFields() {
 
@@ -59,9 +78,7 @@ public class PollingActionListenerComponent implements ActionListenerComponent {
                 "frequency", UIField.FieldTypes.TEXT_BOX, "Polling Frequency",
                 "Number of seconds polling should occur", "^\\d+$", "60",
                 true, false, false
-
         ));
-
         return fieldList;
     }
 }
