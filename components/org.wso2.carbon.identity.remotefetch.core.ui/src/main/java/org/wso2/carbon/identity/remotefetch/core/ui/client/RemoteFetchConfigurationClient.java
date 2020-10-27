@@ -50,6 +50,12 @@ public class RemoteFetchConfigurationClient {
 
     private static final Log log = LogFactory.getLog(RemoteFetchConfigurationClient.class);
 
+    /**
+     * Get configurations by calling service endpoint and mask it as a list of RemoteFetchConfigurationRowDTO for UI.
+     *
+     * @return list of RemoteFetchConfigurationRowDTO
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
+     */
     public static List<RemoteFetchConfigurationRowDTO> getConfigurations() throws RemoteFetchCoreException {
 
         OptionalInt optionalLimit = OptionalInt.of(DEFAULT_LIMIT);
@@ -58,11 +64,16 @@ public class RemoteFetchConfigurationClient {
                 .getInstance().getRemoteFetchConfigurationService()
                 .getBasicRemoteFetchConfigurationList(optionalLimit, optionalOffset);
 
-        return fetchConfigurations.stream().map((basicFetchConfiguration ->
-                RemoteFetchConfigurationClient.fetchConfigurationToDTO(basicFetchConfiguration)
-        )).collect(Collectors.toList());
+        return fetchConfigurations.stream().map((RemoteFetchConfigurationClient::fetchConfigurationToDTO))
+                .collect(Collectors.toList());
     }
 
+    /**
+     * Used to provide RemoteFetchConfigurationRowDTO for corresponding BasicRemoteFetchConfiguration.
+     *
+     * @param fetchConfiguration BasicRemoteFetchConfiguration
+     * @return RemoteFetchConfigurationRowDTO
+     */
     public static RemoteFetchConfigurationRowDTO fetchConfigurationToDTO(
             BasicRemoteFetchConfiguration fetchConfiguration) {
 
@@ -105,12 +116,26 @@ public class RemoteFetchConfigurationClient {
         );
     }
 
+    /**
+     * Caller of service endpoint to get remote fetch configuration by its ID.
+     *
+     * @param id RemoteFetchConfiguration id
+     * @return RemoteFetchConfiguration
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
+     */
     public static RemoteFetchConfiguration getRemoteFetchConfiguration(String id) throws RemoteFetchCoreException {
 
         return RemotefetchCoreUIComponentDataHolder.getInstance().getRemoteFetchConfigurationService()
                 .getRemoteFetchConfiguration(id);
     }
 
+    /**
+     * Called by when UI add button pressed and parse JSON object to RemoteFetchConfiguration
+     *
+     * @param jsonObject JSON object from UI endpoint
+     * @return ValidationReport checks whether created remote fetch configuration is valid or not.
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
+     */
     public static ValidationReport addFetchConfiguration(String jsonObject)
             throws RemoteFetchCoreException {
 
@@ -126,6 +151,14 @@ public class RemoteFetchConfigurationClient {
                 .addRemoteFetchConfiguration(fetchConfiguration);
     }
 
+    /**
+     * Called by when UI Update button pressed and parse JSON object to RemoteFetchConfiguration
+     *
+     * @param jsonObject            JSON object from UI endpoint
+     * @param remoteConfigurationId remoteConfigurationId
+     * @return ValidationReport checks whether created remote fetch configuration is valid or not.
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
+     */
     public static ValidationReport updateFetchConfiguration(String remoteConfigurationId,
                                                             String jsonObject)
             throws RemoteFetchCoreException {
@@ -143,6 +176,12 @@ public class RemoteFetchConfigurationClient {
                 .updateRemoteFetchConfiguration(fetchConfiguration);
     }
 
+    /**
+     * Called by when delete Update button pressed.
+     *
+     * @param id remoteConfigurationId
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
+     */
     public static void deleteRemoteFetchComponent(String id) throws RemoteFetchCoreException {
 
         RemotefetchCoreUIComponentDataHolder.getInstance().getRemoteFetchConfigurationService()
@@ -157,11 +196,17 @@ public class RemoteFetchConfigurationClient {
         return fetchConfiguration;
     }
 
+    /**
+     * Called by when trigger button pressed for manual clone and deployment.
+     *
+     * @param remoteConfigurationId remoteConfigurationId
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
+     */
     public static void triggerRemoteFetch(String remoteConfigurationId) throws RemoteFetchCoreException {
 
         RemoteFetchConfiguration remoteFetchConfiguration =
-                RemotefetchCoreUIComponentDataHolder.getInstance().getRemoteFetchConfigurationService()
-                .getRemoteFetchConfiguration(remoteConfigurationId);
+                RemotefetchCoreUIComponentDataHolder.getInstance()
+                        .getRemoteFetchConfigurationService().getRemoteFetchConfiguration(remoteConfigurationId);
 
         if (remoteFetchConfiguration == null) {
             throw new RemoteFetchCoreException("No remote fetch configuration was found for id : "

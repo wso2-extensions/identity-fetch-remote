@@ -44,6 +44,12 @@ import static org.testng.Assert.assertTrue;
  */
 public class RemoteFetchConfigurationClientTest extends PowerMockTestCase {
 
+    private static final String REMOTE_FETCH_ID = "00000000-0000-0000-0000-d29bed62f7bd";
+    private static final String REPOSITORY_MANAGER_TYPE = "GIT";
+    private static final String ACTION_LISTENER_TYPE = "POLLING";
+    private static final String CONFIG_DEPLOYER_TYPE = "SP";
+    private static final String REMOTE_FETCH_NAME = "TEST";
+
     @ObjectFactory
     public IObjectFactory getObjectFactory() {
 
@@ -54,41 +60,33 @@ public class RemoteFetchConfigurationClientTest extends PowerMockTestCase {
     public void testFetchConfigurationToDTO() {
 
         BasicRemoteFetchConfiguration basicRemoteFetchConfiguration = new BasicRemoteFetchConfiguration
-                ("00000000-0000-0000-0000-d29bed62f7bd", true,
-                "GIT", "POLLING", "SP", "Test",
-                1, 0);
+                (REMOTE_FETCH_ID, true, REPOSITORY_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE,
+                        REMOTE_FETCH_NAME, 1, 0);
         RemoteFetchComponentRegistry remoteFetchComponentRegistry = new RemoteFetchComponentRegistryImpl();
-
         ActionListenerComponent actionListenerComponent = new PollingActionListenerComponent();
         ConfigDeployerComponent configDeployerComponent = new ServiceProviderConfigDeployerComponent();
         RepositoryManagerComponent repositoryManagerComponent = new GitRepositoryManagerComponent();
-
         remoteFetchComponentRegistry.registerRepositoryManager(repositoryManagerComponent);
         remoteFetchComponentRegistry.registerConfigDeployer(configDeployerComponent);
         remoteFetchComponentRegistry.registerActionListener(actionListenerComponent);
         RemotefetchCoreUIComponentDataHolder.getInstance().setComponentRegistry(remoteFetchComponentRegistry);
-
         RemoteFetchConfigurationRowDTO remoteFetchConfigurationRowDTO =
                 RemoteFetchConfigurationClient.fetchConfigurationToDTO(basicRemoteFetchConfiguration);
         assertNotNull(remoteFetchConfigurationRowDTO);
         assertTrue(remoteFetchConfigurationRowDTO.getIsEnabled());
-        assertEquals(remoteFetchConfigurationRowDTO.getRemoteFetchName(), "Test");
+        assertEquals(remoteFetchConfigurationRowDTO.getRemoteFetchName(), REMOTE_FETCH_NAME);
     }
 
     @Test
     public void testFetchConfigurationToDTOForNullValues() {
 
         BasicRemoteFetchConfiguration basicRemoteFetchConfiguration = new BasicRemoteFetchConfiguration
-                ("00000000-0000-0000-0000-d29bed62f7bd", true,
-                "GIT", "POLLING", "SP", "Test",
-                1, 0);
+                (REMOTE_FETCH_ID, true, REPOSITORY_MANAGER_TYPE, ACTION_LISTENER_TYPE, CONFIG_DEPLOYER_TYPE,
+                        REMOTE_FETCH_NAME, 1, 0);
         RemoteFetchComponentRegistry remoteFetchComponentRegistry = new RemoteFetchComponentRegistryImpl();
-
         RemotefetchCoreUIComponentDataHolder.getInstance().setComponentRegistry(remoteFetchComponentRegistry);
         RemoteFetchConfigurationRowDTO remoteFetchConfigurationRowDTO =
                 RemoteFetchConfigurationClient.fetchConfigurationToDTO(basicRemoteFetchConfiguration);
-
         assertNotNull(remoteFetchConfigurationRowDTO);
     }
-
 }

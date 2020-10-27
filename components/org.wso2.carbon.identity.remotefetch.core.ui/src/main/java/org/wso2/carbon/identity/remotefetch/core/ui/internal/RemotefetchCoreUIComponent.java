@@ -38,10 +38,12 @@ import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfigurationServi
         immediate = true
 )
 public class RemotefetchCoreUIComponent {
+
     private static final Log log = LogFactory.getLog(RemotefetchCoreUIComponent.class);
 
     @Activate
     protected void activate(ComponentContext context) {
+
         if (log.isDebugEnabled()) {
             log.debug("RemoteFetch Core UI bundle activated!");
         }
@@ -49,6 +51,7 @@ public class RemotefetchCoreUIComponent {
 
     @Deactivate
     protected void deactivate(ComponentContext context) {
+
         if (log.isDebugEnabled()) {
             log.debug("RemoteFetch Core UI bundle deactivated!");
         }
@@ -62,11 +65,13 @@ public class RemotefetchCoreUIComponent {
             unbind = "unsetRemoteFetchComponentRegistryReference"
     )
     protected void setRemoteFetchComponentRegistryReference(RemoteFetchComponentRegistry componentRegistry) {
+
         RemotefetchCoreUIComponentDataHolder.getInstance().setComponentRegistry(componentRegistry);
 
     }
 
     protected void unsetRemoteFetchComponentRegistryReference(RemoteFetchComponentRegistry componentRegistry) {
+
         RemotefetchCoreUIComponentDataHolder.getInstance().setComponentRegistry(null);
     }
 
