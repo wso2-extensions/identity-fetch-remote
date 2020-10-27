@@ -37,7 +37,9 @@ public class RemoteFetchComponentRegistryImpl implements RemoteFetchComponentReg
     private HashMap<String, ActionListenerComponent> actionListenerComponentMap = new HashMap<>();
 
     /**
-     * @param repositoryManagerComponent
+     * Register RepositoryManagerComponent inorder to retrieve later for UI render purposes.
+     *
+     * @param repositoryManagerComponent RepositoryManagerComponent
      */
     @Override
     public void registerRepositoryManager(RepositoryManagerComponent repositoryManagerComponent) {
@@ -46,7 +48,9 @@ public class RemoteFetchComponentRegistryImpl implements RemoteFetchComponentReg
     }
 
     /**
-     * @param configDeployerComponent
+     * Register ConfigDeployerComponent inorder to retrieve later for UI render purposes.
+     *
+     * @param configDeployerComponent ConfigDeployerComponent
      */
     @Override
     public void registerConfigDeployer(ConfigDeployerComponent configDeployerComponent) {
@@ -55,7 +59,9 @@ public class RemoteFetchComponentRegistryImpl implements RemoteFetchComponentReg
     }
 
     /**
-     * @param actionListenerComponent
+     * Register ActionListenerComponent inorder to retrieve later for UI render purposes.
+     *
+     * @param actionListenerComponent ActionListenerComponent
      */
     @Override
     public void registerActionListener(ActionListenerComponent actionListenerComponent) {
@@ -64,7 +70,9 @@ public class RemoteFetchComponentRegistryImpl implements RemoteFetchComponentReg
     }
 
     /**
-     * @param identifier
+     * Remove repository manager from the registry.
+     *
+     * @param identifier id of the repository manager
      */
     @Override
     public void deRegisterRepositoryManager(String identifier) {
@@ -73,7 +81,9 @@ public class RemoteFetchComponentRegistryImpl implements RemoteFetchComponentReg
     }
 
     /**
-     * @param identifier
+     * Remove Config deployer from the registry.
+     *
+     * @param identifier id of the config deployer
      */
     @Override
     public void deRegisterConfigDeployer(String identifier) {
@@ -82,7 +92,9 @@ public class RemoteFetchComponentRegistryImpl implements RemoteFetchComponentReg
     }
 
     /**
-     * @param identifier
+     * Remove Action listener from the registry.
+     *
+     * @param identifier id of the action listener
      */
     @Override
     public void deRegisterActionListener(String identifier) {
@@ -91,8 +103,10 @@ public class RemoteFetchComponentRegistryImpl implements RemoteFetchComponentReg
     }
 
     /**
-     * @param identifier
-     * @return
+     * Get registered RepositoryManagerComponent
+     *
+     * @param identifier id of the repository manager
+     * @return RepositoryManagerComponent
      */
     @Override
     public RepositoryManagerComponent getRepositoryManagerComponent(String identifier) {
@@ -101,8 +115,10 @@ public class RemoteFetchComponentRegistryImpl implements RemoteFetchComponentReg
     }
 
     /**
-     * @param identifier
-     * @return
+     * Get registered ConfigDeployerComponent
+     *
+     * @param identifier id of the ConfigDeployer
+     * @return ConfigDeployerComponent
      */
     @Override
     public ConfigDeployerComponent getConfigDeployerComponent(String identifier) {
@@ -111,8 +127,10 @@ public class RemoteFetchComponentRegistryImpl implements RemoteFetchComponentReg
     }
 
     /**
-     * @param identifier
-     * @return
+     * Get registered ActionListenerComponent
+     *
+     * @param identifier id of the ActionListenerComponent
+     * @return ActionListenerComponent
      */
     @Override
     public ActionListenerComponent getActionListenerComponent(String identifier) {
@@ -121,6 +139,8 @@ public class RemoteFetchComponentRegistryImpl implements RemoteFetchComponentReg
     }
 
     /**
+     * Get all RepositoryManagerComponents.
+     *
      * @return list all RepositoryManagerComponents
      */
     @Override
@@ -130,6 +150,8 @@ public class RemoteFetchComponentRegistryImpl implements RemoteFetchComponentReg
     }
 
     /**
+     * Get all ConfigDeployerComponents.
+     *
      * @return list all ConfigDeployerComponents
      */
     @Override
@@ -139,6 +161,8 @@ public class RemoteFetchComponentRegistryImpl implements RemoteFetchComponentReg
     }
 
     /**
+     * Get all ActionListenerComponents.
+     *
      * @return list all ActionListenerComponents
      */
     @Override

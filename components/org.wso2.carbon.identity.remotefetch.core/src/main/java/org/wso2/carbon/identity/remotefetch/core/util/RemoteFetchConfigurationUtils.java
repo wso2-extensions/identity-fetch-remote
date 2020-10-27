@@ -42,32 +42,26 @@ public class RemoteFetchConfigurationUtils {
 
     private static final Log log = LogFactory.getLog(RemoteFetchConfigurationUtils.class);
 
-
     /**
      * Parse configuration from deployment toml file.
      *
      * @return RemoteFetchCoreConfiguration
-     * @throws RemoteFetchCoreException
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     public static RemoteFetchCoreConfiguration parseConfiguration() throws RemoteFetchCoreException {
 
         boolean isEnabled = false;
         File workingDirectory = null;
-
         String isEnabledProperty = IdentityUtil.getProperty("RemoteFetch.FetchEnabled");
         String workingDirectoryProperty = IdentityUtil.getProperty("RemoteFetch.WorkingDirectory");
-
         if (isEnabledProperty != null && !isEnabledProperty.isEmpty()) {
             isEnabled = isEnabledProperty.equalsIgnoreCase("true");
         }
-
         if (workingDirectoryProperty != null && !workingDirectoryProperty.isEmpty()) {
             workingDirectory = new File(workingDirectoryProperty);
             validateDirectory(workingDirectory);
         }
-
         return new RemoteFetchCoreConfiguration(workingDirectory, isEnabled);
-
     }
 
     private static void validateDirectory(File workingDirectory) throws RemoteFetchCoreException {
@@ -130,7 +124,6 @@ public class RemoteFetchConfigurationUtils {
         return maximumItemsPerPage;
     }
 
-
     /**
      * This method is used to generate RemoteFetchClientException from RemoteFetchConstants.ErrorMessage
      * when no exception is thrown.
@@ -167,7 +160,6 @@ public class RemoteFetchConfigurationUtils {
         String message = includeData(error, exceptionStringBuilder.toString());
         return new RemoteFetchClientException(error.getCode(), message);
     }
-
 
     /**
      * This method is used to generate RemoteFetchServerException from RemoteFetchConstants.ErrorMessage
@@ -227,6 +219,13 @@ public class RemoteFetchConfigurationUtils {
         return message;
     }
 
+    /**
+     * Trim Error message inorder to store in db
+     *
+     * @param message          Error Message
+     * @param inspectThrowable Throwable to get full stack trace
+     * @return full trimmed error message
+     */
     public static String trimErrorMessage(String message, Throwable inspectThrowable) {
 
         StringBuilder errorStringBuilder = new StringBuilder();
