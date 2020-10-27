@@ -42,7 +42,7 @@
                 validationReport = RemoteFetchConfigurationClient.addFetchConfiguration(payload);
                 CarbonUIMessage.sendCarbonUIMessage("Configuration successfully added!", CarbonUIMessage.INFO, request);
             } else if (action.equalsIgnoreCase("update")) {
-                validationReport = RemoteFetchConfigurationClient.updateFetchConfiguration(id,payload);
+                validationReport = RemoteFetchConfigurationClient.updateFetchConfiguration(id, payload);
                 CarbonUIMessage.sendCarbonUIMessage("Configuration successfully updated!", CarbonUIMessage.INFO,
                         request);
             }
