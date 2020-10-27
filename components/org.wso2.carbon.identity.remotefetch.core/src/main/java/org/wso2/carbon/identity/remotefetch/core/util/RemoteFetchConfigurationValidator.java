@@ -61,6 +61,11 @@ public class RemoteFetchConfigurationValidator {
 
     }
 
+    /**
+     * Validate the remote fetch configuration inputs wit corresponding UI fields.
+     *
+     * @return ValidationReport
+     */
     public ValidationReport validate() {
 
         if (!this.isEmpty()) {
@@ -91,7 +96,6 @@ public class RemoteFetchConfigurationValidator {
         return this.returnReport();
 
     }
-
 
     private boolean isEmpty() {
 

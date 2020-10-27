@@ -40,6 +40,8 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.wso2.carbon.identity.remotefetch.core.dao.TestConstants.DB_NAME;
+import static org.wso2.carbon.identity.remotefetch.core.dao.TestConstants.REMOTE_FETCH_CONFIGURATION_ID;
 
 /**
  * Unit test covering RemoteFetchConfigurationDAOImpl.
@@ -47,11 +49,8 @@ import static org.testng.Assert.assertNotNull;
 @PrepareForTest(JdbcUtils.class)
 public class RemoteFetchConfigurationDAOImplTest extends PowerMockTestCase {
 
-    private static final String DB_NAME = "IDN_REMOTE_FETCH_DB";
-    private String remoteFetchConfigurationId = "00000000-0000-0000-0000-d29bed62f7bd";
-
     RemoteFetchConfigurationDAOImpl remoteFetchConfigurationDAO = new RemoteFetchConfigurationDAOImpl();
-    RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration(remoteFetchConfigurationId,
+    RemoteFetchConfiguration remoteFetchConfiguration = new RemoteFetchConfiguration(REMOTE_FETCH_CONFIGURATION_ID,
             TestConstants.TENANT_ID, false, null, null,
             null, null, null);
 
@@ -96,7 +95,7 @@ public class RemoteFetchConfigurationDAOImplTest extends PowerMockTestCase {
             Connection spy = DAOTestUtils.spyConnection(connection);
             when(dataSource.getConnection()).thenReturn(spy);
             RemoteFetchConfiguration getRemoteFetchConfiguration =
-                    remoteFetchConfigurationDAO.getRemoteFetchConfiguration(remoteFetchConfigurationId,
+                    remoteFetchConfigurationDAO.getRemoteFetchConfiguration(REMOTE_FETCH_CONFIGURATION_ID,
                             TestConstants.TENANT_ID);
             assertNotNull(getRemoteFetchConfiguration);
             assertEquals(getRemoteFetchConfiguration.getRemoteFetchName(), "RemoteFetchDemoApp");
@@ -157,7 +156,7 @@ public class RemoteFetchConfigurationDAOImplTest extends PowerMockTestCase {
         try (Connection connection = DAOTestUtils.getConnection(DB_NAME)) {
             Connection spy = DAOTestUtils.spyConnection(connection);
             when(dataSource.getConnection()).thenReturn(spy);
-            remoteFetchConfigurationDAO.deleteRemoteFetchConfiguration(remoteFetchConfigurationId,
+            remoteFetchConfigurationDAO.deleteRemoteFetchConfiguration(REMOTE_FETCH_CONFIGURATION_ID,
                     TestConstants.TENANT_ID);
         }
     }
@@ -167,7 +166,7 @@ public class RemoteFetchConfigurationDAOImplTest extends PowerMockTestCase {
         remoteFetchConfiguration.setTenantId(TestConstants.TENANT_ID);
         remoteFetchConfiguration.setActionListenerType(TestConstants.ACTION_LISTENER_TYPE);
         remoteFetchConfiguration.setConfigurationDeployerType(TestConstants.CONFIG_DEPLOYER_TYPE);
-        remoteFetchConfiguration.setRemoteFetchConfigurationId(remoteFetchConfigurationId);
+        remoteFetchConfiguration.setRemoteFetchConfigurationId(REMOTE_FETCH_CONFIGURATION_ID);
         remoteFetchConfiguration.setEnabled(true);
         remoteFetchConfiguration.setRepositoryManagerType(TestConstants.REPO_MANAGER_TYPE);
         remoteFetchConfiguration.setRemoteFetchName("RemoteFetchDemoApp");
