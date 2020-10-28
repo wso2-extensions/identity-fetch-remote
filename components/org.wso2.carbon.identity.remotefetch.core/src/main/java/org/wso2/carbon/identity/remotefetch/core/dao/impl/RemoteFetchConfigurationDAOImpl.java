@@ -59,9 +59,10 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
     private static final Log log = LogFactory.getLog(RemoteFetchConfigurationDAOImpl.class);
 
     /**
-     * @param configuration
-     * @return
-     * @throws RemoteFetchCoreException
+     * Insert new remote fetch configuration data row into database.
+     *
+     * @param configuration remote fetch configuration.
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public void createRemoteFetchConfiguration(RemoteFetchConfiguration configuration) throws RemoteFetchCoreException {
@@ -70,24 +71,20 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
 
         try {
 
-                    jdbcTemplate.executeInsert(SQLConstants.CREATE_CONFIG,
-                            preparedStatement -> {
-                                preparedStatement.setString(1, configuration.getRemoteFetchConfigurationId());
-                                preparedStatement.setInt(2, configuration.getTenantId());
-                                preparedStatement.setString(3, (configuration.isEnabled() ? "1" : "0"));
-                                preparedStatement.setString(4, configuration.getRepositoryManagerType());
-                                preparedStatement.setString(5, configuration.getActionListenerType());
-                                preparedStatement.setString(6, configuration.getConfigurationDeployerType());
-
-                                //Encode object attributes to JSON
-                                JSONObject attributesBundle = this.makeAttributeBundle(configuration);
-
-                                preparedStatement.setString(7, attributesBundle.toString(FACTOR_INDENT));
-                                preparedStatement.setString(8, configuration.getRemoteFetchName());
-                                preparedStatement.setString(9, configuration.getRemoteResourceURI());
-                                }
-                            , configuration, false)
-            ;
+            jdbcTemplate.executeInsert(SQLConstants.CREATE_CONFIG,
+                    preparedStatement -> {
+                        preparedStatement.setString(1, configuration.getRemoteFetchConfigurationId());
+                        preparedStatement.setInt(2, configuration.getTenantId());
+                        preparedStatement.setString(3, (configuration.isEnabled() ? "1" : "0"));
+                        preparedStatement.setString(4, configuration.getRepositoryManagerType());
+                        preparedStatement.setString(5, configuration.getActionListenerType());
+                        preparedStatement.setString(6, configuration.getConfigurationDeployerType());
+                        //Encode object attributes to JSON
+                        JSONObject attributesBundle = this.makeAttributeBundle(configuration);
+                        preparedStatement.setString(7, attributesBundle.toString(FACTOR_INDENT));
+                        preparedStatement.setString(8, configuration.getRemoteFetchName());
+                        preparedStatement.setString(9, configuration.getRemoteResourceURI());
+                    }, configuration, false);
         } catch (DataAccessException e) {
             throw RemoteFetchConfigurationUtils.handleServerException(RemoteFetchConstants.ErrorMessage.
                     ERROR_CODE_ADD_RF_CONFIG, configuration.getRemoteFetchName(), e);
@@ -95,9 +92,12 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
     }
 
     /**
-     * @param configurationId
-     * @return
-     * @throws RemoteFetchCoreException
+     * Get remote fetch configuration by given resource id and tenant id.
+     *
+     * @param configurationId configurationId
+     * @param tenantId        tenantId
+     * @return RemoteFetchConfiguration
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public RemoteFetchConfiguration getRemoteFetchConfiguration(String configurationId, int tenantId)
@@ -106,13 +106,12 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {
             return jdbcTemplate.withTransaction(template ->
-                    jdbcTemplate.fetchSingleRecord(SQLConstants.GET_CONFIG,
-                            (resultSet, i) -> this.resultSetToConfiguration(resultSet),
-                            preparedStatement -> {
-                        preparedStatement.setString(1, configurationId);
-                        preparedStatement.setInt(2, tenantId);
-                            })
-            );
+                            jdbcTemplate.fetchSingleRecord(SQLConstants.GET_CONFIG,
+                                    (resultSet, i) -> this.resultSetToConfiguration(resultSet),
+                                    preparedStatement -> {
+                                        preparedStatement.setString(1, configurationId);
+                                        preparedStatement.setInt(2, tenantId);
+                                    }));
         } catch (TransactionException e) {
             throw RemoteFetchConfigurationUtils.handleServerException(RemoteFetchConstants.ErrorMessage
                     .ERROR_CODE_RETRIEVE_RF_CONFIG, configurationId, e);
@@ -120,8 +119,10 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
     }
 
     /**
-     * @param configuration
-     * @throws RemoteFetchCoreException
+     * Update given remote fetch configuration.
+     *
+     * @param configuration RemoteFetchConfiguration
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public void updateRemoteFetchConfiguration(RemoteFetchConfiguration configuration) throws RemoteFetchCoreException {
@@ -134,10 +135,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                         preparedStatement -> {
                             this.configurationToPreparedStatement(preparedStatement, configuration);
                             preparedStatement.setString(9, configuration.getRemoteFetchConfigurationId());
-
-                        }
-
-                );
+                        });
                 return null;
             });
         } catch (TransactionException e) {
@@ -147,9 +145,11 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
     }
 
     /**
-     * @param configurationId
-     * @param tenantId TenantId.
-     * @throws RemoteFetchCoreException
+     * Delete given remote fetch configuration from database.
+     *
+     * @param configurationId configurationId
+     * @param tenantId        TenantDomain.
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public void deleteRemoteFetchConfiguration(String configurationId, int tenantId)
@@ -163,8 +163,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                         preparedStatement -> {
                             preparedStatement.setString(1, configurationId);
                             preparedStatement.setInt(2, tenantId);
-                        }
-                );
+                        });
                 return null;
             });
         } catch (TransactionException e) {
@@ -174,8 +173,11 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
     }
 
     /**
-     * @return
-     * @throws RemoteFetchCoreException
+     * Get all enabled remote fetch configurations regardless tenant.
+     * This implementation was used by auto sync mechanism.
+     *
+     * @return List of all enabled remote fetch configurations
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public List<RemoteFetchConfiguration> getAllEnabledPollingRemoteFetchConfigurations()
@@ -185,17 +187,18 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
         try {
             return jdbcTemplate.withTransaction(template ->
                     template.executeQuery(SQLConstants.LIST_ENABLED_CONFIGS,
-                            ((resultSet, i) -> this.resultSetToConfiguration(resultSet)))
-            );
+                            ((resultSet, i) -> this.resultSetToConfiguration(resultSet))));
         } catch (TransactionException e) {
             throw new RemoteFetchCoreException("Error listing RemoteFetchConfigurations from database", e);
         }
     }
 
     /**
-     * @param tenantId
-     * @return
-     * @throws RemoteFetchCoreException
+     * Get all remote fetch configuration for particular tenant.
+     *
+     * @param tenantId tenantId
+     * @return List of all remote fetch configurations fpr particular tenant
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public List<RemoteFetchConfiguration> getRemoteFetchConfigurationsByTenant(int tenantId)
@@ -206,25 +209,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
             return jdbcTemplate.withTransaction(template ->
                     template.executeQuery(SQLConstants.LIST_CONFIGS_BY_TENANT,
                             ((resultSet, i) -> this.resultSetToConfiguration(resultSet)),
-                            preparedStatement -> preparedStatement.setInt(1, tenantId))
-            );
-        } catch (TransactionException e) {
-            throw RemoteFetchConfigurationUtils.handleServerException(RemoteFetchConstants.ErrorMessage.
-                    ERROR_CODE_RETRIEVE_RF_CONFIGS, e);
-        }
-    }
-
-    @Override
-    public List<RemoteFetchConfiguration> getWebHookRemoteFetchConfigurationsByTenant(int tenantId)
-            throws RemoteFetchCoreException {
-
-        JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
-        try {
-            return jdbcTemplate.withTransaction(template ->
-                    template.executeQuery(SQLConstants.LIST_WEB_HOOK_FETCH_CONFIGS_BY_TENANT,
-                            ((resultSet, i) -> this.resultSetToConfiguration(resultSet)),
-                            preparedStatement -> preparedStatement.setInt(1, tenantId))
-            );
+                            preparedStatement -> preparedStatement.setInt(1, tenantId)));
         } catch (TransactionException e) {
             throw RemoteFetchConfigurationUtils.handleServerException(RemoteFetchConstants.ErrorMessage.
                     ERROR_CODE_RETRIEVE_RF_CONFIGS, e);
@@ -232,9 +217,36 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
     }
 
     /**
-     * @param tenantDomain
-     * @return
-     * @throws RemoteFetchCoreException
+     * Get all remote fetch configuration which have Web Hook as action listener for particular tenant.
+     *
+     * @param tenantId tenantId
+     * @return List of all web hook remote fetch configurations fpr particular tenant
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
+     */
+    @Override
+    public List<RemoteFetchConfiguration> getWebHookRemoteFetchConfigurationsByTenant(int tenantId)
+            throws RemoteFetchCoreException {
+
+        JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
+        try {
+            return jdbcTemplate.withTransaction(template ->
+                            template.executeQuery(SQLConstants.LIST_WEB_HOOK_FETCH_CONFIGS_BY_TENANT,
+                                    ((resultSet, i) -> this.resultSetToConfiguration(resultSet)),
+                                    preparedStatement -> preparedStatement.setInt(1, tenantId)));
+        } catch (TransactionException e) {
+            throw RemoteFetchConfigurationUtils.handleServerException(RemoteFetchConstants.ErrorMessage.
+                    ERROR_CODE_RETRIEVE_RF_CONFIGS, e);
+        }
+    }
+
+    /**
+     * Get all basic remote fetch configuration for particular tenant.
+     *
+     * @param tenantDomain tenantDomain
+     * @param limit        limit
+     * @param offset       offset
+     * @return List of basic remote fetch configuration
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public List<BasicRemoteFetchConfiguration> getBasicRemoteFetchConfigurationsByTenant(String tenantDomain,
@@ -244,12 +256,10 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
 
         int tenantId = IdentityTenantUtil.getTenantId(tenantDomain);
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
-
         try (Connection dbConnection = IdentityDatabaseUtil.getDBConnection(false)) {
             String databaseProductName = dbConnection.getMetaData().getDatabaseProductName();
             if (databaseProductName.contains(SQLConstants.DB_MYSQL) ||
                     databaseProductName.contains(SQLConstants.DB_H2)) {
-
                 return jdbcTemplate.withTransaction(template ->
                         template.executeQuery(SQLConstants.LIST_BASIC_CONFIGS_BY_TENANT_MYSQL,
                                 (resultSet, i) -> this.resultSetToBasicConfiguration(resultSet),
@@ -257,13 +267,11 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                                     preparedStatement.setInt(1, tenantId);
                                     preparedStatement.setInt(2, offset);
                                     preparedStatement.setInt(3, limit);
-                                })
-                );
+                                }));
             } else if (databaseProductName.contains(SQLConstants.DB_ORACLE)) {
                 String sql = SQLConstants.LIST_BASIC_CONFIGS_BY_TENANT_ORACLE_LIMIT_HEAD +
                         SQLConstants.LIST_BASIC_CONFIGS_BY_TENANT_ORACLE +
                         SQLConstants.LIST_BASIC_CONFIGS_BY_TENANT_ORACLE_LIMIT_TAIL;
-
                 return jdbcTemplate.withTransaction(template ->
                         template.executeQuery(sql,
                                 (resultSet, i) -> this.resultSetToBasicConfiguration(resultSet),
@@ -271,11 +279,8 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                                     preparedStatement.setInt(1, tenantId);
                                     preparedStatement.setInt(2, offset + limit);
                                     preparedStatement.setInt(3, offset);
-                                })
-                );
-
+                                }));
             } else if (databaseProductName.contains(SQLConstants.DB_MSSQL)) {
-
                 return jdbcTemplate.withTransaction(template ->
                         template.executeQuery(SQLConstants.LIST_BASIC_CONFIGS_BY_TENANT_MSSQL,
                                 (resultSet, i) -> this.resultSetToBasicConfiguration(resultSet),
@@ -283,12 +288,9 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                                     preparedStatement.setInt(1, tenantId);
                                     preparedStatement.setInt(2, offset);
                                     preparedStatement.setInt(3, limit);
-                                })
-                );
-
+                                }));
             } else if (databaseProductName.contains(SQLConstants.DB_POSTGRESQL)
                     || databaseProductName.contains(SQLConstants.DB_DB2)) {
-
                 return jdbcTemplate.withTransaction(template ->
                         template.executeQuery(SQLConstants.LIST_BASIC_CONFIGS_BY_TENANT_POSTGRES_DB2,
                                 (resultSet, i) -> this.resultSetToBasicConfiguration(resultSet),
@@ -296,8 +298,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                                     preparedStatement.setInt(1, tenantId);
                                     preparedStatement.setInt(2, limit);
                                     preparedStatement.setInt(3, offset);
-                                })
-                );
+                                }));
             } else {
                 log.error("Error while loading Remote fetch configuration from DB: Database driver could not " +
                         "be identified or not supported.");
@@ -367,10 +368,8 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
         preparedStatement.setString(3, configuration.getRepositoryManagerType());
         preparedStatement.setString(4, configuration.getActionListenerType());
         preparedStatement.setString(5, configuration.getConfigurationDeployerType());
-
-        //Encode object attributes to JSON
+        // Encode object attributes to JSON
         JSONObject attributesBundle = this.makeAttributeBundle(configuration);
-
         preparedStatement.setString(6, attributesBundle.toString(FACTOR_INDENT));
         preparedStatement.setString(7, configuration.getRemoteFetchName());
         preparedStatement.setString(8, configuration.getRemoteResourceURI());
@@ -389,14 +388,10 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
     private void mapAttributes(RemoteFetchConfiguration remoteFetchConfiguration, JSONObject attributesBundle) {
 
         remoteFetchConfiguration.setRepositoryManagerAttributes(
-                this.attributeToMap(attributesBundle.getJSONObject(ATTRIBUTE_REPOSITORY_MANAGER))
-        );
+                this.attributeToMap(attributesBundle.getJSONObject(ATTRIBUTE_REPOSITORY_MANAGER)));
         remoteFetchConfiguration.setActionListenerAttributes(
-                this.attributeToMap(attributesBundle.getJSONObject(ATTRIBUTE_ACTION_LISTENER))
-        );
+                this.attributeToMap(attributesBundle.getJSONObject(ATTRIBUTE_ACTION_LISTENER)));
         remoteFetchConfiguration.setConfigurationDeployerAttributes(
-                this.attributeToMap(attributesBundle.getJSONObject(ATTRIBUTE_CONFIG_DEPLOYER))
-        );
-
+                this.attributeToMap(attributesBundle.getJSONObject(ATTRIBUTE_CONFIG_DEPLOYER)));
     }
 }

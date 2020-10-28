@@ -21,7 +21,6 @@ package org.wso2.carbon.identity.remotefetch.core.executers;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
-import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 import org.wso2.carbon.identity.remotefetch.core.executers.tasks.RemoteFetchConfigurationBatchTask;
 import org.wso2.carbon.identity.remotefetch.core.executers.tasks.RemoteFetchConfigurationImmediateTask;
 
@@ -36,7 +35,6 @@ import java.util.concurrent.TimeUnit;
  * {@link RemoteFetchConfigurationBatchTask}
  * This execution engine starts immediate task when OSGi trigger service called.
  * {@link RemoteFetchConfigurationImmediateTask}
- *
  */
 public class RemoteFetchTaskExecutor {
 
@@ -68,41 +66,31 @@ public class RemoteFetchTaskExecutor {
     public void startBatchTaskExecution() {
 
         remoteFetchConfigurationBatchTask = new RemoteFetchConfigurationBatchTask();
-        try {
-            scheduler.scheduleAtFixedRate(remoteFetchConfigurationBatchTask, 0, (60 * 1), TimeUnit.SECONDS);
-            log.info("Batch Task is scheduled.");
-        } catch (Exception e) {
-            log.error("Error while scheduling batch task", e);
-        }
+        scheduler.scheduleAtFixedRate(remoteFetchConfigurationBatchTask, 0, (60 * 1), TimeUnit.SECONDS);
+        log.info("Batch Task is scheduled.");
     }
 
     /**
      * Schedule immediate task execution when OSGi trigger service called.
-     * @param remoteFetchConfiguration
-     * @throws RemoteFetchCoreException
+     *
+     * @param remoteFetchConfiguration RemoteFetchConfiguration
      */
-    public void startImmediateTaskExecution(RemoteFetchConfiguration remoteFetchConfiguration)
-            throws RemoteFetchCoreException {
+    public void startImmediateTaskExecution(RemoteFetchConfiguration remoteFetchConfiguration) {
 
         RemoteFetchConfigurationImmediateTask remoteFetchConfigurationImmediateTask =
                 new RemoteFetchConfigurationImmediateTask(remoteFetchConfiguration);
 
-        try {
-            scheduler.schedule(remoteFetchConfigurationImmediateTask, 0, TimeUnit.SECONDS);
-
-            if (log.isDebugEnabled()) {
-                log.debug("Immediate Task is scheduled for remote fetch configuration "
-                        + remoteFetchConfiguration.getRemoteFetchConfigurationId());
-            }
-        } catch (Exception e) {
-            throw new RemoteFetchCoreException("Error while scheduling immediate task for remote fetch configuration "
-                    + remoteFetchConfiguration.getRemoteFetchConfigurationId(), e);
+        scheduler.schedule(remoteFetchConfigurationImmediateTask, 0, TimeUnit.SECONDS);
+        if (log.isDebugEnabled()) {
+            log.debug("Immediate Task is scheduled for remote fetch configuration "
+                    + remoteFetchConfiguration.getRemoteFetchConfigurationId());
         }
     }
 
     /**
      * Remove entries from batch task when delete remote fetch configuration.
-     * @param id
+     *
+     * @param id remote fetch configuration id
      */
     public void deleteRemoteFetchConfigurationFromBatchTask(String id) {
 
