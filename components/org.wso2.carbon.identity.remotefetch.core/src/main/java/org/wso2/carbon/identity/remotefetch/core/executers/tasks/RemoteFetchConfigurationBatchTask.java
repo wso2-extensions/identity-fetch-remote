@@ -47,9 +47,7 @@ import java.util.Map;
 public class RemoteFetchConfigurationBatchTask implements Runnable {
 
     private static final Log log = LogFactory.getLog(RemoteFetchConfigurationBatchTask.class);
-
     private RemoteFetchConfigurationService fetchConfigurationService;
-
     private Map<String, RemoteFetchConfiguration> remoteFetchConfigurationMap = new HashMap<>();
     private Map<String, ActionListener> actionListenerMap = new HashMap<>();
     private RemoteFetchComponentRegistry componentRegistry;
@@ -64,34 +62,32 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
     /**
      * Builds ActionListener object from RemoteFetchConfiguration.
      *
-     * @param remoteFetchConfiguration
-     * @return
-     * @throws RemoteFetchCoreException
+     * @param remoteFetchConfiguration RemoteFetchConfiguration
+     * @return ActionListener
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     private ActionListener buildListener(RemoteFetchConfiguration remoteFetchConfiguration)
-                                         throws RemoteFetchCoreException {
+            throws RemoteFetchCoreException {
 
         RepositoryManager repositoryManager = buildRepositoryManager(remoteFetchConfiguration);
         ConfigDeployer configDeployer = buildConfigDeployer(remoteFetchConfiguration);
-
         return buildActionListener(configDeployer, repositoryManager, remoteFetchConfiguration);
     }
 
     /**
      * This method is used to build repository manager for particular remote fetch configuration.
-     * @param remoteFetchConfiguration
-     * @return
-     * @throws RemoteFetchCoreException
+     *
+     * @param remoteFetchConfiguration RemoteFetchConfiguration
+     * @return RepositoryManager
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     private RepositoryManager buildRepositoryManager(RemoteFetchConfiguration remoteFetchConfiguration)
-                                                     throws RemoteFetchCoreException {
+            throws RemoteFetchCoreException {
 
         RepositoryManagerComponent repositoryManagerComponent =
                 getRepositoryManagerComponentFromRegistry(remoteFetchConfiguration);
         if (repositoryManagerComponent != null) {
-
             return buildRepositoryManagerFromComponent(repositoryManagerComponent, remoteFetchConfiguration);
-
         } else {
             throw new RemoteFetchCoreException("RepositoryManager " + remoteFetchConfiguration
                     .getRepositoryManagerType()
@@ -101,11 +97,12 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
 
     /**
      * This method is used to retrieve RepositoryManagerComponent from registry for particular remoteFetchConfiguration.
-     * @param remoteFetchConfiguration
-     * @return
+     *
+     * @param remoteFetchConfiguration RemoteFetchConfiguration
+     * @return RepositoryManagerComponent
      */
     private RepositoryManagerComponent getRepositoryManagerComponentFromRegistry
-                (RemoteFetchConfiguration remoteFetchConfiguration) {
+    (RemoteFetchConfiguration remoteFetchConfiguration) {
 
         return this.componentRegistry
                 .getRepositoryManagerComponent(remoteFetchConfiguration.getRepositoryManagerType());
@@ -113,10 +110,11 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
 
     /**
      * This method is used to build repository manager from RepositoryManagerBuilder.
-     * @param repositoryManagerComponent
-     * @param remoteFetchConfiguration
-     * @return
-     * @throws RemoteFetchCoreException
+     *
+     * @param repositoryManagerComponent RepositoryManagerComponent
+     * @param remoteFetchConfiguration   RemoteFetchConfiguration
+     * @return RepositoryManager
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     private RepositoryManager buildRepositoryManagerFromComponent(RepositoryManagerComponent repositoryManagerComponent,
                                                                   RemoteFetchConfiguration remoteFetchConfiguration)
@@ -130,7 +128,6 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
                     .addRemoteFetchCoreConfig(RemoteFetchServiceComponentHolder.getInstance()
                             .getFetchCoreConfiguration())
                     .build();
-
         } catch (RepositoryManagerBuilderException e) {
             throw new RemoteFetchCoreException("Unable to build " + remoteFetchConfiguration
                     .getRepositoryManagerType()
@@ -140,9 +137,10 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
 
     /**
      * This method is used to build ConfigDeployer for particular remote fetch configuration.
-     * @param remoteFetchConfiguration
-     * @return
-     * @throws RemoteFetchCoreException
+     *
+     * @param remoteFetchConfiguration RemoteFetchConfiguration
+     * @return ConfigDeployer
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     private ConfigDeployer buildConfigDeployer(RemoteFetchConfiguration remoteFetchConfiguration)
             throws RemoteFetchCoreException {
@@ -150,11 +148,8 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
         // Get an instance of ConfigDeployer from registry.
         ConfigDeployerComponent configDeployerComponent =
                 getConfigDeployerComponentFromRegistry(remoteFetchConfiguration);
-
         if (configDeployerComponent != null) {
-
             return buildConfigDeployerFromComponent(configDeployerComponent, remoteFetchConfiguration);
-
         } else {
             throw new RemoteFetchCoreException("ConfigurationDeployer " + remoteFetchConfiguration
                     .getConfigurationDeployerType()
@@ -164,23 +159,24 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
 
     /**
      * This method is used to retrieve ConfigDeployerComponent from registry for particular remoteFetchConfiguration.
-     * @param remoteFetchConfiguration
-     * @return
+     *
+     * @param remoteFetchConfiguration RemoteFetchConfiguration
+     * @return ConfigDeployerComponent
      */
     private ConfigDeployerComponent getConfigDeployerComponentFromRegistry
-                                    (RemoteFetchConfiguration remoteFetchConfiguration) {
+    (RemoteFetchConfiguration remoteFetchConfiguration) {
 
         return this.componentRegistry
                 .getConfigDeployerComponent(remoteFetchConfiguration.getConfigurationDeployerType());
-
     }
 
     /**
      * This method is used to build ConfigDeployer from ConfigDeployerBuilder.
-     * @param configDeployerComponent
-     * @param remoteFetchConfiguration
-     * @return
-     * @throws RemoteFetchCoreException
+     *
+     * @param configDeployerComponent  ConfigDeployerComponent
+     * @param remoteFetchConfiguration RemoteFetchConfiguration
+     * @return ConfigDeployer
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     private ConfigDeployer buildConfigDeployerFromComponent(ConfigDeployerComponent configDeployerComponent,
                                                             RemoteFetchConfiguration remoteFetchConfiguration)
@@ -199,11 +195,12 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
 
     /**
      * This method is used create action listener from given ConfigDeployer and RepositoryManager.
-     * @param configDeployer
-     * @param repositoryManager
-     * @param remoteFetchConfiguration
-     * @return
-     * @throws RemoteFetchCoreException
+     *
+     * @param configDeployer           ConfigDeployer
+     * @param repositoryManager        RepositoryManager
+     * @param remoteFetchConfiguration RemoteFetchConfiguration
+     * @return ActionListener
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     private ActionListener buildActionListener(ConfigDeployer configDeployer, RepositoryManager repositoryManager,
                                                RemoteFetchConfiguration remoteFetchConfiguration)
@@ -212,10 +209,8 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
         ActionListenerComponent actionListenerComponent =
                 getActionListenerComponentFromRegistry(remoteFetchConfiguration);
         if (actionListenerComponent != null) {
-
             return buildActionListenerFromComponent(actionListenerComponent,
                     configDeployer, repositoryManager, remoteFetchConfiguration);
-
         } else {
             throw new RemoteFetchCoreException("ActionListener " + remoteFetchConfiguration
                     .getActionListenerType()
@@ -225,11 +220,12 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
 
     /**
      * This method is used to retrieve ActionListenerComponent from registry for particular remoteFetchConfiguration.
-     * @param remoteFetchConfiguration
-     * @return
+     *
+     * @param remoteFetchConfiguration RemoteFetchConfiguration
+     * @return ActionListenerComponent
      */
     private ActionListenerComponent getActionListenerComponentFromRegistry
-                                (RemoteFetchConfiguration remoteFetchConfiguration) {
+    (RemoteFetchConfiguration remoteFetchConfiguration) {
 
         return this.componentRegistry.getActionListenerComponent(remoteFetchConfiguration
                 .getActionListenerType());
@@ -237,25 +233,25 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
 
     /**
      * This method is used to build ActionListener from ActionListenerFromComponent.
-     * @param actionListenerComponent
-     * @param configDeployer
-     * @param repositoryManager
-     * @param remoteFetchConfiguration
-     * @return
-     * @throws RemoteFetchCoreException
+     *
+     * @param actionListenerComponent  ActionListenerComponent
+     * @param configDeployer           ConfigDeployer
+     * @param repositoryManager        RepositoryManager
+     * @param remoteFetchConfiguration RemoteFetchConfiguration
+     * @return ActionListener
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     private ActionListener buildActionListenerFromComponent(ActionListenerComponent actionListenerComponent,
                                                             ConfigDeployer configDeployer,
                                                             RepositoryManager repositoryManager,
                                                             RemoteFetchConfiguration remoteFetchConfiguration)
-                                                            throws RemoteFetchCoreException {
+            throws RemoteFetchCoreException {
 
         try {
             ActionListenerBuilder actionListenerBuilder = actionListenerComponent.getActionListenerBuilder();
 
             return actionListenerBuilder.addRemoteFetchConfig(remoteFetchConfiguration)
                     .addConfigDeployer(configDeployer).addRepositoryConnector(repositoryManager).build();
-
         } catch (ActionListenerBuilderException e) {
             throw new RemoteFetchCoreException("Unable to build " + remoteFetchConfiguration
                     .getActionListenerType()
@@ -271,26 +267,27 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
         try {
             this.fetchConfigurationService.getEnabledPollingRemoteFetchConfigurationList()
                     .forEach((RemoteFetchConfiguration config) -> {
-                String configurationId = config.getRemoteFetchConfigurationId();
-                // Check if RemoteFetchConfig already exists in Map.
-                if (this.remoteFetchConfigurationMap.containsKey(configurationId)) {
-                    // Update RemoteFetchConfiguration if local and new config is different.
-                    if (!remoteFetchConfigurationMap.get(configurationId).equals(config)) {
-                        try {
-                            this.actionListenerMap.put(configurationId, this.buildListener(config));
-                        } catch (RemoteFetchCoreException e) {
-                            log.error("Exception re-building ActionListener " + config.getActionListenerType(), e);
+                        String configurationId = config.getRemoteFetchConfigurationId();
+                        // Check if RemoteFetchConfig already exists in Map.
+                        if (this.remoteFetchConfigurationMap.containsKey(configurationId)) {
+                            // Update RemoteFetchConfiguration if local and new config is different.
+                            if (!remoteFetchConfigurationMap.get(configurationId).equals(config)) {
+                                try {
+                                    this.actionListenerMap.put(configurationId, this.buildListener(config));
+                                } catch (RemoteFetchCoreException e) {
+                                    log.error("Exception re-building ActionListener " + config.getActionListenerType(),
+                                            e);
+                                }
+                            }
+                        } else {
+                            this.remoteFetchConfigurationMap.put(configurationId, config);
+                            try {
+                                this.actionListenerMap.put(configurationId, this.buildListener(config));
+                            } catch (RemoteFetchCoreException e) {
+                                log.error("Exception building ActionListener " + config.getActionListenerType(), e);
+                            }
                         }
-                    }
-                } else {
-                    this.remoteFetchConfigurationMap.put(configurationId, config);
-                    try {
-                        this.actionListenerMap.put(configurationId, this.buildListener(config));
-                    } catch (RemoteFetchCoreException e) {
-                        log.error("Exception building ActionListener " + config.getActionListenerType(), e);
-                    }
-                }
-            });
+                    });
         } catch (RemoteFetchCoreException e) {
             log.error("Unable to list RemoteFetchConfigurations", e);
         }
@@ -307,7 +304,8 @@ public class RemoteFetchConfigurationBatchTask implements Runnable {
 
     /**
      * Remove entries from hash maps while delete remote fetch configuration.
-     * @param id
+     *
+     * @param id RemoteFetchConfiguration Id
      */
     public void deleteRemoteFetchConfiguration(String id) {
 

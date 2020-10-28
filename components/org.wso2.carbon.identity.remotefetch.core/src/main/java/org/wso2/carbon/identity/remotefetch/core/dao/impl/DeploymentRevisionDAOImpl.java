@@ -37,43 +37,43 @@ import java.util.List;
 public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
 
     /**
-     * @param deploymentRevision
-     * @return
-     * @throws RemoteFetchCoreException
+     * Create deployment revision data fro the DeploymentRevision Object.
+     *
+     * @param deploymentRevision DeploymentRevision
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public void createDeploymentRevision(DeploymentRevision deploymentRevision) throws RemoteFetchCoreException {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
-
         try {
             jdbcTemplate.withTransaction(template ->
-                    template.executeInsert(SQLConstants.CREATE_REVISION, preparedStatement -> {
-                        preparedStatement.setString(1, deploymentRevision.getDeploymentRevisionId());
-                        preparedStatement.setString(2, deploymentRevision.getConfigId());
-                        preparedStatement.setString(3, deploymentRevision.getFile().getPath());
-                        preparedStatement.setString(4, deploymentRevision.getFileHash());
-                        preparedStatement.setString(5, deploymentRevision.getItemName());
-                        preparedStatement.setString(6, deploymentRevision.getErrorMessage());
-                        if (deploymentRevision.getDeployedDate() != null) {
-                            preparedStatement.setTimestamp(7,
-                                    new Timestamp(deploymentRevision.getDeployedDate().getTime()));
-                        } else {
-                            preparedStatement.setTimestamp(7, null);
-                        }
-                        if (deploymentRevision.getDeploymentStatus() != null) {
-                            preparedStatement.setString(8, deploymentRevision.getDeploymentStatus().name());
-                        } else {
-                            preparedStatement.setString(8, null);
-                        }
-                        if (deploymentRevision.getLastSynchronizedDate() != null) {
-                            preparedStatement.setTimestamp(9,
-                                    new Timestamp(deploymentRevision.getLastSynchronizedDate().getTime()));
-                        } else {
-                            preparedStatement.setTimestamp(9, null);
-                        }
-                    }, deploymentRevision, false)
-            );
+                            template.executeInsert(SQLConstants.CREATE_REVISION, preparedStatement -> {
+                                preparedStatement.setString(1, deploymentRevision.getDeploymentRevisionId());
+                                preparedStatement.setString(2, deploymentRevision.getConfigId());
+                                preparedStatement.setString(3, deploymentRevision.getFile().getPath());
+                                preparedStatement.setString(4, deploymentRevision.getFileHash());
+                                preparedStatement.setString(5, deploymentRevision.getItemName());
+                                preparedStatement.setString(6, deploymentRevision.getErrorMessage());
+                                if (deploymentRevision.getDeployedDate() != null) {
+                                    preparedStatement.setTimestamp(7,
+                                            new Timestamp(deploymentRevision.getDeployedDate().getTime()));
+                                } else {
+                                    preparedStatement.setTimestamp(7, null);
+                                }
+                                if (deploymentRevision.getDeploymentStatus() != null) {
+                                    preparedStatement.setString(8, deploymentRevision.getDeploymentStatus().name());
+                                } else {
+                                    preparedStatement.setString(8, null);
+                                }
+                                if (deploymentRevision.getLastSynchronizedDate() != null) {
+                                    preparedStatement.setTimestamp(9,
+                                            new Timestamp(deploymentRevision.getLastSynchronizedDate().getTime()));
+                                } else {
+                                    preparedStatement.setTimestamp(9, null);
+                                }
+                            }, deploymentRevision, false)
+                                        );
         } catch (TransactionException e) {
             throw new RemoteFetchCoreException("Error creating new DeploymentRevision " +
                     deploymentRevision.getItemName(), e);
@@ -81,10 +81,12 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
     }
 
     /**
-     * @param remoteFetchConfigurationId
-     * @param itemName
-     * @return
-     * @throws RemoteFetchCoreException
+     * Get deployment revision object using remote configuration id and deployment revision name (application name).
+     *
+     * @param remoteFetchConfigurationId remoteFetchConfigurationId
+     * @param itemName                   Application name
+     * @return DeploymentRevision
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public DeploymentRevision getDeploymentRevision(String remoteFetchConfigurationId, String itemName)
@@ -96,7 +98,6 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
             deploymentRevision = jdbcTemplate.withTransaction(template -> {
                 return jdbcTemplate.fetchSingleRecord(SQLConstants.GET_REVISION_BY_UNIQUE,
                         (resultSet, rowNumber) -> {
-
                             DeploymentRevision revisionObj = new DeploymentRevision(
                                     resultSet.getString(2),
                                     new File(resultSet.getString(3))
@@ -113,9 +114,7 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
                             } else {
                                 revisionObj.setLastSynchronizedDate(null);
                             }
-
                             return revisionObj;
-
                         }, preparedStatement -> {
                             preparedStatement.setString(1, remoteFetchConfigurationId);
                             preparedStatement.setString(2, itemName);
@@ -125,13 +124,14 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
             throw new RemoteFetchCoreException("Error reading DeploymentRevision id " +
                     remoteFetchConfigurationId + " from database", e);
         }
-
         return deploymentRevision;
     }
 
     /**
-     * @param deploymentRevision
-     * @throws RemoteFetchCoreException
+     * Update deployment revision data fro the DeploymentRevision Object.
+     *
+     * @param deploymentRevision DeploymentRevision
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public void updateDeploymentRevision(DeploymentRevision deploymentRevision) throws RemoteFetchCoreException {
@@ -160,7 +160,6 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
                         preparedStatement.setTimestamp(8, null);
                     }
                     preparedStatement.setString(9, deploymentRevision.getDeploymentRevisionId());
-
                 });
                 return null;
             });
@@ -168,18 +167,18 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
             throw new RemoteFetchCoreException("Error updating DeploymentRevision of id "
                     + deploymentRevision.getDeploymentRevisionId(), e);
         }
-
     }
 
     /**
-     * @param deploymentRevisionId
-     * @throws RemoteFetchCoreException
+     * Delete deployment revision data corresponding to deploymentRevisionId.
+     *
+     * @param deploymentRevisionId deploymentRevisionId
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public void deleteDeploymentRevision(String deploymentRevisionId) throws RemoteFetchCoreException {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
-
         try {
             jdbcTemplate.withTransaction(template -> {
                 template.executeUpdate(SQLConstants.DELETE_REVISION, preparedStatement -> {
@@ -193,9 +192,11 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
     }
 
     /**
-     * @param remoteFetchConfigurationId
-     * @return
-     * @throws RemoteFetchCoreException
+     * Get list of deployment revisions corresponding to remoteFetchConfigurationId.
+     *
+     * @param remoteFetchConfigurationId remoteFetchConfigurationId
+     * @return list of deployment revisions
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
      */
     @Override
     public List<DeploymentRevision> getDeploymentRevisionsByConfigurationId(
@@ -207,8 +208,7 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
                     template.executeQuery(SQLConstants.GET_REVISIONS_BY_CONFIG, ((resultSet, rowNumber) -> {
                         DeploymentRevision deploymentRevision = new DeploymentRevision(
                                 resultSet.getString(2),
-                                new File(resultSet.getString(3))
-                        );
+                                new File(resultSet.getString(3)));
                         deploymentRevision.setDeploymentRevisionId(resultSet.getString(1));
                         deploymentRevision.setFileHash(resultSet.getString(4));
                         deploymentRevision.setDeployedDate(new Date(resultSet.getTimestamp(5).getTime()));
@@ -217,15 +217,15 @@ public class DeploymentRevisionDAOImpl implements DeploymentRevisionDAO {
                         deploymentRevision.setItemName(resultSet.getString(7));
                         deploymentRevision.setErrorMessage(resultSet.getString(8));
                         if (resultSet.getTimestamp(9) != null) {
-                            deploymentRevision.setLastSynchronizedDate(new Date(resultSet.getTimestamp(9).getTime()));
+                            deploymentRevision.setLastSynchronizedDate(
+                                    new Date(resultSet.getTimestamp(9).getTime()));
                         } else {
                             deploymentRevision.setLastSynchronizedDate(null);
                         }
                         return deploymentRevision;
                     }), preparedStatement -> {
                         preparedStatement.setString(1, remoteFetchConfigurationId);
-                    })
-            );
+                    }));
         } catch (TransactionException e) {
             throw new RemoteFetchCoreException("Error reading DeploymentRevisions from database for configuration id " +
                     remoteFetchConfigurationId, e);
