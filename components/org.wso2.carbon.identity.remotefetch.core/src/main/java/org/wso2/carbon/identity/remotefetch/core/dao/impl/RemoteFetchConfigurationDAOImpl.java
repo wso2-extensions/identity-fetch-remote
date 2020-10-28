@@ -259,6 +259,7 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
         try (Connection dbConnection = IdentityDatabaseUtil.getDBConnection(false)) {
             String databaseProductName = dbConnection.getMetaData().getDatabaseProductName();
             if (databaseProductName.contains(SQLConstants.DB_MYSQL) ||
+                    databaseProductName.contains(SQLConstants.DB_MARIADB) ||
                     databaseProductName.contains(SQLConstants.DB_H2)) {
                 return jdbcTemplate.withTransaction(template ->
                         template.executeQuery(SQLConstants.LIST_BASIC_CONFIGS_BY_TENANT_MYSQL,

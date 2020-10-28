@@ -31,6 +31,7 @@ public class SQLConstants {
 
     public static final String DB_H2 = "H2";
     public static final String DB_MYSQL = "MySQL";
+    public static final String DB_MARIADB = "MariaDB";
     public static final String DB_MSSQL = "Microsoft";
     public static final String DB_POSTGRESQL = "PostgreSQL";
     public static final String DB_DB2 = "DB2";
