@@ -29,6 +29,12 @@ import java.util.Map;
  */
 public class PollingActionListenerBuilder extends ActionListenerBuilder {
 
+    /**
+     * Build and return a new ActionListener with the set configuration.
+     *
+     * @return ActionListener
+     * @throws ActionListenerBuilderException ActionListenerBuilderException
+     */
     @Override
     public ActionListener build() throws ActionListenerBuilderException {
 

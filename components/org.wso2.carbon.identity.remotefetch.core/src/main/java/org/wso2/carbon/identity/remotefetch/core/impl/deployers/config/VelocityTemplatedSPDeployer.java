@@ -58,25 +58,21 @@ public class VelocityTemplatedSPDeployer extends ServiceProviderConfigDeployer {
     /**
      * Parameter replacement.
      *
-     * @param configurationFileStream
-     * @throws RemoteFetchCoreException
+     * @param configurationFileStream ConfigurationFileStream of the application
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
+     * @throws IOException              IOException
      */
     @Override
     public void deploy(ConfigurationFileStream configurationFileStream) throws RemoteFetchCoreException, IOException {
 
         String velocityTemplate;
         velocityTemplate = IOUtils.toString(configurationFileStream.getContentStream());
-
         String fileNumber = String.valueOf(this.id);
         String workingDirectory = IdentityUtil.getProperty("RemoteFetch.WorkingDirectory");
-
         ArrayList<String> arrayList = new ArrayList<String>();
-
         final Properties props = new Properties();
         props.setProperty("file.resource.loader.path",
                 workingDirectory + "/repo-" + fileNumber + "/" + configurationFileStream.getPath().getParent());
-
-
         String currentLine;
         BufferedReader bufferedReader = new BufferedReader(new StringReader(velocityTemplate));
         while ((currentLine = bufferedReader.readLine()) != null) {
@@ -88,8 +84,6 @@ public class VelocityTemplatedSPDeployer extends ServiceProviderConfigDeployer {
             }
         }
         bufferedReader.close();
-
-
         BufferedReader reader = null;
         try {
             VelocityEngine velocityEngine = new VelocityEngine();
@@ -106,24 +100,18 @@ public class VelocityTemplatedSPDeployer extends ServiceProviderConfigDeployer {
                     context.put(key, value);
                 }
             }
-
             Template template = velocityEngine.getTemplate(configurationFileStream.getPath().getName());
             StringWriter writer = new StringWriter();
             template.merge(context, writer);
             velocityTemplate = writer.toString();
-
         } finally {
             if (reader != null) {
                 reader.close();
             }
         }
-
         String spXml = velocityTemplate;
-
         ConfigurationFileStream updatedStream = new ConfigurationFileStream(IOUtils.toInputStream(spXml),
                 configurationFileStream.getPath());
-
         super.deploy(updatedStream);
     }
 }
-

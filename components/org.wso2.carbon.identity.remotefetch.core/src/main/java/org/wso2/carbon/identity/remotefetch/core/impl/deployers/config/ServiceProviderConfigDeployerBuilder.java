@@ -29,8 +29,8 @@ public class ServiceProviderConfigDeployerBuilder extends ConfigDeployerBuilder 
     /**
      * Build and return a new ConfigDeployer with the set configuration.
      *
-     * @return
-     * @throws ConfigDeployerBuilderException
+     * @return ServiceProviderConfigDeployer
+     * @throws ConfigDeployerBuilderException ConfigDeployerBuilderException
      */
     @Override
     public ServiceProviderConfigDeployer build() throws ConfigDeployerBuilderException {

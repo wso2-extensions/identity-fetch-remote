@@ -123,6 +123,11 @@ public class GitRepositoryManager implements RepositoryManager {
         return revCommits.get(0);
     }
 
+    /**
+     * Method to Check for updates on the remote repository and fetch to local.
+     *
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
+     */
     @Override
     public void fetchRepository() throws RemoteFetchCoreException {
 
@@ -131,17 +136,28 @@ public class GitRepositoryManager implements RepositoryManager {
                 this.pullRepository();
             } catch (GitAPIException e) {
                 log.error("Unable to pull repository " + sanitize(this.uri) + " from remote", e);
+                throw new RemoteFetchCoreException("Unable to pull repository " + sanitize(this.uri) + " from remote",
+                        e);
             }
         } else {
             try {
                 this.repo = this.cloneRepository();
             } catch (GitAPIException e) {
                 log.error("Unable to clone repository " + sanitize(this.uri) + " from remote", e);
+                throw new RemoteFetchCoreException("Unable to clone repository  " + sanitize(this.uri) + " from remote",
+                        e);
             }
             this.git = new Git(this.repo);
         }
     }
 
+    /**
+     * Returns an InputStream for the specified path from local repository.
+     *
+     * @param location Configuration File location
+     * @return ConfigurationFileStream
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
+     */
     @Override
     public ConfigurationFileStream getFile(File location) throws RemoteFetchCoreException {
 
@@ -162,6 +178,13 @@ public class GitRepositoryManager implements RepositoryManager {
         }
     }
 
+    /**
+     * Returns the last modified date of the local file.
+     *
+     * @param location Configuration File location
+     * @return Date
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
+     */
     @Override
     public Date getLastModified(File location) throws RemoteFetchCoreException {
 
@@ -173,6 +196,13 @@ public class GitRepositoryManager implements RepositoryManager {
         }
     }
 
+    /**
+     * Gets an unique identifier for file state.
+     *
+     * @param location Configuration File location
+     * @return File Hash
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
+     */
     @Override
     public String getRevisionHash(File location) throws RemoteFetchCoreException {
 
@@ -184,6 +214,13 @@ public class GitRepositoryManager implements RepositoryManager {
         }
     }
 
+    /**
+     * List files from local repository.
+     *
+     * @return List of configuration files.
+     * @throws RemoteFetchCoreException RemoteFetchCoreException
+     */
+    @Override
     public List<File> listFiles() throws RemoteFetchCoreException {
 
         List<File> availableFiles = new ArrayList<>();
@@ -237,7 +274,7 @@ public class GitRepositoryManager implements RepositoryManager {
         return input.replaceAll("(\\r|\\n|%0D|%0A|%0a|%0d)", "");
     }
 
-    private  boolean isSubDir(File baseFile, File userFile) {
+    private boolean isSubDir(File baseFile, File userFile) {
 
         Path baseDirPath = Paths.get(baseFile.getAbsolutePath());
         Path userPath = Paths.get(userFile.getPath());
@@ -250,17 +287,16 @@ public class GitRepositoryManager implements RepositoryManager {
             throw new IllegalArgumentException("User path must be relative");
         }
 
-    // Join the two paths together, then normalize so that any ".." elements
-    // in the userPath can remove parts of baseDirPath.
-    // (e.g. "/foo/bar/baz" + "../attack" -> "/foo/bar/attack")
-    final Path resolvedPath = baseDirPath.resolve(userPath).normalize();
+        // Join the two paths together, then normalize so that any ".." elements
+        // in the userPath can remove parts of baseDirPath.
+        // (e.g. "/foo/bar/baz" + "../attack" -> "/foo/bar/attack")
+        final Path resolvedPath = baseDirPath.resolve(userPath).normalize();
 
-    // Make sure the resulting path is still within the required directory.
-    // (In the example above, "/foo/bar/attack" is not.)
-    if (!resolvedPath.startsWith(baseDirPath)) {
+        // Make sure the resulting path is still within the required directory.
+        // (In the example above, "/foo/bar/attack" is not.)
+        if (!resolvedPath.startsWith(baseDirPath)) {
             throw new IllegalArgumentException("User path escapes the base path");
         }
-
-    return true;
+        return true;
     }
 }

@@ -26,28 +26,49 @@ import org.wso2.carbon.identity.remotefetch.common.ui.UIField;
 import java.util.List;
 
 /**
- *  Action Listener Component class to provide web hook action listener builder,
+ * Action Listener Component class to provide web hook action listener builder,
  */
 public class WebHookActionListenerComponent implements ActionListenerComponent {
 
+    /**
+     * Returns a new builder object for the component.
+     *
+     * @return ActionListenerBuilder
+     */
     @Override
     public ActionListenerBuilder getActionListenerBuilder() {
 
         return new WebHookActionListenerBuilder();
     }
 
+    /**
+     * Returns a string of the unique identifier of the component.
+     *
+     * @return ID
+     */
     @Override
     public String getIdentifier() {
 
         return RemoteFetchConstants.IDENTIFIER_WEB_HOOK_ACTION_LISTENER_COMPONENT;
     }
 
+    /**
+     * Returns screen name of the component.
+     *
+     * @return Name
+     */
     @Override
     public String getName() {
 
         return "GitHub Web Hook";
     }
 
+    /**
+     * Returns list of UIFields to configure UI.
+     * For this case null cause REST endpoint only.
+     *
+     * @return List of UI fields.
+     */
     @Override
     public List<UIField> getUIFields() {
 
