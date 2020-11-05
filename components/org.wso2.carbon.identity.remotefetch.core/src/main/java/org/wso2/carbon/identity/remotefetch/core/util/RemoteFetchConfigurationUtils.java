@@ -29,6 +29,7 @@ import org.wso2.carbon.identity.remotefetch.common.RemoteFetchCoreConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchClientException;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchServerException;
+import org.wso2.carbon.utils.CarbonUtils;
 
 import java.io.File;
 import java.util.Formatter;
@@ -42,6 +43,9 @@ public class RemoteFetchConfigurationUtils {
 
     private static final Log log = LogFactory.getLog(RemoteFetchConfigurationUtils.class);
 
+    public static final String REMOTE_FETCH_ENABLED = "RemoteFetch.FetchEnabled";
+    public static final String REMOTE_FETCH_WORKING_DIRECTORY = "RemoteFetch.WorkingDirectory";
+
     /**
      * Parse configuration from deployment toml file.
      *
@@ -52,15 +56,19 @@ public class RemoteFetchConfigurationUtils {
 
         boolean isEnabled = false;
         File workingDirectory = null;
-        String isEnabledProperty = IdentityUtil.getProperty("RemoteFetch.FetchEnabled");
-        String workingDirectoryProperty = IdentityUtil.getProperty("RemoteFetch.WorkingDirectory");
-        if (isEnabledProperty != null && !isEnabledProperty.isEmpty()) {
-            isEnabled = isEnabledProperty.equalsIgnoreCase("true");
-        }
-        if (workingDirectoryProperty != null && !workingDirectoryProperty.isEmpty()) {
+        String isEnabledProperty = IdentityUtil.getProperty(REMOTE_FETCH_ENABLED);
+        String workingDirectoryProperty = IdentityUtil.getProperty(REMOTE_FETCH_WORKING_DIRECTORY);
+
+        isEnabled = Boolean.parseBoolean(isEnabledProperty);
+        if (StringUtils.isNotBlank(workingDirectoryProperty)) {
             workingDirectory = new File(workingDirectoryProperty);
-            validateDirectory(workingDirectory);
+        } else {
+            // Set to default working directory at ${carbon.home}/tmp
+            String carbonHomeTmpDirPath = CarbonUtils.getCarbonHome() + File.separator + "tmp";
+            workingDirectory = new File(carbonHomeTmpDirPath);
         }
+        validateDirectory(workingDirectory);
+
         return new RemoteFetchCoreConfiguration(workingDirectory, isEnabled);
     }
 
