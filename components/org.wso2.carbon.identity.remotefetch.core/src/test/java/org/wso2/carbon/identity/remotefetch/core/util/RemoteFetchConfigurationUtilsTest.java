@@ -63,7 +63,7 @@ public class RemoteFetchConfigurationUtilsTest extends PowerMockTestCase {
     }
 
     @Test
-    public void testParseConfiguration() throws Exception {
+    public void testParseConfiguration() throws RemoteFetchCoreException {
 
         when(IdentityUtil.getProperty(RemoteFetchConfigurationUtils.REMOTE_FETCH_ENABLED)).thenReturn("true");
         when(IdentityUtil.getProperty(RemoteFetchConfigurationUtils.REMOTE_FETCH_WORKING_DIRECTORY)).thenReturn("tmp");
