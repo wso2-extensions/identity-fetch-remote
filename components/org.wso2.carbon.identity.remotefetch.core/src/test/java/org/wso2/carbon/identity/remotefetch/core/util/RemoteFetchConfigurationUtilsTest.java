@@ -38,6 +38,8 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
+import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.REMOTE_FETCH_ENABLED;
+import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.REMOTE_FETCH_WORKING_DIRECTORY;
 
 /**
  * Unit test covering RemoteFetchConfigurationParser.
@@ -65,8 +67,8 @@ public class RemoteFetchConfigurationUtilsTest extends PowerMockTestCase {
     @Test
     public void testParseConfiguration() throws RemoteFetchCoreException {
 
-        when(IdentityUtil.getProperty(RemoteFetchConfigurationUtils.REMOTE_FETCH_ENABLED)).thenReturn("true");
-        when(IdentityUtil.getProperty(RemoteFetchConfigurationUtils.REMOTE_FETCH_WORKING_DIRECTORY)).thenReturn("tmp");
+        when(IdentityUtil.getProperty(REMOTE_FETCH_ENABLED)).thenReturn("true");
+        when(IdentityUtil.getProperty(REMOTE_FETCH_WORKING_DIRECTORY)).thenReturn("tmp");
 
         RemoteFetchCoreConfiguration remoteFetchCoreConfiguration = RemoteFetchConfigurationUtils.parseConfiguration();
         assertNotNull(remoteFetchCoreConfiguration);

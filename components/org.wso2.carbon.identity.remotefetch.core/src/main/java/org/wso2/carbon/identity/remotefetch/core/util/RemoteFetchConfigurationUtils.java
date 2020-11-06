@@ -36,15 +36,15 @@ import java.util.Formatter;
 import java.util.List;
 import java.util.UUID;
 
+import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.REMOTE_FETCH_ENABLED;
+import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.REMOTE_FETCH_WORKING_DIRECTORY;
+
 /**
  * Parser for core configuration from deployment.toml file.
  */
 public class RemoteFetchConfigurationUtils {
 
     private static final Log log = LogFactory.getLog(RemoteFetchConfigurationUtils.class);
-
-    public static final String REMOTE_FETCH_ENABLED = "RemoteFetch.FetchEnabled";
-    public static final String REMOTE_FETCH_WORKING_DIRECTORY = "RemoteFetch.WorkingDirectory";
 
     /**
      * Parse configuration from deployment toml file.
