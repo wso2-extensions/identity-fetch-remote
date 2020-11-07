@@ -18,26 +18,45 @@
 
 package org.wso2.carbon.identity.remotefetch.core.util;
 
+import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.testng.PowerMockTestCase;
 import org.testng.IObjectFactory;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.ObjectFactory;
 import org.testng.annotations.Test;
 import org.wso2.carbon.identity.core.util.IdentityUtil;
+import org.wso2.carbon.identity.remotefetch.common.RemoteFetchCoreConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.exceptions.RemoteFetchCoreException;
+import org.wso2.carbon.utils.CarbonUtils;
+
+import java.io.File;
 
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
+import static org.powermock.api.mockito.PowerMockito.whenNew;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
+import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.REMOTE_FETCH_ENABLED;
+import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.REMOTE_FETCH_WORKING_DIRECTORY;
 
 /**
  * Unit test covering RemoteFetchConfigurationParser.
  */
-@PrepareForTest(IdentityUtil.class)
+@PrepareForTest({IdentityUtil.class, CarbonUtils.class, RemoteFetchConfigurationUtils.class})
 public class RemoteFetchConfigurationUtilsTest extends PowerMockTestCase {
+
+    @Mock
+    private File mockedFile;
+
+    @BeforeMethod
+    public void setUp() throws Exception {
+        mockStatic(IdentityUtil.class);
+        mockStatic(CarbonUtils.class);
+        whenNew(File.class).withAnyArguments().thenReturn(mockedFile);
+        when(mockedFile.isDirectory()).thenReturn(true);
+    }
 
     @ObjectFactory
     public IObjectFactory getObjectFactory() {
@@ -48,18 +67,21 @@ public class RemoteFetchConfigurationUtilsTest extends PowerMockTestCase {
     @Test
     public void testParseConfiguration() throws RemoteFetchCoreException {
 
-        mockStatic(IdentityUtil.class);
-        when(IdentityUtil.getProperty("RemoteFetch.FetchEnabled")).thenReturn("true");
-        RemoteFetchConfigurationUtils.parseConfiguration();
-        assertNotNull(RemoteFetchConfigurationUtils.parseConfiguration());
-        assertTrue(RemoteFetchConfigurationUtils.parseConfiguration().isEnableCore());
+        when(IdentityUtil.getProperty(REMOTE_FETCH_ENABLED)).thenReturn("true");
+        when(IdentityUtil.getProperty(REMOTE_FETCH_WORKING_DIRECTORY)).thenReturn("tmp");
+
+        RemoteFetchCoreConfiguration remoteFetchCoreConfiguration = RemoteFetchConfigurationUtils.parseConfiguration();
+        assertNotNull(remoteFetchCoreConfiguration);
+        assertTrue(remoteFetchCoreConfiguration.isEnableCore());
+        assertNotNull(remoteFetchCoreConfiguration.getWorkingDirectory());
     }
 
     @Test
     public void testParseConfigurationForNullValues() throws RemoteFetchCoreException {
 
-        assertNotNull(RemoteFetchConfigurationUtils.parseConfiguration());
-        assertFalse(RemoteFetchConfigurationUtils.parseConfiguration().isEnableCore());
-        assertNull(RemoteFetchConfigurationUtils.parseConfiguration().getWorkingDirectory());
+        RemoteFetchCoreConfiguration remoteFetchCoreConfiguration = RemoteFetchConfigurationUtils.parseConfiguration();
+        assertNotNull(remoteFetchCoreConfiguration);
+        assertFalse(remoteFetchCoreConfiguration.isEnableCore());
+        assertNotNull(remoteFetchCoreConfiguration.getWorkingDirectory());
     }
 }

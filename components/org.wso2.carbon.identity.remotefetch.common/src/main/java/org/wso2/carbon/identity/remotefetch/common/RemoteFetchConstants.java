@@ -50,6 +50,10 @@ public class RemoteFetchConstants {
     public static final String ID_UI_FIELD_BRANCH = "branch";
     public static final String ID_UI_FIELD_DIRECTORY = "directory";
 
+    // Config constants.
+    public static final String REMOTE_FETCH_ENABLED = "RemoteFetch.FetchEnabled";
+    public static final String REMOTE_FETCH_WORKING_DIRECTORY = "RemoteFetch.WorkingDirectory";
+
     /**
      * Grouping of constants related to database table names.
      */
