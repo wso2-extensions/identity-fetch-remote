@@ -50,7 +50,7 @@ import javax.sql.DataSource;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
-import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.Assert.assertNotNull;
 import static org.wso2.carbon.identity.remotefetch.core.dao.TestConstants.DEPLOYMENT_REVISION_ID;
 import static org.wso2.carbon.identity.remotefetch.core.dao.TestConstants.REMOTE_FETCH_CONFIGURATION_ID;
 
