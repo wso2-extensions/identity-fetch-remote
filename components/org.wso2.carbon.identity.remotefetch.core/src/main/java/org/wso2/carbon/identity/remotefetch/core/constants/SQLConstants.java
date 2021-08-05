@@ -36,8 +36,13 @@ public class SQLConstants {
     public static final String DB_POSTGRESQL = "PostgreSQL";
     public static final String DB_DB2 = "DB2";
     public static final String DB_ORACLE = "Oracle";
+    public static final String ENGINE = "ENGINE";
+    public static final String IDN_REMOTE_FETCH_CONFIG = "IDN_REMOTE_FETCH_CONFIG";
 
     // Revision Management SQL
+    public static final String GET_ENGINE_OF_TABLE = "SELECT ENGINE FROM information_schema.TABLES WHERE " +
+            "TABLE_NAME = ?";
+
     public static final String CREATE_REVISION = "INSERT INTO IDN_REMOTE_FETCH_REVISIONS (ID, CONFIG_ID, FILE_PATH, " +
             " FILE_HASH, ITEM_NAME,DEPLOY_ERR_LOG, DEPLOYED_DATE, DEPLOYMENT_STATUS, LAST_SYNC_TIME)" +
             " VALUES(?,?,?,?,?,?,?,?,?)";
@@ -47,6 +52,9 @@ public class SQLConstants {
             " LAST_SYNC_TIME = ? WHERE ID = ?";
 
     public static final String DELETE_REVISION = "DELETE FROM IDN_REMOTE_FETCH_REVISIONS WHERE ID = ?";
+
+    public static final String DELETE_REVISION_BY_CONFIG_ID = "DELETE FROM IDN_REMOTE_FETCH_REVISIONS WHERE " +
+            "CONFIG_ID = ?";
 
     public static final String GET_REVISIONS_BY_CONFIG = "SELECT ID, CONFIG_ID, FILE_PATH, FILE_HASH, DEPLOYED_DATE," +
             " DEPLOYMENT_STATUS, ITEM_NAME,DEPLOY_ERR_LOG, LAST_SYNC_TIME" +
