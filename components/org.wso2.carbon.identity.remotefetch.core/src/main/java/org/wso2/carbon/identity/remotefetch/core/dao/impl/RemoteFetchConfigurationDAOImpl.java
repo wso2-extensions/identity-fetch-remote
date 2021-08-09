@@ -49,6 +49,7 @@ import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.A
 import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.ATTRIBUTE_CONFIG_DEPLOYER;
 import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.ATTRIBUTE_REPOSITORY_MANAGER;
 import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.FACTOR_INDENT;
+import static org.wso2.carbon.identity.remotefetch.core.util.JdbcUtils.isMySQLDB;
 
 /**
  * This class accesses IDN_REMOTE_FETCH_CONFIG table to store/update and delete Remote Fetch configurations.
@@ -156,24 +157,26 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
             throws RemoteFetchCoreException {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
-        /////////////
-        JdbcTemplate jdbcTemplate2 = JdbcUtils.getNewTemplate();
+        JdbcTemplate jdbcTemplateDeleteRevision = JdbcUtils.getNewTemplate();
+        JdbcTemplate jdbcTemplateGetEngine = JdbcUtils.getNewTemplate();
+        JdbcTemplate jdbcTemplateGetDB = JdbcUtils.getNewTemplate();
         try {
-            Connection dbConnection = IdentityDatabaseUtil.getDBConnection(false);
-            String databaseProductName = dbConnection.getMetaData().getDatabaseProductName();
-            if (databaseProductName.contains(SQLConstants.DB_MYSQL)) {
-                JdbcTemplate jdbcTemplate4 = JdbcUtils.getNewTemplate();
-                String engine = jdbcTemplate4.withTransaction(template ->
+            String dbName = jdbcTemplateGetDB.withTransaction(template ->
+                    template.fetchSingleRecord(SQLConstants.GET_DATABASE_NAME,
+                            (resultSet, rowNumber) -> resultSet.getString(1),
+                            preparedStatement -> { }));
+            if (isMySQLDB()) {
+                String engine = jdbcTemplateGetEngine.withTransaction(template ->
                         template.fetchSingleRecord(SQLConstants.GET_ENGINE_OF_TABLE,
                                 (resultSet, rowNumber) -> resultSet.getString(SQLConstants.ENGINE),
                                 preparedStatement -> {
-                                    preparedStatement.setString(1, SQLConstants.IDN_REMOTE_FETCH_CONFIG);
+                                    preparedStatement.setString(1, dbName);
+                                    preparedStatement.setString(2, SQLConstants.IDN_REMOTE_FETCH_CONFIG);
                                 }
                         )
                 );
-                log.info("engine: " + engine);
                 if (engine.equals("ndbcluster") || engine.equals("NDB")) {
-                    jdbcTemplate2.withTransaction(template -> {
+                    jdbcTemplateDeleteRevision.withTransaction(template -> {
                         template.executeUpdate(SQLConstants.DELETE_REVISION_BY_CONFIG_ID,
                                 preparedStatement -> {
                                     preparedStatement.setString(1, configurationId);
@@ -182,11 +185,10 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
                     });
                 }
             }
-        } catch (TransactionException | SQLException e) {
+        } catch (TransactionException | DataAccessException e) {
             throw RemoteFetchConfigurationUtils.handleServerException(RemoteFetchConstants.ErrorMessage.
                     ERROR_CODE_DELETE_RF_CONFIG, configurationId, e);
         }
-        /////////////
         try {
             jdbcTemplate.withTransaction(template -> {
                 template.executeUpdate(SQLConstants.DELETE_CONFIG,
