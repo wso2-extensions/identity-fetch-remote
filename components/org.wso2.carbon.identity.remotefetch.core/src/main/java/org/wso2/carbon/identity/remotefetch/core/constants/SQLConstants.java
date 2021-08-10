@@ -36,15 +36,8 @@ public class SQLConstants {
     public static final String DB_POSTGRESQL = "PostgreSQL";
     public static final String DB_DB2 = "DB2";
     public static final String DB_ORACLE = "Oracle";
-    public static final String ENGINE = "ENGINE";
-    public static final String IDN_REMOTE_FETCH_CONFIG = "IDN_REMOTE_FETCH_CONFIG";
 
     // Revision Management SQL
-    public static final String GET_DATABASE_NAME = "SELECT DATABASE()";
-
-    public static final String GET_ENGINE_OF_TABLE = "SELECT ENGINE FROM information_schema.TABLES WHERE " +
-            "TABLE_SCHEMA = ? AND TABLE_NAME = ?";
-
     public static final String CREATE_REVISION = "INSERT INTO IDN_REMOTE_FETCH_REVISIONS (ID, CONFIG_ID, FILE_PATH, " +
             " FILE_HASH, ITEM_NAME,DEPLOY_ERR_LOG, DEPLOYED_DATE, DEPLOYMENT_STATUS, LAST_SYNC_TIME)" +
             " VALUES(?,?,?,?,?,?,?,?,?)";

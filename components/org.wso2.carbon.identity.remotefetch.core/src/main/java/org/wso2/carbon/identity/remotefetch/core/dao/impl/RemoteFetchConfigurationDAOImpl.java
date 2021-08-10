@@ -158,32 +158,15 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         JdbcTemplate jdbcTemplateDeleteRevision = JdbcUtils.getNewTemplate();
-        JdbcTemplate jdbcTemplateGetEngine = JdbcUtils.getNewTemplate();
-        JdbcTemplate jdbcTemplateGetDB = JdbcUtils.getNewTemplate();
         try {
-            String dbName = jdbcTemplateGetDB.withTransaction(template ->
-                    template.fetchSingleRecord(SQLConstants.GET_DATABASE_NAME,
-                            (resultSet, rowNumber) -> resultSet.getString(1),
-                            preparedStatement -> { }));
             if (isMySQLDB()) {
-                String engine = jdbcTemplateGetEngine.withTransaction(template ->
-                        template.fetchSingleRecord(SQLConstants.GET_ENGINE_OF_TABLE,
-                                (resultSet, rowNumber) -> resultSet.getString(SQLConstants.ENGINE),
-                                preparedStatement -> {
-                                    preparedStatement.setString(1, dbName);
-                                    preparedStatement.setString(2, SQLConstants.IDN_REMOTE_FETCH_CONFIG);
-                                }
-                        )
-                );
-                if (engine.equals("ndbcluster") || engine.equals("NDB")) {
-                    jdbcTemplateDeleteRevision.withTransaction(template -> {
-                        template.executeUpdate(SQLConstants.DELETE_REVISION_BY_CONFIG_ID,
-                                preparedStatement -> {
-                                    preparedStatement.setString(1, configurationId);
-                                });
-                        return null;
-                    });
-                }
+                jdbcTemplateDeleteRevision.withTransaction(template -> {
+                    template.executeUpdate(SQLConstants.DELETE_REVISION_BY_CONFIG_ID,
+                            preparedStatement -> {
+                                preparedStatement.setString(1, configurationId);
+                            });
+                    return null;
+                });
             }
         } catch (TransactionException | DataAccessException e) {
             throw RemoteFetchConfigurationUtils.handleServerException(RemoteFetchConstants.ErrorMessage.
