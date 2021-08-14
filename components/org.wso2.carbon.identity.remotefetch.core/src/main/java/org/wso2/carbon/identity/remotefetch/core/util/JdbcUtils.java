@@ -19,6 +19,8 @@
 package org.wso2.carbon.identity.remotefetch.core.util;
 
 import org.wso2.carbon.database.utils.jdbc.JdbcTemplate;
+import org.wso2.carbon.database.utils.jdbc.exceptions.DataAccessException;
+import org.wso2.carbon.identity.remotefetch.core.constants.SQLConstants;
 import org.wso2.carbon.identity.remotefetch.core.internal.RemoteFetchServiceComponentHolder;
 
 /**
@@ -39,5 +41,29 @@ public class JdbcUtils {
     public static JdbcTemplate getNewTemplate() {
 
         return new JdbcTemplate(RemoteFetchServiceComponentHolder.getInstance().getDataSource());
+    }
+
+    /**
+     * Check if the DB is MySQL.
+     *
+     * @return true if DB is MySQL.
+     * @throws DataAccessException if error occurred while checking the DB metadata.
+     */
+    public static boolean isMySQLDB() throws DataAccessException {
+
+        return isDBTypeOf(SQLConstants.DB_MYSQL);
+    }
+
+    /**
+     * Check whether the DB type string contains in the driver name or db product name.
+     *
+     * @param dbType database type string.
+     * @return true if the database type matches the driver type, false otherwise.
+     * @throws DataAccessException if error occurred while checking the DB metadata.
+     */
+    private static boolean isDBTypeOf(String dbType) throws DataAccessException {
+
+        JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
+        return jdbcTemplate.getDriverName().contains(dbType) || jdbcTemplate.getDatabaseProductName().contains(dbType);
     }
 }
