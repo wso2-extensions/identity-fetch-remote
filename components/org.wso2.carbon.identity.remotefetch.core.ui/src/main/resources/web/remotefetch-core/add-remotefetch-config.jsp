@@ -147,6 +147,6 @@
         }
     </script>
     <jsp:include page="partials/handlebars_templates.jsp"/>
-    <script src="js/handlebars.min-v4.7.6.js"></script>
+    <script src="js/handlebars.min-v4.7.7.js"></script>
     <script src="js/main.js"></script>
 </fmt:bundle>
