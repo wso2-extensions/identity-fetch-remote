@@ -334,7 +334,7 @@
         <jmockit.version>1.44</jmockit.version>
         <maven.surefire.plugin.version>2.22.0</maven.surefire.plugin.version>
         <org.powermock.version>1.7.4</org.powermock.version>
-        <h2database.version>1.4.199</h2database.version>
+        <h2database.version>2.0.206</h2database.version>
 
         <!-- Carbon Utils -->
         <carbon.database.utils.version>2.0.8</carbon.database.utils.version>
