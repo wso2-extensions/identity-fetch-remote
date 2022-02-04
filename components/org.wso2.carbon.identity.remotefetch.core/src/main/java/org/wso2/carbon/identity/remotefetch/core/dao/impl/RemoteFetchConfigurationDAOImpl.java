@@ -49,6 +49,7 @@ import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.A
 import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.ATTRIBUTE_CONFIG_DEPLOYER;
 import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.ATTRIBUTE_REPOSITORY_MANAGER;
 import static org.wso2.carbon.identity.remotefetch.common.RemoteFetchConstants.FACTOR_INDENT;
+import static org.wso2.carbon.identity.remotefetch.core.util.JdbcUtils.isMySQLDB;
 
 /**
  * This class accesses IDN_REMOTE_FETCH_CONFIG table to store/update and delete Remote Fetch configurations.
@@ -156,7 +157,21 @@ public class RemoteFetchConfigurationDAOImpl implements RemoteFetchConfiguration
             throws RemoteFetchCoreException {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
-
+        JdbcTemplate jdbcTemplateDeleteRevision = JdbcUtils.getNewTemplate();
+        try {
+            if (isMySQLDB()) {
+                jdbcTemplateDeleteRevision.withTransaction(template -> {
+                    template.executeUpdate(SQLConstants.DELETE_REVISION_BY_CONFIG_ID,
+                            preparedStatement -> {
+                                preparedStatement.setString(1, configurationId);
+                            });
+                    return null;
+                });
+            }
+        } catch (TransactionException | DataAccessException e) {
+            throw RemoteFetchConfigurationUtils.handleServerException(RemoteFetchConstants.ErrorMessage.
+                    ERROR_CODE_DELETE_RF_CONFIG, configurationId, e);
+        }
         try {
             jdbcTemplate.withTransaction(template -> {
                 template.executeUpdate(SQLConstants.DELETE_CONFIG,
