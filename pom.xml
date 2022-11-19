@@ -151,6 +151,12 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.wso2.carbon.identity.organization.management.core</groupId>
+                <artifactId>org.wso2.carbon.identity.organization.management.service</artifactId>
+                <version>${identity.organization.management.core.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.wso2.orbit.com.jcraft</groupId>
                 <artifactId>jsch</artifactId>
                 <version>${jsch.version}</version>
@@ -194,6 +200,12 @@
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
                 <version>${h2database.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${fasterxml.jackson.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
@@ -335,6 +347,7 @@
         <maven.surefire.plugin.version>2.22.0</maven.surefire.plugin.version>
         <org.powermock.version>1.7.4</org.powermock.version>
         <h2database.version>2.1.210</h2database.version>
+        <fasterxml.jackson.version>2.5.2</fasterxml.jackson.version>
 
         <!-- Carbon Utils -->
         <carbon.database.utils.version>2.0.8</carbon.database.utils.version>
@@ -348,8 +361,10 @@
         <carbon.user.api.imp.pkg.version.range>[1.0.1, 2.0.0)</carbon.user.api.imp.pkg.version.range>
 
         <!--Carbon identity version-->
-        <identity.framework.version>5.14.73</identity.framework.version>
-        <carbon.identity.package.import.version.range>[5.0.0, 6.0.0)</carbon.identity.package.import.version.range>
+        <identity.framework.version>6.0.0</identity.framework.version>
+        <carbon.identity.package.import.version.range>[6.0.0, 7.0.0)</carbon.identity.package.import.version.range>
+
+        <identity.organization.management.core.version>2.0.0</identity.organization.management.core.version>
     </properties>
 
 </project>
