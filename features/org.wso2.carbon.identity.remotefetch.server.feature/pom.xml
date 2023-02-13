@@ -25,12 +25,12 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>org.wso2.carbon.identity.remotefetch.core.feature</artifactId>
+    <artifactId>org.wso2.carbon.identity.remotefetch.server.feature</artifactId>
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
-    <name>WSO2 Carbon - Remote Fetch Feature</name>
+    <name>WSO2 Carbon - Remote Fetch Server Feature</name>
     <url>http://wso2.org</url>
-    <description>This feature represent the Remote Repository Configuration Deployer Module.</description>
+    <description>This feature contains the bundles required for the back-end Remote Repository Configuration functionality</description>
 
     <dependencies>
         <dependency>
@@ -41,11 +41,6 @@
         <dependency>
             <groupId>org.wso2.carbon.identity.fetch.remote</groupId>
             <artifactId>org.wso2.carbon.identity.remotefetch.core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.identity.fetch.remote</groupId>
-            <artifactId>org.wso2.carbon.identity.remotefetch.core.ui</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -74,7 +69,7 @@
                             <goal>p2-feature-gen</goal>
                         </goals>
                         <configuration>
-                            <id>org.wso2.carbon.identity.remotefetch.core</id>
+                            <id>org.wso2.carbon.identity.remotefetch.server</id>
                             <propertiesFile>../etc/feature.properties</propertiesFile>
                             <adviceFile>
                                 <properties>
@@ -84,7 +79,6 @@
                             <bundles>
                                 <bundleDef>org.wso2.carbon.identity.fetch.remote:org.wso2.carbon.identity.remotefetch.common</bundleDef>
                                 <bundleDef>org.wso2.carbon.identity.fetch.remote:org.wso2.carbon.identity.remotefetch.core</bundleDef>
-                                <bundleDef>org.wso2.carbon.identity.fetch.remote:org.wso2.carbon.identity.remotefetch.core.ui</bundleDef>
                                 <bundleDef>org.eclipse.jgit:org.eclipse.jgit</bundleDef>
                                 <bundleDef>com.googlecode.javaewah:JavaEWAH</bundleDef>
                                 <bundleDef>org.wso2.orbit.com.jcraft:jsch:${jsch.version}</bundleDef>
