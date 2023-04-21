@@ -18,10 +18,13 @@
 
 package org.wso2.carbon.identity.remotefetch.core;
 
+import com.google.gson.Gson;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.context.CarbonContext;
+import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.identity.core.util.IdentityTenantUtil;
+import org.wso2.carbon.identity.core.util.IdentityUtil;
 import org.wso2.carbon.identity.remotefetch.common.BasicRemoteFetchConfiguration;
 import org.wso2.carbon.identity.remotefetch.common.DeploymentRevision;
 import org.wso2.carbon.identity.remotefetch.common.RemoteFetchConfiguration;
@@ -35,8 +38,12 @@ import org.wso2.carbon.identity.remotefetch.core.dao.impl.RemoteFetchConfigurati
 import org.wso2.carbon.identity.remotefetch.core.executers.RemoteFetchTaskExecutor;
 import org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.WebHookHandler;
 import org.wso2.carbon.identity.remotefetch.core.internal.RemoteFetchServiceComponentHolder;
+import org.wso2.carbon.identity.remotefetch.core.model.RemoteFetchXDSWrapper;
 import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationUtils;
 import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationValidator;
+import org.wso2.carbon.identity.xds.client.mgt.util.XDSUtils;
+import org.wso2.carbon.identity.xds.common.constant.XDSConstants;
+import org.wso2.carbon.identity.xds.common.constant.XDSOperationType;
 
 import java.util.List;
 import java.util.OptionalInt;
@@ -88,6 +95,13 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
             fetchConfiguration.setRemoteFetchConfigurationId(remoteConfigurationId);
             this.fetchConfigurationDAO.createRemoteFetchConfiguration(fetchConfiguration);
             validationReport.setId(remoteConfigurationId);
+            if (isControlPlane()) {
+                RemoteFetchXDSWrapper emailTemplateXDSWrapper = new RemoteFetchXDSWrapper.RemoteFetchXDSWrapperBuilder()
+                        .setRemoteFetchConfiguration(fetchConfiguration)
+                        .build();
+                publishData(emailTemplateXDSWrapper, XDSConstants.EventType.REMOTE_FETCH,
+                        RemoteFetchXDSOperationType.ADD_REMOTE_FETCH_CONFIGURATION);
+            }
         } else {
             throw RemoteFetchConfigurationUtils.handleClientException(RemoteFetchConstants.ErrorMessage.
                     ERROR_CODE_RF_CONFIG_ADD_REQUEST_INVALID, validationReport.getMessages());
@@ -117,6 +131,13 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
         if (validationReport.getValidationStatus() == ValidationReport.ValidationStatus.PASSED) {
             this.fetchConfigurationDAO.updateRemoteFetchConfiguration(fetchConfiguration);
             validationReport.setId(fetchConfiguration.getRemoteFetchConfigurationId());
+            if (isControlPlane()) {
+                RemoteFetchXDSWrapper emailTemplateXDSWrapper = new RemoteFetchXDSWrapper.RemoteFetchXDSWrapperBuilder()
+                        .setRemoteFetchConfiguration(fetchConfiguration)
+                        .build();
+                publishData(emailTemplateXDSWrapper, XDSConstants.EventType.REMOTE_FETCH,
+                        RemoteFetchXDSOperationType.UPDATE_REMOTE_FETCH_CONFIGURATION);
+            }
         } else {
             throw RemoteFetchConfigurationUtils.handleClientException(RemoteFetchConstants.ErrorMessage.
                     ERROR_CODE_RF_CONFIG_UPDATE_REQUEST_INVALID, validationReport.getMessages());
@@ -188,6 +209,13 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
 
         int tenantId = IdentityTenantUtil.getTenantId(CarbonContext.getThreadLocalCarbonContext().getTenantDomain());
         this.fetchConfigurationDAO.deleteRemoteFetchConfiguration(fetchConfigurationId, tenantId);
+        if (isControlPlane()) {
+            RemoteFetchXDSWrapper emailTemplateXDSWrapper = new RemoteFetchXDSWrapper.RemoteFetchXDSWrapperBuilder()
+                    .setFetchConfigurationId(fetchConfigurationId)
+                    .build();
+            publishData(emailTemplateXDSWrapper, XDSConstants.EventType.REMOTE_FETCH,
+                    RemoteFetchXDSOperationType.DELETE_REMOTE_FETCH_CONFIGURATION);
+        }
     }
 
     /**
@@ -287,5 +315,25 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
                     ERROR_CODE_RF_CONFIG_GET_REQUEST_INVALID, message);
         }
         return offset;
+    }
+
+    private String buildJson(RemoteFetchXDSWrapper remoteFetchXDSWrapper) {
+
+        Gson gson = new Gson();
+        return gson.toJson(remoteFetchXDSWrapper);
+    }
+
+    private boolean isControlPlane() {
+
+        return Boolean.parseBoolean(IdentityUtil.getProperty("Server.ControlPlane"));
+    }
+
+    private void publishData(RemoteFetchXDSWrapper remoteFetchXDSWrapper, XDSConstants.EventType eventType,
+                             XDSOperationType xdsOperationType) {
+
+        String json = buildJson(remoteFetchXDSWrapper);
+        String tenantDomain = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantDomain();
+        String username = PrivilegedCarbonContext.getThreadLocalCarbonContext().getUsername();
+        XDSUtils.publishData(tenantDomain, username, json, eventType, xdsOperationType);
     }
 }

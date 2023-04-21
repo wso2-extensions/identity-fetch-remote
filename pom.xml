@@ -198,6 +198,21 @@
                 <version>${h2database.version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.identity.framework</groupId>
+                <artifactId>org.wso2.carbon.identity.xds.client.mgt</artifactId>
+                <version>${identity.framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.identity.framework</groupId>
+                <artifactId>org.wso2.carbon.identity.xds.common</artifactId>
+                <version>${identity.framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${com.google.code.gson.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -350,8 +365,10 @@
         <carbon.user.api.imp.pkg.version.range>[1.0.1, 2.0.0)</carbon.user.api.imp.pkg.version.range>
 
         <!--Carbon identity version-->
-        <identity.framework.version>5.14.73</identity.framework.version>
+        <identity.framework.version>5.25.130</identity.framework.version>
         <carbon.identity.package.import.version.range>[5.0.0, 7.0.0)</carbon.identity.package.import.version.range>
+        <com.google.code.gson.version>2.9.0</com.google.code.gson.version>
+
     </properties>
 
 </project>
