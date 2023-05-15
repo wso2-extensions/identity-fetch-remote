@@ -19,6 +19,7 @@
 package org.wso2.carbon.identity.remotefetch.core;
 
 import com.google.gson.Gson;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.context.CarbonContext;
@@ -41,7 +42,6 @@ import org.wso2.carbon.identity.remotefetch.core.internal.RemoteFetchServiceComp
 import org.wso2.carbon.identity.remotefetch.core.model.RemoteFetchXDSWrapper;
 import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationUtils;
 import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationValidator;
-import org.wso2.carbon.identity.xds.client.mgt.util.XDSUtils;
 import org.wso2.carbon.identity.xds.common.constant.XDSConstants;
 import org.wso2.carbon.identity.xds.common.constant.XDSOperationType;
 
@@ -88,7 +88,9 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
         ValidationReport validationReport = validator.validate();
 
         if (validationReport.getValidationStatus() == ValidationReport.ValidationStatus.PASSED) {
-            String remoteConfigurationId = RemoteFetchConfigurationUtils.generateUniqueID();
+            String remoteConfigurationId = StringUtils.isNotBlank(fetchConfiguration.getRemoteFetchConfigurationId())
+                    ? fetchConfiguration.getRemoteFetchConfigurationId()
+                    : RemoteFetchConfigurationUtils.generateUniqueID();
             if (log.isDebugEnabled()) {
                 log.debug("Remote Configuration ID is  generated: " + remoteConfigurationId);
             }
@@ -334,6 +336,7 @@ public class RemoteFetchConfigurationServiceImpl implements RemoteFetchConfigura
         String json = buildJson(remoteFetchXDSWrapper);
         String tenantDomain = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantDomain();
         String username = PrivilegedCarbonContext.getThreadLocalCarbonContext().getUsername();
-        XDSUtils.publishData(tenantDomain, username, json, eventType, xdsOperationType);
+        RemoteFetchServiceComponentHolder.getInstance().getXdsClientService()
+                .publishData(tenantDomain, username, json, eventType, xdsOperationType);
     }
 }

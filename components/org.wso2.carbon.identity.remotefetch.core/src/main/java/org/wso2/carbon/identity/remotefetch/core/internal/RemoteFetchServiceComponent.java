@@ -43,6 +43,7 @@ import org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.polling.Po
 import org.wso2.carbon.identity.remotefetch.core.impl.handlers.action.webhook.WebHookActionListenerComponent;
 import org.wso2.carbon.identity.remotefetch.core.impl.handlers.repository.GitRepositoryManagerComponent;
 import org.wso2.carbon.identity.remotefetch.core.util.RemoteFetchConfigurationUtils;
+import org.wso2.carbon.identity.xds.client.mgt.XDSClientService;
 import org.wso2.carbon.user.core.service.RealmService;
 
 import javax.sql.DataSource;
@@ -173,5 +174,21 @@ public class RemoteFetchServiceComponent {
             log.error("Error parsing RemoteFetchCoreConfiguration, Core disabled", e);
             return new RemoteFetchCoreConfiguration(null, false);
         }
+    }
+
+    @Reference(
+            name = "xds.client.service",
+            service = org.wso2.carbon.identity.xds.client.mgt.XDSClientService.class,
+            cardinality = ReferenceCardinality.MANDATORY,
+            policy = ReferencePolicy.DYNAMIC,
+            unbind = "unsetXDSClientService")
+    protected void setXDSClientService(XDSClientService xdsClientService) {
+
+        RemoteFetchServiceComponentHolder.getInstance().setXdsClientService(xdsClientService);
+    }
+
+    protected void unsetXDSClientService(XDSClientService xdsClientService) {
+
+        RemoteFetchServiceComponentHolder.getInstance().setXdsClientService(null);
     }
 }
