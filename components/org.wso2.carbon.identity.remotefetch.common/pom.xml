@@ -49,6 +49,10 @@
             <artifactId>jsch</artifactId>
             <version>${jsch.version}</version>
         </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
     </dependencies>
 
     <name>WSO2 Carbon - Identity Application RemoteFetch Common Bundle</name>
