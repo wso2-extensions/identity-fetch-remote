@@ -317,7 +317,7 @@
         <maven.scr.plugin.version>1.24.0</maven.scr.plugin.version>
 
         <!-- JGit Version -->
-        <org.jgit.version>5.0.0.201805301535-rc2</org.jgit.version>
+        <org.jgit.version>7.2.1.202505142326-r</org.jgit.version>
         <org.jgit.version.range>[5.0.0,6.0.0)</org.jgit.version.range>
 
         <!--cedarsoftware version-->
